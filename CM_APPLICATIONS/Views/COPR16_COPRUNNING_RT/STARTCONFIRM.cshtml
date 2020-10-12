@@ -1,0 +1,252 @@
+﻿@*@model CM_APPLICATIONS.COPR16_WORKFLOW*@
+@model CM_APPLICATIONS.Models.HandheldModel
+
+@{
+    ViewBag.Title = "WORKFLOW PROCESS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var rowIndex = 0;
+}
+<style>
+    label {
+        white-space: normal !important;
+    }
+
+    .form-horizontal {
+        font-size: 120% !important;
+    }
+
+    .form-control {
+        font-size: 130% !important;
+    }
+
+    .bigButton {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+        font-weight: bold !important;
+        font-size: 150% !important;
+    }
+
+    .centerDiv {
+        text-align: center !important;
+    }
+
+    .COPNO {
+        font-size: 150% !important;
+        font-weight: bold;
+    }
+
+    .extraWith {
+        width: 95% !important;
+    }
+
+    .form-horizontal label {
+        font-weight: 400 !important;
+    }
+
+    .form-horizontal {
+        padding-left: 30px !important;
+    }
+
+    @@media only screen and (max-width: 501px) {
+        .extraWith {
+            max-width: unset !important;
+        }
+    }
+</style>
+<h2 class="COPNO">
+    COP NO :  @Html.DisplayFor(m => m.FG_DETAILS)
+
+    @Html.HiddenFor(m => m.FG_DETAILS)
+    @Html.HiddenFor(model => model.cOPR16_MACHINE_MSTR.MANC_ID)
+
+
+</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <table width="100%">
+        <tr>
+            <th>
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING_DT_SB.FGTYPE_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-offset-1 col-md-20">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING_DT_SB.FGTYPE_ID, new { htmlAttributes = new { @class = "form-control extraWith", @readonly = "true" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING_DT_SB.PNO, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-offset-1 col-md-20">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING_DT_SB.PNO, new { htmlAttributes = new { @class = "form-control extraWith", @readonly = "true" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING_DT_SB.LOTNO, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-offset-1 col-md-20">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING_DT_SB.LOTNO, new { htmlAttributes = new { @class = "form-control extraWith", @readonly = "true" } })
+
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <hr />
+                    @foreach (var item in Model.WorkProcess_List)
+                    {
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.cOPR16_WORKFLOW_DT.WRKD_SEQ, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-offset-1 col-md-20">
+                                @Html.EditorFor(model => item.WRKD_SEQ, new { htmlAttributes = new { @class = "form-control extraWith", @readonly = "true" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.cOPR16_WORKFLOW_DT.WRKD_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-offset-1 col-md-20">
+                                @Html.EditorFor(model => item.WRKD_ID, new { htmlAttributes = new { @class = "form-control extraWith", @readonly = "true" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.cOPR16_WORKFLOW_DT.WRKD_DESC, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-offset-1 col-md-20">
+                                @Html.TextAreaFor(model => item.WRKD_DESC, new { @class = "form-control extraWith", @rows = "5", @readonly = "true" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.cOPR16_MACHINE_MSTR.MTYPE_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-offset-1 col-md-20">
+                                @Html.EditorFor(model => item.MACHINETYPE_ID, new { htmlAttributes = new { @class = "form-control extraWith", @readonly = "true" } })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.cOPR16_MACHINE_MSTR.MANC_DESC, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-offset-1 col-md-20">
+                                @Html.EditorFor(model => item.MTYPE_NAME, new { htmlAttributes = new { @class = "form-control  extraWith", @readonly = "true" } })
+                            </div>
+                        </div>
+                    }
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_MACHINE_MSTR.MANC_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-offset-1 col-md-20">
+                            @Html.EditorFor(model => model.machiune_id, new { htmlAttributes = new { @class = "form-control MANC_ID extraWith", @readonly = "true" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_MACHINE_MSTR.MANC_DESC, htmlAttributes: new { @class = "control-label col-md-1" })
+                        <div class="col-md-offset-1 col-md-20">
+                            @Html.EditorFor(model => model.cOPR16_MACHINE_MSTR.MANC_DESC, new { htmlAttributes = new { @class = "form-control extraWith", @readonly = "true" } })
+                        </div>
+                    </div>
+                </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-offset-1 col-md-20 centerDiv">
+                            <a class="btn btn-primary startTestBtn bigButton">START TEST</a>
+                        </div>
+                    </div>
+                </div>
+
+            </th>
+        </tr>
+    </table>
+}
+
+<div class="modal fade" id="SAVEALL_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to start test ?</H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesSavedBtn">YES</a>
+                <a class="btn btn-secondary button NoSaveBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- /.modal Confirm Save-->
+
+
+<script>
+    var tbVar = $('.workflow-step').DataTable({
+        "orderable": false,
+        "paging": false,
+        "ordering": false,
+        "info": true,
+        "stripe": true,
+        "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "No records available",
+            "info": "Showing _START_-_END_ of _TOTAL_ rows",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        }
+    });
+
+</script><!-- / Script initia table-->
+
+<script>
+    $('.startTestBtn').click(function () {
+         $('#SAVEALL_DLG').modal('show');
+    });
+
+    $("a.NoSaveBtn").click(function () {
+        $('#SAVEALL_DLG').modal('hide');
+    });
+    $(".YesSavedBtn").click(function () {
+        saveJson();
+        $("#SAVEALL_DLG").modal("hide");
+    });
+
+    function saveJson() {
+        var opdt = {};
+        var dtdt = [];
+        var firstFlg = true;
+        var COPNO = $('#FG_DETAILS').val();
+
+        opdt = {
+            COPR_ID: COPNO,
+            WRKD_SEQ:$('#item_WRKD_SEQ').val(),
+            WRK_ID: "",
+            WRKD_ID: $('#item_WRKD_ID').val(),
+            MACHINETYPE_ID: $('#item_MACHINETYPE_ID').val(),
+            MACHINE_ID: $('.MANC_ID').val(),
+            TEST_BY: '@CM_APPLICATIONS.Models.AppPropModel.username',
+            TEST_START: "@CM_APPLICATIONS.Models.AppPropModel.today"
+        };
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+
+            "jsonString": opdt
+        };
+        console.log(jdata);
+        var urlText = "@Url.Action("StartTestSave","COPR16_COPRUNNING_RT")";
+        var options = { "backdrop": "static", keyboard: true };
+        var urllink = "@Url.Action("VIEW_DT","COPR16_COPRUNNING_RT",new {id = Model.FG_DETAILS })";
+        //console.log(jdata);
+            
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                window.location.href = urllink;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+            }
+        });
+        
+        return false;
+    }
+</script><!-- /Script For Save -->

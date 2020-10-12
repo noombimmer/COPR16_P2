@@ -1,0 +1,170 @@
+﻿@model CM_APPLICATIONS.COPR16_STDREG_MSTR
+
+@{
+    ViewBag.Title = "REGULATORY MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>REGULATORY MASTER</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>EDIT</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.STDREG_ID)
+    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.STDREG_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.STDREG_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.STDREG_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.STDREG_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.STDREG_NAME, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.STDREG_NAME, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.STDREG_DESC, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.STDREG_DESC, new { @class = "form-control", @rows = "10" })
+            @Html.ValidationMessageFor(model => model.STDREG_DESC, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.FLGACT, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.FLGACT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FLGACT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ADATE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.ADATE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CRE_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.CRE_BY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.MOD_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MOD_DATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.MOD_DATE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.MOD_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MOD_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.MOD_BY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Save" class="btn btn-primary saveBtn" />
+            <input type="reset" value="Clear" class="btn btn-secondary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "COPR16_STDREG_MSTR", new { @class = "btn btn-primary button" })
+</div>
+<div class="modal fade" id="SAVEALL_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to save this ?</H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesSavedBtn">YES</a>
+                <a class="btn btn-secondary button NoSaveBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $("input.saveBtn").click(function () {
+        $('#SAVEALL_DLG').modal('show');
+    });
+    $("a.NoSaveBtn").click(function () {
+        $('#SAVEALL_DLG').modal('hide');
+    });
+    $(".YesSavedBtn").click(function () {
+        saveJson();
+        $("#SAVEALL_DLG").modal("hide");
+    });
+    function saveJson() {
+        var opdt = {};
+        var dtdt = [];
+
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "STDREG_ID": $("#STDREG_ID").val(),
+            "STDREG_NAME": $("#STDREG_NAME").val(),
+            "STDREG_DESC": $("#STDREG_DESC").val(),
+            "FLGACT": $("#FLGACT").val(),
+            "username": $("#UID").val(),
+            //"jsonString": $('form').serialize()
+            "jsonString": [{}]
+        };
+
+        console.log(jdata);
+        var urlText = "@Url.Action("SaveJson","COPR16_STDREG_MSTR")";
+            var options = { "backdrop": "static", keyboard: true };
+            console.log();
+            $.ajax({
+                type: "POST",
+                url: urlText,     //your action
+                //data: $('form').serialize(),   //your form name.it takes all the values of model
+                //dataType: 'json',
+                data: jdata,
+                success: function (result) {
+                    $('#ModalLabelSuccess').html("Create New Container Type");
+                    $('#ModalBodySuccess').html("Create Container Type Successed");
+                    $('#ModalSuccess').modal(options);
+                    $('#ModalSuccess').modal('show');
+                    //window.location.href = "@Url.Action("Index","COPR16_OPTIONVAL_MSTR")";;
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#ModalLabelError').html("Create New Container Type");
+                    $('#ModalBodyError').html("Cannot save data : " + errorThrown );
+                    $('#ModalError').modal(options);
+                    $('#ModalError').modal('show');
+                }
+            })
+            return false;
+    }
+
+</script>

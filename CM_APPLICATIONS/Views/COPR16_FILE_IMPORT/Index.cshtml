@@ -1,0 +1,76 @@
+﻿@model IEnumerable<CM_APPLICATIONS.COPR16_FILE_IMPORT>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FSIM_DT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FSIM_NAME)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FSIM_EXT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FSIM_PATH)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FSIM_SIZE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FSIM_FORMAT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FSIM_UNIQ_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CRE_BY)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FSIM_DT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FSIM_NAME)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FSIM_EXT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FSIM_PATH)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FSIM_SIZE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FSIM_FORMAT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FSIM_UNIQ_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CRE_BY)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.FSIM_SEQDT }) |
+            @Html.ActionLink("Details", "Details", new { id=item.FSIM_SEQDT }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.FSIM_SEQDT })
+        </td>
+    </tr>
+}
+
+</table>

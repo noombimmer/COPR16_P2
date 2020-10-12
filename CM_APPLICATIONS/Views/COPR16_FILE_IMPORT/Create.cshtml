@@ -1,0 +1,593 @@
+﻿@*@model CM_APPLICATIONS.COPR16_FILE_IMPORT*@
+@model CM_APPLICATIONS.Models.FileImportModel
+@{
+    ViewBag.Title = "FILE VOLUME UPLOADING";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .form-uniq {
+        font-weight: bold !important;
+    }
+
+    .file-info {
+        display: none;
+    }
+</style>
+<h2>FILE VOLUME UPLOADING</h2>
+
+@using (Html.BeginForm("Uploading", "COPR16_FILE_IMPORT", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "main-form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILE_IMPORT.FSIM_SEQDT, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.EditorFor(model => model.cOPR16_FILE_IMPORT.FSIM_SEQDT, new { htmlAttributes = new { @class = "form-control form-uniq", @readonly = "true", @name = "cOPR16_FILE_IMPORT_FSIM_SEQDT" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILE_IMPORT.FSIM_SEQDT, "", new { @class = "text-danger" })
+                @Html.Hidden("hidden_cOPR16_FILE_IMPORT_FSIM_SEQDT", "")
+                <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-date-picker">
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILE_IMPORT.FSIM_DT, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_FILE_IMPORT.FSIM_DT, new { htmlAttributes = new { @class = "form-control form-date", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILE_IMPORT.FSIM_DT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILE_IMPORT.FSIM_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.EditorFor(model => model.cOPR16_FILE_IMPORT.FSIM_NAME, new { htmlAttributes = new { @class = "form-control form-file-name", @readonly = "true" } })
+                <input class="form-file-input" id="FSIM_NAME" name="FSIM_NAME" type="file" value="" accept=".xlsx, .xls, .csv" style="position:relative;top:0px;">
+                @*@Html.EditorFor(model => model.FSIM_NAME, new { htmlAttributes = new { @class = "form-control"} })
+                    @Html.ValidationMessageFor(model => model.FSIM_NAME, "", new { @class = "text-danger" })*@
+
+            </div>
+        </div>
+
+        <div class="form-group file-info">
+
+            @Html.LabelFor(model => model.cOPR16_FILE_IMPORT.FSIM_EXT, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_FILE_IMPORT.FSIM_EXT, new { htmlAttributes = new { @class = "form-control form-file-type", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILE_IMPORT.FSIM_EXT, "", new { @class = "text-danger" })
+            </div>
+
+
+
+            @*@Html.LabelFor(model => model.cOPR16_FILE_IMPORT.FSIM_PATH, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.cOPR16_FILE_IMPORT.FSIM_PATH, new { htmlAttributes = new { @class = "form-control form-file-path", @readonly = "true" } })
+                    @Html.ValidationMessageFor(model => model.cOPR16_FILE_IMPORT.FSIM_PATH, "", new { @class = "text-danger" })
+                </div>*@
+
+
+
+            @Html.LabelFor(model => model.cOPR16_FILE_IMPORT.FSIM_SIZE, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_FILE_IMPORT.FSIM_SIZE, new { htmlAttributes = new { @class = "form-control form-file-size", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILE_IMPORT.FSIM_SIZE, "", new { @class = "text-danger" })
+            </div>
+
+
+
+            @Html.LabelFor(model => model.cOPR16_FILE_IMPORT.FSIM_FORMAT, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.cOPR16_FILE_IMPORT.FSIM_FORMAT, new { @class = "form-control form-file-format", @readonly = "true", @rows = "5" })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILE_IMPORT.FSIM_FORMAT, "", new { @class = "text-danger" })
+            </div>
+
+        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.cOPR16_FILE_IMPORT.FSIM_UNIQ_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.cOPR16_FILE_IMPORT.FSIM_UNIQ_ID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.cOPR16_FILE_IMPORT.FSIM_UNIQ_ID, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILE_IMPORT.CRE_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_FILE_IMPORT.CRE_BY, new { htmlAttributes = new { @class = "form-control form-username", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILE_IMPORT.CRE_BY, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="UPLOAD FILE" class="btn btn-primary button uploadBtn" />
+                <input type="button" value="CONFIRM TO SAVE" class="btn btn-primary button confirmBtn" />
+                @*<input type="submit" value="Upload" class="btn btn-primary" />*@
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="details" style="padding-left: 15px;">
+                <style>
+                    .dataTables_wrapper {
+                        float: left !important;
+                        width: 75% !important;
+                        margin-left: 0px !important;
+                    }
+
+                    table.dataTable thead tr {
+                        background-color: #005495;
+                        color: #fff;
+                    }
+
+                    table.dataTable {
+                        margin-left: 0px !important;
+                        width: 100% !important;
+                    }
+
+                    /*div.dataTables_length {
+                        display: none !important;
+                    }
+
+                    div.dataTables_filter {
+                        display: none !important;
+                    }
+
+                    div.dataTables_paginate {
+                        display: none !important;
+                    }*/
+
+                    .modal-header {
+                        background-color: #005495 !important;
+                        color: #ffffff !important;
+                    }
+
+                    td.command {
+                        flex-flow: nowrap;
+                        flex-wrap: nowrap;
+                        white-space: nowrap !important;
+                    }
+
+                    th.command {
+                        flex-flow: nowrap;
+                        flex-wrap: nowrap;
+                        white-space: nowrap !important;
+                    }
+
+                    .text-center {
+                        text-align: center;
+                    }
+                </style>
+
+                <table class="table stripe option-list data-step">
+                    <thead>
+                        <tr>
+                            <th>
+                                Item Number / Part No.(S/B)
+                            </th>
+                            <th>
+                                Date
+                            </th>
+
+                            <th class="username" style="text-align:center !important;">
+                                Loc Qty Change / VOLUME (QTY)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="vDATE">
+                            </td>
+                            <td class="vITEMNO">
+                            </td>
+
+                            <td class="vVOLUME username" style="text-align:center !important;">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="form-horizontal details">
+    @*@Html.ActionLink("Back to List", "Index")*@
+    @Html.ActionLink("Back to Items Volume List", "Index", "COPR16_ITEMS_MSTR", new { id = 0 }, new { @class = "btn btn-primary button" })
+</div>
+
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+
+<div class="modal fade" id="CONFIRMED_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="CONFIRMED_BODY">
+                <H4 id="CONFIRMED_ASK"></H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesConfirmedBtn">YES</a>
+                <a class="btn btn-secondary button NoConfirmedBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal Confirm Remove -->
+
+<div class="modal fade" id="CONFIRMED_DLG2" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="CONFIRMED_BODY2">
+                <H4 id="CONFIRMED_ASK2"></H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesConfirmedBtn2">YES</a>
+                <a class="btn btn-secondary button NoConfirmedBtn2">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal Confirm Remove -->
+
+<script>
+    $('.lSuccesscloseBtn').click(function(){
+        $('#lModalSuccess').modal("hide");
+        window.location.href = "@Url.Action("Index","COPR16_ITEMS_MSTR")";
+    });
+    $('.NoConfirmedBtn').click(function () {
+        $('#CONFIRMED_DLG').modal("hide");
+    });
+    $('.NoConfirmedBtn2').click(function () {
+        $('#CONFIRMED_DLG2').modal("hide");
+    });
+
+    $('.form-uniq').change(function () {
+        var uniqStr = $('.form-uniq').val();
+        $('#hidden_cOPR16_FILE_IMPORT_FSIM_SEQDT').val(uniqStr);
+    });
+    $('.form-uniq').val('@CM_APPLICATIONS.Models.AppPropModel.sDate');
+     $('#hidden_cOPR16_FILE_IMPORT_FSIM_SEQDT').val('@CM_APPLICATIONS.Models.AppPropModel.sDate');
+    $('.form-date').val('@CM_APPLICATIONS.Models.AppPropModel.today');
+    $('.form-username').val('@CM_APPLICATIONS.Models.AppPropModel.username');
+    $('.form-uniq').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    var tbVar = $('.data-step').DataTable({
+        "paging": true,
+        "ordering": false,
+        "info": true,
+        "stripe": true,
+        "lengthMenu": [[50, 100, -1], [50, 100, "All"]],
+        "language": {
+                "lengthMenu": "Display _MENU_ items per page",
+                "zeroRecords": "No items available",
+                "info": "Showing _START_-_END_ of _TOTAL_ items",
+                "infoEmpty": "No Items available",
+                "infoFiltered": "(filtered from _MAX_ total items)"
+        },
+        columnDefs: [
+            { className: 'text-center', targets: [2] }
+        ]
+    });
+    tbVar.clear().draw();
+    $('.uploadBtn').attr("disabled", true);
+    $('.confirmBtn').attr("disabled", true);
+</script>
+
+<script>
+
+    $('.form-file-input').change(function (e) {
+        var filename = e.target.files[0].name;
+        var type = e.target.files[0].type;
+        var size = e.target.files[0].size;
+        var path = $(this).val().replace(filename, '');
+        var extension = filename.replace(/^.*\./, '');
+        //alert(filename);
+
+        $('.form-file-type').val(extension);
+        $('.form-file-format').val(type);
+        $('.form-file-path').val(path);
+        $('.form-file-size').val(size);
+        $('.form-file-name').val(filename);
+        console.log(e.target.files[0]);
+        console.log(e.target.files[0].webkitRelativePath);
+        $('.file-info').show();
+        $('.uploadBtn').attr("disabled", false);
+        $('.confirmBtn').attr("disabled", true);
+    });
+</script>
+<script>
+    $('.edit-date-picker').click(function () {
+        $('.form-uniq').datepicker('show');
+    });
+
+    function verifyUniqDT() {
+        var uniq_id = $('.form-uniq').val();
+        var urlText = "@Url.Action("getUniqID","COPR16_FILE_IMPORT")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {id : uniq_id}
+        //console.log(jdata);
+        //console.log(".---.");
+
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                console.log(result[0].GUID);
+                if (result[0].GUID == undefined || result[0].GUID == null) {
+                    //alert("YES-UNIQ_ID: " + result[0].UNIQ_ID);
+                    //alert("SQLCMD: " + result[0].SQLCMD);
+                    //alert("result[0]: " + result[0].de);
+
+                    upload_files();
+                } else {
+                    //alert("NO-UNIQ_ID: " + result[0].UNIQ_ID);
+                    $('#CONFIRMED_ASK2').html("Selected date \""+uniq_id+"\"are exiting uploaded <br>Please confirmed to continue?");
+                    $('#CONFIRMED_DLG2').modal("show");
+
+                }
+                //updateInfo(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("error:" + errorThrown);
+            }
+        });
+
+    }
+    function checkField(row,colName){
+        if (row.hasOwnProperty(colName)) {
+            return row[colName];
+        } else {
+            $('#lModalBodyError').html("File import is no column name <b>" +colName+"</b");
+            $('#lModalError').modal("show");
+            closeConpleting();
+            return null;
+        }
+    }
+    var msDateRegex = /"\\\/Date\((-?\d+)\)\\\/"/g;
+    function  net2JavaDate(data) {
+        return JSON.parse($.trim(data.replace(msDateRegex, '{"__date":$1}')), function(key, value) {
+                            return value && typeof value.__date == "number" ? new Date(value.__date) : value;
+                        });
+                    }
+    function upload_files() {
+        var formObject = $('.main-form-data');
+        var formData = new FormData(formObject[0]);
+        autoCloseCompleted = false;
+        console.log(formObject);
+        console.log(formData);
+        console.log($(formObject).prop("action"));
+        $.ajax({
+            type: "POST",
+            url: $(formObject).prop("action"),
+            //dataType: 'json', //not sure but works for me without this
+            data: formData,
+            contentType: false, //this is requireded please see answers above
+            processData: false, //this is requireded please see answers above
+            //cache: false, //not sure but works for me without this
+            error: function (jqXHR, textStatus, errorThrown) {
+                //alert("error:" + errorThrown);
+                $('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalError').modal("show");
+                console.log(jqXHR);
+                tbVar.clear().draw();
+                closeConpleting();
+            },
+            success: function (result) {
+                console.log(result);
+                var rowResult = result.Data;
+                //console.log(rowResult);
+
+                tbVar.clear().draw();
+                $.each(rowResult, function (index,keyValue) {
+                    //console.log(index, keyValue);
+                    var cols = keyValue;
+
+                    var vFGNO = checkField(cols, 'Item Number');
+                    var vDATE = checkField(cols, 'Date');
+                    var vQTY = checkField(cols, 'Loc Qty Change');
+                    if (vQTY == null) {
+                        console.log(cols);
+                    }
+                    var nvDATE = moment.utc(vDATE).toDate();
+                    vDATE = moment(nvDATE).local().format('YYYY-MMM-DD');
+
+                    //console.log([vFGNO, vDATE, vQTY]);
+                     var rows = tbVar.row.add([vFGNO, vDATE, vQTY]).draw(false).node();
+                });
+                console.log("Table Created....");
+                /*
+                for (var jsonRow = 1; jsonRow < rowResult.length; jsonRow++) {
+                    var cols = rowResult[jsonRow];
+                    var arrVar = [];
+                    $.each(cols, function (i, v) {
+                        arrVar.push(v);
+                    });
+                    var vFGNO = checkField(cols,'Item Number');
+                    if (vFGNO == null) return;
+                    var vDATE = checkField(cols,'Date');
+                    if (vDATE == null) return;
+                    var vQTY=checkField(cols,'Loc Qty Change');
+                    if (vQTY == null) return;
+
+                    var nvDATE = moment.utc(vDATE).toDate();
+                    console.log("nvDATE: " + nvDATE);
+                    console.log("vDATE: " + vDATE);
+                    //var nvDATE = moment.utc(vDATE);
+                    vDATE = moment(nvDATE).local().format('YYYY-MMM-DD');
+                    console.log([vFGNO, vDATE, vQTY]);
+                    var rows = tbVar.row.add([vFGNO, vDATE, vQTY]).draw(false).node();
+                    console.log("Row Created....");
+                }
+                */
+                console.log("Table Created....");
+                //$('#lModalBodySuccess').html("This Volume Date uploaded");
+                //$('#lModalSuccess').modal("show");
+                closeConpleting();
+                $('.uploadBtn').attr("disabled", true);
+                $('.confirmBtn').attr("disabled", false);
+            }
+        });
+
+    }
+
+    function ConfirmUpload() {
+
+        var SEQID = $('#cOPR16_FILE_IMPORT_FSIM_SEQDT').val();
+        var NAME = $('#cOPR16_FILE_IMPORT_FSIM_NAME').val();
+        var EXT = $('#cOPR16_FILE_IMPORT_FSIM_EXT').val();
+        var PATH = "";
+        var SIZE = $('#cOPR16_FILE_IMPORT_FSIM_SIZE').val();
+        var FORMAT = $('#cOPR16_FILE_IMPORT_FSIM_FORMAT').val();
+        var CRE_BY_STR = '@CM_APPLICATIONS.Models.AppPropModel.username';
+        var headerData = {
+            FSIM_DT:"",
+            FSIM_NAME:NAME,
+            FSIM_EXT:EXT,
+            FSIM_PATH:PATH,
+            FSIM_SIZE:SIZE,
+            FSIM_FORMAT:FORMAT,
+            FSIM_UNIQ_ID:"",
+            CRE_BY:CRE_BY_STR,
+            FSIM_SEQID: SEQID
+        };
+        var formData = {
+            "fsHeader": headerData,
+            "fgVolumes": []
+        };
+        tbVar.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var node = this.node();
+            var ITEM_ID = $(node).find('td').eq(0).text();
+            var BUSI_DATE = $(node).find('td').eq(1).text();
+            var QTY = $(node).find('td').eq(2).text();
+            itemsVal = {
+                "FSIM_UNIQ_ID": "",
+	            "ITEM_ID":ITEM_ID,
+	            "BUSI_DATE":BUSI_DATE,
+                "QTY": QTY
+            };
+            formData["fgVolumes"].push(itemsVal);
+        });
+
+        var urlText = "@Url.Action("ConfirmUpload","COPR16_FILE_IMPORT")";
+        var options = { "backdrop": "static", keyboard: true };
+        console.log(formData);
+        //console.log(".---.");
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: formData,
+            success: function (result) {
+                console.log(result);
+                $('#lModalBodySuccess').html("This items volume data was uploaded");
+                $('#lModalSuccess').modal("show");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                $('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalError').modal("show");
+            }
+        });
+        return false;
+    }
+    $('.confirmBtn').click(function () {
+        var cSEQDT = $('#cOPR16_FILE_IMPORT_FSIM_SEQDT').val();
+        var matchSeqDT = true;
+        var rowErr = 0;
+        tbVar.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var node = this.node();
+            var BUSI_DATE = $(node).find('td').eq(1).text();
+            if (cSEQDT != BUSI_DATE) {
+                console.log(cSEQDT,BUSI_DATE);
+                matchSeqDT = false;
+                rowErr++;
+                return;
+            }
+        });
+        if (matchSeqDT == true) ConfirmUpload();
+        else {
+            $('#CONFIRMED_ASK').html("Selected date is not match volume data "+ rowErr +" rows<br>Please confirmed to continue?");
+            $('#CONFIRMED_DLG').modal("show");
+            return;
+        }
+    });
+
+    $('.YesConfirmedBtn').click(function () {
+        ConfirmUpload();
+        $('#CONFIRMED_DLG').modal("hide");
+    });
+    $('.YesConfirmedBtn2').click(function () {
+        $('#CONFIRMED_DLG2').modal("hide");
+        upload_files();
+    });
+
+    $('.uploadBtn').click(function () {
+        var filename = $(".form-file-input").val();
+        if (filename == undefined || filename == "") {
+            $('#lModalBodyError').html("Please select file for uploading");
+            $('#lModalError').modal("show");
+            return;
+        }
+        verifyUniqDT();
+
+    });
+</script>

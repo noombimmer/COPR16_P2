@@ -1,0 +1,305 @@
+﻿@*@model IEnumerable<CM_APPLICATIONS.COPR16_COPRUNNING_RT>*@
+@model CM_APPLICATIONS.Models.HandheldModel
+
+@{
+    ViewBag.Title = "COP R16 TESTING";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>COP R16 TESTING (HANDHELD)</h2>
+
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 99% !important;
+        margin-left: 0px !important;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+
+    @@media only screen and (max-width: 501px) {
+        #DataTables_Table_0_wrapper {
+            font-size: 80% !important;
+        }
+
+        .dataTables_length {
+            display: none !important;
+        }
+
+        .dataTables_info {
+            display: none !important;
+        }
+
+        .dataTables_filter {
+            text-align: left !important;
+        }
+
+        .dataTables_paginate {
+            text-align: left !important;
+        }
+        /*.control-label {
+            font-size: 80% !important;
+        }*/
+        .form-horizontal {
+            column-count: 2;
+            zoom: 0.7;
+            -moz-transform: scale(0.7);
+        }
+
+        .ui-datepicker {
+            zoom: 0.7;
+            -moz-transform: scale(0.7);
+        }
+
+        .form-group {
+            break-inside: avoid-column;
+        }
+
+            .form-group:nth-of-type(2) {
+                break-after: column;
+                display: block;
+            }
+    }
+</style>
+@using (Html.BeginForm("HANDHELD_SEARCH", "COPR16_COPRUNNING_RT"))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("FROM DATE : ", htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("FROM_DATE", new { htmlAttributes = new { @class = "form-control from-date", @readonly = "true", @name = "FROM_DATE", @style = "width:120px;" } })
+                @Html.Hidden("hidden_FROM_DATE", "")
+                <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-from-date-picker">
+            </div>
+
+        </div>
+        <div class="form-group">
+            @Html.Label("TO DATE : ", htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("TO_DATE", new { htmlAttributes = new { @class = "form-control to-date", @readonly = "true", @name = "TO_DATE", @style = "width:120px;" } })
+                @Html.Hidden("hidden_TO_DATE", "")
+                <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-to-date-picker">
+            </div>
+
+        </div>
+        <div class="form-group">
+            @Html.Label("COP NO : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("COPNO", new { htmlAttributes = new { @class = "form-control model-id", @name = "FITEMS" } })
+                @Html.Hidden("hidden_COPNO", "")
+            </div>
+
+        </div>
+        <div class="form-group" style="display:none !important">
+            @Html.Label("TEST STATUS : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+
+                @*@Html.Editor("TESTER", new { htmlAttributes = new { @class = "form-control item-id", @name = "FITEMS" } })
+                @Html.Hidden("hidden_TESTER", "")*@
+                @Html.DropDownListFor(model => model.statusCode, Model.statusList, null, new { @class = "form-control" })
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-10">
+                <input type="button" value="REFRESH" class="btn btn-primary button refreshBtn" />
+				<input type="button" value="CLEAR/RESET" class="btn btn-secondary button clrBtn" />
+            </div>
+        </div>
+    </div>
+}
+<table class="table table-list stripe">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING.COPR_ID)
+            </th>
+            <th class="menu-desktop">
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING.MODEL_ID)
+            </th>
+            <th class="menu-desktop">
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING.POSITION_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING.ADATE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING.COP_STATUS)
+            </th>
+            <th>ACTION</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.cOPR16_COPRUNNING_List)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.COPR_ID)
+                </td>
+                <td class="menu-desktop">
+                    @Html.DisplayFor(modelItem => item.MODEL_ID)
+                </td>
+
+                <td class="menu-desktop">
+                    @Html.DisplayFor(modelItem => item.POSITION_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ADATE)
+                </td>
+                <td @{ var style1 = ""; if (item.COP_STATUS != null) { var colorP = Model.localCopsModel.STATUS_LIST.Where(l => l.value.Equals(item.COP_STATUS)).FirstOrDefault(); if (colorP != null) { style1 = "style=text-align:center;background-color:" + colorP.color + ";"; if (colorP.fcolor != null) { style1 = style1 + ";color:" + colorP.fcolor + ";"; }  } } }
+                    @style1>
+                    @Html.DisplayFor(modelItem => item.COP_STATUS)
+                </td>
+                <td class="command">
+                    @if (item.COP_STATUS.Equals("RDY"))
+                    {
+                        @Html.ActionLink("Start Process", "StartTest", "COPR16_COPRUNNING_RT", new { id = item.COPR_ID }, new { @class = "btn btn-primary button" })
+                    }
+                    @Html.ActionLink("Details Process", "VIEW_DT", "COPR16_COPRUNNING_RT", new { id = item.COPR_ID }, new { @class = "btn btn-primary button" })
+                    @Html.Hidden("hCOPR_ID", item.COPR_ID);
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="CONFIRM-DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle" style="text-align: left">CONFIRM TO START..</h4>
+            </div>
+            <div class="modal-body col-md-12" id="SELECT_BODY">
+                <h4 style="text-align: left;">
+                    Please fill-in LOT number
+                </h4>
+                <div class="form-group align-items: left;text-align: left;white-space: nowrap;flex-flow: nowrap;flex-wrap: nowrap;width: 500px !important;">
+                    @Html.LabelFor(model => model.cOPR16_COPRUNNING_DT.PNO, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.cOPR16_COPRUNNING_DT.PNO, new { htmlAttributes = new { @class = "form-control SB-PNO", @readonly = "true" } })
+                        @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING_DT.PNO, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group align-items: left;text-align: left;white-space: nowrap;flex-flow: nowrap;flex-wrap: nowrap;width: 500px !important;">
+                    @Html.LabelFor(model => model.cOPR16_COPRUNNING_DT.LOTNO, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.cOPR16_COPRUNNING_DT.LOTNO, new { htmlAttributes = new { @class = "form-control SB-LOTNO" } })
+                        @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING_DT.LOTNO, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button confirm-select-Btn">YES</a>
+                <a class="btn btn-secondary button close-select-Btn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal CONFIRM SELECT SEAT BELT -->
+
+<script>
+    var tbVar;
+
+    //var tbVar = $('.data-step').DataTable({
+    //    "paging": true,
+    //    "ordering": false,
+    //    "info": true,
+    //    "stripe": true,
+    //    "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+    //    "language": {
+    //        "lengthMenu": "Display _MENU_ items per page",
+    //        "zeroRecords": "No items view",
+    //        "info": "Showing _START_-_END_ of _TOTAL_ items",
+    //        "infoEmpty": "No Items to view",
+    //        "infoFiltered": "(filtered from _MAX_ total items)"
+    //    }
+
+    //});
+
+    //tbVar.clear().draw();
+    $('.to-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.from-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.edit-from-date-picker').click(function () {
+        $('.from-date').datepicker("setDate", $('.from-date').val());
+        $('.from-date').datepicker('show');
+    });
+    $('.edit-to-date-picker').click(function () {
+        $('.to-date').datepicker("setDate", $('.to-date').val());
+        $('.to-date').datepicker('show');
+    });
+</script>
+<script>
+    $('.startBtn').click(function () {
+        $('#CONFIRM-DLG').modal('show');
+    });
+
+    var rows = $('#DataTables_Table_0').find('tr');
+    console.log(rows);
+
+    $.each(rows, function (obj, idex, hobj) {
+        //alert('OK');
+        $(obj).find('th').eq(1).addClass('menu-desktop');
+        $(obj).find('td').eq(1).addClass('menu-desktop');
+        $(obj).find('th').eq(2).addClass('menu-desktop');
+        $(obj).find('td').eq(2).addClass('menu-desktop');
+
+    });
+    var sTextEdit = $('.dataTables_filter').find('input');
+    $('.dataTables_filter').find('input').eq(0);
+
+    console.log($('.dataTables_filter'));
+    $('#DataTables_Table_0_filter').css('display', 'none', 'important');
+    console.log(sTextEdit);
+    if (sTextEdit != undefined && sTextEdit != null) {
+
+        $(sTextEdit).attr('max-lenght', '13');
+        sTextEdit.val('12345');
+    }
+    $(document).on("preInit.dt", function () {
+        $(".dataTables_filter input[type='search']").attr("maxlength", 13);
+        $(".dataTables_filter").css("display", 'none', 'important');
+    });
+    $('.refreshBtn').click(function () {
+        //console.log($('FORM'));
+        $('FORM').submit();
+    });
+    $('.clrBtn').click(function () {
+        //console.log($('FORM'));
+        $('#COPNO').val('');
+		$('#hidden_COPNO').val('');
+		$('#COPNO').focus();
+    });	
+    $('#COPNO').keyup(function () {
+
+        var textValue = $(this).val();
+        //console.log(textValue,textValue.length);
+        if (textValue.length > 13) {
+            var lastDigit = textValue.substr(13, 1);
+            var copNumber = textValue.substring(0, 13);
+            //console.log('lastDigit:',lastDigit);
+            //console.log(copNumber);
+            if (lastDigit == "A" || lastDigit == "B") {
+                $(this).val(copNumber);
+                $('#hidden_COPNO').val(copNumber);
+            }
+			$('FORM').submit();
+        }
+        
+    });
+</script>

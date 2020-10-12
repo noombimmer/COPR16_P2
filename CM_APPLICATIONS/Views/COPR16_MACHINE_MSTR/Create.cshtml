@@ -1,0 +1,227 @@
+﻿@*@model CM_APPLICATIONS.COPR16_MACHINE_MSTR*@
+
+@model CM_APPLICATIONS.Models.MachineListModel
+@{
+    ViewBag.Title = "MACHINE LIST";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MACHINE LIST</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+    <div class="form-horizontal">
+        <h4>NEW</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MACHINE_MSTR.MANC_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_MACHINE_MSTR.MANC_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_MACHINE_MSTR.MANC_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MACHINE_MSTR.MANC_DESC, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.cOPR16_MACHINE_MSTR.MANC_DESC, new { @class = "form-control", @rows = "10" })
+                @Html.ValidationMessageFor(model => model.cOPR16_MACHINE_MSTR.MANC_DESC, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MACHINE_MSTR.MTYPE_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.cOPR16_MACHINE_MSTR.MTYPE_ID, Model.MANTYPE_LIST, null, new { @class = "form-control MSTYPE_ID" })
+                @*@Html.EditorFor(model => model.cOPR16_MACHINE_MSTR.MTYPE_ID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.cOPR16_MACHINE_MSTR.MTYPE_ID, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MACHINE_MSTR.FLGACT, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.cOPR16_MACHINE_MSTR.FLGACT, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.cOPR16_MACHINE_MSTR.FLGACT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MACHINE_MSTR.ADATE, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_MACHINE_MSTR.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_MACHINE_MSTR.ADATE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MACHINE_MSTR.CRE_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_MACHINE_MSTR.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_MACHINE_MSTR.CRE_BY, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("QR CODE", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div id="qrcode"></div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Create" class="btn btn-primary button saveAllBtn" />
+                <input type="reset" value="Clear" class="btn btn-secondary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+
+    @Html.ActionLink("Back to List", "Index", "COPR16_MACHINE_MSTR", new { @class = "btn btn-primary button" })
+</div>
+<div class="modal fade" id="SAVEALL_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to save this ?</H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesSavedAllBtn">YES</a>
+                <a class="btn btn-secondary button NoSaveAllBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+
+    $("#cOPR16_MACHINE_MSTR_CRE_BY").val("@CM_APPLICATIONS.Models.AppPropModel.username");
+    $("#cOPR16_MACHINE_MSTR_ADATE").val("@System.DateTime.Now");
+    $("#cOPR16_MACHINE_MSTR_FLGACT").val("true");
+    $('#qrcode').qrcode("THIS");
+</script>
+<script>
+    $("#cOPR16_MACHINE_MSTR_MANC_ID").change(function () {
+        $('#qrcode').html("");
+        $('#qrcode').qrcode($(this).val());
+    });
+
+    $("input.saveAllBtn").click(function () {
+        $('#SAVEALL_DLG').modal('show');
+    });
+
+    $("a.NoSaveAllBtn").click(function () {
+        $('#SAVEALL_DLG').modal('hide');
+    });
+</script>
+
+
+<script>
+    $(".YesSavedAllBtn").click(function () {
+        saveJson();
+        
+    });
+    $(".lerrcloseBtn").click(function () {
+        $("#lModalError").modal("hide");
+    });
+    $(".lSuccesscloseBtn").click(function () {
+        window.location.href = "@Url.Action("Index","COPR16_MACHINE_MSTR")";
+        $("#lModalSuccess").modal("hide");
+    });
+    function saveJson() {
+        var opdt = {};
+        var dtdt = [];
+
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "MANC_ID": $("#cOPR16_MACHINE_MSTR_MANC_ID").val(),
+            "MANC_DESC": $("#cOPR16_MACHINE_MSTR_MANC_DESC").val(),
+            "MTYPE_ID": $("#cOPR16_MACHINE_MSTR_MTYPE_ID").val(),
+            "flgact":$("#cOPR16_MACHINE_MSTR_FLGACT").val(),
+            "username": $("#UID").val(),
+            //"jsonString": $('form').serialize()
+            "jsonString": [{}]
+        };
+       
+        console.log(jdata);
+        var urlText = "@Url.Action("CreateJson","COPR16_MACHINE_MSTR")";
+        var options = { "backdrop": "static", keyboard: true };
+        console.log();
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                $("#SAVEALL_DLG").modal("hide");
+                $('#lModalLabelSuccess').html("Create New Machine");
+                $('#lModalBodySuccess').html("Create New Machine is Successful");
+                $('#lModalSuccess').modal(options);
+                $('#lModalSuccess').modal('show');
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $("#SAVEALL_DLG").modal("hide");
+                $('#lModalLabelError').html("Create New Machine");
+                $('#lModalBodyError').html("Cannot save data : " + errorThrown );
+                $('#lModalError').modal(options);
+                $('#lModalError').modal('show');
+            }
+        })
+        return false;
+    }
+</script>

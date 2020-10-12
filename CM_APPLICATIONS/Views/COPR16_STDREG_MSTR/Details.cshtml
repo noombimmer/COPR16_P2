@@ -1,0 +1,82 @@
+﻿@model CM_APPLICATIONS.COPR16_STDREG_MSTR
+
+@{
+    ViewBag.Title = "REGULATORY MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>REGULATORY MASTER"</h2>
+
+<div class="form-horizontal">
+    <h4>VIEW</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.STDREG_ID)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.STDREG_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.STDREG_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.STDREG_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.STDREG_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.STDREG_NAME, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.STDREG_NAME, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.STDREG_DESC, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.STDREG_DESC,  new { @class = "form-control", @readonly = "true" ,@rows="10" })
+            @Html.ValidationMessageFor(model => model.STDREG_DESC, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.FLGACT, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.FLGACT, new { htmlAttributes = new { @class = "form-control" , @disabled = "disabled"} })
+                @Html.ValidationMessageFor(model => model.FLGACT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ADATE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.ADATE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CRE_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.CRE_BY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.MOD_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MOD_DATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.MOD_DATE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.MOD_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MOD_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.MOD_BY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", "COPR16_STDREG_MSTR", new { id = Model.STDREG_ID }, new { @class = "btn btn-primary button" }) |
+    @Html.ActionLink("Back to List", "Index", "COPR16_STDREG_MSTR", new { @class = "btn btn-primary button" })
+</p>

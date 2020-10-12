@@ -1,0 +1,1424 @@
+﻿@model IEnumerable<CM_APPLICATIONS.COPR16_COPRUNNING>
+
+@{
+    ViewBag.Title = "COP RUNNING TRACKING";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var row = 0;
+}
+
+<h2>COP RUNNING TRACKING</h2>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.Label("FROM DATE : ", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.Editor("FROM_DATE", new { htmlAttributes = new { @class = "form-control from-date", @readonly = "true", @name = "FROM_DATE", @style = "width:120px;" } })
+            @Html.Hidden("hidden_FROM_DATE", "")
+            <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-from-date-picker">
+        </div>
+
+    </div>
+    <div class="form-group">
+        @Html.Label("TO DATE : ", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.Editor("TO_DATE", new { htmlAttributes = new { @class = "form-control to-date", @readonly = "true", @name = "TO_DATE", @style = "width:120px;" } })
+            @Html.Hidden("hidden_TO_DATE", "")
+            <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-to-date-picker">
+        </div>
+
+    </div>
+    <div class="form-group">
+        @Html.Label("FILTER MODELS : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.Editor("FMODELS", new { htmlAttributes = new { @class = "form-control model-id", @name = "FITEMS" } })
+            @Html.Hidden("hidden_MODELS", "")
+        </div>
+
+    </div>
+    <div class="form-group">
+        @Html.Label("FILTER ITEMS : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.Editor("FITEMS", new { htmlAttributes = new { @class = "form-control item-id", @name = "FITEMS" } })
+            @Html.Hidden("hidden_FITEMS", "")
+        </div>
+
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-1 col-md-10">
+            <input type="button" value="REFRESH" class="btn btn-primary button refreshBtn" />
+            <input type="button" value="EXPORT TO XLS" class="btn btn-primary button exportBtn" />
+        </div>
+    </div>
+</div>
+
+<style id="style_local">
+    .dataTables_wrapper {
+        float: left !important;
+        width: 100% !important;
+        margin-left: 0px !important;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table td {
+        white-space: nowrap !important;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        /*width: 100% !important;*/
+        border: thin 0.5px grey !important;
+    }
+
+    div.dataTables_length {
+        display: none !important;
+    }
+
+    div.dataTables_filter {
+        display: none !important;
+    }
+
+    div.dataTables_paginate {
+        display: none !important;
+    }
+
+    .modal-header {
+        background-color: #005495 !important;
+        color: #ffffff !important;
+    }
+
+    td.command {
+        flex-flow: nowrap;
+        flex-wrap: nowrap;
+        white-space: nowrap !important;
+    }
+
+    th.command {
+        flex-flow: nowrap;
+        flex-wrap: nowrap;
+        white-space: nowrap !important;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .no-wrap-th {
+        white-space: nowrap;
+    }
+
+    .numericCol {
+        text-align: right;
+    }
+
+    .textCol {
+        text-align: left;
+        width: 1% !important;
+        white-space: nowrap;
+    }
+
+    .matrixValue {
+        /*width: 1% !important;*/
+    }
+
+    .hiddenCol {
+        display: none !important;
+    }
+
+    .boldText {
+        font-weight: bold;
+    }
+
+    .boldTextRow {
+        font-weight: bold;
+        background-color: #cae4f3 !important;
+    }
+
+    .boldTextRowAcc {
+        font-weight: bold;
+        background-color: #005495 !important;
+        color: #fff !important;
+    }
+
+    .boldTextRowLast td {
+        font-weight: bold;
+        background-color: #7cbcfa !important;
+        border-bottom: 2px double #005495 !important;
+        color: #fff !important;
+    }
+
+    .boldTextRowWIthoutID td {
+        font-weight: bold;
+        background-color: #7cbcfa !important;
+        color: #fff !important;
+    }
+
+    .boldTextRowWithout td {
+        font-weight: bold;
+        background-color: #ffd800 !important;
+        /*border-bottom:2px double #005495 !important;*/
+    }
+
+    .row_header {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+</style>
+
+<div class="table_dsp">
+    <table class="table stripe option-list data-step">
+        <thead>
+            <tr style="background-color: #005495;color:#fff;">
+                <th class="no-wrap-th textCol">MODEL No.(S/B)</th>
+            </tr>
+        </thead>
+        @*<tbody>
+                <tr>
+                    <td></td>
+                </tr>
+            </tbody>*@
+    </table>
+</div>
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+<form id="frmMain" name="frmMain" class="frmMain" method="post">
+    @Html.AntiForgeryToken()
+    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+
+</form>
+<script>
+    var tbVar;
+
+    //var tbVar = $('.data-step').DataTable({
+    //    "paging": true,
+    //    "ordering": false,
+    //    "info": true,
+    //    "stripe": true,
+    //    "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+    //    "language": {
+    //        "lengthMenu": "Display _MENU_ items per page",
+    //        "zeroRecords": "No items view",
+    //        "info": "Showing _START_-_END_ of _TOTAL_ items",
+    //        "infoEmpty": "No Items to view",
+    //        "infoFiltered": "(filtered from _MAX_ total items)"
+    //    }
+
+    //});
+
+    //tbVar.clear().draw();
+    $('.to-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.from-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.edit-from-date-picker').click(function () {
+        $('.from-date').datepicker("setDate", $('.from-date').val());
+        $('.from-date').datepicker('show');
+    });
+    $('.edit-to-date-picker').click(function () {
+        $('.to-date').datepicker("setDate", $('.to-date').val());
+        $('.to-date').datepicker('show');
+    });
+</script>
+<script>
+    function setDefDate() {
+        var date = new Date();
+        var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+        var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        $('.from-date').val($.datepicker.formatDate("yy-M-dd", firstDay));
+        $('.to-date').val($.datepicker.formatDate("yy-M-dd", lastDay));
+    }
+    setDefDate();
+</script>
+<script>
+    var headerRows = [];
+    function getTableHeader(singleRow) {
+        //tbVar.rows().clear();
+        var skipFirst = true;
+        if (tbVar != null || tbVar != undefined) {
+
+            $('.data-step').DataTable().destroy();
+            //console.log($('.data-step'));
+            $('.data-step').html("");
+            $('.data-step').removeClass("dataTable");
+            $('.data-step').removeClass("no-footer");
+            $('.data-step').removeAttr("id");
+            $('.data-step').removeAttr("aria-describedby");
+            $('.data-step').removeAttr("role");
+            var rowTheader = "<thead></thead>";
+            $('.data-step').append(rowTheader);
+            var rowTr = "<tr style='background-color: #005495;color:#fff;'></tr>";
+            $('.data-step').find('thead').eq(0).append(rowTr);
+            var headerString = "<th class='no-wrap-th textCol'>Model No.(S/B)</th>";
+            $('.data-step').find('tr').eq(0).append(headerString);
+        }
+        while (headerRows.length > 0) {
+            headerRows.pop();
+        }
+
+        $.each(singleRow, function (ikey, ivalue) {
+            if (skipFirst == false) {
+                if (ikey == "ITEM_ID") {
+                    ikey = "BUCKLE (FG_NO)";
+                } else if (ikey == "FG_NO") {
+                    ikey = "SEATBELT (FG_NO)";
+                }else if (ikey == "POS_DESC") {
+                    ikey = "POSITION";
+                }else if (ikey == "LINE_ID") {
+                    ikey = "LINE";
+                }
+                var headerString = "<th class='no-wrap-th matrixValue'>" + ikey + "</th>";
+                var rowString = "<td class='no-wrap-th'>" + ikey + "</td>";
+                if ('ITEM_ID_VOL' != ikey && 'HKEY' != ikey) {
+                    $('.data-step').find('tr').eq(0).append(headerString);
+                }
+
+            }
+            skipFirst = false;
+            headerRows.push(ikey);
+        });
+        $('.data-step').css("padding-right","15px");
+        $('html').css("overflow", "scroll");
+
+
+
+        //tbVar = null;
+        //if (tbVar == null || tbVar == undefined) {
+            tbVar = $('.data-step').DataTable({
+                "destroy": true,
+                "paging": false,
+                "ordering": false,
+                "info": false,
+                "stripe": true,
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "language": {
+                    "lengthMenu": "Display _MENU_ items per page",
+                    "zeroRecords": "No items view",
+                    "info": "Showing _START_-_END_ of _TOTAL_ items",
+                    "infoEmpty": "No Items to view",
+                    "infoFiltered": "(filtered from _MAX_ total items)"
+                },
+                "aoColumnDefs": [
+                    {
+                         "sClass": "numericCol", "aTargets": "_all"
+                    }
+
+                ]
+            });
+        //}
+        //console.log(headerRows);
+    }
+    function getMatched(strVar,MatchVar) {
+        var matched = false;
+        if (strVar.search(MatchVar) >= 0) {
+            matched = true;
+        } else {
+            matched = false;
+        }
+        return matched;
+    }
+    function setBold(obj,colNum) {
+         $(obj).find('td').eq(colNum).addClass("boldText");
+    }
+    function setBoldRow(obj) {
+        $(obj).addClass("boldTextRow");
+        $(obj).attr("style","background-color: #cae4f3 !important;");
+    }
+    function setBoldRowAcc(obj) {
+        $(obj).addClass("boldTextRowAcc");
+        $(obj).attr("style","background-color: #005495 !important;color: #fff !important");
+    }
+    function setBoldLastRow(obj) {
+        $(obj).addClass("boldTextRowLast");
+        $(obj).attr("style","background-color: #7cbcfa !important;color: #fff !important");
+    }
+    function setBoldLastRowWithout(obj) {
+        $(obj).addClass("boldTextRowWithout");
+        $(obj).attr("style","background-color: #ffd800 !important;font-weight: bold !important");
+    }
+    function setBoldLastRowWithoutID(obj) {
+        $(obj).addClass("boldTextRowWIthoutID");
+        $(obj).attr("style","background-color: #7cbcfa !important;color: #fff !important");
+    }
+    function showLogE(str,name) {
+        //console.log("Show--Log-----" + name);
+        console.log(str);
+        //console.log("Show--Log-----END-" + name);
+    }
+    function showLog(str) {
+        //console.log("Show--Log-----BEGIN");
+        console.log(str);
+        //console.log("Show--Log-----END");
+    }
+    var ADATA = null;
+    var ACCDATA = null;
+    var COPNODATA = null;
+    var COPQTYDATA = null;
+    var COPQTYEXDATA = null;
+    var allAcc = 0;
+    var row_index_summary = 0;
+    var COPQTY_SUMMARY1 = null;
+    var COPQTY_SUMMARY2 = null;
+    var COPQTY_SUGGESTION1 = null;
+    var COPQTY_SUGGESTION2 = null;
+    var MODEL_REM1 = null;
+    var MODEL_REM2 = null;
+
+    function getTT(indexRow, rrValue, idx) {
+        var lastIndex = 0;
+        //allAcc = ACCDATA[indexRow].QTY;
+        allAcc = ACCDATA[indexRow].PREV_QTY;
+        $.each(ADATA[indexRow], function (i, k) {
+            if (lastIndex <= 1) {
+                lastIndex++;
+                return;
+            }
+            rrValue[idx++] = (k == null ? "0" : numberWithCommas(k));
+            allAcc = (k == null? 0 : parseInt(k)) + allAcc;
+            lastIndex++;
+        });
+    }
+
+    function getCOPNO(indexRow, rrValue, idx) {
+        var lastIndex = 0;
+
+        $.each(COPNODATA[indexRow], function (i, k) {
+            if (lastIndex <= 1) {
+                lastIndex++;
+                return;
+            }
+            rrValue[idx++] = (k == null ? "" : k.replace(/,/g,'<br>'));
+
+            lastIndex++;
+        });
+    }
+    function getCOPNOEX(indexRow, rrValue, idx) {
+        var lastIndex = 0;
+
+        $.each(COPNOEXDATA[indexRow], function (i, k) {
+            if (lastIndex <= 1) {
+                lastIndex++;
+                return;
+            }
+            rrValue[idx++] = (k == null ? "" : k.replace(/,/g,'<br>'));
+
+            lastIndex++;
+        });
+    }
+    var COP1_QTY = 0;
+    var COP2_QTY = 0;
+
+    function getCOPQTY(indexRow, triggerValue, accValue) {
+        var lastIndex = 0;
+        COP1_QTY = 0;
+        var valueReturn = 0;
+        var dataInt = 0;
+        var accLocal = accValue;
+        valueReturn = accValue;
+        $.each(COPQTYDATA[indexRow], function (i, k) {
+            if ($.isNumeric(k)) {
+                dataInt = parseInt(k) * triggerValue;
+
+                if ((accLocal - dataInt) > 0) {
+                    accLocal = accLocal - dataInt;
+                    if (accLocal < triggerValue) {
+                        valueReturn = accLocal;
+                        return false;
+                    }
+                }
+                lastIndex = parseInt(k) + parseInt(lastIndex);
+            }
+
+        });
+
+        COP1_QTY = lastIndex;
+        //console.log("valueReturn : " + valueReturn + ",accValue = " + accValue);
+        return valueReturn;
+    }
+    function getCOPQTY1(indexRow) {
+        var lastIndex = 0;
+        $.each(COPQTYDATA[indexRow], function (i, k) {
+            if ($.isNumeric(k)) {
+                lastIndex = parseInt(k) + parseInt(lastIndex);
+            }
+        });
+        return lastIndex;
+    }
+    function getCOPQTY2(indexRow) {
+        var lastIndex = 0;
+        $.each(COPQTYEXDATA[indexRow], function (i, k) {
+            if ($.isNumeric(k)) {
+                lastIndex = parseInt(k) + parseInt(lastIndex);
+            }
+        });
+        return lastIndex;
+    }
+    function getCOPQTYEX(indexRow, triggerValue, accValue) {
+        var lastIndex = 0;
+        COP2_QTY = 0;
+        var valueReturn = 0;
+        var dataInt = 0;
+        var accLocal = accValue;
+        valueReturn = accValue;
+        $.each(COPQTYEXDATA[indexRow], function (i, k) {
+            if ($.isNumeric(k)) {
+                dataInt = parseInt(k) * triggerValue;
+                //console.log("dataInt : " + dataInt);
+                if ((accLocal - dataInt) > 0) {
+                    accLocal = accLocal - dataInt;
+                    if (accLocal < triggerValue) {
+                        valueReturn = accLocal;
+                        return false;
+                    }
+                }
+                lastIndex++;
+            }
+
+        });
+        COP2_QTY = lastIndex;
+        //console.log("valueReturn : " + valueReturn + ",accValue = " + accValue);
+        return valueReturn;
+    }
+
+    function getACCTT(indexRow, rrValue, idx) {
+        var lastIndex = 0;
+        //var deptQty = allAcc;
+        var deptQty = ACCDATA[indexRow].PREV_QTY;
+        //MODEL_REM1
+        //deptQty = MODEL_REM1[indexRow].FACT_REM;
+        //var baseIdx = idx;
+        //var lastAcc = allAcc;
+        //console.log(deptQty, allAcc);
+        rrValue[idx] = numberWithCommas(allAcc);
+        $.each(ADATA[indexRow], function (i, k) {
+            //console.log(deptQty,k);
+            if (lastIndex <= 1) {
+                lastIndex++;
+                return;
+            }
+            //rrValue[(idx++) + 1] = numberWithCommas((deptQty - (k == null? 0 : parseInt(k))));
+            rrValue[(idx++) ] = numberWithCommas((deptQty + (k == null? 0 : parseInt(k))));
+            deptQty = (deptQty + (k == null ? 0 : parseInt(k)));
+            lastIndex++;
+        });
+    }
+    function getTrigger(intVale, triggerValue) {
+        var t = intVale / triggerValue;
+        //showLogE(t,"getTrigger.t");
+        if (t > 1) {
+            return t;
+        } else {
+            return 0;
+        }
+    }
+    function genBtn(strCaption,model,line,dateShow) {
+        var btnStr = "<input type='hidden' id='xDATE' name='xDATE' value='"+ dateShow +"'><input type='hidden' id='xMODEL' name='xMODEL' value='"+ model +"'><input type='hidden' id='xLINE' name='xLINE' value='"+ line +"'><A class='btn btn-info button CreateCOP' >" + strCaption + "'</A>";
+        return btnStr;
+    }
+    function genBtn2(strCaption,model,line,dateShow) {
+        var btnStr = "<input type='hidden' id='xDATE' name='xDATE' value='"+ dateShow +"'><input type='hidden' id='xMODEL' name='xMODEL' value='"+ model +"'><input type='hidden' id='xLINE' name='xLINE' value='"+ line +"'><A class='btn btn-primary button CreateCOP2' >" + strCaption + "'</A>";
+        return btnStr;
+    }
+    function getSuggestionCOP(indexRow, rrValue, idx,model,line) {
+        var lastIndex = 0;
+        var deptQty = allAcc;
+        var baseIdx = idx;
+        var lastAcc = allAcc;
+        var intLimit = 5000;
+        var remainValue = 0;
+        var triggerValue1 = getTrigger(parseInt(allAcc), intLimit);
+
+        //if (getTrigger(parseInt(allAcc), intLimit) > 1) {
+        if (triggerValue1 > 1) {
+            remainValue = getCOPQTY(indexRow, intLimit, deptQty);
+
+            if ((remainValue < intLimit)) {
+                rrValue[idx] = "(" + numberWithCommas(remainValue) + ")";
+            } else {
+                if ((parseInt(triggerValue1) - parseInt(COP1_QTY)) > 0) {
+                    //rrValue[idx] = genBtn("Create COP(" + (parseInt(triggerValue1) - parseInt(COP1_QTY)) + ")", model, line, idx);
+                    rrValue[idx] = (parseInt(triggerValue1) - parseInt(COP1_QTY)) ;
+                } else {
+                    rrValue[idx] = "(" + numberWithCommas(parseInt(lastAcc) - (parseInt(COP1_QTY)  * parseInt(intLimit))) + ")";
+                }
+            }
+
+        } else {
+            rrValue[idx] = "(" + numberWithCommas(parseInt(allAcc)) + ")";
+        }
+        deptQty = remainValue;
+        //rrValue[idx] = getTrigger(parseInt(allAcc), intLimit);
+        //showLog(rrValue[idx]);
+        //remainValue = 0;
+        var indexVar = 0;
+        $.each(ADATA[indexRow], function (i, k) {
+            if (lastIndex <= 1) {
+                lastIndex++;
+                return;
+            }
+            //console.log("df : " + getTrigger(((deptQty - ($.isNumeric(k) != true ? 0 : parseInt(k)))), intLimit) + " -> " + i + ", " + ADATA[indexRow]['ITEM_ID']);
+            var triggerVal = getTrigger(((deptQty - ($.isNumeric(k) != true ? 0 : parseInt(k)))), intLimit);
+
+            //if (getTrigger(((deptQty - ($.isNumeric(k) != true ? 0 : parseInt(k)))), intLimit) > 1) {
+            if (triggerVal > 1) {
+                //rrValue[(idx++) + 1] = genBtn("Create COP", model, line);
+                remainValue = getCOPQTY(indexRow, intLimit, deptQty);
+
+                if (remainValue < intLimit) {
+                    //rrValue[(idx++) + 1] = "(" + numberWithCommas(remainValue) + ")";
+                    rrValue[idx] = "";
+                } else {
+                    if ((parseInt(triggerValue1) - parseInt(COP1_QTY)) > 0) {
+                        //rrValue[(idx++) + 1] = genBtn("Create COP(" + (parseInt(triggerValue1) - parseInt(COP1_QTY)) + ")", model, line, idx);
+                        rrValue[(idx++) + 1] = (parseInt(triggerValue1) - parseInt(COP1_QTY));
+                    } else {
+                        //rrValue[idx] = "(" + numberWithCommas(parseInt(lastAcc) - (parseInt(COP1_QTY) * parseInt(intLimit))) + ")";
+                        rrValue[idx] = "";
+                    }
+                }
+
+            } else {
+
+                if (((parseInt(deptQty) + parseInt(lastAcc)) - parseInt(remainValue)) < parseInt(intLimit)) {
+                    if ((parseInt(triggerValue1) - parseInt(COP1_QTY)) > 0) {
+                        //rrValue[(idx++)] = "(" + numberWithCommas((parseInt(deptQty) + parseInt(lastAcc)) - parseInt(remainValue)) + ")";
+                        rrValue[idx] = "";
+                    } else {
+                        //rrValue[idx] = "(" + numberWithCommas(parseInt(lastAcc) - (parseInt(COP1_QTY) * parseInt(intLimit))) + ")";
+                        rrValue[idx] = "";
+                    }
+                } else {
+                    //rrValue[(idx++) + 1] = "(" + numberWithCommas(((parseInt(deptQty) - ($.isNumeric(k) != true ? 0 : parseInt(k))))) + ")";
+                    rrValue[idx] = "";
+                }
+            }
+            //rrValue[(idx++) + 1] = getTrigger(((deptQty - (k == null? 0 : parseInt(k)))),intLimit);
+            deptQty = (deptQty - ($.isNumeric(k) != true  ? 0 : parseInt(k)))  ;
+            lastIndex++;
+        });
+    }
+
+    function get5000_EX(indexRow, rrValue, idx,model,line,pos) {
+        var lastIndex = 0;
+        var deptQty = allAcc;
+        var baseIdx = idx;
+        var lastAcc = allAcc;
+        var intLimit = 5000;
+        var remainValue = 0;
+
+    }
+
+    function get5000(indexRow, rrValue, idx,model,line) {
+        var lastIndex = 0;
+        var deptQty = allAcc;
+        var baseIdx = idx;
+        var lastAcc = allAcc;
+        var intLimit = 5000;
+        var remainValue = 0;
+        //rrValue[idx] = getTrigger(parseInt(allAcc), 5000);
+        var triggerValue1 = getTrigger(parseInt(allAcc), intLimit);
+
+        //if (getTrigger(parseInt(allAcc), intLimit) > 1) {
+        if (triggerValue1 > 1) {
+            remainValue = getCOPQTY(indexRow, intLimit, deptQty);
+            /*
+            if ((remainValue < intLimit)) {
+                rrValue[idx] = "(" + numberWithCommas(remainValue) + ")";
+            } else {
+                if ((parseInt(triggerValue1) - parseInt(COP1_QTY)) > 0) {
+                    //rrValue[idx] = genBtn("Create COP(" + (parseInt(triggerValue1) - parseInt(COP1_QTY)) + ")", model, line, idx);
+                    rrValue[idx] = (parseInt(triggerValue1) - parseInt(COP1_QTY)) ;
+                } else {
+                    rrValue[idx] = "(" + numberWithCommas(parseInt(lastAcc) - (parseInt(COP1_QTY)  * parseInt(intLimit))) + ")";
+                }
+            }
+            */
+            rrValue[idx] = "";
+        } else {
+            //rrValue[idx] = "(" + numberWithCommas(parseInt(allAcc)) + ")";
+            rrValue[idx] = "";
+        }
+        deptQty = remainValue;
+        //rrValue[idx] = getTrigger(parseInt(allAcc), intLimit);
+        //showLog(rrValue[idx]);
+        //remainValue = 0;
+        var indexVar = 0;
+        $.each(ADATA[indexRow], function (i, k) {
+            if (lastIndex <= 1) {
+                lastIndex++;
+                return;
+            }
+            //console.log("df : " + getTrigger(((deptQty - ($.isNumeric(k) != true ? 0 : parseInt(k)))), intLimit) + " -> " + i + ", " + ADATA[indexRow]['ITEM_ID']);
+            var triggerVal = getTrigger(((deptQty - ($.isNumeric(k) != true ? 0 : parseInt(k)))), intLimit);
+
+            //if (getTrigger(((deptQty - ($.isNumeric(k) != true ? 0 : parseInt(k)))), intLimit) > 1) {
+            if (triggerVal > 1) {
+                //rrValue[(idx++) + 1] = genBtn("Create COP", model, line);
+                remainValue = getCOPQTY(indexRow, intLimit, deptQty);
+
+                if (remainValue < intLimit) {
+                    //rrValue[(idx++) + 1] = "(" + numberWithCommas(remainValue) + ")";
+                    rrValue[idx] = "";
+                } else {
+                    if ((parseInt(triggerValue1) - parseInt(COP1_QTY)) > 0) {
+                        //rrValue[(idx++) + 1] = genBtn("Create COP(" + (parseInt(triggerValue1) - parseInt(COP1_QTY)) + ")", model, line, idx);
+                        rrValue[(idx++) + 1] = (parseInt(triggerValue1) - parseInt(COP1_QTY));
+                         rrValue[idx] = "";
+                    } else {
+                        //rrValue[idx] = "(" + numberWithCommas(parseInt(lastAcc) - (parseInt(COP1_QTY) * parseInt(intLimit))) + ")";
+                        rrValue[idx] = "";
+                    }
+                }
+
+            } else {
+
+                if (((parseInt(deptQty) + parseInt(lastAcc)) - parseInt(remainValue)) < parseInt(intLimit)) {
+                    if ((parseInt(triggerValue1) - parseInt(COP1_QTY)) > 0) {
+                        //rrValue[(idx++)] = "(" + numberWithCommas((parseInt(deptQty) + parseInt(lastAcc)) - parseInt(remainValue)) + ")";
+                        rrValue[idx] = "";
+                    } else {
+                        //rrValue[idx] = "(" + numberWithCommas(parseInt(lastAcc) - (parseInt(COP1_QTY) * parseInt(intLimit))) + ")";
+                        rrValue[idx] = "";
+                    }
+                } else {
+                    //rrValue[(idx++) + 1] = "(" + numberWithCommas(((parseInt(deptQty) - ($.isNumeric(k) != true ? 0 : parseInt(k))))) + ")";
+                    rrValue[idx] = "";
+                }
+            }
+            //rrValue[(idx++) + 1] = getTrigger(((deptQty - (k == null? 0 : parseInt(k)))),intLimit);
+            deptQty = (deptQty - ($.isNumeric(k) != true  ? 0 : parseInt(k)))  ;
+            lastIndex++;
+        });
+    }
+
+    function get10000(indexRow, rrValue, idx, model, line) {
+        var lastIndex = 0;
+        var deptQty = allAcc;
+        var baseIdx = idx;
+        var lastAcc = allAcc;
+        var intLimit = 10000;
+        
+        var remainValue = 0;
+        
+    }
+    function get10000_orig(indexRow, rrValue, idx, model, line) {
+        var lastIndex = 0;
+        var deptQty = allAcc;
+        var baseIdx = idx;
+        var lastAcc = allAcc;
+        var intLimit = 10000;
+        //rrValue[idx] = getTrigger(parseInt(allAcc), intLimit);
+        var remainValue = 0;
+        /*
+        if (getTrigger(parseInt(allAcc), intLimit) > 1) {
+            //rrValue[idx] = genBtn2("Create COP");
+            remainValue = getCOPQTY(indexRow, intLimit, deptQty);
+            if (remainValue < intLimit) {
+                rrValue[idx] = "(" + numberWithCommas(remainValue) + ")";
+            } else {
+                rrValue[idx] = genBtn2("Create COP",model,line);
+            }
+
+        } else {
+            rrValue[idx] = "(" + numberWithCommas(parseInt(allAcc)) + ")";
+        }
+        */
+        var triggerValue1 = getTrigger(parseInt(allAcc), intLimit);
+
+        //if (getTrigger(parseInt(allAcc), intLimit) > 1) {
+        if (triggerValue1 > 1) {
+            remainValue = getCOPQTYEX(indexRow, intLimit, deptQty);
+            if (remainValue < intLimit) {
+                rrValue[idx] = "(" + numberWithCommas(remainValue) + ")";
+            } else {
+                if ((parseInt(triggerValue1) - parseInt(COP2_QTY)) > 0) {
+                    rrValue[idx] = genBtn2("Create COP(" + (parseInt(triggerValue1) - parseInt(COP2_QTY)) + ")", model, line, idx);
+                }else {
+                    rrValue[idx] = "(" + numberWithCommas(parseInt(lastAcc) - (parseInt(COP2_QTY)  * parseInt(intLimit))) + ")";
+                }
+            }
+            rrValue[idx] = "";
+        } else {
+            //rrValue[idx] = "(" + numberWithCommas(parseInt(allAcc)) + ")";
+            rrValue[idx] = "";
+        }
+        deptQty = remainValue;
+        //rrValue[idx] = getTrigger(parseInt(allAcc), intLimit);
+        //showLog(rrValue[idx]);
+        //remainValue = 0;
+        $.each(ADATA[indexRow], function (i, k) {
+            if (lastIndex <= 1) {
+                lastIndex++;
+                return;
+            }
+            /*
+            //rrValue[(idx++) + 1] = getTrigger(((deptQty - (k == null ? 0 : parseInt(k)))), intLimit);
+            if (getTrigger(((deptQty - (k == null ? 0 : parseInt(k)))), intLimit) > 1) {
+                rrValue[(idx++) + 1] = genBtn2("Create COP");
+            }else {
+                rrValue[(idx++) + 1] = "(" + numberWithCommas(((deptQty - (k == null ? 0 : parseInt(k))))) + ")";
+            }
+
+            deptQty = (deptQty - (k == null ? 0 : parseInt(k)))  ;
+            lastIndex++;
+            */
+            //console.log("df : " + getTrigger(((deptQty - ($.isNumeric(k) != true ? 0 : parseInt(k)))), intLimit) + " -> " + i + ", " + ADATA[indexRow]['ITEM_ID']);
+            var triggerVal = getTrigger(((deptQty - ($.isNumeric(k) != true ? 0 : parseInt(k)))), intLimit);
+            //if (getTrigger(((deptQty - ($.isNumeric(k) != true ? 0 : parseInt(k)))), intLimit) > 1) {
+            if (triggerVal > 1) {
+                //rrValue[(idx++) + 1] = genBtn("Create COP", model, line);
+                remainValue = getCOPQTYEX(indexRow, intLimit, deptQty);
+                if (remainValue < intLimit) {
+                    rrValue[(idx++) + 1] = "(" + numberWithCommas(remainValue) + ")"; //+ deptQty + "," + remainValue + "," + k + "," + $.isNumeric(k) + "," + ((deptQty - ($.isNumeric(k) != true ? 0 : parseInt(k))));
+                    //console.log(ADATA[indexRow]);
+                } else {
+                    if ((parseInt(triggerValue1) - parseInt(COP2_QTY)) > 0) {
+                        rrValue[(idx++) + 1] = genBtn2("Create COP(" + (parseInt(triggerValue1) - parseInt(COP2_QTY)) + ")", model, line, idx);
+                    } else {
+                        rrValue[idx] = "(" + numberWithCommas(parseInt(lastAcc) - (parseInt(COP2_QTY)  * parseInt(intLimit))) + ")";
+                    }
+                }
+                rrValue[idx] = "";
+            } else {
+                if (((deptQty + lastAcc) - remainValue) < intLimit) {
+                    if ((parseInt(triggerValue1) - parseInt(COP2_QTY)) > 0) {
+                        rrValue[(idx++)] = "(" + numberWithCommas((deptQty + lastAcc) - remainValue) + ")";
+                    } else {
+                        rrValue[idx] = "(" + numberWithCommas(parseInt(lastAcc) - (parseInt(COP2_QTY)  * parseInt(intLimit))) + ")";
+                    }
+                } else {
+                    rrValue[(idx++) +1 ] = "(" + numberWithCommas(((deptQty - ($.isNumeric(k) != true ? 0 : parseInt(k))))) + ")";
+                }
+                rrValue[idx] = "";
+            }
+            //rrValue[(idx++) + 1] = getTrigger(((deptQty - (k == null? 0 : parseInt(k)))),intLimit);
+            deptQty = (deptQty - ($.isNumeric(k) != true  ? 0 : parseInt(k)))  ;
+            lastIndex++;
+        });
+        deptQty = 0;
+    }
+    function getDateValuePack(colIndex) {
+        if (headerRows) {
+            var newIndex = parseInt(colIndex) + 2;
+            var dateStr = headerRows[newIndex];
+            //console.log("headerRows : " + headerRows.length + ",newIndex: " + newIndex + ", Date is : " + dateStr);
+            return (dateStr);
+        } else {
+            return null;
+        }
+    }
+
+    function getTableRows(rowsData, rowADATA, rowACCDATA, rowCOPNO, rowCOPQTY, rowCOPQTYEX, rowCOPNOEX) {
+
+        /*
+         * rowACCDATA comulative qty by model
+         * rowADATA Daily qty sum by Date and Model
+         *
+         */
+
+        var skipFirst = true;
+        var modelID = "";
+        var lineID = "";
+        var posID = "";
+        var sumTT = [];
+        var posTT = [];
+        var AccTT = [];
+        var Front = true;
+        var lastPos = null;
+        var hasPrint = false;
+        var Sampling1 = [];
+        var Sampling2 = [];
+        var CopProc1 = [];
+        var CopProc2 = [];
+        var printTT = 0;
+        var lIdx = 0;
+        ADATA = rowADATA;
+        ACCDATA = rowACCDATA;
+        COPNODATA = rowCOPNO;
+        COPNOEXDATA = rowCOPNOEX;
+        COPQTYDATA = rowCOPQTY;
+        COPQTYEXDATA = rowCOPQTYEX;
+        //console.log(ADATA);
+        $.each(rowsData, function (key, value) {
+            var rowData = [];
+            $.each(value, function (ikey, ivalue) {
+
+                if (ikey > 4) {
+                    rowData.push(ivalue == null ? "0" : numberWithCommas(ivalue));
+                } else {
+                    rowData.push(ivalue == null ? "0" : ivalue);
+                }
+
+            });
+
+            hasPrint = false;
+
+            /** Begin Position Arrange**/
+            if (getMatched(rowData[2], "Fron") != lastPos) {
+                if (lastPos != null && hasPrint == false) {
+                    posTT.splice(5, 1);
+                    AccTT.splice(5, 1);
+
+                    CopProc1.splice(5, 1);
+                    Sampling1.splice(5, 1);
+                    Sampling2.splice(5, 1);
+                    CopProc2.splice(5, 1);
+                    //posTT[4] = posTT[4] + " -> 1";
+
+                    /** ADD ROW FOR TOTAL **/
+                    getTT(printTT++, posTT, 5);
+                    var rowNode = tbVar.row.add(posTT).draw(false).node();
+                    setBoldRow(rowNode);
+                    //$(rowNode).addClass('ROWOF_TOTAL_' + rowData[0] + "-" + rowData[1] + "-" + rowData[2]);
+                    $(rowNode).addClass('ROWOF_TOTAL_'+ modelID + "_" + replace(lineID) + "_" + lastPos);
+
+
+                    getACCTT(printTT - 1, AccTT, 5);
+                    var rowNode = tbVar.row.add(AccTT).draw(false).node();
+                    setBoldRowAcc(rowNode);
+                    $(rowNode).addClass('ROWOF_COMLT_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                    get5000_EX(printTT - 1, Sampling1, 5, modelID, lineID,lastPos);
+                    var rowNode = tbVar.row.add(Sampling1).draw(false).node();
+                    setBoldLastRowWithout(rowNode);
+                    $(rowNode).addClass('ROWOF_WITHOUT_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                    getCOPNO(printTT - 1, CopProc1, 5);
+                    var rowNode = tbVar.row.add(CopProc1).draw(false).node();
+                    setBoldLastRowWithoutID(rowNode);
+                    $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                    get10000(printTT - 1, Sampling2, 5, modelID, lineID);
+                    var rowNode = tbVar.row.add(Sampling2).draw(false).node();
+                    setBoldLastRowWithout(rowNode);
+                    $(rowNode).addClass('ROWOF_WITH_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                    getCOPNOEX(printTT - 1, CopProc2, 5);
+                    var rowNode = tbVar.row.add(CopProc2).draw(false).node();
+                    setBoldLastRow(rowNode);
+                    $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+
+                    lineID = "";
+                    posTT = [];
+                    AccTT = [];
+                    Sampling1 = [];
+                    Sampling2 = [];
+                    CopProc1 = [];
+                    CopProc2 = [];
+                    hasPrint = true;
+                }
+                lastPos = getMatched(rowData[2], "Fron");
+
+                $.each(value, function (ikey, ivalue) {
+                    posTT.push("");
+                    //AccTT.push(rowADATA[key][ikey]);
+
+                });
+
+                posTT[0] = "";
+                posTT[1] = "";
+                posTT[2] = "";
+                posTT[3] = "";
+                posTT[4] = "Total : ";
+                Sampling1 = posTT.slice(0);
+                Sampling1[4] = "<DIV class='row_header suggestion_qty row_without_" + rowData[0] + "_" + lastPos + "' >[0] Calculate sample require for (1/5000):</div>";
+                Sampling2 = posTT.slice(0);
+                Sampling2[4] = "<DIV class='row_header suggestion_qty2' >[0] Calculate sample require for (1/10000):</DIV>";
+                CopProc1 = posTT.slice(0);
+                CopProc2 = posTT.slice(0);
+                CopProc1[4] = "01-Without" + "  [ " + numberWithCommas(getCOPQTY1(parseInt(key)-1)) + " ] :";
+                CopProc2[4] = "02-With Con"+ "  [ " + numberWithCommas(getCOPQTY2(parseInt(key)-1)) + " ] :";
+                AccTT = posTT.slice(0);
+                AccTT[4] = "Accumulative Total: ";
+            }
+
+            /** End Position Arrange**/
+
+            /** Begin Model Arrange**/
+            if (rowData[0] != modelID) {
+
+                if (modelID != "") {
+                    sumTT.splice(5, 1);
+                    sumTT = [];
+                    if (lastPos != null && hasPrint == false) {
+                        posTT.splice(5, 1);
+                        AccTT.splice(5, 1);
+
+                        CopProc1.splice(5, 1);
+                        Sampling1.splice(5, 1);
+                        Sampling2.splice(5, 1);
+                        CopProc2.splice(5, 1);
+
+
+                        getTT(printTT++, posTT, 5);
+                        var rowNode = tbVar.row.add(posTT).draw(false).node();
+                        setBoldRow(rowNode);
+                        $(rowNode).addClass('ROWOF_TOTAL_'+ modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                        getACCTT(printTT - 1, AccTT, 5);
+                        var rowNode = tbVar.row.add(AccTT).draw(false).node();
+                        setBoldRowAcc(rowNode);
+                        $(rowNode).addClass('ROWOF_COMLT_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                        get5000_EX(printTT - 1, Sampling1, 5, modelID, lineID,lastPos);
+                        var rowNode = tbVar.row.add(Sampling1).draw(false).node();
+                        setBoldLastRowWithout(rowNode);
+                        $(rowNode).addClass('ROWOF_WITHOUT_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                        getCOPNO(printTT - 1,CopProc1,5);
+                        var rowNode = tbVar.row.add(CopProc1).draw(false).node();
+                        setBoldLastRowWithoutID(rowNode);
+                        $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                        get10000(printTT - 1, Sampling2, 5,modelID,lineID);
+                        var rowNode = tbVar.row.add(Sampling2).draw(false).node();
+                        setBoldLastRowWithout(rowNode);
+                        $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                        getCOPNOEX(printTT - 1,CopProc2,5);
+                        var rowNode = tbVar.row.add(CopProc2).draw(false).node();
+                        setBoldLastRow(rowNode);
+                        $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                        //console.log('Print....2');
+                        lineID = "";
+                        posTT = [];
+                        AccTT = [];
+                        Sampling1 = [];
+                        Sampling2 = [];
+                        CopProc1 = [];
+                        CopProc2 = [];
+                        hasPrint = true;
+                    }
+                }
+                modelID = rowData[0];
+                $.each(value, function (ikey, ivalue) {
+                    sumTT.push("0");
+                });
+                sumTT[0] = "";
+                sumTT[1] = "";
+                sumTT[2] = "";
+                sumTT[4] = "";
+                sumTT[3] = "MODEL Summary : ";
+
+                lastPos = null;
+            }
+            else {
+                rowData[0] = "";
+            }
+            /** End Model Arrange**/
+
+            /** Begin Line Arrange**/
+            if (rowData[1] != lineID ) {
+
+                if (lastPos != null && lineID != "" && hasPrint == false) {
+                    posTT.splice(5, 1);
+                    AccTT.splice(5, 1);
+                    CopProc1.splice(5, 1);
+                    Sampling1.splice(5, 1);
+                    Sampling2.splice(5, 1);
+                    CopProc2.splice(5, 1);
+
+                    getTT(printTT++, posTT, 5);
+                    var rowNode = tbVar.row.add(posTT).draw(false).node();
+                    setBoldRow(rowNode);
+                    $(rowNode).addClass('ROWOF_TOTAL_' + modelID + "_" + replace(lineID)+ "_" + lastPos);
+                    000
+                    getACCTT(printTT - 1, AccTT, 5);
+                    var rowNode = tbVar.row.add(AccTT).draw(false).node();
+                    setBoldRowAcc(rowNode);
+                    $(rowNode).addClass('ROWOF_COMLT_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                    get5000_EX(printTT - 1, Sampling1, 5,modelID,lineID,lastPos);
+                    var rowNode = tbVar.row.add(Sampling1).draw(false).node();
+                    setBoldLastRowWithout(rowNode);
+                    $(rowNode).addClass('ROWOF_WITHOUT_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                    getCOPNO(printTT - 1,CopProc1,5);
+                    var rowNode = tbVar.row.add(CopProc1).draw(false).node();
+                    setBoldLastRowWithoutID(rowNode);
+                    $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                    get10000(printTT - 1, Sampling2, 5, modelID, lineID);
+                    var rowNode = tbVar.row.add(Sampling2).draw(false).node();
+                    setBoldLastRowWithout(rowNode);
+                    $(rowNode).addClass('ROWOF_WITH_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                    getCOPNOEX(printTT - 1, CopProc2, 5);
+                    var rowNode = tbVar.row.add(CopProc2).draw(false).node();
+                    setBoldLastRow(rowNode);
+                    $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+                    //console.log('Print....3');
+                    lineID = "";
+                    posTT = [];
+                    AccTT = [];
+                    Sampling1 = [];
+                    Sampling2 = [];
+                    CopProc1 = [];
+                    CopProc2 = [];
+                    hasPrint = true;
+                }
+                rowData[0] = modelID;
+                lastPos = null;
+                lineID = rowData[1];
+
+            }
+            else {
+                rowData[1] = "";
+            }
+            /** End Line Arrange**/
+
+            rowData.splice(5, 2);
+
+            /** Begin Model Arrange**/
+            var rowNode = tbVar.row.add(rowData).draw(false).node();
+            $(rowNode).find('td').eq(0).removeClass("numericCol");
+            $(rowNode).find('td').eq(0).addClass("textCol");
+
+            $(rowNode).find('td').eq(2).removeClass("numericCol");
+            $(rowNode).find('td').eq(2).addClass("textCol");
+
+            $(rowNode).find('td').eq(3).removeClass("numericCol");
+            $(rowNode).find('td').eq(3).addClass("textCol");
+
+            $(rowNode).find('td').eq(4).removeClass("numericCol");
+            $(rowNode).find('td').eq(4).addClass("textCol");
+            skipFirst = false;
+        });
+
+        if (lastPos != null) {
+            posTT.splice(5, 1);
+            AccTT.splice(5, 1);
+
+            CopProc1.splice(5, 1);
+            Sampling1.splice(5, 1);
+            Sampling2.splice(5, 1);
+            CopProc2.splice(5, 1);
+
+            getTT(printTT++, posTT, 5);
+            var rowNode = tbVar.row.add(posTT).draw(false).node();
+            setBoldRow(rowNode);
+            $(rowNode).addClass('ROWOF_TOTAL_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+            getACCTT(printTT - 1, AccTT, 5);
+            var rowNode = tbVar.row.add(AccTT).draw(false).node();
+            setBoldRowAcc(rowNode);
+            $(rowNode).addClass('ROWOF_COMLT_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+            get5000_EX(printTT - 1, Sampling1, 5, modelID, lineID,lastPos);
+            var rowNode = tbVar.row.add(Sampling1).draw(false).node();
+            setBoldLastRowWithout(rowNode);
+            $(rowNode).addClass('ROWOF_WITHOUT_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+            getCOPNO(printTT - 1,CopProc1,5);
+            var rowNode = tbVar.row.add(CopProc1).draw(false).node();
+            setBoldLastRowWithoutID(rowNode);
+            $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+            get10000(printTT - 1, Sampling2, 5, modelID, lineID);
+            var rowNode = tbVar.row.add(Sampling2).draw(false).node();
+            setBoldLastRowWithout(rowNode);
+            $(rowNode).addClass('ROWOF_WITH_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+
+            getCOPNOEX(printTT - 1, CopProc2, 5);
+            var rowNode = tbVar.row.add(CopProc2).draw(false).node();
+            setBoldLastRow(rowNode);
+             $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + lastPos);
+            lineID = "";
+            posTT = [];
+            AccTT = [];
+            Sampling1 = [];
+            Sampling2 = [];
+            CopProc1 = [];
+            CopProc2 = [];
+            hasPrint = true;
+        }
+        lastPos = null;
+        if (sumTT.Count > 0) {
+            sumTT.splice(5, 1);
+            var rowNode = tbVar.row.add(sumTT).draw(false).node();
+            sumTT = [];
+        }
+    }
+    function replace(StrVar) {
+        return StrVar.replace(" ","_");
+    }
+    function refreshData() {
+        var fromDate = $('.from-date').val();
+        var toDate = $('.to-date').val();
+        var itemID = $('.item-id').val();
+        var modelID = $('.model-id').val();
+
+        var urlText = "@Url.Action("GetVolumeMatrixWithModel","COPR16_ITEMS_MSTR")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {
+            "FROM_DATE": fromDate,
+            "TO_DATE": toDate,
+            "ITEM_ID": itemID,
+            "MODEL_ID":modelID
+        };
+        console.log(jdata);
+        //console.log(".---.");
+        autoCloseCompleted = false;
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                row_index_summary = 0;
+                console.log(result);
+                getTableHeader(result.Data.QTY[0]);
+                console.log(result.Data.COPQTY);
+                COPQTY_SUMMARY1 = result.Data.COPQTY_SUMMARY1;
+                COPQTY_SUMMARY2 = result.Data.COPQTY_SUMMARY2;
+                COPQTY_SUGGESTION1 = result.Data.COPQTY_SUGGESTION1;
+                COPQTY_SUGGESTION2 = result.Data.COPQTY_SUGGESTION2;
+                MODEL_REM1 = result.Data.MODEL_REM1;
+                MODEL_REM2 = result.Data.MODEL_REM2;
+                getTableRows(result.Data.QTY, result.Data.AQTY, result.Data.ACCQTY, result.Data.COPNO, result.Data.COPQTY, result.Data.COPQTYEX, result.Data.COPNOEX);
+
+                update_suggestion();
+                /*
+                getTableHeader(result.Data[0]);
+                getTableRows(result.Data);
+                */
+
+                //$.each(result.Data, function (key, value) {
+                //    $.each(value, function (ikey,ivalue) {
+                //        console.log(ikey);
+                //    });
+                //});
+                closeConpleting();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                $('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalError').modal("show");
+                closeConpleting();
+            }
+        });
+    }
+    function update_suggestion() {
+        var suggestion_qty1 = $('.suggestion_qty');
+        var suggestion_qty2 = $('.suggestion_qty2');
+        //console.log(suggestion_qty1);
+        $.each(suggestion_qty1, function (i,k) {
+            $(k).html("<DIV class='row_header suggestion_qty' >[ " + COPQTY_SUMMARY1[i].COPQTY_SUGGESTION + " ] Calculate sample require for (1/5000): </div>");
+            var cop_suggestion = COPQTY_SUGGESTION1.filter(function (obj) {
+                return obj.MODLE_ID == COPQTY_SUMMARY1[i].MODLE_ID
+                    && obj.LINE_ID == COPQTY_SUMMARY1[i].LINE_ID
+                    && obj.POS == COPQTY_SUMMARY1[i].POS;
+            });
+            var COPNO_FT = COPNODATA.filter(function (obj) {
+                return obj.ITEM_ID == COPQTY_SUMMARY1[i].MODLE_ID + "_" + COPQTY_SUMMARY1[i].LINE_ID + "_" + COPQTY_SUMMARY1[i].POS
+            });
+            //console.log(COPNO_FT);
+            var index = 0;
+
+            $.each(cop_suggestion, function (idx, keyvalue) {
+                var pos = getMatched(keyvalue.POS, "Fron");
+                var className = '.ROWOF_WITHOUT_' + keyvalue.MODLE_ID + "_" + replace(keyvalue.LINE_ID) + "_" + pos;
+                var className2 = '.ROWOF_COPWITHOUT_' + keyvalue.MODLE_ID + "_" + replace(keyvalue.LINE_ID) + "_" + pos;
+
+                if (keyvalue.COP_FLAG == "1") {
+                    var row_cop = $(className).find('td').eq(idx + 5);
+                    var row_open_cop = $(className2).find('td').eq(idx + 5);
+                    //if(COPNO_FT[idx].)
+                    if ($(row_open_cop).html() == "") {
+                        var btn = genBtn("Create COP(" + keyvalue.COP_QTY + ")", keyvalue.MODLE_ID, keyvalue.LINE_ID, idx + 5);
+                        $(row_cop).append(btn);
+                    } else {
+                        $(row_cop).html(keyvalue.COP_QTY);
+                    }
+                }
+
+            });
+
+        });
+        $.each(suggestion_qty2, function (i,k) {
+            //console.log(i, k);
+            $(k).html("<DIV class='row_header suggestion_qty2' >[ " + COPQTY_SUMMARY2[i].COPQTY_SUGGESTION + " ] Calculate sample require for (1/10000): </div>");
+            var cop_suggestion2 = COPQTY_SUGGESTION2.filter(function (obj) {
+                return obj.MODLE_ID == COPQTY_SUMMARY2[i].MODLE_ID
+                    && obj.LINE_ID == COPQTY_SUMMARY2[i].LINE_ID
+                    && obj.POS == COPQTY_SUMMARY2[i].POS;
+            });
+            var index = 0;
+            $.each(cop_suggestion2, function (idx, keyvalue) {
+                var pos = getMatched(keyvalue.POS, "Fron");
+                var className = '.ROWOF_WITH_' + keyvalue.MODLE_ID + "_" + replace(keyvalue.LINE_ID) + "_" + pos;
+                var className2 = '.ROWOF_COPWITH_' + keyvalue.MODLE_ID + "_" + replace(keyvalue.LINE_ID) + "_" + pos;
+
+                if (keyvalue.COP_FLAG == "1") {
+                    var row_cop = $(className).find('td').eq(idx + 5);
+                    var row_open_cop = $(className2).find('td').eq(idx + 5);
+
+                    if ($(row_open_cop).html() == "") {
+                        var btn = genBtn2("Create COP(" + keyvalue.COP_QTY + ")", keyvalue.MODLE_ID, keyvalue.LINE_ID, idx + 5);
+                        $(row_cop).append(btn);
+                    } else {
+                         $(row_cop).html(keyvalue.COP_QTY);
+                    }
+                }
+
+            });
+
+        });
+        $('.dataTables_info').attr("style", "display:none !important");
+        /*
+        console.log(COPQTY_SUGGESTION1.filter(function (obj) {
+            return obj.MODLE_ID == "341B"
+                && obj.LINE_ID == "R200 DLC-1"
+                && obj.POS == "Rear";
+        }));
+        */
+    }
+    $('.refreshBtn').click(function () {
+        refreshData();
+    });
+
+    $("body").on("click", "a.CreateCOP", function (ev) {
+        showLog(".CreateCOP");
+        var p = $(this).parent();
+        var model = $(p).find("#xMODEL").val();
+        var line = $(p).find("#xLINE").val();
+        var URLSTR = "@Url.Action("CreateMacro","COPR16_COPRUNNING")";
+        var modelHtml = "<input type='hidden' name='xModel' id='xModel' value='" + model + "'>";
+        var lineHtml = "<input type='hidden' name='xLine' id='xLine' value='" + line + "'>";
+        var coptypeHtml = "<input type='hidden' name='WRK_ID' id='WRK_ID' value='COP-ATH-01'>";
+        var indexDate = $(p).find("#xDATE").val();
+        var btnDate = getDateValuePack(indexDate);
+
+        var btnDateHtml = "<input type='hidden' name='btnDate' id='btnDate' value='"+btnDate+"'>";
+
+
+        showLogE(URLSTR, "URLSTR");
+        $("#frmMain").attr("action", URLSTR);
+        $("#frmMain").append(modelHtml);
+        $("#frmMain").append(lineHtml);
+        $("#frmMain").append(coptypeHtml);
+        $("#frmMain").append(btnDateHtml);
+
+        $("#frmMain").submit();
+
+        //window.location.href = URLSTR;
+    });
+    $("body").on("click", "a.CreateCOP2", function (ev) {
+        showLog(".CreateCOP2");
+        var p = $(this).parent();
+        var model = $(p).find("#xMODEL").val();
+        var line = $(p).find("#xLINE").val();
+        var URLSTR = "@Url.Action("CreateMacro","COPR16_COPRUNNING")";
+        var modelHtml = "<input type='hidden' name='xModel' id='xModel' value='" + model + "'>";
+        var lineHtml = "<input type='hidden' name='xLine' id='xLine' value='" + line + "'>";
+        var coptypeHtml = "<input type='hidden' name='WRK_ID' id='WRK_ID' value='COP-ATH-02'>";
+
+        var indexDate = $(p).find("#xDATE").val();
+        var btnDate = getDateValuePack(indexDate);
+
+        var btnDateHtml = "<input type='hidden' name='btnDate' id='btnDate' value='" + btnDate + "'>";
+
+        showLogE(URLSTR, "URLSTR");
+        $("#frmMain").attr("action", URLSTR);
+        $("#frmMain").append(modelHtml);
+        $("#frmMain").append(lineHtml);
+        $("#frmMain").append(coptypeHtml);
+        $("#frmMain").append(btnDateHtml);
+
+        $("#frmMain").submit();
+
+
+    });
+    $('.exportBtn').click(function () {
+        //alert("ok");
+        exportToExcel();
+        //fnExcelReport();
+    });
+    function exportToExcel() {
+        var style_sheet = $('#style_local').html();
+        var htmls = "";
+                var uri = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8;base64,';
+                var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style>{stylesheet}</style></head><body><table>{table}</table></body></html>';
+                var base64 = function(s) {
+                    return window.btoa(unescape(encodeURIComponent(s)))
+                };
+
+                var format = function(s, c) {
+                    return s.replace(/{(\w+)}/g, function(m, p) {
+                        return c[p];
+                    })
+                };
+        //console.log(style_sheet);
+        $('.dataTables_filter').remove();
+        htmls = $('.dataTables_wrapper').html().replace(/Create\ COP\(/g, '');
+        htmls = htmls.replace(/\)\'/g, '');
+        htmls = htmls.replace(/\[+ (?:(?!\d+ \d+ obj)[\s\S])*?[\s\S]*?\]/g, '');
+        
+        //console.log(htmls);
+           var ctx = {
+                    worksheet: "COPR16_REPORT_" + $('#FMODELS').val(),
+                    stylesheet: style_sheet,
+                    table: htmls
+
+                }
+                var link = document.createElement("a");
+                link.download = "COPR16_REPORT_" +  $('#FMODELS').val() + ".xls";
+                link.href = uri + base64(format(template, ctx));
+                link.click();
+    }
+
+
+</script>

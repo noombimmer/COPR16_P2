@@ -1,0 +1,956 @@
+﻿@model CM_APPLICATIONS.Models.ResultModel
+
+@{
+    ViewBag.Title = "TestResult";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Boolean glocked = false;
+}
+
+
+
+<style>
+    .PN-TEXT {
+        /*font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;*/
+        font-family: Calibri;
+        font-size: 30px;
+        padding-left: 12px;
+    }
+
+    .PN-TEXT-2 {
+        /*font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;*/
+        font-family: Calibri;
+        font-size: 18px;
+        padding-left: 12px;
+    }
+
+    .FG-TYPE {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 38px;
+    }
+
+    .COP-TITLE {
+        /*font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;*/
+        font-family: Calibri;
+        font-size: 46px;
+        padding-left: 12px;
+    }
+
+    .machine-sticker {
+        width: 300px !important;
+        height: 450px !important;
+        max-height: 450px !important;
+        max-width: 300px !important;
+        overflow: hidden;
+        /*background-color: lightgray;*/
+        border: 1px solid lightgray;
+        display: inline-block;
+    }
+
+    body.receipt .sheet {
+        width: 20mm;
+        height: 30mm
+    }
+    .rightText{
+        text-align:right !important;
+    }
+    /* change height as you like */
+    @@media print {
+        body.receipt {
+            width: 20mm !important;
+            margin-left: 10px !important;
+        }
+
+        @@page {
+            size: 20mm 30mm portrait !important;
+            margin-left: 10px !important;
+            max-height: 30mm;
+            max-width: 20mm;
+        }
+    }
+    /* this line is needed for fixing Chrome's bug */
+</style>
+<h2>
+    COP NO :  @Html.DisplayFor(m => m.cOPR16_COPRUNNING_RT.COPR_ID)
+    @Html.Hidden("hCOPR_ID", Model.cOPR16_COPRUNNING_RT.COPR_ID)
+    @Html.Hidden("hSEQ_NO", Model.cOPR16_COPRUNNING_RT.SEQ_NO)
+    @Html.AntiForgeryToken()
+</h2>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.LabelFor(m => m.cOPR16_COPRUNNING_RT.SEQ_NO, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.EditorFor(m => m.cOPR16_COPRUNNING_RT.SEQ_NO, new { htmlAttributes = new { @class = "form-control LINE-ID", @readonly = "true" } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.cOPR16_COPRUNNING_RT.WRKD_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.EditorFor(m => m.cOPR16_COPRUNNING_RT.WRKD_ID, new { htmlAttributes = new { @class = "form-control LINE-ID", @readonly = "true" } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.cOPR16_COPRUNNING_RT.MACHINETYPE_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.EditorFor(m => m.cOPR16_COPRUNNING_RT.MACHINETYPE_ID, new { htmlAttributes = new { @class = "form-control LINE-ID", @readonly = "true" } })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.cOPR16_COPRUNNING_RT.MACHINE_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.EditorFor(m => m.cOPR16_COPRUNNING_RT.MACHINE_ID, new { htmlAttributes = new { @class = "form-control LINE-ID", @readonly = "true" } })
+        </div>
+    </div>
+    <h2>
+        RESULT :
+        @{
+                if (Model.cOPR16_COPRUNNING_RT.MACHINETYPE_ID.Contains("MT001"))
+                {
+                    glocked = true;
+                <a class="btn btn-primary button uploadBtn uploadClass">UPLOAD FILE</a>
+            }
+        }
+    </h2>
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.LINE_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("LINE-ID", new { htmlAttributes = new { @class = "form-control LINE-ID" } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.FG_NO, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("FG-NO", new { htmlAttributes = new { @class = "form-control FG-NO", } })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.ITEM_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("ITEM-ID", new { htmlAttributes = new { @class = "form-control ITEM-ID", } })
+            </div>
+        </div>*@
+    @Html.Hidden("hResultType", Model.isOptionList)
+    @if (Model.isOptionList)
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.cOPR16_COPRUNNING_RT.VALUE, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.EditorFor(m => m.cOPR16_COPRUNNING_RT.VALUE, new { htmlAttributes = new { @class = "form-control cOPR16_COPRUNNING_RT_VALUE", @readonly = "true" } })
+            </div>
+        </div>
+        @Html.Hidden("hRTDT_ID", Model.cOPR16_COPRUNNING_RT.RTDT_ID)
+        foreach (var item in Model.cOPR16_OPTDTVALUE_MSTR_List)
+        {
+            var class_btn = "";
+            if (item.OPTDT_ID.Equals("NG"))
+            {
+                class_btn = "btn-danger";
+            }
+            else
+            {
+                class_btn = "btn-success";
+            }
+
+
+            <div class="form-group">
+                <div class="col-md-offset-1 col-md-10" style="display:flex;flex-wrap:nowrap">
+                    <input type="button" value="@Html.DisplayFor(modelItem => item.OPTDT_ID)" class="btn @class_btn button resultBtn" style="width:120px;height:120px" />
+                </div>
+            </div>
+
+        }
+    }
+    else
+    {
+        var indexNo = 1;
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-10" style="display:flex;flex-wrap:nowrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.cOPR16_COPRUNNING_RT_List)
+                        {
+
+                            <tr style="white-space:nowrap">
+                                <td>@indexNo)&nbsp; @Html.DisplayFor(m => item.RTDT_NAME)</td>
+                                <td style="white-space:nowrap;padding-left:15px">
+                                    @{
+                                        if (glocked == true)
+                                        {
+                                            @Html.EditorFor(modelItem => item.VALUE, new { htmlAttributes = new { @class = "form-control " + item.RTDT_ID, @disabled = "disabled", @style = "padding-left:1px;width:80px !important;" } })
+                                        }
+                                        else
+                                        {
+
+                                            var rdtd = Model.cOPR16_RTDT_MSTR_list.Where(l => l.RTDT_ID.Equals(item.RTDT_ID)).FirstOrDefault();
+                                            var mstype = Model.cOPR16_MEASURETYPE_MSTR_list.Where(l => l.MSTYPE_ID.Equals(rdtd.MSTYPE_ID)).FirstOrDefault();
+
+                                            if (mstype.OPTION_UNIT == true)
+                                            {
+                                                var optList = Model.cOPR16_OPTDTVALUE_MSTR_List.Where(l => l.OPTION_ID.Equals(mstype.OPT_ID)).ToList();
+                                                <select class="form-control text-box single-line" id="item_VALUE" name="item.VALUE" style="padding-left:1px;width:80px !important;" >
+                                                @foreach (var opts in optList)
+                                                {
+                                                    <option value="@opts.OPTDT_ID"> @opts.DESC</option>
+                                                }
+                                                </select>
+                                            }
+                                            else
+                                            {
+                                                @Html.EditorFor(modelItem => item.VALUE, new { htmlAttributes = new { @class = "form-control " + item.RTDT_ID, @style = "padding-left:1px;width:80px !important;" } })
+                                            }
+
+                                        }
+                                    }
+
+                                </td>
+                                @*<div class="col-md-offset-1 col-md-8" style="display:flex;flex-wrap:nowrap">
+                                    @Html.EditorFor(modelItem => item.VALUE, new { htmlAttributes = new { @class = "form-control ", @readonly = "true" } })
+                                        </div>*@
+                                <td style="white-space:nowrap">
+                                    &nbsp;
+                                    @Html.DisplayFor(modelItem => item.RTDT_REF_ID)
+                                    @Html.Hidden("hRTDT_ID", item.RTDT_ID)
+                                </td>
+                            </tr>
+                            indexNo++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    <hr>
+    <div class="form-group">
+        <div class="col-md-offset-1 col-md-10">
+            @*<input type="button" value="Save" class="btn btn-success button saveBtn" />*@
+            <input type="button" value="OK" class="btn btn-primary button saveBtn" />
+            <input type="button" value="Close" class="btn btn-secondary button closeBtn" />
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="CONFIRMED_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="CONFIRMED_BODY">
+                <H4 id="CONFIRMED_ASK"></H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesConfirmedBtn">YES</a>
+                <a class="btn btn-secondary button NoConfirmedBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal Confirm Remove -->
+
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+
+<div class="modal fade display-result" id="DISPLAY-RESULT" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">GLOCK UPLOAD FILE</h4>
+            </div>
+            <div class="modal-body" id="DISPLAY-RESULT-FORM">
+                @using (Html.BeginForm("GlockUploading", "COPR16_FILE_IMPORT", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "main-form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+                    @Html.Hidden("form-file-type", "", htmlAttributes: new { @class = "form-file-type" })
+                    @Html.Hidden("form-file-format", "", htmlAttributes: new { @class = "form-file-format" })
+                    @Html.Hidden("form-file-path", "", htmlAttributes: new { @class = "form-file-path" })
+                    @Html.Hidden("form-file-size", "", htmlAttributes: new { @class = "form-file-size" })
+                    @Html.Hidden("form-file-name", "", htmlAttributes: new { @class = "form-file-name" })
+
+                    <div class="modal-header">
+                        @Html.Label("G-LOCK TEST RESULT FILE", htmlAttributes: new { @class = "modal-title" })
+                        <div class="modal-title" style="display:flex;flex-wrap:nowrap">
+                            <input class="form-file-input" id="FSIM_NAME" name="FSIM_NAME" type="file" value="" accept=".xlsx, .xls, .csv" style="position:relative;top:0px;">
+                        </div>
+                    </div>
+
+                }
+            </div>
+            <div class="modal-body" id="DISPLAY-RESULT-BODY">
+                <H4 id="DISPLAY-RESULT-TITLE" style="text-align:left">Result rows</H4>
+                <TABLE class="table-result table">
+                    <THEAD>
+                        <tr>
+                            <TH>No</TH>
+                            <TH>Name</TH>
+                            <TH>Value</TH>
+                        </tr>
+                    </THEAD>
+                    <tbody>
+                        @*<tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>*@
+                    </tbody>
+                </TABLE>
+            </div>
+            <div class="modal-footer">
+                @*<a class="btn btn-primary button display-result-save">Save</a>*@
+                <a class="btn btn-primary button display-result-close">Confirm and Close</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal Confirm Remove -->
+
+<script>
+    var fileBody = "";
+    var fileNameValue = "";
+
+    var strDate = "";
+    var strTime = "";
+    var strTester = "";
+    var strPartNo = "";
+    var strModelNo = "";
+
+    var strWSI2 = "0";
+    var strWSI3 = "0";
+    var strWSI8 = "0";
+
+    var strVSI1 = "0";
+    var strVSI2 = "0";
+    var strVSI3 = "0";
+    var strVSI4 = "0";
+
+    var strTAL1 = "0";
+    var strTAL2 = "0";
+    var strTAL3 = "0";
+    var strTAL4 = "0";
+    function resetValue() {
+        strDate = "";
+        strTime = "";
+        strTester = "";
+        strPartNo = "";
+        strModelNo = "";
+
+        strWSI2 = "0";
+        strWSI3 = "0";
+        strWSI8 = "";
+
+        strVSI1 = "0";
+        strVSI2 = "0";
+        strVSI3 = "0";
+        strVSI4 = "0";
+
+        strTAL1 = "0";
+        strTAL2 = "0";
+        strTAL3 = "0";
+        strTAL4 = "0";
+    }
+    var tbVar = "";
+    var arrayResult = [];
+    function readDataOmg(str) {
+        if (typeof str === "object") {
+            str = str.target.result; // file reader
+            fileBody = str;
+            console.log(fileBody);
+        }
+    }
+    $('.form-file-input').change(function (e) {
+        var filename = e.target.files[0].name;
+        var type = e.target.files[0].type;
+        var size = e.target.files[0].size;
+        var path = $(this).val().replace(filename, '');
+        var extension = filename.replace(/^.*\./, '');
+        //alert(filename);
+
+        $('.form-file-type').val(extension);
+        $('.form-file-format').val(type);
+        $('.form-file-path').val(path);
+        $('.form-file-size').val(size);
+        $('.form-file-name').val(filename);
+        /*
+        console.log(e.target.files[0]);
+        console.log(e.target.files[0].webkitRelativePath);
+        $('.file-info').show();
+        $('.uploadBtn').attr("disabled", false);
+        $('.confirmBtn').attr("disabled", true);
+        */
+        var fileObj = this;
+        if (fileObj.files) {
+            // create reader
+            file = fileObj.files[0];
+            var reader = new FileReader();
+            reader.onloadend = readDataOmg;
+            reader.readAsText(file);
+        }
+        resetValue();
+        upload_files();
+    });
+
+    $('.resultBtn').click(function () {
+        var resultText = $(this).val();
+        $('.cOPR16_COPRUNNING_RT_VALUE').val(resultText);
+
+    });
+    $('.saveBtn').click(function () {
+        var resultType = $('#hResultType').val();
+        var resultValue = $('.cOPR16_COPRUNNING_RT_VALUE').val();
+        if (resultType == "True") {
+            if (resultValue.length <= 0) {
+                $('#lModalBodyError').html("PLease select the right result? ");
+                $('#lModalError').modal('show');
+                return;
+            }
+        }
+        $('#CONFIRMED_ASK').html("Are you want to save result?");
+        $('#CONFIRMED_DLG').modal('show');
+    });
+    $('.NoConfirmedBtn').click(function () {
+        $('#CONFIRMED_DLG').modal('hide');
+    });
+    $('.lerrcloseBtn').click(function () {
+        $('#lModalError').modal('hide');
+    });
+
+    $('.lSuccesscloseBtn').click(function () {
+        $('.lModalSuccess').modal('hide');
+        window.location.href = "@Url.Action("VIEW_DT","COPR16_COPRUNNING_RT",new {id = Model.cOPR16_COPRUNNING_RT.COPR_ID })";
+    });
+    $('.closeBtn').click(function () {
+        window.location.href = "@Url.Action("VIEW_DT","COPR16_COPRUNNING_RT",new {id = Model.cOPR16_COPRUNNING_RT.COPR_ID })";
+    });
+    $('.YesConfirmedBtn').click(function () {
+        $('#CONFIRMED_DLG').modal('hide');
+        var varList = [];
+        var resultType = $('#hResultType').val();
+        var resultValue = $('.cOPR16_COPRUNNING_RT_VALUE').val();
+        var COPR_ID = $('#hCOPR_ID').val();
+        var SEQ_NO = $('#hSEQ_NO').val();
+        var UID = "@CM_APPLICATIONS.Models.AppPropModel.username";
+        if (resultType == "True") {
+            if (resultValue.length <= 0) {
+                return false;
+            } else {
+                var rtdt_id = $('#hRTDT_ID').val();
+                var rstValue = {
+                    "VALUE": resultValue,
+                    "RTDT_ID": rtdt_id,
+                    "SEQ_NO": SEQ_NO,
+                    "COPR_ID": COPR_ID
+                };
+                varList.push(rstValue);
+            }
+        } else {
+            var arrKey = $('table').find('tr');
+            var exitFlg = false;
+            $.each(arrKey, function (idx, value) {
+                var obj = $(value).find('.text-box').eq(0);
+                var valueText = $(obj).val();
+                var hobj = $(value).find('#hRTDT_ID').eq(0);
+                var hvalueText = $(hobj).val();
+                if (valueText == "") {
+                    $('#lModalBodyError').html("Please don't leave blank result? ");
+                    $('#lModalError').modal('show');
+                    exitFlg = true;;
+                }
+                if (valueText != undefined) {
+                    var rstValue = {
+                        "COPR_ID": COPR_ID,
+                        "SEQ_NO": SEQ_NO,
+                        "VALUE": valueText,
+                        "RTDT_ID": hvalueText
+                    };
+
+                    varList.push(rstValue);
+                }
+            });
+            console.log(varList);
+            if (exitFlg == true) {
+                return;
+            }
+        }
+        var jsonData = {
+            "COPR_ID": COPR_ID,
+            "SEQ_NO": SEQ_NO,
+            "CLOSE_BY": SEQ_NO,
+            "ISOPT": resultType,
+            "valueList" : varList
+        };
+        var validdateString = $('input[name="__RequestVerificationToken"').val();
+
+        var submitData = {
+            "__RequestVerificationToken":validdateString,
+            "jsonString" : jsonData
+        };
+        console.log(submitData);
+        var urlText = "@Url.Action("SaveResult","COPR16_COPRUNNING_RT")";
+        var options = { "backdrop": "static", keyboard: true };
+        console.log();
+        
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: submitData,
+            success: function (result) {
+
+                $('#lModalBodySuccess').html("Save result completed...");
+                $('#lModalSuccess').modal('show');
+
+                console.log(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
+                console.log(errorThrown);
+                console.log(jqXHR);
+                //$('#lModalLabelError').html("Edit COP Running Number");
+                //$('#lModalBodyError').html("Cannot save data : " + errorThrown );
+                //$('#lModalError').modal(options);
+                //$('#lModalError').modal('show');
+                //$('#SAVEALL_DLG').modal('hide');
+            }
+        });
+        
+        
+        return false;
+    });
+    $('.display-result-save').click(function () {
+        $('.display-result').modal('hide');
+        //saveResult();
+    });
+
+    $('.display-result-close').click(function () {
+         $('.display-result').modal('hide');
+    });
+    $('.display-result-save').attr("disabled", true);
+    function saveResult() {
+        var COPR_NO = "@Model.cOPR16_COPRUNNING_RT.COPR_ID";
+        var RST_ID = $.datepicker.formatDate('yyMdd', new Date()) + "_"  + COPR_NO;
+        var urlText = "@Url.Action("gLockConfirmUpload","COPR16_FILE_IMPORT")";
+        var options = { "backdrop": "static", keyboard: true };
+        var NAME = $('.form-file-name').val();
+
+        var headerData = {
+            RST_ID: RST_ID,
+            COPR_ID: COPR_NO,
+            RST_FILENAME: NAME,
+            RST_FILE_DATA: fileBody,
+            ADATE: "",
+            CRE_BY: "@CM_APPLICATIONS.Models.AppPropModel.username",
+            MOD_DATE: "",
+            MOD_BY: ""
+        };
+        var formData = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "rstHeader": headerData,
+            "rsDetails": []
+        };
+        console.log(arrayResult);
+        $.each(arrayResult, function (i, items) {
+            //console.log(i);
+            //console.log(key);
+            itemsVal = {
+                "RST_ID": RST_ID,
+	            "RST_KEY":items[0],
+                "RST_VALUE": items[1],
+                "RST_SELECT": true,
+                "RTDT_ID":items[2]
+            }
+            formData["rsDetails"].push(itemsVal);
+
+        });
+        console.log(formData);
+
+        $.ajax({
+            type: "POST",
+            url: urlText,
+            data: formData,
+            success: function (result) {
+                console.log(result);
+                $('#lModalBodySuccess').html("This result data was uploaded");
+                $('#lModalSuccess').modal("show");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                $('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalError').modal("show");
+            }
+        });
+
+        return false;
+
+    }
+    $('body').on('click', 'a.uploadBtn', function (t) {
+
+        //display-result
+        $('.display-result').modal("show");
+        /*
+        var filename = $(".form-file-input").val();
+        if (filename == undefined || filename == "") {
+            $('#lModalBodyError').html("Please select file for uploading");
+            $('#lModalError').modal("show");
+            return;
+        }
+
+        upload_files();
+        */
+    });
+    function replaceQoute(strInput) {
+        var returnString = strInput != null ? strInput.replace(/['"]+/g, '') : null;
+        //console.log("returnString: " + returnString);
+        return returnString;
+    }
+    function upload_files() {
+        //alert("upload_files ok");
+        var formObject = $('.main-form-data');
+        var formData = new FormData(formObject[0]);
+        autoCloseCompleted = false;
+        console.log(formData);
+        console.log("URL:",$(formObject).prop("action"));
+        $.ajax({
+            type: "POST",
+            url: $(formObject).prop("action"),
+            data: formData,
+            contentType: false, //this is requireded please see answers above
+            processData: false, //this is requireded please see answers above
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalError').modal("show");
+                console.log(jqXHR);
+                //tbVar.clear().draw();
+                closeConpleting();
+            },
+            success: function (result) {
+                console.log(result);
+                var rowResult = result.Data;
+                var resultFlag = false;
+
+
+
+                console.log(rowResult);
+                $.each(rowResult, function (i, singleRow) {
+                    //console.log(singleRow);
+                    var strText = Object.keys(singleRow);
+                    //console.log(strText);
+                    if (i < 10) {
+                        switch (replaceQoute(singleRow[strText[0]])) {
+                            case "Test Date":
+                                strDate = singleRow[strText[1]]
+                                break;
+                            case "Test Time":
+                                strTime = singleRow[strText[1]]
+                                break;
+                            case "Test by":
+                                strTester = singleRow[strText[1]]
+                                break;
+                            case "Part Number":
+                                strPartNo = singleRow[strText[1]]
+                                break;
+                            case "Model":
+                                strModelNo = singleRow[strText[1]]
+                                break;
+
+                        }
+
+                        //$('.body-text').append(getDisplayLabel(singleRow[strText[0]], singleRow[strText[1]], "2"));
+                    }
+                    //console.log(singleRow[strText[1]] != null ? singleRow[strText[1]].replace(/['"]+/g, ''):"null" );
+
+                    if (resultFlag == true) {
+                        if (singleRow[strText[1]] == "Web") {
+                            if (parseInt(singleRow[strText[3]]) == 3) {
+                                var tempValue = singleRow[strText[11]];
+                                if (tempValue > strWSI3) {
+                                    strWSI3 = tempValue;
+                                }
+
+                            }
+                            if (parseInt(singleRow[strText[3]]) == 2) {
+                                var tempValue = singleRow[strText[11]];
+                                
+                                if (tempValue > strWSI2) {
+                                    strWSI2 = tempValue;
+                                }
+                            }
+                            if (singleRow[strText[8]] == "0.8" || singleRow[strText[3]] == "1.30" ) {
+                                var tempValue = singleRow[strText[15]];
+                                console.log("tempValue: "+ tempValue);
+                                if (tempValue > strWSI8) {
+                                    strWSI8 = tempValue;
+                                }
+                            }
+                        }
+                        if (singleRow[strText[1]] == "Vehicle") {
+                            if (parseInt(singleRow[strText[2]]) == 0) {
+                                var tempValue = singleRow[strText[11]];
+                                if (tempValue > strVSI1) {
+                                    strVSI1 = tempValue;
+                                }
+
+                            }
+                            if (parseInt(singleRow[strText[2]]) == 90) {
+                                var tempValue = singleRow[strText[11]];
+                                if (tempValue > strVSI2) {
+                                    strVSI2 = tempValue;
+                                }
+                            }
+                            if (parseInt(singleRow[strText[2]]) == 180) {
+                                var tempValue = singleRow[strText[11]];
+                                if (tempValue > strVSI3) {
+                                    strVSI3 = tempValue;
+                                }
+                            }
+                            if (parseInt(singleRow[strText[2]]) == 270) {
+                                var tempValue = singleRow[strText[11]];
+                                if (tempValue > strVSI4) {
+                                    strVSI4 = tempValue;
+                                }
+                            }
+                        }
+                        if (singleRow[strText[1]] == "Tilt") {
+                            if (parseInt(singleRow[strText[2]]) == 0) {
+                                var tempValue = singleRow[strText[13]];
+                                if (tempValue > strTAL1) {
+                                    strTAL1 = tempValue;
+                                }
+
+                            }
+                            if (parseInt(singleRow[strText[2]]) == 90) {
+                                var tempValue = singleRow[strText[13]];
+                                if (tempValue > strTAL2) {
+                                    strTAL2 = tempValue;
+                                }
+                            }
+                            if (parseInt(singleRow[strText[2]]) == 180) {
+                                var tempValue = singleRow[strText[13]];
+                                if (tempValue > strTAL3) {
+                                    strTAL3 = tempValue;
+                                }
+                            }
+                            if (parseInt(singleRow[strText[2]]) == 270) {
+                                var tempValue = singleRow[strText[13]];
+                                if (tempValue > strTAL4) {
+                                    strTAL4 = tempValue;
+                                }
+                            }
+                        }                    }
+                    if (singleRow[strText[0]] == "Step No.") {
+                        resultFlag = true;
+                    }
+                    /*
+                    $.each(singleRow, function (column, value) {
+                        console.log("column: [" + column + "]" + ", Key:[" + value + "]");
+                    });
+                    */
+                });
+
+                display_result();
+                closeConpleting();
+
+                //$('.uploadBtn').attr("disabled", true);
+                $('.display-result-save').attr("disabled", false);
+            }
+        });
+
+    }
+    var maxWidth = 0;
+    function setTextValue(objectname,valueStr,isLeft) {
+        var cWidth = valueStr.length * 8;
+        if (cWidth > maxWidth) {
+            maxWidth = cWidth;
+        } else {
+            cWidth = maxWidth;
+        }
+        $(objectname).val(valueStr);
+
+        $(objectname).width(cWidth);
+        if (isLeft == false) {
+
+            $(objectname).addClass("rightText");
+        }
+    }
+    function display_result() {
+       var rowIndex = 1;
+        setTextValue('.1GLOCK-FILE',$('.form-file-name').val());
+        $('.display-result').modal('show');
+        $('.table-result').html("");
+        var tempValue = [];
+        $('.table-result').append("<thead class='table-header'><tr><td>No</td><td>Name</td><td>Value</td></tr></thead>");
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td  class=\"text-left\">Test Date</td><td  class=\"text-left\">" + strDate + "</td></tr>");
+        tempValue.push("Test Date");
+        tempValue.push(strDate);
+        tempValue.push("2GLOCK-TESTDATE");
+        setTextValue(".2GLOCK-TESTDATE", strDate);
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Test Time</td><td  class=\"text-left\">" + strTime + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Test Time");
+        tempValue.push(strTime);
+        tempValue.push("3GLOCK-TESTTIME");
+        setTextValue(".3GLOCK-TESTTIME", strTime);
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Test By</td><td  class=\"text-left\">" + strTester + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Test By");
+        tempValue.push(strTester);
+        tempValue.push("4GLOCK-TESTBY");
+        setTextValue(".4GLOCK-TESTBY", strTester);
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Part Number</td><td  class=\"text-left\">" + strPartNo + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Part Number");
+       tempValue.push(strPartNo);
+       tempValue.push("Part Number");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Model</td><td  class=\"text-left\">" + strModelNo + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Model");
+       tempValue.push(strModelNo);
+       tempValue.push("Model");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial WSI Locking 0.8g</td><td>" + strWSI8 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial WSI Locking 0.8g");
+        tempValue.push(strWSI8);
+        tempValue.push("5GLOCK_WSI08G");
+        setTextValue(".5GLOCK_WSI08G", strWSI8);
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial WSI Locking 2g</td><td>" + strWSI2 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial WSI Locking 2g");
+        tempValue.push(strWSI2);
+        tempValue.push("6GLOCK_WSI2G");
+        setTextValue(".6GLOCK_WSI2G", strWSI2,false);
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>"+ (rowIndex++) +"</td><td class=\"text-left\">Initial WSI Locking 3g</td><td>"+strWSI3+"</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial WSI Locking 3g");
+        tempValue.push(strWSI3);
+        tempValue.push("7GLOCK_WSI3G");
+        setTextValue(".7GLOCK_WSI3G", strWSI3,false);
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial VSI Locking 0.45g (0°)</td><td>" + strVSI1 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial VSI Locking 0.45g (0°)");
+        tempValue.push(strVSI1);
+        tempValue.push("8GLOCK_VSI0DEG");
+        setTextValue(".8GLOCK_VSI0DEG", strVSI1,false);
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial VSI Locking 0.45g (90°)</td><td>" + strVSI2 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial VSI Locking 0.45g (90°)");
+        tempValue.push(strVSI2);
+        tempValue.push("9GLOCK_VSI90DEG");
+        setTextValue(".9GLOCK_VSI90DEG", strVSI2,false);
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial VSI Locking 0.45g (180°)</td><td>" + strVSI3 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial VSI Locking 0.45g (180°)");
+        tempValue.push(strVSI3);
+        tempValue.push("9Z1GLOCK_VSI180DEC");
+        setTextValue(".9Z1GLOCK_VSI180DEC", strVSI3,false);
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial VSI Locking 0.45g (270°)</td><td>" + strVSI4 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial VSI Locking 0.45g (270°)");
+        tempValue.push(strVSI4);
+        tempValue.push("9Z2GLOCK_VSI270DEG");
+        setTextValue(".9Z2GLOCK_VSI270DEG", strVSI4,false);
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial Tilt Angle Lock (0°)</td><td>" + strTAL1 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial Tilt Angle Lock (0°)");
+        tempValue.push(strTAL1);
+        tempValue.push("9Z3GLOCK_TAL0DEG");
+        setTextValue(".9Z3GLOCK_TAL0DEG", strTAL1,false);
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial Tilt Angle Lock (90°)</td><td>" + strTAL2 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial Tilt Angle Lock (90°)");
+        tempValue.push(strTAL2);
+        tempValue.push("9Z4GLOCK_TAL90DEG");
+        setTextValue(".9Z4GLOCK_TAL90DEG", strTAL2,false);
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial Tilt Angle Lock (180°)</td><td>" + strTAL3 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial Tilt Angle Lock (180°)");
+        tempValue.push(strTAL3);
+        tempValue.push("9Z5GLOCK_TAL180DEG");
+        setTextValue(".9Z5GLOCK_TAL180DEG", strTAL3,false);
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial Tilt Angle Lock (270°)</td><td>" + strTAL4 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial Tilt Angle Lock (270°)");
+        tempValue.push(strTAL4);
+        tempValue.push("9Z6GLOCK_TAL270DEG");
+        setTextValue(".9Z6GLOCK_TAL270DEG", strTAL4,false);
+        arrayResult.push(tempValue);
+
+    }
+
+</script>

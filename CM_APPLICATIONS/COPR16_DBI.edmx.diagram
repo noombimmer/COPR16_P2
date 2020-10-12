@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="08d432d3a11e48da93aab4e826d9973e" Name="Diagram1" ZoomLevel="85">
+        <EntityTypeShape EntityType="COPR16Model.COPR16_BRAND_MSTR" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_FG_MSTR" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_LINE_MSTR" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_MANCTYPE_MSTR" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_MEASURETYPE_MSTR" Width="2.875" PointX="4.625" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_OPTIONVAL_MSTR" Width="1.5" PointX="5.375" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_POSITION_MSTR" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_RTVALUE_TR" Width="1.5" PointX="8.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_UNITS_MSTR" Width="1.5" PointX="2.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_ITEMS_MSTR" Width="1.5" PointX="11.375" PointY="0.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_ITEMS_VOLUME" Width="1.5" PointX="11.375" PointY="4.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_MODEL_MSTR" Width="1.5" PointX="5.375" PointY="11.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_MACHINE_MSTR" Width="1.5" PointX="11.375" PointY="7.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_PROC_MSTR" Width="1.5" PointX="7.375" PointY="11.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_STD_MSTR" Width="1.5" PointX="9.375" PointY="12.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_STDREG_MSTR" Width="1.5" PointX="11.375" PointY="12.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_FGTDET_MSTR" Width="1.5" PointX="0.75" PointY="13.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_FGTEST" Width="1.5" PointX="2.75" PointY="13.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_FGTYPE_MSTR" Width="1.5" PointX="13.75" PointY="3.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_GROUPTEST_MSTR" Width="1.5" PointX="13.75" PointY="7.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_STDDET" Width="1.5" PointX="13.75" PointY="11.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_STEP_MSTR" Width="1.5" PointX="15.75" PointY="0.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_SUBGRPTEST_MSTR" Width="1.5" PointX="4.75" PointY="15.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_REPORT" Width="1.5" PointX="16.375" PointY="5.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_FILES_MSTR" Width="1.5" PointX="7.375" PointY="16.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_FTYPE_MSTR" Width="1.5" PointX="16.375" PointY="9.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_OPTDTVALUE_MSTR" Width="1.5" PointX="9.375" PointY="16.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_RETURNTYPE_MSTR" Width="1.5" PointX="13.75" PointY="16.125" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_RTDT_MSTR" Width="1.5" PointX="16.375" PointY="13.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_WORKFLOW" Width="1.5" PointX="0.75" PointY="17.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_WORKFLOW_DT" Width="1.5" PointX="16.375" PointY="17.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_COPRUNNING" Width="1.5" PointX="18.375" PointY="4.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_COPRUNNING_DT" Width="1.5" PointX="8.375" PointY="4.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_COPRUNNING_RT" Width="4.25" PointX="18.375" PointY="8.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_FILE_IMPORT" Width="1.5" PointX="18.375" PointY="17.75" />
+        <EntityTypeShape EntityType="COPR16Model.COPR16_IMPORT_CONTENTS" Width="1.5" PointX="3.375" PointY="19.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

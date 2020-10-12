@@ -1,0 +1,1003 @@
+﻿@*@model CM_APPLICATIONS.COPR16_WORKFLOW*@
+@model CM_APPLICATIONS.Models.WrkFlwModel
+
+@{
+    ViewBag.Title = "WORKFLOW PROCESS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var rowIndex = 0;
+}
+
+<h2>
+    WORKFLOW PROCESS
+    @Html.DisplayFor(m => m.WRK_DESC)
+
+</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <table width="100%">
+        <tr>
+            <th>
+                <div class="form-horizontal">
+                    <h4>EDIT</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_WORKFLOW.WRK_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_WORKFLOW.WRK_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW.WRK_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_WORKFLOW.WRK_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_WORKFLOW.WRK_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW.WRK_NAME, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_WORKFLOW.WRK_DESC, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.cOPR16_WORKFLOW.WRK_DESC, new { @class = "form-control", @rows = "6" })
+                            @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW.WRK_DESC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_WORKFLOW.STDREG_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @*@Html.EditorFor(model => model.cOPR16_WORKFLOW.STDREG_ID, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.DropDownListFor(model => model.cOPR16_WORKFLOW.STDREG_ID, Model.STDREG_LIST, null, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW.STDREG_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.cOPR16_WORKFLOW.WRK_WITH, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.cOPR16_WORKFLOW.WRK_WITH, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW.WRK_WITH, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_WORKFLOW.FLGACT, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_WORKFLOW.FLGACT, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW.FLGACT, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_WORKFLOW.ADATE, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_WORKFLOW.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW.ADATE, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_WORKFLOW.CRE_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_WORKFLOW.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW.CRE_BY, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_WORKFLOW.MOD_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_WORKFLOW.MOD_DATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW.MOD_DATE, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_WORKFLOW.MOD_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_WORKFLOW.MOD_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW.MOD_BY, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="button" value="Save" class="btn btn-primary button createBtn" />
+                            <input type="reset" value="Clear" class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="form-horizontal details">
+                    <p>
+                        <a class="btn btn-primary button addbtn">ADD WORKFLOW STEP</a>
+                    </p>
+                    <style>
+                        .dataTables_wrapper {
+                            float: left !important;
+                            width: 75% !important;
+                            margin-left: 0px !important;
+                        }
+
+                        table.dataTable thead tr {
+                            background-color: #005495;
+                            color: #fff;
+                        }
+
+                        table.dataTable {
+                            margin-left: 0px !important;
+                            width: 100% !important;
+                        }
+
+                        div.dataTables_length {
+                            display: none !important;
+                        }
+
+                        div.dataTables_filter {
+                            display: none !important;
+                        }
+
+                        div.dataTables_paginate {
+                            display: none !important;
+                        }
+
+                        .modal-header {
+                            background-color: #005495 !important;
+                            color: #ffffff !important;
+                        }
+
+                        td.command {
+                            flex-flow: nowrap;
+                            flex-wrap: nowrap;
+                            white-space: nowrap !important;
+                        }
+
+                        th.command {
+                            flex-flow: nowrap;
+                            flex-wrap: nowrap;
+                            white-space: nowrap !important;
+                        }
+                    </style>
+
+                    <table class="table stripe option-list workflow-step">
+                        <thead>
+                            <tr>
+                                <th class="username">
+                                    @Html.DisplayNameFor(model => model.cOPR16_WORKFLOW_DT.WRKD_SEQ)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.cOPR16_WORKFLOW_DT.WRKD_ID)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.cOPR16_WORKFLOW_DT.WRKD_DESC)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.cOPR16_WORKFLOW_DT.WRKD_PARL)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.cOPR16_WORKFLOW_DT.STEP_ID)
+                                </th>
+                                <th class="username">
+                                    @Html.DisplayNameFor(model => model.cOPR16_WORKFLOW_DT.WRKD_ANDCOND)
+                                </th>
+                                @*<th class="username">
+                                        @Html.DisplayNameFor(model => model.cOPR16_WORKFLOW.cOPR16_OPTDTVALUE_MSTR.FLGACT)
+                                    </th>
+                                    <th class="username">
+                                        @Html.DisplayNameFor(model => model.cOPR16_WORKFLOW.cOPR16_OPTDTVALUE_MSTR.ADATE)
+                                    </th>
+                                    <th class="username">
+                                        @Html.DisplayNameFor(model => model.cOPR16_WORKFLOW.cOPR16_OPTDTVALUE_MSTR.CRE_BY)
+                                    </th>*@
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.cOPR16_WORKFLOW.cOPR16_OPTIONVAL_MSTR.MOD_BY)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.cOPR16_WORKFLOW.cOPR16_OPTIONVAL_MSTR.MOD_DATE)
+                                    </th>*@
+                                <th class="command">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.cOPR16_WORKFLOW_DT_List)
+                            {
+                                var strrow = "class=row-id-" + rowIndex + "";
+
+                                <tr @strrow>
+                                    <td class="username">
+                                        @Html.DisplayFor(modelItem => item.WRKD_SEQ)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.WRKD_ID)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.WRKD_DESC)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.WRKD_PARL)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.STEP_ID)
+                                    </td>
+                                    <td class="username">
+                                        @*@Html.DisplayFor(modelItem => item.FLGDEF)*@
+                                        @item.WRKD_ANDCOND
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.FLGACT)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ADATE)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CRE_BY)
+                                        </td>*@
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.MOD_BY)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MOD_DATE)
+                                        </td>*@
+                                    <td class="command" id="action_btn">
+                                        @Html.Hidden("hRowId", "row-id-" + rowIndex++)
+                                        @Html.Hidden("hWRKD_ID", item.WRKD_ID)
+                                        @Html.Hidden("hWRKD_ANDCOND", item.WRKD_ANDCOND.ToString())
+                                        @Html.Hidden("hWRKD_PARL", item.WRKD_PARL.ToString())
+                                        @Html.Hidden("hSTEP_ID", item.STEP_ID)
+                                        @Html.Hidden("hWRKD_DESC", item.WRKD_DESC)
+
+                                        <a class='btn btn-primary button editbtn'>EDIT</a>
+                                        <a class='btn btn-primary button removebtn'>REMOVE</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div>
+                    @Html.ActionLink("Back to List", "Index", "COPR16_WORKFLOW", new { @class = "btn btn-primary button" })
+                </div>
+            </th>
+        </tr>
+    </table>
+}
+
+<div class="modal fade" id="SAVEALL_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to create this ?</H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesSavedAllBtn">YES</a>
+                <a class="btn btn-secondary button NoSaveAllBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- /.modal Confirm Save-->
+
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+
+<div class="modal fade" id="OPTIONS_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:800px !important ">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">ADD WORKFLOW STEP DETAILS</h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <table width="100%">
+                    <tr>
+                        <th class="col-md-8">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.cOPR16_WORKFLOW_DT.WRKD_SEQ, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.cOPR16_WORKFLOW_DT.WRKD_SEQ, new { htmlAttributes = new { @class = "form-control WRKD_SEQ", @readonly = "true" } })
+                                        @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW_DT.WRKD_SEQ, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group STEP_ID_DIV">
+                                    @Html.LabelFor(model => model.cOPR16_WORKFLOW_DT.STEP_ID, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        <div class="checkbox">
+
+                                            @Html.DropDownListFor(model => model.cOPR16_WORKFLOW_DT.STEP_ID, Model.STEPS_LIST, null, new { @class = "form-control STEP_ID" })
+                                            @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW_DT.STEP_ID, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.cOPR16_WORKFLOW_DT.WRKD_ID, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.cOPR16_WORKFLOW_DT.WRKD_ID, new { htmlAttributes = new { @class = "form-control WRKD_ID", @readonly = "true" } })
+                                        @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW_DT.WRKD_ID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.cOPR16_WORKFLOW_DT.WRKD_DESC, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.TextAreaFor(model => model.cOPR16_WORKFLOW_DT.WRKD_DESC, new { @class = "form-control WRKD_DESC", @rows = "6" })
+                                        @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW_DT.WRKD_DESC, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.cOPR16_WORKFLOW_DT.WRKD_PARL, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        <div class="checkbox">
+                                            @Html.EditorFor(model => model.cOPR16_WORKFLOW_DT.WRKD_PARL, new { htmlAttributes = new { @class = "form-control WRKD_PARL" } })
+                                            @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW_DT.WRKD_PARL, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group WRKD_MAIN_DIV">
+                                    @Html.LabelFor(model => model.cOPR16_WORKFLOW_DT.WRKD_MAIN, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        <div class="checkbox">
+                                            @Html.EditorFor(model => model.cOPR16_WORKFLOW_DT.WRKD_MAIN, new { htmlAttributes = new { @class = "form-control WRKD_MAIN" } })
+                                            @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW_DT.WRKD_MAIN, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group WRKD_WITH_ID_DIV">
+                                    @Html.LabelFor(model => model.cOPR16_WORKFLOW_DT.WRKD_WITH_ID, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        <div class="checkbox">
+                                            @*@Html.EditorFor(model => model.cOPR16_WORKFLOW_DT.WRKD_WITH_ID, new { htmlAttributes = new { @class = "form-control WRKD_WITH_ID" } })*@
+                                            @Html.DropDownListFor(model => model.cOPR16_WORKFLOW_DT.WRKD_WITH_ID, Model.WRKD_LIST, null, new { @class = "form-control WRKD_WITH_ID" })
+                                            @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW_DT.WRKD_WITH_ID, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.cOPR16_WORKFLOW_DT.WRKD_ANDCOND, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.cOPR16_WORKFLOW_DT.WRKD_ANDCOND, new { htmlAttributes = new { @class = "form-control WRKD_ANDCOND" } })
+                                        @Html.ValidationMessageFor(model => model.cOPR16_WORKFLOW_DT.WRKD_ANDCOND, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <input type="hidden" id="hSelectRowid" value="" />
+                                <input type="hidden" id="hOrdered" value="" />
+                                <input type="hidden" id="hMain" value="" />
+                            </div>
+                        </th>
+                        <th class="col-md-4" style="vertical-align:top;">
+                            <div class="form-horizontal HINTS_DIV">
+                                <div class="form-group">
+                                    <div class="col-md-12 hints" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:12px">
+                                        TEST
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button insertbtn">ADD ITEM</a>
+                <a class="btn btn-primary button updatebtn">UPDATE ITEM</a>
+                <a class="btn btn-secondary button closbtn">CLOSE</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal OPTIONS_DLG -->
+
+<div class="modal fade" id="CONFIRMED_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to remove this row?</H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesConfirmedBtn">YES</a>
+                <a class="btn btn-secondary button NoConfirmedBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal Confirm Remove -->
+
+<script>
+    var tbVar = $('.workflow-step').DataTable({
+        "orderable": false,
+        "paging": false,
+        "ordering": false,
+        "info": true,
+        "stripe": true,
+        "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "No records available",
+            "info": "Showing _START_-_END_ of _TOTAL_ rows",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        }
+    });
+
+</script><!-- / Script initia table-->
+
+<script>
+        $("#cOPR16_WORKFLOW_MOD_BY").val("@CM_APPLICATIONS.Models.AppPropModel.username");
+        $("#cOPR16_WORKFLOW_MOD_DATE").val("@System.DateTime.Now");
+
+
+</script><!-- /Script For First Display -->
+
+<script>
+    $("input.createBtn").click(function () {
+        $('#SAVEALL_DLG').modal('show');
+    });
+    $("a.NoSaveAllBtn").click(function () {
+        $('#SAVEALL_DLG').modal('hide');
+    });
+    $(".YesSavedAllBtn").click(function () {
+        saveJson();
+        $("#SAVEALL_DLG").modal("hide");
+    });
+    $(".lerrcloseBtn").click(function () {
+        $("#lModalError").modal("hide");
+    });
+    $(".lSuccesscloseBtn").click(function () {
+        window.location.href = "@Url.Action("Index","COPR16_WORKFLOW")";
+        $("#lModalSuccess").modal("hide");
+    });
+    function saveJson() {
+        var opdt = {};
+        var dtdt = [];
+        var firstFlg = true;
+
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "WRK_ID": $("#cOPR16_WORKFLOW_WRK_ID").val(),
+            "WRK_NAME": $("#cOPR16_WORKFLOW_WRK_NAME").val(),
+            "WRK_DESC": $("#cOPR16_WORKFLOW_WRK_DESC").val(),
+            "STDREG_ID": $("#cOPR16_WORKFLOW_STDREG_ID").val(),
+            "FLGACT": $("#cOPR16_WORKFLOW_FLGACT").val(),
+            "username": $("#UID").val(),
+            //"jsonString": $('form').serialize()
+            "jsonString": [{}]
+        };
+        tbVar.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var node = this.node();
+            var lastCol = 6;
+            var WRKD_SEQ = $(node).find('td').eq(lastCol).find("#hWRKD_SEQ").val();
+            var WRKD_ID= $(node).find('td').eq(lastCol).find("#hWRKD_ID").val();
+            var WRKD_PARL = $(node).find('td').eq(lastCol).find("#hWRKD_PARL").val();
+            var WRKD_ANDCOND = $(node).find('td').eq(lastCol).find("#hWRKD_ANDCOND").val();
+            var WRKD_DESC = $(node).find('td').eq(lastCol).find("#hWRKD_DESC").val();
+            var WRKD_WITH_ID = $(node).find('td').eq(lastCol).find("#hWRKD_WITH_ID").val();
+            var WRKD_MAIN = $(node).find('td').eq(lastCol).find("#hWRKD_MAIN").val();
+            var WRKD_ORDER = $(node).find('td').eq(lastCol).find("#hWRKD_ORDER").val();
+            var STEP_ID = $(node).find('td').eq(lastCol).find("#hSTEP_ID").val();
+            opdt = {
+                "WRK_ID": $("#cOPR16_WORKFLOW_WRK_ID").val(),
+                "WRKD_ID": WRKD_ID,
+                "WRKD_SEQ": WRKD_SEQ,
+                "WRKD_PARL": WRKD_PARL,
+                "WRKD_ANDCOND": WRKD_ANDCOND,
+                "WRKD_DESC": WRKD_DESC,
+                "WRKD_WITH_ID": WRKD_WITH_ID,
+                "WRKD_MAIN": WRKD_MAIN,
+                "WRKD_ORDER": WRKD_ORDER,
+                "STEP_ID": STEP_ID
+            };
+            //console.log(opdt);
+
+            if (jdata["jsonString"].length == 1 && firstFlg == true) {
+                jdata["jsonString"][0] = opdt;
+                firstFlg = false;
+            } else {
+                jdata["jsonString"].push(opdt);
+            }
+
+
+        });
+        console.log(jdata);
+        var urlText = "@Url.Action("SaveJson","COPR16_WORKFLOW")";
+            var options = { "backdrop": "static", keyboard: true };
+            console.log();
+            $.ajax({
+                type: "POST",
+                url: urlText,     //your action
+                //data: $('form').serialize(),   //your form name.it takes all the values of model
+                //dataType: 'json',
+                data: jdata,
+                success: function (result) {
+                    $('#lModalLabelSuccess').html("Create New Step Process");
+                    $('#lModalBodySuccess').html("Create Step Process Successed");
+                    $('#lModalSuccess').modal(options);
+                    $('#lModalSuccess').modal('show');
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#lModalLabelError').html("Create New Step Process");
+                    $('#lModalBodyError').html("Cannot Create Step Process : " + errorThrown );
+                    $('#lModalError').modal(options);
+                    $('#lModalError').modal('show');
+                }
+            })
+            return false;
+    }
+</script><!-- /Script For Save -->
+
+<script>
+    var counter = @rowIndex;
+    var rowObject = null;
+    var currentSEQ = "";
+    var currentID = "";
+    $("a.addbtn").click(function () {
+        var rowid = "row-id-" + counter;
+        var rowCnt = tbVar.rows().count();
+        $(".WRKD_ID").val("");
+        $(".WRKD_ANDCOND").val("false");
+        $(".WRKD_PARL").val("false");
+        $(".WRKD_MAIN").val("true");
+        $(".WRKD_DESC").val("");
+        $(".WRKD_WITH_ID_DIV").css("display", "none");
+
+        $(".WRKD_SEQ").val(counter + 1);
+        $(".WRKD_WITH_ID").val(counter + 1);
+        $(".STEP_ID_DIV").css("display", "");
+         $(".HINTS_DIV").css("display", "");
+        $(".WRKD_MAIN_DIV").css("display", "none");
+
+        $("a.insertbtn").css("display", "");
+        $("a.updatebtn").css("display", "none");
+        //updateInfo($(".STEP_ID").val());
+        getFile($(".STEP_ID").val());
+        $("#hSelectRowid").val(rowid);
+        $('#OPTIONS_DLG').modal('show');
+        updateWRKD_ID();
+    });
+    $(".WRKD_MAIN").change(function () {
+        if ($(this).val().toLowerCase() == "true") {
+            $(".STEP_ID_DIV").css("display", "none");
+            $(".WRKD_WITH_ID_DIV").css("display", "none");
+            $(".HINTS_DIV").css("display", "none");
+        } else {
+            $(".WRKD_WITH_ID_DIV").css("display", "");
+            $(".STEP_ID_DIV").css("display", "");
+            $(".HINTS_DIV").css("display", "");
+        }
+    });
+    function updateParl(str) {
+       var object = $(".WRKD_PARL");
+       if ($(object).val().toLowerCase() == "true") {
+            $(".WRKD_WITH_ID_DIV").css("display", "none");
+            $(".WRKD_MAIN_DIV").css("display", "");
+            $(".STEP_ID_DIV").css("display", "none");
+            $(".HINTS_DIV").css("display", "none");
+            $(".WRKD_MAIN").val("true");
+            $(".WRKD_WITH_ID").empty();
+            var lastCol = 6;
+            tbVar.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var node = this.node();
+                var WRKD_SEQ = $(node).find('td').eq(lastCol).find("#hWRKD_SEQ").val();
+                var WRKD_ID = $(node).find('td').eq(lastCol).find("#hWRKD_ID").val();
+                var WRKD_PARL = $(node).find('td').eq(lastCol).find("#hWRKD_PARL").val();
+                if (str != WRKD_ID && WRKD_PARL.toLowerCase() == "true" && WRKD_MAIN.toLowerCase() == "true") $(".WRKD_WITH_ID").append('<option value="' + WRKD_ID + '">' + WRKD_SEQ + ':' + WRKD_ID + '</option>');
+            });
+       } else {
+           $(".WRKD_WITH_ID_DIV").css("display", "none");
+           $(".WRKD_MAIN_DIV").css("display", "none");
+           $(".STEP_ID_DIV").css("display", "");
+           $(".HINTS_DIV").css("display", "");
+       }
+
+    }
+    $(".WRKD_PARL").change(function () {
+        if ($(this).val().toLowerCase() == "true") {
+            $(".WRKD_WITH_ID_DIV").css("display", "none");
+            $(".WRKD_MAIN_DIV").css("display", "");
+            $(".STEP_ID_DIV").css("display", "none");
+            $(".HINTS_DIV").css("display", "none");
+            $(".WRKD_MAIN").val("true");
+            $(".WRKD_WITH_ID").empty();
+            var lastCol = 6;
+            tbVar.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var node = this.node();
+                var WRKD_SEQ = $(node).find('td').eq(lastCol).find("#hWRKD_SEQ").val();
+                var WRKD_ID = $(node).find('td').eq(lastCol).find("#hWRKD_ID").val();
+                var WRKD_PARL = $(node).find('td').eq(lastCol).find("#hWRKD_PARL").val();
+                var WRKD_MAIN = $(node).find('td').eq(lastCol).find("#hWRKD_MAIN").val();
+                if(currentID != WRKD_ID && WRKD_PARL.toLowerCase() == "true" && WRKD_MAIN.toLowerCase() == "true") $(".WRKD_WITH_ID").append('<option value="' +WRKD_SEQ+ '">'+WRKD_SEQ + ':' + WRKD_ID+'</option>');
+            });
+        } else {
+            $(".WRKD_WITH_ID_DIV").css("display", "none");
+            $(".WRKD_MAIN_DIV").css("display", "none");
+            $(".STEP_ID_DIV").css("display", "");
+            $(".HINTS_DIV").css("display", "");
+        }
+    });
+    $("input.saveAllBtn").click(function () {
+        $('#SAVEALL_DLG').modal('show');
+    });
+    $("a.closbtn").click(function () {
+        $('#OPTIONS_DLG').modal('hide');
+    });
+    $("a.NoConfirmedBtn").click(function () {
+        $('#CONFIRMED_DLG').modal('hide');
+    });
+    $("a.NoSaveAllBtn").click(function () {
+        $('#SAVEALL_DLG').modal('hide');
+    });
+    $("a.YesConfirmedBtn").click(function () {
+
+        var p = $(rowObject).parent();
+        var msg = $(p).find("#hRowId").val();
+        tbVar.row("." + msg).remove().draw();
+        counter--;
+        //alert(msg);
+        rowObject = null;
+
+        $('#CONFIRMED_DLG').modal('hide');
+    });
+    function getLastSubProcess(wrkd_with_id) {
+        var lastNum = 0;
+        var lastCol = 6;
+        tbVar.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var node = this.node();
+            var WRKD_SEQ_WITH_ID = $(node).find('td').eq(lastCol).find('#hWRKD_WITH_ID').val();
+            if (WRKD_SEQ_WITH_ID == wrkd_with_id) {
+                lastNum++;
+            }
+
+        });
+        return lastNum;
+    }
+    function getLastProcess() {
+        var lastNum = 1;
+        var lastCol = 6;
+        var tempNum = 0;
+        console.log("Start: ---------" + lastNum);
+        tbVar.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var node = this.node();
+            var WRKD_SEQ_WITH_ID = $(node).find('td').eq(lastCol).find('#hWRKD_WITH_ID').val();
+            var WRKD_SEQ = $(node).find('td').eq(lastCol).find('#hWRKD_SEQ').val();
+            var WRKD_PARL = $(node).find('td').eq(lastCol).find('#hWRKD_PARL').val();
+            var WRKD_MAIN = $(node).find('td').eq(lastCol).find('#hWRKD_MAIN').val();
+            if ((WRKD_MAIN.toLowerCase() == "false" && WRKD_PARL.toLowerCase() == "false")
+                || (WRKD_MAIN.toLowerCase() == "true" && WRKD_SEQ_WITH_ID == WRKD_SEQ )
+                || (WRKD_MAIN.toLowerCase() == "true" && WRKD_PARL.toLowerCase() == "false")
+            ) {
+
+                lastNum++;
+                console.log("lastNum: " + lastNum + ",WRKD_MAIN : " + WRKD_MAIN + ",WRKD_PARL : " + WRKD_PARL + ", WRKD_SEQ_WITH_ID : " + WRKD_SEQ_WITH_ID + ", WRKD_SEQ : " + WRKD_SEQ);
+            } else {
+                console.log("ELSE ,WRKD_MAIN : " + WRKD_MAIN + ",WRKD_PARL : " + WRKD_PARL + ", WRKD_SEQ_WITH_ID : " + WRKD_SEQ_WITH_ID + ", WRKD_SEQ : " + WRKD_SEQ);
+            }
+
+        });
+        console.log("return: -----------" + lastNum);
+        return lastNum;
+    }
+
+    $("a.insertbtn").click(function () {
+
+        //setDefualt();
+        var WRKD_SEQ = $(".WRKD_SEQ").val();
+        var WRKD_ID = $(".WRKD_ID").val();
+        var WRKD_ANDCOND = $(".WRKD_ANDCOND").val();
+        var WRKD_PARL = $(".WRKD_PARL").val();
+        var WRKD_DESC = $(".WRKD_DESC").val();
+        var STEP_ID = $(".STEP_ID").val();
+        var WRKD_WITH_ID = $(".WRKD_WITH_ID").val();
+        var WRKD_MAIN = $(".WRKD_MAIN").val();
+
+        if (WRKD_PARL.toLowerCase() == "true" && WRKD_MAIN.toLowerCase() == "true") {
+            WRKD_WITH_ID = WRKD_SEQ;
+        }
+        var rowid = "row-id-" + counter;
+        var hRowId = $("<input type='hidden' value='" + rowid + "' id='hRowId'/>");
+        var hWRKD_ID = $("<input type='hidden' value='" + WRKD_ID + "' id='hWRKD_ID'/>");
+        var hWRKD_PARL = $("<input type='hidden' value='" + WRKD_PARL + "' id='hWRKD_PARL'/>");
+        var hWRKD_ANDCOND = $("<input type='hidden' value='" + WRKD_ANDCOND + "' id='hWRKD_ANDCOND'/>");
+        var hWRKD_DESC = $("<input type='hidden' value='" + WRKD_DESC + "' id='hWRKD_DESC'/>");
+        var hSTEP_ID = $("<input type='hidden' value='" + STEP_ID + "' id='hSTEP_ID'/>");
+        var hWRKD_SEQ = $("<input type='hidden' value='" + WRKD_SEQ + "' id='hWRKD_SEQ'/>");
+        var hWRKD_WITH_ID = $("<input type='hidden' value='" + WRKD_WITH_ID + "' id='hWRKD_WITH_ID'/>");
+        var hWRKD_MAIN = $("<input type='hidden' value='" + WRKD_MAIN + "' id='hWRKD_MAIN'/>");
+
+        var removeBtn = $("<a class='btn btn-primary button removebtn' >REMOVE</a>");
+        var editBtn = $("<a class='btn btn-primary button editbtn'>EDIT</a>");
+        var upBtn = $("<a class='btn btn-primary button upbtn'>UP</a>");
+        var dwBtn = $("<a class='btn btn-primary button dwbtn'>DOWN</a>");
+
+        var textStep = $(".STEP_ID  option:selected").text();
+        var seqString = WRKD_SEQ;
+        if (WRKD_MAIN.toLowerCase() == "true" && WRKD_PARL.toLowerCase() == "true") {
+            textStep = "";
+            WRKD_ANDCOND = "";
+        }
+        if (WRKD_PARL.toLowerCase() == "true" && WRKD_MAIN.toLowerCase() != "true") {
+            var numLast = getLastProcess();
+            numLast--;
+            seqString = '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + numLast + '.' + getLastSubProcess(WRKD_WITH_ID);
+        }else{
+            seqString = getLastProcess();
+        }
+        var hWRKD_ORDER = $("<input type='hidden' value='" + seqString + "' id='hWRKD_ORDER'/>");
+
+        var row = tbVar.row.add(
+            [seqString
+                , WRKD_ID
+                , WRKD_DESC
+                , WRKD_PARL
+                , textStep
+                , WRKD_ANDCOND
+                , ""
+            ]
+        ).draw(false)
+            .node();
+        counter++;
+        var lastCol = 6;
+        $(row).addClass(rowid)
+        $(row).find('td').eq(lastCol).addClass('command');
+        if ((WRKD_MAIN.toLowerCase() == "true" && WRKD_PARL.toLowerCase() == "true" )|| WRKD_PARL.toLowerCase() == "false") {
+            $(row).find('td').eq(lastCol).append(upBtn);
+            $(row).find('td').eq(lastCol).append("\|");
+            $(row).find('td').eq(lastCol).append(dwBtn);
+            $(row).find('td').eq(lastCol).append("\|");
+        }
+        $(row).find('td').eq(lastCol).append(editBtn);
+        $(row).find('td').eq(lastCol).append("\|");
+        $(row).find('td').eq(lastCol).append(removeBtn);
+        $(row).find('td').eq(lastCol).append(hRowId);
+
+        $(row).find('td').eq(lastCol).append(hWRKD_ID);
+        $(row).find('td').eq(lastCol).append(hWRKD_PARL);
+        $(row).find('td').eq(lastCol).append(hWRKD_ANDCOND);
+        $(row).find('td').eq(lastCol).append(hWRKD_DESC);
+        $(row).find('td').eq(lastCol).append(hSTEP_ID);
+        $(row).find('td').eq(lastCol).append(hWRKD_SEQ);
+        $(row).find('td').eq(lastCol).append(hWRKD_WITH_ID);
+        $(row).find('td').eq(lastCol).append(hWRKD_MAIN);
+        $(row).find('td').eq(lastCol).append(hWRKD_ORDER);
+        $('#OPTIONS_DLG').modal('hide');
+
+    });
+
+    //function removeRow(obj) {
+    //    if (counter == 0) return;
+    //    var p = $(obj).parent();
+    //    var msg = $(p).find("#hRowId").val();
+    //    tbVar.row("." + msg).remove().draw();
+    //    counter--;
+    //}
+
+    $("body").on("click", "a.removebtn", function (ev) {
+        //removeRow(this);
+        //var p = $(this).parent();
+        rowObject = this;
+        $('#CONFIRMED_DLG').modal('show');
+    });
+    $("body").on("click", "a.editbtn", function (ev) {
+        if (counter == 0) return;
+        var p = $(this).parent();
+        var id = $(p).find("#hWRKD_ID").val();
+        var seq = $(p).find("#hWRKD_SEQ").val();
+        var desc = $(p).find("#hWRKD_DESC").val();
+        var parl = $(p).find("#hWRKD_PARL").val();
+        var main = $(p).find("#hWRKD_MAIN").val();
+        var order = $(p).find("#hWRKD_ORDER").val();
+        var andcond = $(p).find("#hWRKD_ANDCOND").val();
+        var STEP_ID = $(p).find("#hSTEP_ID").val();
+        var WORKD_WITH_ID = $(p).find("#hWORKD_WITH_ID").val() ;
+        var hRowId = $(p).find("#hRowId").val();
+        currentSEQ = seq;
+        currentID= id;
+        //hRowId
+        $(".WRKD_ID").val(id);
+        $(".WRKD_SEQ").val(seq);
+        $(".WRKD_ANDCOND").val(andcond);
+        $(".WRKD_PARL").val(parl);
+        $(".WRKD_DESC").val(desc);
+        $(".STEP_ID").val(STEP_ID);
+        $(".WORKD_WITH_ID").val(WORKD_WITH_ID);
+
+        $("#hSelectRowid").val(hRowId);
+        $("#hOrdered").val(order);
+        $("#hMain").val(main);
+
+        getFile($(".STEP_ID").val());
+        $("a.insertbtn").css("display", "none");
+        $("a.updatebtn").css("display", "");
+        updateParl(currentID);
+        $('#OPTIONS_DLG').modal('show');
+    });
+    $("a.updatebtn").click(function () {
+        var lastCol = 6;
+        var msg = $("#hSelectRowid").val();
+        //alert("msg :" + msg);
+        var WRKD_ID = $(".WRKD_ID").val();
+        var WRKD_SEQ = $(".WRKD_SEQ").val();
+        var WRKD_ANDCOND = $(".WRKD_ANDCOND").val();
+        var WRKD_PARL = $(".WRKD_PARL").val();
+        var WRKD_DESC = $(".WRKD_DESC").val();
+        var WRKD_WITH_ID = $(".WRKD_WITH_ID").val();
+        var WRKD_MAIN = $(".WRKD_MAIN").val();
+        var STEP_ID = $(".STEP_ID").val();
+        var Ordered = $("#hOrdered").val();
+        var SelectedRow = $(tbVar.row("." + msg).node()).find('td');
+        //alert("SelectedRow : " + SelectedRow);
+        //alert("SelectedRow.eq(0) : " + SelectedRow.eq(0).html());
+        //alert("SelectedRow.eq(0) : " + SelectedRow.eq(0).text().length);
+        //alert("SelectedRow.eq(0) : [" + SelectedRow.eq(0).text()+"]");
+        //alert("SelectedRow.eq(0) : " + SelectedRow.eq(0).val());
+        SelectedRow.eq(0).text(Ordered);
+        SelectedRow.eq(lastCol).find("#hWRKD_SEQ").val(WRKD_SEQ);
+
+        SelectedRow.eq(1).text(WRKD_ID);
+        SelectedRow.eq(lastCol).find("#hWRKD_ID").val(WRKD_ID);
+
+        SelectedRow.eq(2).text(WRKD_DESC);
+        SelectedRow.eq(lastCol).find("#hWRKD_DESC").val(WRKD_DESC);
+
+        SelectedRow.eq(3).text(WRKD_PARL);
+        SelectedRow.eq(lastCol).find("#hWRKD_PARL").val(WRKD_PARL);
+        //alert("new : " + OPTVAL_DEF);
+        //alert("old : " + SelectedRow.eq(3).text().trim());
+        SelectedRow.eq(4).text($(".STEP_ID option:selected").text());
+        SelectedRow.eq(lastCol).find("#hSTEP_ID").val(STEP_ID);
+
+        SelectedRow.eq(5).text(WRKD_ANDCOND);
+        SelectedRow.eq(lastCol).find("#hWRKD_ANDCOND").val(WRKD_ANDCOND);
+        SelectedRow.eq(lastCol).find("#hWRKD_WITH_ID").val(WRKD_WITH_ID);
+        SelectedRow.eq(lastCol).find("#hWRKD_ORDER").val(Ordered);
+        SelectedRow.eq(lastCol).find("#hWRKD_MAIN").val(WRKD_MAIN);
+
+        //setParl(SelectedRow);
+        $('#OPTIONS_DLG').modal('hide');
+    });
+
+
+
+    function setParl(objRow) {
+        var lastCol = 6;
+        var WRKDSEQ = objRow.eq(lastCol).find('#hWRKD_SEQ').val();
+        var WRKD_WITH_ID = objRow.eq(lastCol).find('#hWRKD_WITH_ID').val();
+        var newSEQ = WRKD_WITH_ID + "." + WRKDSEQ;
+        var newIndex = 0;
+        objRow.eq(0).text(newSEQ);
+        tbVar.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var node = this.node();
+            var WRKD_SEQ_CAPTION = $(node).find('td').eq(lastCol).find('#hWRKD_SEQ').val();
+            var WRKD_SEQ_WITH_ID = $(node).find('td').eq(lastCol).find('#hWRKD_WITH_ID').val();
+            //console.log("WRKD_SEQ_CAPTION: " + WRKD_SEQ_CAPTION);
+            if (WRKD_WITH_ID == WRKD_SEQ_CAPTION) {
+                $(node).find('td').eq(0).html(WRKD_WITH_ID + "." + newIndex++);
+                $(node).find('td').eq(lastCol).find('#hWRKD_WITH_ID').val(WRKD_WITH_ID);
+            }
+            if (WRKD_WITH_ID == WRKD_SEQ_WITH_ID) {
+                $(node).find('td').eq(0).html("&nbsp;" + WRKD_WITH_ID + "." + newIndex++);
+            }
+
+        });
+    }
+    function updateInfo(textStr) {
+        $(".hints").html("");
+        //$(".hints").append("<b>STEP ID: </b> " + textStr[0]["STEP_ID"] + "<br/>");
+        var table = "<table width='100%' class='table_hints'></table>";
+        $(".hints").append(table);
+        var table_hints = $(".hints").find('.table_hints').eq(0);
+        $(table_hints).append("<tr><th><b>STEP NAME: </b> </th><td>" + textStr[0]["STEP_NAME"] + "</td></tr>");
+        $(table_hints).append("<tr><th><b>DESCRIPTION: </b> </th><td>" + textStr[0]["STEP_DESC"]  + "</td></tr>");
+        $(table_hints).append("<tr><th><b>MACHINE TYPE: </b> </th><td>" + textStr[0]["MTYPE_NAME"] + "</td></tr>");
+        $(table_hints).append("<tr><th><b>VALUE DETECT: </b> </th><td>" + textStr[0]["RTDT_NAME"]+ "</td></tr>");
+        $(table_hints).append("<tr><th><b>POSIBLE VALUE:</b> </th><td>" + textStr[0]["REF_ID"] + "</td></tr>");
+
+    }
+
+    function getFile(file_id) {
+        var urlText = "@Url.Action("GetStepInfo","COPR16_WORKFLOW")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "STEP_ID": file_id,
+            "DESC":"TESTSSTST"
+        }
+        console.log(jdata);
+        //console.log(".---.");
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                //alert(result);
+                updateInfo(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("error:" + errorThrown);
+            }
+        });
+        return false;
+    }
+    $(".STEP_ID").change(function () {
+        var text = $(this).val();
+        //updateInfo(text);
+        getFile(text);
+        updateWRKD_ID();
+        
+    });
+
+    function updateWRKD_ID() {
+        var SEQ = $("#cOPR16_WORKFLOW_DT_WRKD_SEQ").val();
+        var STEP_VAL = $('.STEP_ID').val();
+        var WRKD_ID = STEP_VAL ;
+        $("#cOPR16_WORKFLOW_DT_WRKD_ID").val(WRKD_ID);
+        var STEP_VAL_MSG = $('.STEP_ID option:selected').text();
+         var WRK_MSG = $('#cOPR16_WORKFLOW_WRK_NAME').val();
+        var desc = "STEP " + SEQ + ":  " + STEP_VAL_MSG + " " + WRK_MSG;
+        $("#cOPR16_WORKFLOW_DT_WRKD_DESC").val(desc);
+    }
+     
+</script><!-- /Script For Edit Details -->

@@ -1,0 +1,139 @@
+﻿@model CM_APPLICATIONS.COPR16_MACHINE_MSTR
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>COPR16_MACHINE_MSTR</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MANC_DESC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MANC_DESC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MTYPE_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MTYPE_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ADATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CRE_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CRE_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOD_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOD_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOD_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOD_DATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IPADDR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IPADDR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SUBNET)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SUBNET)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GATEWAY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GATEWAY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.USERNAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.USERNAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PASSWORD)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PASSWORD)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HOME_PATH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HOME_PATH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SUB_PATH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SUB_PATH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FILENAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FILENAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FLGACT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FLGACT)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MANC_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

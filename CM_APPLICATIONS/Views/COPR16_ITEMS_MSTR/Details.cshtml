@@ -1,0 +1,108 @@
+﻿@model CM_APPLICATIONS.COPR16_ITEMS_MSTR
+
+@{
+    ViewBag.Title = "ITEMS MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ITEMS MASTER</h2>
+
+
+<div class="form-horizontal">
+    <h4>VIEW</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ITEM_ID)
+    <div class="form-group">
+        @Html.LabelFor(model => model.ITEM_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+
+            @Html.EditorFor(model => model.ITEM_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.ITEM_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.FG_NO, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+           
+            @Html.EditorFor(model => model.FG_NO, new { htmlAttributes = new { @class = "form-control", @readonly = "true"  } })
+                @Html.ValidationMessageFor(model => model.FG_NO, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BRAND_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+         
+            @Html.EditorFor(model => model.BRAND_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true"  } })
+            @Html.ValidationMessageFor(model => model.BRAND_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.MODLE_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            
+            @Html.EditorFor(model => model.MODLE_ID, new { htmlAttributes = new { @class = "form-control" , @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.MODLE_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.LINE_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+           
+            @Html.EditorFor(model => model.LINE_ID, new { htmlAttributes = new { @class = "form-control" , @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.LINE_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.POS_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.POS_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true"  } })
+                @Html.ValidationMessageFor(model => model.POS_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.FLGACT, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FLGACT, new { htmlAttributes = new { @class = "form-control", @disabled= "disabled"  } })
+            @Html.ValidationMessageFor(model => model.FLGACT, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ADATE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.ADATE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CRE_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.CRE_BY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.MOD_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MOD_DATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.MOD_DATE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.MOD_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MOD_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.MOD_BY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", "COPR16_ITEMS_MSTR", new { id = Model.ITEM_ID }, new { @class = "btn btn-primary button" }) |
+    @Html.ActionLink("Back to List", "Index", "COPR16_ITEMS_MSTR", new { @class = "btn btn-primary button" })
+</p>

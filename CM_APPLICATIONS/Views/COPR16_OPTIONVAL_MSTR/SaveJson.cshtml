@@ -1,0 +1,22 @@
+﻿@model CM_APPLICATIONS.Models.OptionsModel
+@{
+    ViewBag.Title = "SaveJson";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SaveJson</h2>
+
+@Html.LabelFor(model => model.option_id, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+<hr>
+@Html.ValueFor(model => model.option_id)
+<hr>
+@Html.LabelFor(model => model.option_name, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+<hr>
+@Html.ValueFor(model => model.option_name)
+<hr>
+@Html.LabelFor(model => model.details.OPTDT_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+<hr>
+@foreach (var item in Model.jsonString)
+{
+    @Html.ValueFor(model => item.OPTDT_ID)<br />
+}

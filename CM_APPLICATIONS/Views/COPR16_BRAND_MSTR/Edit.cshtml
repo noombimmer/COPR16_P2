@@ -1,0 +1,89 @@
+﻿@model CM_APPLICATIONS.COPR16_BRAND_MSTR
+
+@{
+    ViewBag.Title = "BRAND MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>BRAND MASTER</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>EDIT</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.BRAND_ID)
+
+    <div class="form-group">
+        @*@Html.LabelFor(model => model.BRAND_ID, htmlAttributes: new { @class = "control-label col-md-1" })*@
+        @Html.Label("BRAND ID", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.BRAND_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.BRAND_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @* @Html.LabelFor(model => model.BRAND_NAME, htmlAttributes: new { @class = "control-label col-md-1" })*@
+        @Html.Label("BRAND NAME", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.BRAND_NAME, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.BRAND_NAME, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @*@Html.LabelFor(model => model.FLGACT, htmlAttributes: new { @class = "control-label col-md-1" })*@
+        @Html.Label("ACTIVE", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.FLGACT, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.FLGACT, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @*@Html.LabelFor(model => model.ADATE, htmlAttributes: new { @class = "control-label col-md-1" })*@
+        @Html.Label("CREATE DATE", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.ADATE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @*@Html.LabelFor(model => model.ADATE, htmlAttributes: new { @class = "control-label col-md-1" })*@
+        @Html.Label("CREATE BY", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.CRE_BY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @*@Html.LabelFor(model => model.ADATE, htmlAttributes: new { @class = "control-label col-md-1" })*@
+        @Html.Label("MODIFY DATE", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MOD_DATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.MOD_DATE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @*@Html.LabelFor(model => model.ADATE, htmlAttributes: new { @class = "control-label col-md-1" })*@
+        @Html.Label("MODIFY BY", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.MOD_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.MOD_BY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-1 col-md-10">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            <input type="reset" value="Clear" class="btn btn-secondary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "COPR16_BRAND_MSTR", new { @class = "btn btn-primary button" })
+</div>

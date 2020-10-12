@@ -1,0 +1,289 @@
+﻿@model CM_APPLICATIONS.Models.HandheldModel
+
+@{
+    ViewBag.Title = "COP R16 DASHBOARD";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>COP R16 MACHINES DASHBOARD</h2>
+
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 99% !important;
+        margin-left: 0px !important;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+    table.dashbord{
+        width:100%;
+       
+        border: 0px solid #111;
+        padding: 10px 18px;
+    }
+    .dashbord tr{
+        border: 0px solid #111;
+    }
+    .dashbord tr th{
+        padding-top:15px;
+        vertical-align:top;
+        padding-bottom:15px;
+    }
+    div.dashboard{
+       
+    }
+    table.overall{
+        width:50%;
+        padding: 10px 18px  ;
+        /* border: 1px solid red; */
+    }
+    .overall tr{
+        border: 0px solid #fff;
+    }
+    .overall tr th{
+        padding-left:15px;
+        padding-top:0px;
+        padding-bottom:0px;
+    }
+    th.labeled{
+        /*background-color:aliceblue;*/
+        color:black;
+        font-weight:bold;
+        font-size:18px;
+        text-align:right;
+        max-width:150px;
+        width:1%;
+        padding-right:5px;
+        vertical-align:bottom !important;
+        padding-bottom:0px;
+    }
+    td.valued{
+        border-bottom: 1px solid #111;
+        padding-bottom:0px;
+        font-size:20px;
+        font-weight:500;
+        width:100px;
+        max-width:100px !important;
+        text-align:center;
+    }
+    table.machine-list {
+        width:95%;
+        font-size:18px;
+        font-weight:500;
+    }
+    table.machine-list th {
+        color: #fff;
+        
+        text-align:center;
+
+    }
+    table.machine-list td {
+        padding-left:15px;
+    }
+    table.machine-list td.Vcenter{
+        text-align:center;
+        
+        padding-left:15px;
+    }
+
+
+</style>
+@using (Html.BeginForm("HANDHELD_SEARCH", "COPR16_COPRUNNING_RT"))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+<div class="form-horizontal">
+    <table class="dashbord">
+        <tr>
+            <th>
+                <div class="form-horizontal">
+                    <table class="overall">
+                        <thead>
+                            <tr>
+                                <th class="labeled">DATE:</th>
+                                <td class="valued vDate">@CM_APPLICATIONS.Models.AppPropModel.today.ToString("dd / MMM / yyyy")</td>
+                                <th class="labeled">ALL:</th>
+                                <td class="valued vALL">0</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th class="labeled">TIME:</th>
+                                <td class="valued vTime">00:00:00</td>
+                                <th class="labeled">ACTIVED:</th>
+                                <td class="valued vACTIVED">0</td>
+                            </tr>
+                            <tr>
+                                <th class="labeled">&nbsp;</th>
+                                <td class="labeled">&nbsp;</td>
+                                <th class="labeled">RUNNING: </th>
+                                <td class="valued vRUNNING">0</td>
+                            </tr>
+                            <tr>
+                                <th class="labeled">&nbsp;</th>
+                                <td class="labeled">&nbsp;</td>
+                                <th class="labeled">AVAIABLE: </th>
+                                <td class="valued vAVAIABLE">0</td>
+                            </tr>
+                            <tr>
+                                <th class="labeled">&nbsp;</th>
+                                <td class="labeled">&nbsp;</td>
+                                <th class="labeled">INACTIVE:</th>
+                                <td class="valued vINACTIVE">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="form-horizontal">
+                    <table class="table stripe machine-list">
+                        <thead>
+                            <tr>
+                                <th class="labeled">TYPE</th>
+                                <th class="labeled">NAME</th>
+                                <th class="labeled">STATUS</th>
+                                <th class="labeled">REF.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                string mtype_id = "";
+                                bool print = false;
+                             }
+                            
+                            @foreach (var item in Model.cOPR16_MACHINE_MSTR_List)
+                            {
+                                if (mtype_id != item.MTYPE_ID)
+                                {
+                                    mtype_id = item.MTYPE_ID;
+                                    print = true;
+                                }
+                                else
+                                {
+                                    print = false;
+                                }
+                            <tr>
+                                <td class="labeled">
+                                    @if (print)
+                                    {
+                                        @item.MTYPE_ID
+                                    }
+
+                                </td>
+                                <td class="labeled">@item.MANC_ID @item.MANC_DESC</td>
+                                <td class="Vcenter v-@item.MANC_ID"></td>
+                                <td class="labeled r-@item.MANC_ID"></td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </th>
+        </tr>
+    </table>
+</div>
+}
+<script>
+    //machine-list
+
+    var tbVar1 = $('.machine-list').DataTable({
+        "orderable": false,
+        "paging": false,
+        "ordering": false,
+        "info": false,
+        "stripe": true,
+        "searching": false,
+        "search": false,
+        "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "No records available",
+            "info": "Showing _START_-_END_ of _TOTAL_ rows",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        }
+    });
+
+    function doDate()
+    {
+        var str = "";
+        var now = new Date();
+        var datestring = ("0" + now.getHours()).slice(-2) + ":" + ("0" + now.getMinutes()).slice(-2)+":" +("0" + now.getSeconds()).slice(-2);
+
+        str = datestring;
+        $('.vTime').html(str);
+    }
+    setInterval(doDate, 1000);
+    function updateMachineStat(data) {
+        $.each(data, function (i, d, x) {
+            console.log(d['ALL']);
+
+            var statName = '.vALL';
+            $(statName).html(d['ALL']);
+
+            statName = '.vACTIVED';
+            $(statName).html(d['ACTIVED']);
+
+            statName = '.vRUNNING';
+            $(statName).html(d['RUNNING']);
+            statName = '.vAVAIABLE';
+            $(statName).html(d['AVAIABLE']);
+
+            statName = '.vINACTIVE';
+            $(statName).html(d['INACTIVE']);
+            
+        });
+    }
+    function updateAllMachineStat(data) {
+        $.each(data, function (i, d, x) {
+            //console.log(d['MANC_ID']);
+            var statNameV = '.v-' + d['MANC_ID'];
+            var statNameR = '.r-' + d['MANC_ID'];
+            var varStat = d['STATUS'];
+            if (varStat == null || varStat == undefined) {
+                varStat = "AVAIABLE";
+            } else {
+                varStat = "RUNNING";
+            }
+
+            $(statNameV).html(varStat);
+            $(statNameR).html(d['COP_ID'] );
+            
+        });
+    }
+    function getAllMachineStatus() {
+        
+        var urlText = "@Url.Action("getAllMachine","COPR16_COPRUNNING")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = { "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val() }
+        var modelString = "";
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                console.log(result.Data);
+                updateMachineStat(result.Data[1]);
+                updateAllMachineStat(result.Data[0]);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("error:" + errorThrown);
+            }
+        }); 
+    }
+    
+    setInterval(getAllMachineStatus, 5000);
+    getAllMachineStatus();
+
+</script>

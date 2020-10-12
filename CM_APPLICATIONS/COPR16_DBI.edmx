@@ -1,0 +1,1865 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="COPR16Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="COPR16_BRAND_MSTR">
+          <Key>
+            <PropertyRef Name="BRAND_ID" />
+          </Key>
+          <Property Name="BRAND_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="BRAND_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="ADATE" Type="datetime" Nullable="false" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+        </EntityType>
+        <EntityType Name="COPR16_COPRUNNING">
+          <Key>
+            <PropertyRef Name="COPR_ID" />
+          </Key>
+          <Property Name="COPR_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="MODEL_ID" Type="varchar" MaxLength="25" />
+          <Property Name="POSITION_ID" Type="varchar" MaxLength="25" />
+          <Property Name="FGTYPE_ID" Type="varchar" MaxLength="25" />
+          <Property Name="WRK_ID" Type="varchar" MaxLength="25" />
+          <Property Name="DESC" Type="varchar" MaxLength="4096" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="COP_STATUS" Type="varchar" MaxLength="25" />
+          <Property Name="PROC_ID" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_COPRUNNING_DT">
+          <Key>
+            <PropertyRef Name="COPR_ID" />
+            <PropertyRef Name="FGTYPE_ID" />
+          </Key>
+          <Property Name="COPR_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FGTYPE_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="PNO" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="LOTNO" Type="varchar" MaxLength="25" />
+          <Property Name="DESC" Type="varchar" MaxLength="4096" />
+        </EntityType>
+        <EntityType Name="COPR16_COPRUNNING_RT">
+          <Key>
+            <PropertyRef Name="COPR_ID" />
+            <PropertyRef Name="PNO" />
+            <PropertyRef Name="FGTYPE_ID" />
+            <PropertyRef Name="RTDT_ID" />
+          </Key>
+          <Property Name="COPR_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="PNO" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FGTYPE_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="WRK_ID" Type="varchar" MaxLength="25" />
+          <Property Name="WRKD_ID" Type="varchar" MaxLength="25" />
+          <Property Name="MACHINETYPE_ID" Type="varchar" MaxLength="25" />
+          <Property Name="RETURNTYPE_ID" Type="varchar" MaxLength="25" />
+          <Property Name="VALUE" Type="varchar" MaxLength="4096" />
+          <Property Name="STATUS_ID" Type="varchar" MaxLength="25" />
+          <Property Name="TEST_START" Type="datetime" />
+          <Property Name="TEST_FINISH" Type="datetime" />
+          <Property Name="TEST_BY" Type="varchar" MaxLength="25" />
+          <Property Name="REV" Type="varchar" MaxLength="25" />
+          <Property Name="SEQ_NO" Type="varchar" MaxLength="25" />
+          <Property Name="MACHINE_ID" Type="varchar" MaxLength="25" />
+          <Property Name="CLOSE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="RTDT_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="RTDT_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="RTDT_REF_ID" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_FG_MSTR">
+          <Key>
+            <PropertyRef Name="FG_NO" />
+          </Key>
+          <Property Name="FG_NO" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FG_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="FG_DESC" Type="varchar" MaxLength="4096" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CT_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+        </EntityType>
+        <EntityType Name="COPR16_FGTDET_MSTR">
+          <Key>
+            <PropertyRef Name="FGTD_ID" />
+          </Key>
+          <Property Name="FGTD_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FGT_ID" Type="varchar" MaxLength="25" />
+          <Property Name="FGTD_NAME" Type="varchar" MaxLength="25" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="QTY_ISSUE" Type="numeric" Precision="15" Scale="5" />
+        </EntityType>
+        <EntityType Name="COPR16_FGTEST">
+          <Key>
+            <PropertyRef Name="FGTEST_ID" />
+          </Key>
+          <Property Name="FGTEST_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="MODEL_ID" Type="varchar" MaxLength="25" />
+          <Property Name="POS_ID" Type="varchar" MaxLength="25" />
+          <Property Name="ITEM_ID" Type="varchar" MaxLength="25" />
+          <Property Name="FGT_ID" Type="varchar" MaxLength="25" />
+          <Property Name="SN" Type="varchar" MaxLength="30" />
+          <Property Name="COPR_ID" Type="varchar" MaxLength="25" />
+          <Property Name="FGTD_ID" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_FGTYPE_MSTR">
+          <Key>
+            <PropertyRef Name="FGT_ID" />
+          </Key>
+          <Property Name="FGT_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FGT_NAME" Type="varchar" MaxLength="25" />
+          <Property Name="FGT_DESC" Type="varchar" MaxLength="25" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="QTY_PART" Type="numeric" Precision="15" Scale="5" />
+        </EntityType>
+        <EntityType Name="COPR16_FILE_IMPORT">
+          <Key>
+            <PropertyRef Name="FSIM_SEQDT" />
+          </Key>
+          <Property Name="FSIM_DT" Type="datetime" />
+          <Property Name="FSIM_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="FSIM_EXT" Type="varchar" MaxLength="25" />
+          <Property Name="FSIM_PATH" Type="varchar" MaxLength="1024" />
+          <Property Name="FSIM_SIZE" Type="varchar" MaxLength="25" />
+          <Property Name="FSIM_FORMAT" Type="varchar" MaxLength="25" />
+          <Property Name="FSIM_UNIQ_ID" Type="varchar" MaxLength="1024" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="FSIM_SEQDT" Type="varchar" MaxLength="25" Nullable="false" />
+        </EntityType>
+        <EntityType Name="COPR16_FILES_MSTR">
+          <Key>
+            <PropertyRef Name="FILE_ID" />
+          </Key>
+          <Property Name="FILE_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FT_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FILE_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="FILE_URL" Type="varchar" MaxLength="2048" />
+          <Property Name="FILE_FUNC" Type="varchar" MaxLength="1024" />
+          <Property Name="FLGNETWORK" Type="bit" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_FTYPE_MSTR">
+          <Key>
+            <PropertyRef Name="FT_ID" />
+          </Key>
+          <Property Name="FT_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FT_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_GROUPTEST_MSTR">
+          <Key>
+            <PropertyRef Name="GRPT_ID" />
+          </Key>
+          <Property Name="GRPT_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="GRPT_NAME" Type="varchar" MaxLength="25" />
+          <Property Name="GRPT_DESC" Type="varchar" MaxLength="25" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="NOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+        </EntityType>
+        <EntityType Name="COPR16_IMPORT_CONTENTS">
+          <Key>
+            <PropertyRef Name="FSIM_UNIQ_ID" />
+            <PropertyRef Name="ITEM_ID" />
+          </Key>
+          <Property Name="FSIM_UNIQ_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="ITEM_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="QTY" Type="varchar" MaxLength="25" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_ITEMS_MSTR">
+          <Key>
+            <PropertyRef Name="ITEM_ID" />
+          </Key>
+          <Property Name="ITEM_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="FG_NO" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="BRAND_ID" Type="varchar" MaxLength="25" />
+          <Property Name="MODLE_ID" Type="varchar" MaxLength="25" />
+          <Property Name="LINE_ID" Type="varchar" MaxLength="25" />
+          <Property Name="POS_ID" Type="varchar" MaxLength="25" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="FGTYPE_ID" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_ITEMS_VOLUME">
+          <Key>
+            <PropertyRef Name="RUNNING_ID" />
+          </Key>
+          <Property Name="RUNNING_ID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ITEM_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="BUSI_DATE" Type="date" />
+          <Property Name="QTY" Type="numeric" Precision="15" Scale="5" />
+        </EntityType>
+        <EntityType Name="COPR16_LINE_MSTR">
+          <Key>
+            <PropertyRef Name="LINE_ID" />
+          </Key>
+          <Property Name="LINE_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="LINE_DESC" Type="varchar" MaxLength="1024" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+        </EntityType>
+        <EntityType Name="COPR16_MACHINE_MSTR">
+          <Key>
+            <PropertyRef Name="MANC_ID" />
+          </Key>
+          <Property Name="MANC_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="MANC_DESC" Type="varchar" MaxLength="1024" />
+          <Property Name="MTYPE_ID" Type="varchar" MaxLength="25" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="IPADDR" Type="varchar" MaxLength="255" />
+          <Property Name="SUBNET" Type="varchar" MaxLength="255" />
+          <Property Name="GATEWAY" Type="varchar" MaxLength="255" />
+          <Property Name="USERNAME" Type="varchar" MaxLength="255" />
+          <Property Name="PASSWORD" Type="varchar" MaxLength="255" />
+          <Property Name="HOME_PATH" Type="varchar" MaxLength="255" />
+          <Property Name="SUB_PATH" Type="varchar" MaxLength="255" />
+          <Property Name="FILENAME" Type="varchar" MaxLength="255" />
+          <Property Name="FLGACT" Type="bit" />
+        </EntityType>
+        <EntityType Name="COPR16_MANCTYPE_MSTR">
+          <Key>
+            <PropertyRef Name="MTYPE_ID" />
+          </Key>
+          <Property Name="MTYPE_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="MTYPE_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="DESC" Type="varchar" MaxLength="2048" />
+          <Property Name="FGT_ID" Type="varchar" MaxLength="25" />
+          <Property Name="FLGONLINE" Type="bit" />
+          <Property Name="RTYPE_ID" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_MEASURETYPE_MSTR">
+          <Key>
+            <PropertyRef Name="MSTYPE_ID" />
+          </Key>
+          <Property Name="MSTYPE_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="MSTYPE_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="DESC" Type="varchar" MaxLength="4096" />
+          <Property Name="OPT_ID" Type="varchar" MaxLength="25" />
+          <Property Name="UNIT_ID" Type="varchar" MaxLength="25" />
+          <Property Name="FILE_ID" Type="varchar" MaxLength="25" />
+          <Property Name="DEF_VALUE" Type="numeric" Precision="15" Scale="5" />
+          <Property Name="MIN_VALUE" Type="numeric" Precision="15" Scale="5" />
+          <Property Name="MAX_VALUE" Type="numeric" Precision="15" Scale="5" />
+          <Property Name="OPTION_UNIT" Type="bit" />
+          <Property Name="FROM_FILE" Type="bit" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_MODEL_MSTR">
+          <Key>
+            <PropertyRef Name="MODEL_ID" />
+          </Key>
+          <Property Name="MODEL_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="BRAND_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="MODEL_DESC" Type="varchar" MaxLength="1024" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+        </EntityType>
+        <EntityType Name="COPR16_OPTDTVALUE_MSTR">
+          <Key>
+            <PropertyRef Name="OPTDT_ID" />
+          </Key>
+          <Property Name="OPTDT_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="OPTION_ID" Type="varchar" MaxLength="25" />
+          <Property Name="OPTDT_VALUE" Type="varchar" MaxLength="1024" />
+          <Property Name="DESC" Type="varchar" MaxLength="2048" />
+          <Property Name="FLGDEF" Type="bit" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_OPTIONVAL_MSTR">
+          <Key>
+            <PropertyRef Name="OPTION_ID" />
+          </Key>
+          <Property Name="OPTION_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="OPTION_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+        </EntityType>
+        <EntityType Name="COPR16_POSITION_MSTR">
+          <Key>
+            <PropertyRef Name="POS_ID" />
+          </Key>
+          <Property Name="POS_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="POS_DESC" Type="varchar" MaxLength="1024" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+        </EntityType>
+        <EntityType Name="COPR16_PROC_MSTR">
+          <Key>
+            <PropertyRef Name="PROC_ID" />
+          </Key>
+          <Property Name="PROC_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="PROC_NAME" Type="varchar" MaxLength="25" />
+          <Property Name="PROC_DESC" Type="varchar" MaxLength="25" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="NOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+        </EntityType>
+        <EntityType Name="COPR16_REPORT">
+          <Key>
+            <PropertyRef Name="STD_ID" />
+            <PropertyRef Name="MODEL_ID" />
+            <PropertyRef Name="ITEM_ID" />
+            <PropertyRef Name="COP_ID" />
+            <PropertyRef Name="PROC_ID" />
+            <PropertyRef Name="ADATE" />
+          </Key>
+          <Property Name="STD_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="MODEL_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="ITEM_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="COP_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="PROC_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="SUM_BY" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="APP_BY" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="ADATE" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="COPR16_RETURNTYPE_MSTR">
+          <Key>
+            <PropertyRef Name="RTYPE_ID" />
+          </Key>
+          <Property Name="RTYPE_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="RTYPE_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="DESC" Type="varchar" MaxLength="4096" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_RTDT_MSTR">
+          <Key>
+            <PropertyRef Name="RTTYPE_ID" />
+            <PropertyRef Name="RTDT_ID" />
+          </Key>
+          <Property Name="RTTYPE_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="RTDT_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="RTDT_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="MSTYPE_ID" Type="varchar" MaxLength="25" />
+          <Property Name="REF_ID" Type="varchar" MaxLength="25" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_RTVALUE_TR">
+          <Key>
+            <PropertyRef Name="RTV_ID" />
+          </Key>
+          <Property Name="RTV_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="RTV_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="RTYPE_ID" Type="varchar" MaxLength="25" />
+          <Property Name="MANC_ID" Type="varchar" MaxLength="25" />
+          <Property Name="DEF_VALUE" Type="varchar" MaxLength="1024" />
+        </EntityType>
+        <EntityType Name="COPR16_STD_MSTR">
+          <Key>
+            <PropertyRef Name="STD_ID" />
+          </Key>
+          <Property Name="STD_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="STD_NAME" Type="varchar" MaxLength="25" />
+          <Property Name="STD_DESC" Type="varchar" MaxLength="25" />
+          <Property Name="ADATE" Type="datetime" Nullable="false" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="NOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="PROC_ID" Type="varchar" MaxLength="25" />
+          <Property Name="STDREG_ID" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_STDDET">
+          <Key>
+            <PropertyRef Name="STDD_ID" />
+          </Key>
+          <Property Name="STDD_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="STD_ID" Type="varchar" MaxLength="25" />
+          <Property Name="STDD_NAME" Type="varchar" MaxLength="25" />
+          <Property Name="STDD_DESC" Type="varchar" MaxLength="25" />
+          <Property Name="PRROC_ID" Type="varchar" MaxLength="25" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="NOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="SEQ_NO" Type="numeric" Precision="15" Scale="0" />
+          <Property Name="STEP_ID" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_STDREG_MSTR">
+          <Key>
+            <PropertyRef Name="STDREG_ID" />
+          </Key>
+          <Property Name="STDREG_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="STDREG_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="STDREG_DESC" Type="varchar" MaxLength="4000" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+        </EntityType>
+        <EntityType Name="COPR16_STEP_MSTR">
+          <Key>
+            <PropertyRef Name="STEP_ID" />
+          </Key>
+          <Property Name="STEP_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="STEP_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="STEP_DESC" Type="varchar" MaxLength="4000" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="NOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="MANC_ID" Type="varchar" MaxLength="25" />
+          <Property Name="RTV_ID" Type="varchar" MaxLength="25" />
+          <Property Name="GRPT_ID" Type="varchar" MaxLength="25" />
+          <Property Name="SGRPT_ID" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_SUBGRPTEST_MSTR">
+          <Key>
+            <PropertyRef Name="SGRPT_ID" />
+          </Key>
+          <Property Name="SGRPT_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="SGRPT_NAME" Type="varchar" MaxLength="25" />
+          <Property Name="SGRPT_DESC" Type="varchar" MaxLength="25" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="NOD_DATE" Type="datetime" />
+          <Property Name="FLGACT" Type="bit" />
+        </EntityType>
+        <EntityType Name="COPR16_UNITS_MSTR">
+          <Key>
+            <PropertyRef Name="UNIT_ID" />
+          </Key>
+          <Property Name="UNIT_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="UNIT_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="MUNIT_ID" Type="varchar" MaxLength="25" />
+          <Property Name="FLGACT" Type="bit" />
+          <Property Name="UNIT_TEXT" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="COPR16_WORKFLOW">
+          <Key>
+            <PropertyRef Name="WRK_ID" />
+          </Key>
+          <Property Name="WRK_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="WRK_NAME" Type="varchar" MaxLength="1024" />
+          <Property Name="WRK_DESC" Type="varchar" MaxLength="4096" />
+          <Property Name="STDREG_ID" Type="varchar" MaxLength="25" />
+          <Property Name="WRK_WITH" Type="varchar" MaxLength="25" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="FLGACT" Type="bit" />
+        </EntityType>
+        <EntityType Name="COPR16_WORKFLOW_DT">
+          <Key>
+            <PropertyRef Name="WRKD_ID" />
+            <PropertyRef Name="WRK_ID" />
+          </Key>
+          <Property Name="WRKD_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="WRKD_DESC" Type="varchar" MaxLength="4096" />
+          <Property Name="WRK_ID" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="STEP_ID" Type="varchar" MaxLength="25" />
+          <Property Name="WRKD_PARL" Type="bit" />
+          <Property Name="WRKD_ANDCOND" Type="bit" />
+          <Property Name="ADATE" Type="datetime" />
+          <Property Name="CRE_BY" Type="varchar" MaxLength="25" />
+          <Property Name="MOD_DATE" Type="datetime" />
+          <Property Name="MOD_BY" Type="varchar" MaxLength="25" />
+          <Property Name="WRKD_WITH_ID" Type="varchar" MaxLength="25" />
+          <Property Name="WRKD_SEQ" Type="varchar" MaxLength="25" />
+          <Property Name="WRKD_MAIN" Type="bit" />
+          <Property Name="WRKD_ORDER" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <Function Name="GetAllItems" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getItems" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="fg_no" Type="varchar" Mode="In" />
+          <Parameter Name="brand_no" Type="varchar" Mode="In" />
+          <Parameter Name="model_no" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetItemWithParams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="item_no" Type="varchar" Mode="In" />
+          <Parameter Name="model_no" Type="varchar" Mode="In" />
+          <Parameter Name="brand_no" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="GetSeqNextValue" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="SeqName" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_insert_excel_volume" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FSIM_NAME" Type="varchar" Mode="In" />
+          <Parameter Name="FSIM_EXT" Type="varchar" Mode="In" />
+          <Parameter Name="FSIM_PATH" Type="varchar" Mode="In" />
+          <Parameter Name="FSIM_SIZE" Type="varchar" Mode="In" />
+          <Parameter Name="FSIM_FORMAT" Type="varchar" Mode="In" />
+          <Parameter Name="FSIM_UNIQ_ID" Type="varchar" Mode="InOut" />
+          <Parameter Name="CRE_BY" Type="varchar" Mode="In" />
+          <Parameter Name="FSIM_SEQDT" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_insert_volume_contents_stg" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FSIM_ID" Type="varchar" Mode="In" />
+          <Parameter Name="ITEM_ID" Type="varchar" Mode="In" />
+          <Parameter Name="QTY" Type="varchar" Mode="In" />
+          <Parameter Name="CRE_BY" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="COPR16ModelStoreContainer">
+          <EntitySet Name="COPR16_BRAND_MSTR" EntityType="Self.COPR16_BRAND_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_COPRUNNING" EntityType="Self.COPR16_COPRUNNING" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_COPRUNNING_DT" EntityType="Self.COPR16_COPRUNNING_DT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_COPRUNNING_RT" EntityType="Self.COPR16_COPRUNNING_RT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_FG_MSTR" EntityType="Self.COPR16_FG_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_FGTDET_MSTR" EntityType="Self.COPR16_FGTDET_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_FGTEST" EntityType="Self.COPR16_FGTEST" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_FGTYPE_MSTR" EntityType="Self.COPR16_FGTYPE_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_FILE_IMPORT" EntityType="Self.COPR16_FILE_IMPORT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_FILES_MSTR" EntityType="Self.COPR16_FILES_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_FTYPE_MSTR" EntityType="Self.COPR16_FTYPE_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_GROUPTEST_MSTR" EntityType="Self.COPR16_GROUPTEST_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_IMPORT_CONTENTS" EntityType="Self.COPR16_IMPORT_CONTENTS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_ITEMS_MSTR" EntityType="Self.COPR16_ITEMS_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_ITEMS_VOLUME" EntityType="Self.COPR16_ITEMS_VOLUME" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_LINE_MSTR" EntityType="Self.COPR16_LINE_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_MACHINE_MSTR" EntityType="Self.COPR16_MACHINE_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_MANCTYPE_MSTR" EntityType="Self.COPR16_MANCTYPE_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_MEASURETYPE_MSTR" EntityType="Self.COPR16_MEASURETYPE_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_MODEL_MSTR" EntityType="Self.COPR16_MODEL_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_OPTDTVALUE_MSTR" EntityType="Self.COPR16_OPTDTVALUE_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_OPTIONVAL_MSTR" EntityType="Self.COPR16_OPTIONVAL_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_POSITION_MSTR" EntityType="Self.COPR16_POSITION_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_PROC_MSTR" EntityType="Self.COPR16_PROC_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_REPORT" EntityType="Self.COPR16_REPORT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_RETURNTYPE_MSTR" EntityType="Self.COPR16_RETURNTYPE_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_RTDT_MSTR" EntityType="Self.COPR16_RTDT_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_RTVALUE_TR" EntityType="Self.COPR16_RTVALUE_TR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_STD_MSTR" EntityType="Self.COPR16_STD_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_STDDET" EntityType="Self.COPR16_STDDET" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_STDREG_MSTR" EntityType="Self.COPR16_STDREG_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_STEP_MSTR" EntityType="Self.COPR16_STEP_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_SUBGRPTEST_MSTR" EntityType="Self.COPR16_SUBGRPTEST_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_UNITS_MSTR" EntityType="Self.COPR16_UNITS_MSTR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_WORKFLOW" EntityType="Self.COPR16_WORKFLOW" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="COPR16_WORKFLOW_DT" EntityType="Self.COPR16_WORKFLOW_DT" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="COPR16Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="COPR16_BRAND_MSTR">
+          <Key>
+            <PropertyRef Name="BRAND_ID" />
+          </Key>
+          <Property Name="BRAND_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BRAND_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="COPR16_FG_MSTR">
+          <Key>
+            <PropertyRef Name="FG_NO" />
+          </Key>
+          <Property Name="FG_NO" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FG_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="FG_DESC" Type="String" MaxLength="4096" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CT_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="COPR16_LINE_MSTR">
+          <Key>
+            <PropertyRef Name="LINE_ID" />
+          </Key>
+          <Property Name="LINE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LINE_DESC" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="COPR16_MANCTYPE_MSTR">
+          <Key>
+            <PropertyRef Name="MTYPE_ID" />
+          </Key>
+          <Property Name="MTYPE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MTYPE_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="DESC" Type="String" MaxLength="2048" FixedLength="false" Unicode="false" />
+          <Property Name="FGT_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FLGONLINE" Type="Boolean" />
+          <Property Name="RTYPE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_MEASURETYPE_MSTR">
+          <Key>
+            <PropertyRef Name="MSTYPE_ID" />
+          </Key>
+          <Property Name="MSTYPE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MSTYPE_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="UNIT_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="DEF_VALUE" Type="Decimal" Precision="15" Scale="5" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="OPTION_UNIT" Type="Boolean" />
+          <Property Name="FROM_FILE" Type="Boolean" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="OPT_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FILE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MIN_VALUE" Type="Decimal" Precision="15" Scale="5" />
+          <Property Name="MAX_VALUE" Type="Decimal" Precision="15" Scale="5" />
+          <Property Name="DESC" Type="String" MaxLength="4096" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_OPTIONVAL_MSTR">
+          <Key>
+            <PropertyRef Name="OPTION_ID" />
+          </Key>
+          <Property Name="OPTION_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OPTION_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="COPR16_POSITION_MSTR">
+          <Key>
+            <PropertyRef Name="POS_ID" />
+          </Key>
+          <Property Name="POS_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="POS_DESC" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="COPR16_RTVALUE_TR">
+          <Key>
+            <PropertyRef Name="RTV_ID" />
+          </Key>
+          <Property Name="RTV_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RTV_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="RTYPE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MANC_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="DEF_VALUE" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_UNITS_MSTR">
+          <Key>
+            <PropertyRef Name="UNIT_ID" />
+          </Key>
+          <Property Name="UNIT_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UNIT_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="MUNIT_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="UNIT_TEXT" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="COPR16Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="COPR16_BRAND_MSTR" EntityType="Self.COPR16_BRAND_MSTR" />
+          <EntitySet Name="COPR16_FG_MSTR" EntityType="Self.COPR16_FG_MSTR" />
+          <EntitySet Name="COPR16_LINE_MSTR" EntityType="Self.COPR16_LINE_MSTR" />
+          <EntitySet Name="COPR16_MANCTYPE_MSTR" EntityType="Self.COPR16_MANCTYPE_MSTR" />
+          <EntitySet Name="COPR16_MEASURETYPE_MSTR" EntityType="Self.COPR16_MEASURETYPE_MSTR" />
+          <EntitySet Name="COPR16_OPTIONVAL_MSTR" EntityType="Self.COPR16_OPTIONVAL_MSTR" />
+          <EntitySet Name="COPR16_POSITION_MSTR" EntityType="Self.COPR16_POSITION_MSTR" />
+          <EntitySet Name="COPR16_RTVALUE_TR" EntityType="Self.COPR16_RTVALUE_TR" />
+          <EntitySet Name="COPR16_UNITS_MSTR" EntityType="Self.COPR16_UNITS_MSTR" />
+          <EntitySet Name="COPR16_ITEMS_MSTR" EntityType="COPR16Model.COPR16_ITEMS_MSTR" />
+          <EntitySet Name="COPR16_ITEMS_VOLUME" EntityType="COPR16Model.COPR16_ITEMS_VOLUME" />
+          <EntitySet Name="COPR16_MODEL_MSTR" EntityType="COPR16Model.COPR16_MODEL_MSTR" />
+          <EntitySet Name="COPR16_MACHINE_MSTR" EntityType="COPR16Model.COPR16_MACHINE_MSTR" />
+          <EntitySet Name="COPR16_PROC_MSTR" EntityType="COPR16Model.COPR16_PROC_MSTR" />
+          <EntitySet Name="COPR16_STD_MSTR" EntityType="COPR16Model.COPR16_STD_MSTR" />
+          <EntitySet Name="COPR16_STDREG_MSTR" EntityType="COPR16Model.COPR16_STDREG_MSTR" />
+          <EntitySet Name="COPR16_FGTDET_MSTR" EntityType="COPR16Model.COPR16_FGTDET_MSTR" />
+          <EntitySet Name="COPR16_FGTEST" EntityType="COPR16Model.COPR16_FGTEST" />
+          <EntitySet Name="COPR16_FGTYPE_MSTR" EntityType="COPR16Model.COPR16_FGTYPE_MSTR" />
+          <EntitySet Name="COPR16_GROUPTEST_MSTR" EntityType="COPR16Model.COPR16_GROUPTEST_MSTR" />
+          <EntitySet Name="COPR16_STDDET" EntityType="COPR16Model.COPR16_STDDET" />
+          <EntitySet Name="COPR16_STEP_MSTR" EntityType="COPR16Model.COPR16_STEP_MSTR" />
+          <EntitySet Name="COPR16_SUBGRPTEST_MSTR" EntityType="COPR16Model.COPR16_SUBGRPTEST_MSTR" />
+          <EntitySet Name="COPR16_REPORT" EntityType="COPR16Model.COPR16_REPORT" />
+          <EntitySet Name="COPR16_FILES_MSTR" EntityType="COPR16Model.COPR16_FILES_MSTR" />
+          <EntitySet Name="COPR16_FTYPE_MSTR" EntityType="COPR16Model.COPR16_FTYPE_MSTR" />
+          <EntitySet Name="COPR16_OPTDTVALUE_MSTR" EntityType="COPR16Model.COPR16_OPTDTVALUE_MSTR" />
+          <EntitySet Name="COPR16_RETURNTYPE_MSTR" EntityType="COPR16Model.COPR16_RETURNTYPE_MSTR" />
+          <EntitySet Name="COPR16_RTDT_MSTR" EntityType="COPR16Model.COPR16_RTDT_MSTR" />
+          <EntitySet Name="COPR16_WORKFLOW" EntityType="COPR16Model.COPR16_WORKFLOW" />
+          <EntitySet Name="COPR16_WORKFLOW_DT" EntityType="COPR16Model.COPR16_WORKFLOW_DT" />
+          <EntitySet Name="COPR16_COPRUNNING" EntityType="COPR16Model.COPR16_COPRUNNING" />
+          <EntitySet Name="COPR16_COPRUNNING_DT" EntityType="COPR16Model.COPR16_COPRUNNING_DT" />
+          <EntitySet Name="COPR16_COPRUNNING_RT" EntityType="COPR16Model.COPR16_COPRUNNING_RT" />
+          <FunctionImport Name="GetSeqNextValue" ReturnType="Collection(COPR16Model.GetSeqNextValue1_Result)">
+          <Parameter Name="SeqName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="getItems" ReturnType="Collection(COPR16Model.getItems_Result)">
+            <Parameter Name="fg_no" Mode="In" Type="String" />
+            <Parameter Name="brand_no" Mode="In" Type="String" />
+            <Parameter Name="model_no" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetAllItems" ReturnType="Collection(COPR16Model.GetAllItems_Result)" />
+          <FunctionImport Name="GetItemWithParams">
+            <Parameter Name="item_no" Mode="In" Type="String" />
+            <Parameter Name="model_no" Mode="In" Type="String" />
+            <Parameter Name="brand_no" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="COPR16_FILE_IMPORT" EntityType="COPR16Model.COPR16_FILE_IMPORT" />
+          <EntitySet Name="COPR16_IMPORT_CONTENTS" EntityType="COPR16Model.COPR16_IMPORT_CONTENTS" />
+          <FunctionImport Name="sp_insert_excel_volume" ReturnType="Collection(String)">
+            <Parameter Name="FSIM_NAME" Mode="In" Type="String" />
+            <Parameter Name="FSIM_EXT" Mode="In" Type="String" />
+            <Parameter Name="FSIM_PATH" Mode="In" Type="String" />
+            <Parameter Name="FSIM_SIZE" Mode="In" Type="String" />
+            <Parameter Name="FSIM_FORMAT" Mode="In" Type="String" />
+            <Parameter Name="FSIM_UNIQ_ID" Mode="InOut" Type="String" />
+            <Parameter Name="CRE_BY" Mode="In" Type="String" />
+            <Parameter Name="FSIM_SEQDT" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_insert_volume_contents_stg">
+            <Parameter Name="FSIM_ID" Mode="In" Type="String" />
+            <Parameter Name="ITEM_ID" Mode="In" Type="String" />
+            <Parameter Name="QTY" Mode="In" Type="String" />
+            <Parameter Name="CRE_BY" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <EntityType Name="COPR16_ITEMS_MSTR">
+          <Key>
+            <PropertyRef Name="ITEM_ID" />
+          </Key>
+          <Property Name="ITEM_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FG_NO" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="BRAND_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MODLE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="LINE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="POS_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="FGTYPE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_ITEMS_VOLUME">
+          <Key>
+            <PropertyRef Name="RUNNING_ID" />
+          </Key>
+          <Property Name="RUNNING_ID" Type="Guid" Nullable="false" />
+          <Property Name="ITEM_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="BUSI_DATE" Type="DateTime" Precision="0" />
+          <Property Name="QTY" Type="Decimal" Precision="15" Scale="5" />
+        </EntityType>
+        <EntityType Name="COPR16_MODEL_MSTR">
+          <Key>
+            <PropertyRef Name="MODEL_ID" />
+          </Key>
+          <Property Name="MODEL_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="BRAND_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MODEL_DESC" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="COPR16_MACHINE_MSTR">
+          <Key>
+            <PropertyRef Name="MANC_ID" />
+          </Key>
+          <Property Name="MANC_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MANC_DESC" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="MTYPE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="IPADDR" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SUBNET" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="GATEWAY" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="USERNAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="PASSWORD" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="HOME_PATH" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="SUB_PATH" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FILENAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="FLGACT" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="COPR16_PROC_MSTR">
+          <Key>
+            <PropertyRef Name="PROC_ID" />
+          </Key>
+          <Property Name="PROC_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="PROC_NAME" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="PROC_DESC" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="NOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="COPR16_STD_MSTR">
+          <Key>
+            <PropertyRef Name="STD_ID" />
+          </Key>
+          <Property Name="STD_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="STD_NAME" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="STD_DESC" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="NOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="PROC_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="STDREG_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_STDREG_MSTR">
+          <Key>
+            <PropertyRef Name="STDREG_ID" />
+          </Key>
+          <Property Name="STDREG_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="STDREG_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="STDREG_DESC" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="COPR16_FGTDET_MSTR">
+          <Key>
+            <PropertyRef Name="FGTD_ID" />
+          </Key>
+          <Property Name="FGTD_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FGT_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FGTD_NAME" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="QTY_ISSUE" Type="Decimal" Precision="15" Scale="5" />
+        </EntityType>
+        <EntityType Name="COPR16_FGTEST">
+          <Key>
+            <PropertyRef Name="FGTEST_ID" />
+          </Key>
+          <Property Name="FGTEST_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MODEL_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="POS_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ITEM_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FGT_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="SN" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="COPR_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FGTD_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_FGTYPE_MSTR">
+          <Key>
+            <PropertyRef Name="FGT_ID" />
+          </Key>
+          <Property Name="FGT_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FGT_NAME" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FGT_DESC" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="QTY_PART" Type="Decimal" Precision="15" Scale="5" />
+        </EntityType>
+        <EntityType Name="COPR16_GROUPTEST_MSTR">
+          <Key>
+            <PropertyRef Name="GRPT_ID" />
+          </Key>
+          <Property Name="GRPT_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="GRPT_NAME" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="GRPT_DESC" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="NOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="COPR16_STDDET">
+          <Key>
+            <PropertyRef Name="STDD_ID" />
+          </Key>
+          <Property Name="STDD_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="STD_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="STDD_NAME" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="STDD_DESC" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="PRROC_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="NOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="SEQ_NO" Type="Decimal" Precision="15" Scale="0" />
+          <Property Name="STEP_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_STEP_MSTR">
+          <Key>
+            <PropertyRef Name="STEP_ID" />
+          </Key>
+          <Property Name="STEP_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="STEP_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="STEP_DESC" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="NOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="MANC_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="RTV_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="GRPT_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="SGRPT_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_SUBGRPTEST_MSTR">
+          <Key>
+            <PropertyRef Name="SGRPT_ID" />
+          </Key>
+          <Property Name="SGRPT_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="SGRPT_NAME" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="SGRPT_DESC" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="NOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="FLGACT" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="COPR16_REPORT">
+          <Key>
+            <PropertyRef Name="STD_ID" />
+            <PropertyRef Name="MODEL_ID" />
+            <PropertyRef Name="ITEM_ID" />
+            <PropertyRef Name="COP_ID" />
+            <PropertyRef Name="PROC_ID" />
+            <PropertyRef Name="ADATE" />
+          </Key>
+          <Property Name="STD_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MODEL_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ITEM_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="COP_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="PROC_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="SUM_BY" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="APP_BY" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="COPR16_FILES_MSTR">
+          <Key>
+            <PropertyRef Name="FILE_ID" />
+          </Key>
+          <Property Name="FILE_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FT_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FILE_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="FILE_URL" Type="String" MaxLength="2048" FixedLength="false" Unicode="false" />
+          <Property Name="FILE_FUNC" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="FLGNETWORK" Type="Boolean" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_FTYPE_MSTR">
+          <Key>
+            <PropertyRef Name="FT_ID" />
+          </Key>
+          <Property Name="FT_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FT_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_OPTDTVALUE_MSTR">
+          <Key>
+            <PropertyRef Name="OPTDT_ID" />
+          </Key>
+          <Property Name="OPTDT_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="OPTION_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="OPTDT_VALUE" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="DESC" Type="String" MaxLength="2048" FixedLength="false" Unicode="false" />
+          <Property Name="FLGDEF" Type="Boolean" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_RETURNTYPE_MSTR">
+          <Key>
+            <PropertyRef Name="RTYPE_ID" />
+          </Key>
+          <Property Name="RTYPE_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="RTYPE_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="DESC" Type="String" MaxLength="4096" FixedLength="false" Unicode="false" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_RTDT_MSTR">
+          <Key>
+            <PropertyRef Name="RTTYPE_ID" />
+            <PropertyRef Name="RTDT_ID" />
+          </Key>
+          <Property Name="RTTYPE_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="RTDT_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="RTDT_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="MSTYPE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="REF_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FLGACT" Type="Boolean" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_WORKFLOW">
+          <Key>
+            <PropertyRef Name="WRK_ID" />
+          </Key>
+          <Property Name="WRK_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="WRK_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="WRK_DESC" Type="String" MaxLength="4096" FixedLength="false" Unicode="false" />
+          <Property Name="STDREG_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="WRK_WITH" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FLGACT" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="COPR16_WORKFLOW_DT">
+          <Key>
+            <PropertyRef Name="WRKD_ID" />
+            <PropertyRef Name="WRK_ID" />
+          </Key>
+          <Property Name="WRKD_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="WRKD_DESC" Type="String" MaxLength="4096" FixedLength="false" Unicode="false" />
+          <Property Name="WRK_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="STEP_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="WRKD_PARL" Type="Boolean" />
+          <Property Name="WRKD_ANDCOND" Type="Boolean" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="WRKD_WITH_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="WRKD_SEQ" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="WRKD_MAIN" Type="Boolean" />
+          <Property Name="WRKD_ORDER" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_COPRUNNING">
+          <Key>
+            <PropertyRef Name="COPR_ID" />
+          </Key>
+          <Property Name="COPR_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MODEL_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="POSITION_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FGTYPE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="WRK_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="DESC" Type="String" MaxLength="4096" FixedLength="false" Unicode="false" />
+          <Property Name="ADATE" Type="DateTime" Precision="3" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="MOD_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="COP_STATUS" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="PROC_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_COPRUNNING_DT">
+          <Key>
+            <PropertyRef Name="COPR_ID" />
+            <PropertyRef Name="FGTYPE_ID" />
+          </Key>
+          <Property Name="COPR_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FGTYPE_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="PNO" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="LOTNO" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="DESC" Type="String" MaxLength="4096" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_COPRUNNING_RT">
+          <Key>
+            <PropertyRef Name="COPR_ID" />
+            <PropertyRef Name="PNO" />
+            <PropertyRef Name="FGTYPE_ID" />
+            <PropertyRef Name="RTDT_ID" />
+          </Key>
+          <Property Name="COPR_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="PNO" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FGTYPE_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="WRK_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="WRKD_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MACHINETYPE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="RETURNTYPE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="VALUE" Type="String" MaxLength="4096" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="TEST_START" Type="DateTime" Precision="3" />
+          <Property Name="TEST_FINISH" Type="DateTime" Precision="3" />
+          <Property Name="TEST_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="REV" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="SEQ_NO" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="MACHINE_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="CLOSE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="RTDT_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RTDT_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="RTDT_REF_ID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <ComplexType Name="GetSeqNextValue1_Result">
+        <Property Type="String" Name="COPRUN" Nullable="true" MaxLength="25" />
+        </ComplexType>
+        <ComplexType Name="getItems_Result">
+          <Property Type="String" Name="FG_NO" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="ITEM_ID" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="BRAND_ID" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="MODLE_ID" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="FG_NAME" Nullable="true" MaxLength="1024" />
+          <Property Type="String" Name="FG_DESC" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="fgtype_id" Nullable="true" MaxLength="25" />
+        </ComplexType>
+        <ComplexType Name="GetAllItems_Result">
+          <Property Type="String" Name="FG_NO" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="ITEM_ID" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="BRAND_ID" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="MODLE_ID" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="FG_NAME" Nullable="true" MaxLength="1024" />
+          <Property Type="String" Name="FG_DESC" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="fgtype_id" Nullable="true" MaxLength="25" />
+        </ComplexType>
+        <ComplexType Name="GetItemWithParams_Result">
+          <Property Type="String" Name="a_FG_NO" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="a_ITEM_ID" Nullable="false" MaxLength="25" />
+          <Property Type="String" Name="a_BRAND_ID" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="a_MODLE_ID" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="b_FG_NAME" Nullable="true" MaxLength="1024" />
+          <Property Type="String" Name="b_FG_DESC" Nullable="true" MaxLength="4000" />
+          <Property Type="String" Name="a_fgtype_id" Nullable="true" MaxLength="25" />
+          <Property Type="String" Name="a_LINE_ID" Nullable="false" MaxLength="25" />
+        </ComplexType>
+        <EntityType Name="COPR16_FILE_IMPORT">
+          <Key>
+            <PropertyRef Name="FSIM_SEQDT" />
+          </Key>
+          <Property Name="FSIM_DT" Type="DateTime" Precision="3" />
+          <Property Name="FSIM_NAME" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="FSIM_EXT" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FSIM_PATH" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="FSIM_SIZE" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FSIM_FORMAT" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FSIM_UNIQ_ID" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="FSIM_SEQDT" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="COPR16_IMPORT_CONTENTS">
+          <Key>
+            <PropertyRef Name="FSIM_UNIQ_ID" />
+            <PropertyRef Name="ITEM_ID" />
+          </Key>
+          <Property Name="FSIM_UNIQ_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="ITEM_ID" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="QTY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="CRE_BY" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="COPR16ModelStoreContainer" CdmEntityContainer="COPR16Entities">
+          <EntitySetMapping Name="COPR16_BRAND_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_BRAND_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_BRAND_MSTR">
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="BRAND_ID" ColumnName="BRAND_ID" />
+                <ScalarProperty Name="BRAND_NAME" ColumnName="BRAND_NAME" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_FG_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_FG_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_FG_MSTR">
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="FG_NO" ColumnName="FG_NO" />
+                <ScalarProperty Name="FG_NAME" ColumnName="FG_NAME" />
+                <ScalarProperty Name="FG_DESC" ColumnName="FG_DESC" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="CT_BY" ColumnName="CT_BY" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_LINE_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_LINE_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_LINE_MSTR">
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="LINE_ID" ColumnName="LINE_ID" />
+                <ScalarProperty Name="LINE_DESC" ColumnName="LINE_DESC" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_MANCTYPE_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_MANCTYPE_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_MANCTYPE_MSTR">
+                <ScalarProperty Name="RTYPE_ID" ColumnName="RTYPE_ID" />
+                <ScalarProperty Name="FLGONLINE" ColumnName="FLGONLINE" />
+                <ScalarProperty Name="FGT_ID" ColumnName="FGT_ID" />
+                <ScalarProperty Name="DESC" ColumnName="DESC" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="MTYPE_ID" ColumnName="MTYPE_ID" />
+                <ScalarProperty Name="MTYPE_NAME" ColumnName="MTYPE_NAME" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_MEASURETYPE_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_MEASURETYPE_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_MEASURETYPE_MSTR">
+                <ScalarProperty Name="DESC" ColumnName="DESC" />
+                <ScalarProperty Name="MAX_VALUE" ColumnName="MAX_VALUE" />
+                <ScalarProperty Name="MIN_VALUE" ColumnName="MIN_VALUE" />
+                <ScalarProperty Name="FILE_ID" ColumnName="FILE_ID" />
+                <ScalarProperty Name="OPT_ID" ColumnName="OPT_ID" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="MSTYPE_ID" ColumnName="MSTYPE_ID" />
+                <ScalarProperty Name="MSTYPE_NAME" ColumnName="MSTYPE_NAME" />
+                <ScalarProperty Name="UNIT_ID" ColumnName="UNIT_ID" />
+                <ScalarProperty Name="DEF_VALUE" ColumnName="DEF_VALUE" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="OPTION_UNIT" ColumnName="OPTION_UNIT" />
+                <ScalarProperty Name="FROM_FILE" ColumnName="FROM_FILE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_OPTIONVAL_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_OPTIONVAL_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_OPTIONVAL_MSTR">
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="OPTION_ID" ColumnName="OPTION_ID" />
+                <ScalarProperty Name="OPTION_NAME" ColumnName="OPTION_NAME" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_POSITION_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_POSITION_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_POSITION_MSTR">
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="POS_ID" ColumnName="POS_ID" />
+                <ScalarProperty Name="POS_DESC" ColumnName="POS_DESC" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_RTVALUE_TR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_RTVALUE_TR">
+              <MappingFragment StoreEntitySet="COPR16_RTVALUE_TR">
+                <ScalarProperty Name="RTV_ID" ColumnName="RTV_ID" />
+                <ScalarProperty Name="RTV_NAME" ColumnName="RTV_NAME" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="RTYPE_ID" ColumnName="RTYPE_ID" />
+                <ScalarProperty Name="MANC_ID" ColumnName="MANC_ID" />
+                <ScalarProperty Name="DEF_VALUE" ColumnName="DEF_VALUE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_UNITS_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_UNITS_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_UNITS_MSTR">
+                <ScalarProperty Name="UNIT_TEXT" ColumnName="UNIT_TEXT" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="UNIT_ID" ColumnName="UNIT_ID" />
+                <ScalarProperty Name="UNIT_NAME" ColumnName="UNIT_NAME" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="MUNIT_ID" ColumnName="MUNIT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_ITEMS_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_ITEMS_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_ITEMS_MSTR">
+                <ScalarProperty Name="FGTYPE_ID" ColumnName="FGTYPE_ID" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="POS_ID" ColumnName="POS_ID" />
+                <ScalarProperty Name="LINE_ID" ColumnName="LINE_ID" />
+                <ScalarProperty Name="MODLE_ID" ColumnName="MODLE_ID" />
+                <ScalarProperty Name="BRAND_ID" ColumnName="BRAND_ID" />
+                <ScalarProperty Name="FG_NO" ColumnName="FG_NO" />
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_ITEMS_VOLUME">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_ITEMS_VOLUME">
+              <MappingFragment StoreEntitySet="COPR16_ITEMS_VOLUME">
+                <ScalarProperty Name="QTY" ColumnName="QTY" />
+                <ScalarProperty Name="BUSI_DATE" ColumnName="BUSI_DATE" />
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+                <ScalarProperty Name="RUNNING_ID" ColumnName="RUNNING_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_MODEL_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_MODEL_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_MODEL_MSTR">
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="MODEL_DESC" ColumnName="MODEL_DESC" />
+                <ScalarProperty Name="BRAND_ID" ColumnName="BRAND_ID" />
+                <ScalarProperty Name="MODEL_ID" ColumnName="MODEL_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_MACHINE_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_MACHINE_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_MACHINE_MSTR">
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="FILENAME" ColumnName="FILENAME" />
+                <ScalarProperty Name="SUB_PATH" ColumnName="SUB_PATH" />
+                <ScalarProperty Name="HOME_PATH" ColumnName="HOME_PATH" />
+                <ScalarProperty Name="PASSWORD" ColumnName="PASSWORD" />
+                <ScalarProperty Name="USERNAME" ColumnName="USERNAME" />
+                <ScalarProperty Name="GATEWAY" ColumnName="GATEWAY" />
+                <ScalarProperty Name="SUBNET" ColumnName="SUBNET" />
+                <ScalarProperty Name="IPADDR" ColumnName="IPADDR" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="MTYPE_ID" ColumnName="MTYPE_ID" />
+                <ScalarProperty Name="MANC_DESC" ColumnName="MANC_DESC" />
+                <ScalarProperty Name="MANC_ID" ColumnName="MANC_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_PROC_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_PROC_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_PROC_MSTR">
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="NOD_DATE" ColumnName="NOD_DATE" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="PROC_DESC" ColumnName="PROC_DESC" />
+                <ScalarProperty Name="PROC_NAME" ColumnName="PROC_NAME" />
+                <ScalarProperty Name="PROC_ID" ColumnName="PROC_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_STD_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_STD_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_STD_MSTR">
+                <ScalarProperty Name="STDREG_ID" ColumnName="STDREG_ID" />
+                <ScalarProperty Name="PROC_ID" ColumnName="PROC_ID" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="NOD_DATE" ColumnName="NOD_DATE" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="STD_DESC" ColumnName="STD_DESC" />
+                <ScalarProperty Name="STD_NAME" ColumnName="STD_NAME" />
+                <ScalarProperty Name="STD_ID" ColumnName="STD_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_STDREG_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_STDREG_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_STDREG_MSTR">
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="STDREG_DESC" ColumnName="STDREG_DESC" />
+                <ScalarProperty Name="STDREG_NAME" ColumnName="STDREG_NAME" />
+                <ScalarProperty Name="STDREG_ID" ColumnName="STDREG_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_FGTDET_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_FGTDET_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_FGTDET_MSTR">
+                <ScalarProperty Name="QTY_ISSUE" ColumnName="QTY_ISSUE" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="FGTD_NAME" ColumnName="FGTD_NAME" />
+                <ScalarProperty Name="FGT_ID" ColumnName="FGT_ID" />
+                <ScalarProperty Name="FGTD_ID" ColumnName="FGTD_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_FGTEST">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_FGTEST">
+              <MappingFragment StoreEntitySet="COPR16_FGTEST">
+                <ScalarProperty Name="FGTD_ID" ColumnName="FGTD_ID" />
+                <ScalarProperty Name="COPR_ID" ColumnName="COPR_ID" />
+                <ScalarProperty Name="SN" ColumnName="SN" />
+                <ScalarProperty Name="FGT_ID" ColumnName="FGT_ID" />
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+                <ScalarProperty Name="POS_ID" ColumnName="POS_ID" />
+                <ScalarProperty Name="MODEL_ID" ColumnName="MODEL_ID" />
+                <ScalarProperty Name="FGTEST_ID" ColumnName="FGTEST_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_FGTYPE_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_FGTYPE_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_FGTYPE_MSTR">
+                <ScalarProperty Name="QTY_PART" ColumnName="QTY_PART" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="FGT_DESC" ColumnName="FGT_DESC" />
+                <ScalarProperty Name="FGT_NAME" ColumnName="FGT_NAME" />
+                <ScalarProperty Name="FGT_ID" ColumnName="FGT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_GROUPTEST_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_GROUPTEST_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_GROUPTEST_MSTR">
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="NOD_DATE" ColumnName="NOD_DATE" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="GRPT_DESC" ColumnName="GRPT_DESC" />
+                <ScalarProperty Name="GRPT_NAME" ColumnName="GRPT_NAME" />
+                <ScalarProperty Name="GRPT_ID" ColumnName="GRPT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_STDDET">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_STDDET">
+              <MappingFragment StoreEntitySet="COPR16_STDDET">
+                <ScalarProperty Name="STEP_ID" ColumnName="STEP_ID" />
+                <ScalarProperty Name="SEQ_NO" ColumnName="SEQ_NO" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="NOD_DATE" ColumnName="NOD_DATE" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="PRROC_ID" ColumnName="PRROC_ID" />
+                <ScalarProperty Name="STDD_DESC" ColumnName="STDD_DESC" />
+                <ScalarProperty Name="STDD_NAME" ColumnName="STDD_NAME" />
+                <ScalarProperty Name="STD_ID" ColumnName="STD_ID" />
+                <ScalarProperty Name="STDD_ID" ColumnName="STDD_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_STEP_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_STEP_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_STEP_MSTR">
+                <ScalarProperty Name="SGRPT_ID" ColumnName="SGRPT_ID" />
+                <ScalarProperty Name="GRPT_ID" ColumnName="GRPT_ID" />
+                <ScalarProperty Name="RTV_ID" ColumnName="RTV_ID" />
+                <ScalarProperty Name="MANC_ID" ColumnName="MANC_ID" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="NOD_DATE" ColumnName="NOD_DATE" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="STEP_DESC" ColumnName="STEP_DESC" />
+                <ScalarProperty Name="STEP_NAME" ColumnName="STEP_NAME" />
+                <ScalarProperty Name="STEP_ID" ColumnName="STEP_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_SUBGRPTEST_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_SUBGRPTEST_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_SUBGRPTEST_MSTR">
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="NOD_DATE" ColumnName="NOD_DATE" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="SGRPT_DESC" ColumnName="SGRPT_DESC" />
+                <ScalarProperty Name="SGRPT_NAME" ColumnName="SGRPT_NAME" />
+                <ScalarProperty Name="SGRPT_ID" ColumnName="SGRPT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_REPORT">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_REPORT">
+              <MappingFragment StoreEntitySet="COPR16_REPORT">
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="APP_BY" ColumnName="APP_BY" />
+                <ScalarProperty Name="SUM_BY" ColumnName="SUM_BY" />
+                <ScalarProperty Name="PROC_ID" ColumnName="PROC_ID" />
+                <ScalarProperty Name="COP_ID" ColumnName="COP_ID" />
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+                <ScalarProperty Name="MODEL_ID" ColumnName="MODEL_ID" />
+                <ScalarProperty Name="STD_ID" ColumnName="STD_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_FILES_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_FILES_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_FILES_MSTR">
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="FLGNETWORK" ColumnName="FLGNETWORK" />
+                <ScalarProperty Name="FILE_FUNC" ColumnName="FILE_FUNC" />
+                <ScalarProperty Name="FILE_URL" ColumnName="FILE_URL" />
+                <ScalarProperty Name="FILE_NAME" ColumnName="FILE_NAME" />
+                <ScalarProperty Name="FT_ID" ColumnName="FT_ID" />
+                <ScalarProperty Name="FILE_ID" ColumnName="FILE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_FTYPE_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_FTYPE_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_FTYPE_MSTR">
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="FT_NAME" ColumnName="FT_NAME" />
+                <ScalarProperty Name="FT_ID" ColumnName="FT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_OPTDTVALUE_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_OPTDTVALUE_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_OPTDTVALUE_MSTR">
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="FLGDEF" ColumnName="FLGDEF" />
+                <ScalarProperty Name="DESC" ColumnName="DESC" />
+                <ScalarProperty Name="OPTDT_VALUE" ColumnName="OPTDT_VALUE" />
+                <ScalarProperty Name="OPTION_ID" ColumnName="OPTION_ID" />
+                <ScalarProperty Name="OPTDT_ID" ColumnName="OPTDT_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_RETURNTYPE_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_RETURNTYPE_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_RETURNTYPE_MSTR">
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="DESC" ColumnName="DESC" />
+                <ScalarProperty Name="RTYPE_NAME" ColumnName="RTYPE_NAME" />
+                <ScalarProperty Name="RTYPE_ID" ColumnName="RTYPE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_RTDT_MSTR">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_RTDT_MSTR">
+              <MappingFragment StoreEntitySet="COPR16_RTDT_MSTR">
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="REF_ID" ColumnName="REF_ID" />
+                <ScalarProperty Name="MSTYPE_ID" ColumnName="MSTYPE_ID" />
+                <ScalarProperty Name="RTDT_NAME" ColumnName="RTDT_NAME" />
+                <ScalarProperty Name="RTDT_ID" ColumnName="RTDT_ID" />
+                <ScalarProperty Name="RTTYPE_ID" ColumnName="RTTYPE_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_WORKFLOW">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_WORKFLOW">
+              <MappingFragment StoreEntitySet="COPR16_WORKFLOW">
+                <ScalarProperty Name="FLGACT" ColumnName="FLGACT" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="WRK_WITH" ColumnName="WRK_WITH" />
+                <ScalarProperty Name="STDREG_ID" ColumnName="STDREG_ID" />
+                <ScalarProperty Name="WRK_DESC" ColumnName="WRK_DESC" />
+                <ScalarProperty Name="WRK_NAME" ColumnName="WRK_NAME" />
+                <ScalarProperty Name="WRK_ID" ColumnName="WRK_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_WORKFLOW_DT">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_WORKFLOW_DT">
+              <MappingFragment StoreEntitySet="COPR16_WORKFLOW_DT">
+                <ScalarProperty Name="WRKD_ORDER" ColumnName="WRKD_ORDER" />
+                <ScalarProperty Name="WRKD_MAIN" ColumnName="WRKD_MAIN" />
+                <ScalarProperty Name="WRKD_SEQ" ColumnName="WRKD_SEQ" />
+                <ScalarProperty Name="WRKD_WITH_ID" ColumnName="WRKD_WITH_ID" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="WRKD_ANDCOND" ColumnName="WRKD_ANDCOND" />
+                <ScalarProperty Name="WRKD_PARL" ColumnName="WRKD_PARL" />
+                <ScalarProperty Name="STEP_ID" ColumnName="STEP_ID" />
+                <ScalarProperty Name="WRK_ID" ColumnName="WRK_ID" />
+                <ScalarProperty Name="WRKD_DESC" ColumnName="WRKD_DESC" />
+                <ScalarProperty Name="WRKD_ID" ColumnName="WRKD_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_COPRUNNING">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_COPRUNNING">
+              <MappingFragment StoreEntitySet="COPR16_COPRUNNING">
+                <ScalarProperty Name="PROC_ID" ColumnName="PROC_ID" />
+                <ScalarProperty Name="COP_STATUS" ColumnName="COP_STATUS" />
+                <ScalarProperty Name="MOD_BY" ColumnName="MOD_BY" />
+                <ScalarProperty Name="MOD_DATE" ColumnName="MOD_DATE" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="ADATE" ColumnName="ADATE" />
+                <ScalarProperty Name="DESC" ColumnName="DESC" />
+                <ScalarProperty Name="WRK_ID" ColumnName="WRK_ID" />
+                <ScalarProperty Name="FGTYPE_ID" ColumnName="FGTYPE_ID" />
+                <ScalarProperty Name="POSITION_ID" ColumnName="POSITION_ID" />
+                <ScalarProperty Name="MODEL_ID" ColumnName="MODEL_ID" />
+                <ScalarProperty Name="COPR_ID" ColumnName="COPR_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_COPRUNNING_DT">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_COPRUNNING_DT">
+              <MappingFragment StoreEntitySet="COPR16_COPRUNNING_DT">
+                <ScalarProperty Name="DESC" ColumnName="DESC" />
+                <ScalarProperty Name="LOTNO" ColumnName="LOTNO" />
+                <ScalarProperty Name="PNO" ColumnName="PNO" />
+                <ScalarProperty Name="FGTYPE_ID" ColumnName="FGTYPE_ID" />
+                <ScalarProperty Name="COPR_ID" ColumnName="COPR_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_COPRUNNING_RT">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_COPRUNNING_RT">
+              <MappingFragment StoreEntitySet="COPR16_COPRUNNING_RT">
+                <ScalarProperty Name="RTDT_REF_ID" ColumnName="RTDT_REF_ID" />
+                <ScalarProperty Name="RTDT_NAME" ColumnName="RTDT_NAME" />
+                <ScalarProperty Name="RTDT_ID" ColumnName="RTDT_ID" />
+                <ScalarProperty Name="CLOSE_BY" ColumnName="CLOSE_BY" />
+                <ScalarProperty Name="MACHINE_ID" ColumnName="MACHINE_ID" />
+                <ScalarProperty Name="SEQ_NO" ColumnName="SEQ_NO" />
+                <ScalarProperty Name="REV" ColumnName="REV" />
+                <ScalarProperty Name="TEST_BY" ColumnName="TEST_BY" />
+                <ScalarProperty Name="TEST_FINISH" ColumnName="TEST_FINISH" />
+                <ScalarProperty Name="TEST_START" ColumnName="TEST_START" />
+                <ScalarProperty Name="STATUS_ID" ColumnName="STATUS_ID" />
+                <ScalarProperty Name="VALUE" ColumnName="VALUE" />
+                <ScalarProperty Name="RETURNTYPE_ID" ColumnName="RETURNTYPE_ID" />
+                <ScalarProperty Name="MACHINETYPE_ID" ColumnName="MACHINETYPE_ID" />
+                <ScalarProperty Name="WRKD_ID" ColumnName="WRKD_ID" />
+                <ScalarProperty Name="WRK_ID" ColumnName="WRK_ID" />
+                <ScalarProperty Name="FGTYPE_ID" ColumnName="FGTYPE_ID" />
+                <ScalarProperty Name="PNO" ColumnName="PNO" />
+                <ScalarProperty Name="COPR_ID" ColumnName="COPR_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetSeqNextValue" FunctionName="COPR16Model.Store.GetSeqNextValue">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="COPR16Model.GetSeqNextValue1_Result">
+                <ScalarProperty Name="COPRUN" ColumnName="COPRUN" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getItems" FunctionName="COPR16Model.Store.getItems">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="COPR16Model.getItems_Result">
+                <ScalarProperty Name="FG_NO" ColumnName="FG_NO" />
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+                <ScalarProperty Name="BRAND_ID" ColumnName="BRAND_ID" />
+                <ScalarProperty Name="MODLE_ID" ColumnName="MODLE_ID" />
+                <ScalarProperty Name="FG_NAME" ColumnName="FG_NAME" />
+                <ScalarProperty Name="FG_DESC" ColumnName="FG_DESC" />
+                <ScalarProperty Name="fgtype_id" ColumnName="fgtype_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetAllItems" FunctionName="COPR16Model.Store.GetAllItems">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="COPR16Model.GetAllItems_Result">
+                <ScalarProperty Name="FG_NO" ColumnName="FG_NO" />
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+                <ScalarProperty Name="BRAND_ID" ColumnName="BRAND_ID" />
+                <ScalarProperty Name="MODLE_ID" ColumnName="MODLE_ID" />
+                <ScalarProperty Name="FG_NAME" ColumnName="FG_NAME" />
+                <ScalarProperty Name="FG_DESC" ColumnName="FG_DESC" />
+                <ScalarProperty Name="fgtype_id" ColumnName="fgtype_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetItemWithParams" FunctionName="COPR16Model.Store.GetItemWithParams">
+          </FunctionImportMapping>
+          <EntitySetMapping Name="COPR16_FILE_IMPORT">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_FILE_IMPORT">
+              <MappingFragment StoreEntitySet="COPR16_FILE_IMPORT">
+                <ScalarProperty Name="FSIM_SEQDT" ColumnName="FSIM_SEQDT" />
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="FSIM_UNIQ_ID" ColumnName="FSIM_UNIQ_ID" />
+                <ScalarProperty Name="FSIM_FORMAT" ColumnName="FSIM_FORMAT" />
+                <ScalarProperty Name="FSIM_SIZE" ColumnName="FSIM_SIZE" />
+                <ScalarProperty Name="FSIM_PATH" ColumnName="FSIM_PATH" />
+                <ScalarProperty Name="FSIM_EXT" ColumnName="FSIM_EXT" />
+                <ScalarProperty Name="FSIM_NAME" ColumnName="FSIM_NAME" />
+                <ScalarProperty Name="FSIM_DT" ColumnName="FSIM_DT" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="COPR16_IMPORT_CONTENTS">
+            <EntityTypeMapping TypeName="COPR16Model.COPR16_IMPORT_CONTENTS">
+              <MappingFragment StoreEntitySet="COPR16_IMPORT_CONTENTS">
+                <ScalarProperty Name="CRE_BY" ColumnName="CRE_BY" />
+                <ScalarProperty Name="QTY" ColumnName="QTY" />
+                <ScalarProperty Name="ITEM_ID" ColumnName="ITEM_ID" />
+                <ScalarProperty Name="FSIM_UNIQ_ID" ColumnName="FSIM_UNIQ_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_insert_excel_volume" FunctionName="COPR16Model.Store.sp_insert_excel_volume" />
+          <FunctionImportMapping FunctionImportName="sp_insert_volume_contents_stg" FunctionName="COPR16Model.Store.sp_insert_volume_contents_stg" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

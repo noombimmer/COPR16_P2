@@ -1,0 +1,103 @@
+﻿@model IEnumerable<CM_APPLICATIONS.COPR16_OPTDTVALUE_MSTR>
+
+@{
+    ViewBag.Title = "OPTIONS VALUE MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>OPTIONS VALUE MASTER</h2>
+
+<p>
+    @Html.ActionLink("ADD NEW RETURN TYPE", "Create", "COPR16_RETURNTYPE_MSTR", new { @class = "btn btn-primary button" })
+</p>
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 99% !important;
+        margin-left: 0px !important;
+        ;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+</style>
+<table class="table table-list stripe">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OPTION_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OPTDT_VALUE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DESC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FLGDEF)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FLGACT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ADATE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CRE_BY)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MOD_DATE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MOD_BY)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OPTION_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OPTDT_VALUE)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DESC)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FLGDEF)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FLGACT)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ADATE)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CRE_BY)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.MOD_DATE)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MOD_BY)
+                </td>*@
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.OPTDT_ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.OPTDT_ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.OPTDT_ID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

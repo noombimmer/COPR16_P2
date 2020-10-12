@@ -1,0 +1,252 @@
+﻿@model CM_APPLICATIONS.Models.CopRunningModel
+
+@{
+    ViewBag.Title = "COP RUNNING";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var row = 0;
+}
+
+<h2>COP RUNNING</h2>
+
+<p>
+    @Html.ActionLink("CREATE NEW COP-RUNNING", "Create", "COPR16_COPRUNNING", new { @class = "btn btn-primary button" })
+</p>
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 99% !important;
+        margin-left: 0px !important;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+</style>
+@using (Html.BeginForm("FilterIndex", "COPR16_COPRUNNING"))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+    @Html.Hidden("SELECTED_COPNO", "")
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("FROM DATE : ", htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("FROM_DATE", new { htmlAttributes = new { @class = "form-control from-date", @readonly = "true", @name = "FROM_DATE", @style = "width:120px;" } })
+                @Html.Hidden("hidden_FROM_DATE", "")
+                <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-from-date-picker">
+            </div>
+
+        </div>
+        <div class="form-group">
+            @Html.Label("TO DATE : ", htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("TO_DATE", new { htmlAttributes = new { @class = "form-control to-date", @readonly = "true", @name = "TO_DATE", @style = "width:120px;" } })
+                @Html.Hidden("hidden_TO_DATE", "")
+                <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-to-date-picker">
+            </div>
+
+        </div>
+        <div class="form-group">
+            @Html.Label("COP NO : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("COPNO", new { htmlAttributes = new { @class = "form-control model-id", @name = "FITEMS" } })
+                @Html.Hidden("hidden_COPNO", "")
+            </div>
+
+        </div>
+        <div class="form-group">
+            @Html.Label("TEST STATUS : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+
+                @*@Html.Editor("TESTER", new { htmlAttributes = new { @class = "form-control item-id", @name = "FITEMS" } })
+                    @Html.Hidden("hidden_TESTER", "")*@
+                @Html.DropDownListFor(m => m.statusCode, Model.statusList, null, new { @class = "form-control" })
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-10">
+                <input type="button" value="REFRESH" class="btn btn-primary button refreshBtn" />
+            </div>
+        </div>
+    </div>
+}
+<table class="table table-list stripe">
+    <thead>
+        <tr>
+            <th class="username">
+                @Html.Label("QR-CODE")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING.COPR_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING.MODEL_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING.POSITION_ID)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.FGTYPE_ID)
+                </th>*@
+            <th class="username">
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING.WRK_ID)
+            </th>
+            <th class="username">
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING.COP_STATUS)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.DESC)
+                </th>*@
+            <th class="username">
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING.ADATE)
+            </th>
+            <th class="username">
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING.CRE_BY)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.MOD_DATE)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MOD_BY)
+                </th>*@
+
+            <th class="command">ACTION</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.cOPR16_COPRUNNING_List)
+        {
+            var text = "row-id-" + row++;
+            <tr>
+                <td class="username">
+                    @Html.Hidden("QR-TEXT", item.COPR_ID, new { @class = "txt-" + text })
+                    <div id="COPQRCODE" class="qr-@text"></div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.COPR_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MODEL_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.POSITION_ID)
+                </td>
+                <td class="username">
+                    @Html.DisplayFor(modelItem => item.WRK_ID)
+                </td>
+                <td class="username">
+                    @Html.DisplayFor(modelItem => item.COP_STATUS)
+                </td>
+                <td class="username">
+                    @Html.DisplayFor(modelItem => item.ADATE)
+                </td>
+                <td class="username">
+                    @Html.DisplayFor(modelItem => item.CRE_BY)
+                </td>
+                <td class="command">
+                    @Html.Hidden("hCOPNO", item.COPR_ID)
+                    <input type="button" value="Details" class="btn btn-primary button DetailsBtn" />
+                    @*@Html.ActionLink("Edit", "Edit", "COPR16_COPRUNNING", new { id = item.COPR_ID }, new { @class = "btn btn-primary button" }) |*@
+                    @*@Html.ActionLink("View", "Details", "COPR16_MEASURETYPE_MSTR", new { id = item.MSTYPE_ID }, new { @class = "btn btn-primary button" }) |*@
+                    @{
+
+                        if (item.COP_STATUS == "NEW")
+                        {
+
+                            @Html.ActionLink("Dispatch", "Dispatch", "COPR16_COPRUNNING", new { id = item.COPR_ID }, new { @class = "btn btn-primary button" });
+                        }
+                        @*else
+            {
+                @Html.ActionLink("Activate", "Active", "COPR16_MEASURETYPE_MSTR", new { id = item.COPR_ID }, new { @class = "btn btn-primary button" });
+            }*@
+                    }
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+
+    for (i = 0; i < @row; i++) {
+        var txtStr = $('.txt-row-id-' + i).val();
+        var qrdiv = $('.qr-row-id-' + i);
+        $(qrdiv).qrcode({width: 64,height: 64,text: txtStr});
+        //console.log("dsgsgsd:" + txtStr);
+    }
+
+
+</script>
+<script>
+    var tbVar;
+
+    //var tbVar = $('.data-step').DataTable({
+    //    "paging": true,
+    //    "ordering": false,
+    //    "info": true,
+    //    "stripe": true,
+    //    "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+    //    "language": {
+    //        "lengthMenu": "Display _MENU_ items per page",
+    //        "zeroRecords": "No items view",
+    //        "info": "Showing _START_-_END_ of _TOTAL_ items",
+    //        "infoEmpty": "No Items to view",
+    //        "infoFiltered": "(filtered from _MAX_ total items)"
+    //    }
+
+    //});
+
+    //tbVar.clear().draw();
+    $('.to-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.from-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.edit-from-date-picker').click(function () {
+        $('.from-date').datepicker("setDate", $('.from-date').val());
+        $('.from-date').datepicker('show');
+    });
+    $('.edit-to-date-picker').click(function () {
+        $('.to-date').datepicker("setDate", $('.to-date').val());
+        $('.to-date').datepicker('show');
+    });
+</script>
+<script>
+    function parse(str) {
+        if(!/^(\d){8}$/.test(str)) return "invalid date";
+        var y = str.substr(0,4),
+            m = str.substr(4,2) - 1,
+            d = str.substr(6,2);
+        return new Date(y,m,d);
+    }
+    function setDefDate() {
+        var date = new Date();
+        $('.from-date').val('@Model.stDate');
+        $('.to-date').val('@Model.enDate');
+
+        $('#statusCode').val('@Model.statusCode');
+        $('#COPNO').val('@Model.COPNO');
+    }
+    setDefDate();
+
+    $('.refreshBtn').click(function () {
+        $('form').submit();
+    });
+    $('.DetailsBtn').click(function () {
+        var cop_no = $(this).parent().find('#hCOPNO').eq(0).val();
+        //alert(cop_no);
+        $('#SELECTED_COPNO').val(cop_no);
+        $('form').attr('action','@Url.Action("Edit","COPR16_COPRUNNING")');
+        $('form').submit();
+    });
+</script>

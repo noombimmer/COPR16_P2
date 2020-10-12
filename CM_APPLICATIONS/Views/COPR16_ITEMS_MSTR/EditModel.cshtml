@@ -1,0 +1,1066 @@
+﻿@model CM_APPLICATIONS.Models.ItemMatchModel
+
+@{
+    ViewBag.Title = "ITEM MATCHINNG";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var rowIndex = 0;
+}
+
+<h2>ITEM MATCHINNG </h2>
+<style>
+    .searchBtn {
+        width: 40px;
+        position: relative;
+        top: 0px;
+        background-image: url(/Content/images/search.png);
+        background-position: 7px 5px;
+        background-repeat: no-repeat;
+        background-size: 20px 20px;
+    }
+
+    .control-label {
+        white-space: nowrap !important;
+        padding-right: 15px !important;
+    }
+
+    input.text-box {
+        margin-left: 15px;
+    }
+
+    select.list-box {
+        margin-left: 15px;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>EDIT</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.FG_NO, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FG_NO, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.FG_NO, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MODEL_MSTR.BRAND_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_MODEL_MSTR.BRAND_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_MODEL_MSTR.BRAND_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MODEL_MSTR.MODEL_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_MODEL_MSTR.MODEL_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_MODEL_MSTR.MODEL_ID, "", new { @class = "text-danger" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.LINE_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.EditorFor(model => model.cOPR16_ITEMS_MSTR.LINE_ID, new { htmlAttributes = new { @class = "form-control textLINE_ID", @readonly = "true" } })
+                <input type="button" class="edit-LineID searchBtn">
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.FLGACT, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.cOPR16_ITEMS_MSTR.FLGACT)
+                    @Html.ValidationMessageFor(model => model.cOPR16_ITEMS_MSTR.FLGACT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.POS_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.POS_ID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.POS_ID, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.ADATE, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_ITEMS_MSTR.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_ITEMS_MSTR.ADATE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.CRE_BY, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_ITEMS_MSTR.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_ITEMS_MSTR.CRE_BY, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.MOD_DATE, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_ITEMS_MSTR.MOD_DATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_ITEMS_MSTR.MOD_DATE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.MOD_BY, htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_ITEMS_MSTR.MOD_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_ITEMS_MSTR.MOD_BY, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-10">
+                <input type="button" value="Save" class="btn btn btn-primary button saveBtn" />
+                <input type="button" value="ADD FG/PART NO." class="btn btn btn-primary button addFgBtn" />
+            </div>
+        </div>
+
+        <div class="form-group table-panel">
+            <style>
+                .dataTables_wrapper {
+                    float: left !important;
+                    width: 100% !important;
+                    margin-left: 0px !important;
+                }
+
+                table.dataTable thead tr {
+                    background-color: #005495;
+                    color: #fff;
+                }
+
+                table.dataTable {
+                    margin-left: 0px !important;
+                    /*width: 100% !important;*/
+                    border: thin 0.5px grey !important;
+                }
+
+                /*div.dataTables_length {
+                    display: none !important;
+                }
+
+                div.dataTables_filter {
+                    display: none !important;
+                }
+
+                div.dataTables_paginate {
+                    display: none !important;
+                }*/
+
+                .modal-header {
+                    background-color: #005495 !important;
+                    color: #ffffff !important;
+                }
+
+                td.command {
+                    flex-flow: nowrap;
+                    flex-wrap: nowrap;
+                    white-space: nowrap !important;
+                }
+
+                th.command {
+                    flex-flow: nowrap;
+                    flex-wrap: nowrap;
+                    white-space: nowrap !important;
+                }
+
+                .text-center {
+                    text-align: center;
+                }
+
+                .no-wrap-th {
+                    white-space: nowrap;
+                }
+
+                .numericCol {
+                    text-align: right;
+                }
+
+                .textCol {
+                    text-align: left;
+                }
+
+                .matrixValue {
+                    width: 1% !important;
+                }
+
+                .table-panel {
+                    padding-left: 15px;
+                    padding-right: 15px;
+                }
+            </style>
+            <table class="table stripe option-list data-step">
+                <thead>
+                    <tr>
+                        <th class="no-wrap-th textCol">@Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.POS_ID, htmlAttributes: new { @class = "control-label col-md-1" })</th>
+                        <th class="no-wrap-th textCol">@Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.FG_NO, htmlAttributes: new { @class = "control-label col-md-1" })</th>
+                        <th class="no-wrap-th textCol">@Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.ITEM_ID, htmlAttributes: new { @class = "control-label col-md-1" })</th>
+                        <th class="command">ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model.cOPR16_ITEMS_MSTR_LIST)
+                    {
+                        var strrow = "class=row-id-" + rowIndex + "";
+                        <tr @strrow>
+                            <td>@Html.DisplayFor(modelItem => item.POS_ID)</td>
+                            <td>@Html.DisplayFor(modelItem => item.FG_NO)</td>
+                            <td>@Html.DisplayFor(modelItem => item.ITEM_ID)</td>
+                            <td class="command">
+                                <input type="button" value="Edit" class="btn btn btn-primary button editRowBtn" />|
+                                <input type="button" value="Remove" class="btn btn btn-primary button removeRowBtn" />
+                                @Html.Hidden("hRowId", "row-id-" + rowIndex++)
+                                @Html.Hidden("hPOS_ID", item.POS_ID)
+                                @Html.Hidden("hFG_NO", item.FG_NO)
+                                @Html.Hidden("hITEM_ID", item.ITEM_ID)
+                                @Html.Hidden("hFGTYPE_ID", item.FGTYPE_ID)
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+
+}
+
+<div>
+    @*@Html.ActionLink("Back to List", "Index")*@
+    @Html.ActionLink("Back to Items Volume List", "MatchingParts", "COPR16_ITEMS_MSTR", new { id = 0 }, new { @class = "btn btn-primary button" })
+</div>
+
+<div class="modal fade" id="LINE_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:800px !important ">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">SELECT CAR-LINE</h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <table width="100%">
+                    <tr>
+                        <th class="col-md-8">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.LINE_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+                                    <div class="col-md-offset-1 col-md-8">
+                                        @Html.Editor("LINE_ID_FIND", new { htmlAttributes = new { @class = "form-control LINE_ID_FIND" } })
+                                    </div>
+                                </div>
+                                @*<input type="hidden" id="hSelectRowid" value="" />
+                                    <input type="hidden" id="hOrdered" value="" />
+                                    <input type="hidden" id="hMain" value="" />*@
+                            </div>
+                        </th>
+                        <th class="col-md-4" style="vertical-align:top;">
+                            <div class="form-horizontal HINTS_DIV">
+                                <div class="form-group">
+                                    <div class="col-md-12 hints" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:12px">
+                                        <a class="btn btn-primary button search-line-btn">SEARCH</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            <div>
+                                <table class="table stripe table-line-list">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.LabelFor(model => model.cOPR16_LINE_MSTR.LINE_ID)
+                                            </th>
+                                            <th>
+                                                @Html.LabelFor(model => model.cOPR16_LINE_MSTR.LINE_DESC)
+                                            </th>
+                                            <th class="command">
+                                                @Html.Label("ACTION")
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </th>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                @*<a class="btn btn-primary button insertbtn">ADD ITEM</a>
+                    <a class="btn btn-primary button updatebtn">UPDATE ITEM</a>*@
+                <a class="btn btn-secondary button lineDlgCloseBtn">CLOSE</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal CARLINE -->
+
+<div class="modal fade" id="SELECT_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:800px !important ">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">SELECT FG/PARTS NO</h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <table width="100%">
+                    <tr>
+                        <th class="col-md-8">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group" style="display:flex;flex-wrap:nowrap">
+                                    @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.POS_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+                                    <div class="col-md-offset-2 col-md-8" style="display:flex;flex-wrap:nowrap">
+                                        @Html.Editor("pPOS_ID", new { htmlAttributes = new { @class = "form-control pPOS_ID", @readonly = "true" } })
+                                        <input type="button" class="edit-POSID searchBtn">
+                                    </div>
+                                </div>
+                                <div class="form-group" style="display:flex;flex-wrap:nowrap">
+                                    @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.FG_NO, htmlAttributes: new { @class = "control-label col-md-1" })
+                                    <div class="col-md-offset-2 col-md-8" style="display:flex;flex-wrap:nowrap">
+                                        @Html.Editor("pFG_NO", new { htmlAttributes = new { @class = "form-control pFG_NO", @readonly = "true" } })
+                                        <input type="button" class="edit-FGNO searchBtn">
+                                    </div>
+                                </div>
+                                <div class="form-group" style="display:flex;flex-wrap:nowrap">
+                                    @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.ITEM_ID, htmlAttributes: new { @class = "control-label col-md-1" })
+                                    <div class="col-md-offset-2 col-md-8" style="display:flex;flex-wrap:nowrap">
+                                        @Html.Editor("pITEM_ID", new { htmlAttributes = new { @class = "form-control pITEM_ID", @readonly = "true" } })
+                                        <input type="button" class="edit-ITEMID searchBtn">
+                                    </div>
+                                </div>
+                                <div class="form-group" style="display:flex;flex-wrap:nowrap">
+                                    @Html.Label("BUNKLE2 (OPTIONAL)", htmlAttributes: new { @class = "control-label col-md-1" })
+
+                                    <div class="col-md-offset-2 col-md-8" style="display:flex;flex-wrap:nowrap">
+                                        @Html.Editor("pFGTYPE_ID", new { htmlAttributes = new { @class = "form-control pFGTYPE_ID", @readonly = "true" } })
+                                        <input type="button" class="edit-ITEM2 searchBtn">
+                                    </div>
+                                </div>
+                                @*<input type="hidden" id="hSelectRowid" value="" />
+                                    <input type="hidden" id="hOrdered" value="" />
+                                    <input type="hidden" id="hMain" value="" />*@
+                            </div>
+                        </th>
+
+                    </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button fgInsertBtn">ADD ITEM</a>
+                <a class="btn btn-primary button fgUpdateBtn">UPDATE ITEM</a>
+                <a class="btn btn-secondary button fgDlgCloseBtn">CLOSE</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal SELECT PART -->
+
+<div class="modal fade" id="POS_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:800px !important ">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">SELECT POSITION</h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <table width="100%">
+                    <tr>
+                        <th class="col-md-8">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.cOPR16_POSITION_MSTR.POS_ID, htmlAttributes: new { @class = "control-label col-md-3",@style = "text-align:left" })
+                                    <div class="col-md-offset-1 col-md-8">
+                                        @Html.Editor("POS_ID_FIND", new { htmlAttributes = new { @class = "form-control POS_ID_FIND" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.cOPR16_POSITION_MSTR.POS_DESC, htmlAttributes: new { @class = "control-label col-md-3",@style = "text-align:left" })
+                                    <div class="col-md-offset-1 col-md-8">
+                                        @Html.Editor("POS_DESC_FIND", new { htmlAttributes = new { @class = "form-control POS_DESC_FIND" } })
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                        <th class="col-md-4" style="vertical-align:top;">
+                            <div class="form-horizontal HINTS_DIV">
+                                <div class="form-group">
+                                    <div class="col-md-12 hints" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:12px">
+                                        <a class="btn btn-primary button search-pos-btn">SEARCH</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            <div>
+                                <table class="table stripe table-pos-list">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.LabelFor(model => model.cOPR16_POSITION_MSTR.POS_ID)
+                                            </th>
+                                            <th>
+                                                @Html.LabelFor(model => model.cOPR16_POSITION_MSTR.POS_DESC)
+                                            </th>
+                                            <th class="command">
+                                                @Html.Label("ACTION")
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </th>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                @*<a class="btn btn-primary button insertbtn">ADD ITEM</a>
+                    <a class="btn btn-primary button updatebtn">UPDATE ITEM</a>*@
+                <a class="btn btn-secondary button posDlgCloseBtn">CLOSE</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal POSITION -->
+
+<div class="modal fade" id="FG_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:800px !important ">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">SELECT FG/PARTS NO. (SEATBELT)</h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <table width="100%">
+                    <tr>
+                        <th class="col-md-8">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.cOPR16_FG_MSTR.FG_NO, htmlAttributes: new { @class = "control-label col-md-3",@style = "text-align:left" })
+                                    <div class="col-md-offset-1 col-md-8">
+                                        @Html.Editor("FG_NO_FIND", new { htmlAttributes = new { @class = "form-control FG_NO_FIND" } })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.cOPR16_FG_MSTR.FG_DESC, htmlAttributes: new { @class = "control-label col-md-3",@style = "text-align:left"  })
+                                    <div class="col-md-offset-1 col-md-8">
+                                        @Html.Editor("FG_DESC_FIND", new { htmlAttributes = new { @class = "form-control FG_DESC_FIND" } })
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                        <th class="col-md-4" style="vertical-align:top;">
+                            <div class="form-horizontal HINTS_DIV">
+                                <div class="form-group">
+                                    <div class="col-md-12 hints" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:12px">
+                                        <a class="btn btn-primary button search-fg-btn">SEARCH</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            <div>
+                                <table class="table stripe table-fg-list">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.LabelFor(model => model.cOPR16_FG_MSTR.FG_NO)
+                                            </th>
+                                            <th>
+                                                @Html.LabelFor(model => model.cOPR16_FG_MSTR.FG_DESC)
+                                            </th>
+                                            <th class="command">
+                                                @Html.Label("ACTION")
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </th>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                @*<a class="btn btn-primary button insertbtn">ADD ITEM</a>
+                    <a class="btn btn-primary button updatebtn">UPDATE ITEM</a>*@
+                <a class="btn btn-secondary button fgSelectCloseBtn">CLOSE</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal FG -->
+
+
+<div class="modal fade" id="CONFIRMED_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to remove this row?</H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesConfirmedBtn">YES</a>
+                <a class="btn btn-secondary button NoConfirmedBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal Confirm Remove -->
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+
+<script>
+    var RowCount = @rowIndex;
+    var tbVar = $('.data-step').DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": true,
+        "stripe": true,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "language": {
+            "lengthMenu": "Display _MENU_ items per page",
+            "zeroRecords": "No items view",
+            "info": "Showing _START_-_END_ of _TOTAL_ items",
+            "infoEmpty": "No Items to view",
+            "infoFiltered": "(filtered from _MAX_ total items)"
+        }
+
+    });
+    var tbVar2 = $('.table-line-list').DataTable({
+        "paging": true,
+        "ordering": false,
+        "info": true,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "stripe": true,
+        "language": {
+            "lengthMenu": "Display _MENU_ items per page",
+            "zeroRecords": "No items view",
+            "info": "Showing _START_-_END_ of _TOTAL_ items",
+            "infoEmpty": "No Items to view",
+            "infoFiltered": "(filtered from _MAX_ total items)"
+        }
+
+    });
+    var tbVar3 = $('.table-pos-list').DataTable({
+        "paging": true,
+        "ordering": false,
+        "info": true,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "stripe": true,
+        "language": {
+            "lengthMenu": "Display _MENU_ items per page",
+            "zeroRecords": "No items view",
+            "info": "Showing _START_-_END_ of _TOTAL_ items",
+            "infoEmpty": "No Items to view",
+            "infoFiltered": "(filtered from _MAX_ total items)"
+        }
+
+    });
+    var tbVar4 = $('.table-fg-list').DataTable({
+        "paging": true,
+        "ordering": false,
+        "info": true,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "stripe": true,
+        "language": {
+            "lengthMenu": "Display _MENU_ items per page",
+            "zeroRecords": "No items view",
+            "info": "Showing _START_-_END_ of _TOTAL_ items",
+            "infoEmpty": "No Items to view",
+            "infoFiltered": "(filtered from _MAX_ total items)"
+        }
+
+    });
+</script>
+<script>
+    var rowObject = null;
+    $('.edit-LineID').click(function () {
+
+        var lineID = $('.textLINE_ID').val();
+        $('.LINE_ID_FIND').val(lineID);
+        $('#LINE_DLG').modal('show');
+        tbVar2.rows().clear().draw();
+        $('#DataTables_Table_1_filter').css('display', 'block', 'important');
+    });
+    $('.lineDlgCloseBtn').click(function () {
+        $('#LINE_DLG').modal('hide');
+    });
+    $("body").on("click", "a.selectLineBtn", function (ev) {
+        var pt = $(this).parent();
+        var LineId = pt.find('.hLineId').eq(0).val();
+        $('.textLINE_ID').val(LineId);
+        $('#LINE_DLG').modal('hide');
+    });
+    $("body").on("click", "input.removeRowBtn", function (ev) {
+        //removeRow(this);
+        //var p = $(this).parent();
+        RowCount--;
+        rowObject = this;
+        $('#CONFIRMED_DLG').modal('show');
+    });
+    $("body").on("click", "input.editRowBtn", function (ev) {
+        //removeRow(this);
+        //var p = $(this).parent();
+        rowObject = this;
+        var p = $(rowObject).parent();
+        var msg = $(p).find("#hRowId").eq(0).val();
+        var POSID = $(p).find("#hPOS_ID").eq(0).val();
+        var FGNO = $(p).find("#hFG_NO").eq(0).val();
+        var ITEMID = $(p).find("#hITEM_ID").eq(0).val();
+        var FGTYPEID = $(p).find("#hFGTYPE_ID").eq(0).val();
+
+        $('.pPOS_ID').val(POSID);
+        $('.pFG_NO').val(FGNO);
+        $('.pITEM_ID').val(ITEMID);
+        $('.pFGTYPE_ID').val(FGTYPEID);
+        $('.fgInsertBtn').hide();
+
+        $('.fgUpdateBtn').show();
+        $('#SELECT_DLG').modal('show');
+
+    });
+
+    $("a.NoConfirmedBtn").click(function () {
+        $('#CONFIRMED_DLG').modal('hide');
+    });
+    $("a.YesConfirmedBtn").click(function () {
+        var p = $(rowObject).parent();
+        var msg = $(p).find("#hRowId").val();
+        tbVar.row("." + msg).remove().draw();
+        rowObject = null;
+        $('#CONFIRMED_DLG').modal('hide');
+    });
+    $('input.addFgBtn').click(function () {
+
+        $('.pPOS_ID').val('');
+        $('.pFG_NO').val('');
+        $('.pITEM_ID').val('');
+        $('.pFGTYPE_ID').val('');
+        $('.fgInsertBtn').show();
+
+        $('.fgUpdateBtn').hide();
+        $('#SELECT_DLG').modal('show');
+    });
+    $('a.fgDlgCloseBtn').click(function () {
+        $('#SELECT_DLG').modal('hide');
+    });
+
+    /** POSITION FUNCTION **/
+    $('.edit-POSID').click(function () {
+        var POSTID = $('.pPOS_ID').val();
+        $('.POS_ID_FIND').val(POSTID);
+        tbVar3.rows().clear().draw();
+        $('#POS_DLG').modal('show');
+    });
+
+    $('a.posDlgCloseBtn').click(function () {
+        $('#POS_DLG').modal('hide');
+    });
+
+    $("body").on("click", "a.selectPosBtn", function (ev) {
+        var pt = $(this).parent();
+        var PosId = pt.find('.hPosId').eq(0).val();
+        $('.pPOS_ID').val(PosId);
+        $('#POS_DLG').modal('hide');
+    });
+    /** FG FUNCTION **/
+    var sbSelected = true;
+    var optSelected = false;
+    $('.edit-FGNO').click(function () {
+        sbSelected = true;
+        optSelected = false;
+        var FGNO = $('.pFG_NO').val();
+        $('.FG_NO_FIND').val(FGNO);
+        tbVar4.rows().clear().draw();
+        $('#FG_DLG').modal('show');
+    });
+
+    $('.edit-ITEMID').click(function () {
+        sbSelected = false;
+        optSelected = false;
+        var ITEMID = $('.pITEM_ID').val();
+        $('.FG_NO_FIND').val(ITEMID);
+        tbVar4.rows().clear().draw();
+        $('#FG_DLG').modal('show');
+    });
+    $('.edit-ITEM2').click(function () {
+        optSelected = true;
+        var ITEMID = $('.pFGTYPE_ID').val();
+        $('.FG_NO_FIND').val(ITEMID);
+        tbVar4.rows().clear().draw();
+        $('#FG_DLG').modal('show');
+    });
+
+    $('a.fgSelectCloseBtn').click(function () {
+        $('#FG_DLG').modal('hide');
+    });
+
+    $("body").on("click", "a.selectFgBtn", function (ev) {
+        var pt = $(this).parent();
+        var FgNO = pt.find('.hFGNO').eq(0).val();
+        if (optSelected == false) {
+            if (sbSelected) $('.pFG_NO').val(FgNO);
+            else $('.pITEM_ID').val(FgNO);
+        } else {
+            $('.pFGTYPE_ID').val(FgNO);
+        }
+
+
+        $('#FG_DLG').modal('hide');
+    });
+
+    $('.fgInsertBtn').click(function () {
+        var POSID = $('.pPOS_ID').val();
+        var FGNO = $('.pFG_NO').val();
+        var ITEMID = $('.pITEM_ID').val();
+        var FGTYPEID = $('.pFGTYPE_ID').val();
+        var rowData = [];
+        rowData.push(POSID);
+        rowData.push(FGNO);
+        rowData.push(ITEMID);
+        rowData.push('');
+
+        var strrow = "row-id-" + RowCount++ + "";
+        var removeBtn = "<input type='button' value='Remove' class='btn btn btn-primary button removeRowBtn' />";
+        var editBtn = "<input type='button' value='Edit' class='btn btn btn-primary button editRowBtn' />";
+        var hRowId = "<input type='hidden' value='" + strrow + "' id='hRowId' name='hRowId' />";
+        var hPOSID = "<input type='hidden' value='" + POSID + "' id='hPOS_ID' name='hPOS_ID' />";
+        var hFGNO = "<input type='hidden' value='" + FGNO + "' id='hFG_NO' name='hFG_NO' />";
+        var hITEMID = "<input type='hidden' value='" + ITEMID + "' id='hITEM_ID' name='hITEM_ID' />";
+        var hFGTYPEID = "<input type='hidden' value='" + FGTYPEID + "' id='hFGTYPE_ID' name='hFGTYPE_ID' />";
+
+
+
+        var rowNode = tbVar.row.add(rowData).draw(false).node();
+        $(rowNode).addClass(strrow);
+        $(rowNode).find('td').eq(3).append(editBtn);
+        $(rowNode).find('td').eq(3).append('|');
+        $(rowNode).find('td').eq(3).append(removeBtn);
+        $(rowNode).find('td').eq(3).append(hRowId);
+        $(rowNode).find('td').eq(3).append(hPOSID);
+        $(rowNode).find('td').eq(3).append(hFGNO);
+        $(rowNode).find('td').eq(3).append(hITEMID);
+        $(rowNode).find('td').eq(3).append(hFGTYPEID);
+        $(rowNode).find('td').eq(3).addClass('command');
+
+        $('#SELECT_DLG').modal('hide');
+    });
+    $('.fgUpdateBtn').click(function () {
+        var lastCol = 3;
+        var p = $(rowObject).parent();
+        var msg = $(p).find("#hRowId").val();
+        var POSID = $('.pPOS_ID').val();
+        var FGNO = $('.pFG_NO').val();
+        var ITEMID = $('.pITEM_ID').val();
+        var FGTYPEID = $('.pFGTYPE_ID').val();
+
+        var SelectedRow = $(tbVar.row("." + msg).node()).find('td');
+
+        SelectedRow.eq(0).text(POSID);
+        SelectedRow.eq(lastCol).find("#hPOS_ID").val(POSID);
+
+        SelectedRow.eq(1).text(FGNO);
+        SelectedRow.eq(lastCol).find("#hFG_NO").val(FGNO);
+
+        SelectedRow.eq(2).text(ITEMID);
+        SelectedRow.eq(lastCol).find("#hITEM_ID").val(ITEMID);
+        //SelectedRow.eq(3).text(POSID);
+        SelectedRow.eq(lastCol).find("#hFGTYPE_ID").val(FGTYPEID);
+        $('#SELECT_DLG').modal('hide');
+
+
+    });
+</script>
+<script>
+    function carLineRow(data) {
+        tbVar2.rows().clear().draw();
+        $.each(data, function (ikey, ivalue) {
+            var rowList = [];
+            $.each(ivalue, function (cols, value) {
+                rowList.push(value);
+            });
+            rowList.push("");
+            var SelectBtn = "<a class='btn btn-primary button selectLineBtn' >Select</a>";
+            var modelHidden = "<input type='hidden' value='" + rowList[0] + "' class='hLineId' />";
+            var rowNode = tbVar2.row.add(rowList).draw(false).node();
+            $(rowNode).find('td').eq(2).append(SelectBtn);
+            $(rowNode).find('td').eq(2).append(modelHidden);
+        });
+
+    }
+
+    $('.search-line-btn').click(function () {
+        var LineString = $('.LINE_ID_FIND').val();
+
+        var urlText = "@Url.Action("getCarLineList","COPR16_ITEMS_MSTR")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {LINEID : LineString,LINEDESC:LineString }
+        console.log(jdata);
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                carLineRow(result.Data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.error("error:" + errorThrown);
+            }
+        });
+    });
+
+    function PosRow(data) {
+        tbVar3.rows().clear().draw();
+        $.each(data, function (ikey, ivalue) {
+            var rowList = [];
+            $.each(ivalue, function (cols, value) {
+                rowList.push(value);
+            });
+            rowList.push("");
+            var SelectBtn = "<a class='btn btn-primary button selectPosBtn' >Select</a>";
+            var modelHidden = "<input type='hidden' value='" + rowList[0] + "' class='hPosId' />";
+            var rowNode = tbVar3.row.add(rowList).draw(false).node();
+            $(rowNode).find('td').eq(2).append(SelectBtn);
+            $(rowNode).find('td').eq(2).append(modelHidden);
+        });
+    }
+    $('.search-pos-btn').click(function () {
+        var PosString = $('.POS_ID_FIND').val();
+        var PosDescString = $('.POS_DESC_FIND').val();
+        var urlText = "@Url.Action("getPosList","COPR16_ITEMS_MSTR")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {POSID : PosString,POSDESC:PosDescString }
+        console.log(jdata);
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                PosRow(result.Data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.error("error:" + errorThrown);
+            }
+        });
+    });
+
+    function FgRow(data) {
+        tbVar4.rows().clear().draw();
+        $.each(data, function (ikey, ivalue) {
+            var rowList = [];
+            $.each(ivalue, function (cols, value) {
+                rowList.push(value);
+            });
+            rowList.push("");
+            var SelectBtn = "<a class='btn btn-primary button selectFgBtn' >Select</a>";
+            var modelHidden = "<input type='hidden' value='" + rowList[0] + "' class='hFGNO' />";
+            var rowNode = tbVar4.row.add(rowList).draw(false).node();
+            $(rowNode).find('td').eq(2).append(SelectBtn);
+            $(rowNode).find('td').eq(2).append(modelHidden);
+        });
+    }
+    $('.search-fg-btn').click(function () {
+        var FgString = $('.FG_NO_FIND').val();
+        var FgDescString = $('.FG_DESC_FIND').val();
+        var urlText = "@Url.Action("getFgList","COPR16_ITEMS_MSTR")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {FGNO : FgString,FGDESC:FgDescString }
+        console.log(jdata);
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                FgRow(result.Data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                console.error("error:" + errorThrown);
+            }
+        });
+    });
+
+</script>
+
+<script>
+    $('input.saveBtn').click(function () {
+        var opdt = {};
+        var dtdt = [];
+        var firstFlg = true;
+
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "FG_MAPPED": []
+        };
+        var BRAND_ID = $("#cOPR16_MODEL_MSTR_BRAND_ID").val();
+        var MODEL_ID = $("#cOPR16_MODEL_MSTR_MODEL_ID").val();
+        var LINE_ID = $("#cOPR16_ITEMS_MSTR_LINE_ID").val();
+        var FLGACT = $("#cOPR16_ITEMS_MSTR_FLGACT").val();
+
+        if (LINE_ID == null || LINE_ID == undefined || LINE_ID == '') {
+            $('#lModalLabelError').html("Save Model Mapping");
+            $('#lModalBodyError').html("Cannot Save Model Mapping : No CAR LINE SELECTED <br> Please select CAR LINE first....." );
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            return;
+        }
+
+        if (FLGACT == null || FLGACT == undefined || FLGACT == 'Not Set' || FLGACT == '') {
+            $('#lModalLabelError').html("Save Model Mapping");
+            $('#lModalBodyError').html("Cannot Save Model Mapping : No ACTIVE Setting  <br> Please ACTIVE first....." );
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            return;
+        }
+        if (tbVar.rows().count() == 0) {
+            $('#lModalLabelError').html("Save Model Mapping");
+            $('#lModalBodyError').html("Cannot Save Model Mapping : No FG In List  <br> Please Add FG first....." );
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            return;
+        }
+        tbVar.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var node = this.node();
+            var lastCol = 3;
+
+            var POS_ID = $(node).find('td').eq(lastCol).find("#hPOS_ID").val();
+            var FG_NO = $(node).find('td').eq(lastCol).find("#hFG_NO").val();
+            var ITEM_ID = $(node).find('td').eq(lastCol).find("#hITEM_ID").val();
+            var FGTYPE_ID = $(node).find('td').eq(lastCol).find("#hFGTYPE_ID").val();
+
+
+            opdt = {
+                "POS_ID": POS_ID,
+                "FG_NO": FG_NO,
+                "ITEM_ID": ITEM_ID,
+                "FGTYPE_ID": FGTYPE_ID,
+                "BRAND_ID": BRAND_ID,
+                "MODEL_ID": MODEL_ID,
+                "LINE_ID": LINE_ID,
+                "ADATE": '@CM_APPLICATIONS.Models.AppPropModel.today',
+                "MOD_DATE": '@CM_APPLICATIONS.Models.AppPropModel.today',
+                "MOD_BY": '@CM_APPLICATIONS.Models.AppPropModel.username',
+                "CRE_BY": '@CM_APPLICATIONS.Models.AppPropModel.username',
+                "FLGACT": FLGACT
+            };
+            //console.log(opdt);
+
+            //if (jdata["FG_MAPPING"].length == 1 && firstFlg == true) {
+            //    jdata["FG_MAPPING"][0] = opdt;
+            //    firstFlg = false;
+            //} else {
+            //    jdata["FG_MAPPING"].push(opdt);
+            //}
+
+            jdata["FG_MAPPED"].push(opdt);
+        });
+        console.log(jdata);
+
+        var urlText = "@Url.Action("SaveJson","COPR16_ITEMS_MSTR")";
+        var options = { "backdrop": "static", keyboard: true };
+        console.log();
+
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                $('#lModalLabelSuccess').html("Save Model Mapping");
+                $('#lModalBodySuccess').html("Save Model Mapping Successed");
+                $('#lModalSuccess').modal(options);
+                $('#lModalSuccess').modal('show');
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                $('#lModalLabelError').html("Save Model Mapping");
+                $('#lModalBodyError').html("Cannot Save Model Mapping : " + errorThrown);
+                $('#lModalError').modal(options);
+                $('#lModalError').modal('show');
+            }
+        });
+        return false;
+    });
+</script>

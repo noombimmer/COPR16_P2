@@ -1,0 +1,265 @@
+﻿@*@model CM_APPLICATIONS.COPR16_STEP_MSTR*@
+@model CM_APPLICATIONS.Models.ProcessStepsModel
+
+@{
+    ViewBag.Title = "STEP PROCESS FLOW";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>STEP PROCESS FLOW</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>NEW</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STEP_MSTR.STEP_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_STEP_MSTR.STEP_ID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_STEP_MSTR.STEP_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STEP_MSTR.STEP_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_STEP_MSTR.STEP_NAME, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_STEP_MSTR.STEP_NAME, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STEP_MSTR.STEP_DESC, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.cOPR16_STEP_MSTR.STEP_DESC, new { @class = "form-control", @rows = "10" })
+            @Html.ValidationMessageFor(model => model.cOPR16_STEP_MSTR.STEP_DESC, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_STEP_MSTR.RTV_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.cOPR16_STEP_MSTR.RTV_ID, Model.RTV_LIST, null, new { @class = "form-control" })
+            </div>
+        </div>*@
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STEP_MSTR.MANC_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.cOPR16_STEP_MSTR.MANC_ID, Model.MCTYPE_LIST, null, new { @class = "form-control" })
+
+            @*@Html.EditorFor(model => model.cOPR16_STEP_MSTR.MANC_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_STEP_MSTR.MANC_ID, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STEP_MSTR.FLGACT, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.cOPR16_STEP_MSTR.FLGACT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_STEP_MSTR.FLGACT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STEP_MSTR.ADATE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_STEP_MSTR.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_STEP_MSTR.ADATE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STEP_MSTR.CRE_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_STEP_MSTR.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_STEP_MSTR.CRE_BY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_STEP_MSTR.MOD_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_STEP_MSTR.MOD_BY, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_STEP_MSTR.MOD_BY, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_STEP_MSTR.NOD_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_STEP_MSTR.NOD_DATE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_STEP_MSTR.NOD_DATE, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+
+
+
+
+    @*<div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_STEP_MSTR.GRPT_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_STEP_MSTR.GRPT_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_STEP_MSTR.GRPT_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_STEP_MSTR.SGRPT_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_STEP_MSTR.SGRPT_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_STEP_MSTR.SGRPT_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Create" class="btn btn-primary button createBtn" />
+            <input type="reset" value="Clear" class="btn btn-secondary" />
+        </div>
+    </div>
+    <div>
+        @Html.ActionLink("Back to List", "Index", "COPR16_STEP_MSTR", new { @class = "btn btn-primary button" })
+    </div>
+</div>
+
+}
+<div class="modal fade" id="SAVEALL_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to create this ?</H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesSavedAllBtn">YES</a>
+                <a class="btn btn-secondary button NoSaveAllBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+        $("#cOPR16_STEP_MSTR_CRE_BY").val("@CM_APPLICATIONS.Models.AppPropModel.username");
+        $("#cOPR16_STEP_MSTR_ADATE").val("@System.DateTime.Now");
+        $("#cOPR16_STEP_MSTR_FLGACT").val("true");
+
+</script>
+
+<script>
+    $("input.createBtn").click(function () {
+        $('#SAVEALL_DLG').modal('show');
+    });
+    $("a.NoSaveAllBtn").click(function () {
+        $('#SAVEALL_DLG').modal('hide');
+    });
+    $(".YesSavedAllBtn").click(function () {
+        saveJson();
+        $("#SAVEALL_DLG").modal("hide");
+    });
+    $(".lerrcloseBtn").click(function () {
+        $("#lModalError").modal("hide");
+    });
+    $(".lSuccesscloseBtn").click(function () {
+        window.location.href = "@Url.Action("Index","COPR16_STEP_MSTR")";
+        $("#lModalSuccess").modal("hide");
+    });
+    function saveJson() {
+        var opdt = {};
+        var dtdt = [];
+
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "STEP_ID": $("#cOPR16_STEP_MSTR_STEP_ID").val(),
+            "STEP_NAME": $("#cOPR16_STEP_MSTR_STEP_NAME").val(),
+            "STEP_DESC": $("#cOPR16_STEP_MSTR_STEP_DESC").val(),
+            "RTV_ID": "",
+            "MANC_ID": $("#cOPR16_STEP_MSTR_MANC_ID").val(),
+            "FLGACT": $("#cOPR16_STEP_MSTR_FLGACT").val(),
+            "username": $("#UID").val(),
+
+            //"jsonString": $('form').serialize()
+            "jsonString": [{}]
+        };
+
+        console.log(jdata);
+        var urlText = "@Url.Action("CreateJson","COPR16_STEP_MSTR")";
+            var options = { "backdrop": "static", keyboard: true };
+            console.log();
+            $.ajax({
+                type: "POST",
+                url: urlText,     //your action
+                //data: $('form').serialize(),   //your form name.it takes all the values of model
+                //dataType: 'json',
+                data: jdata,
+                success: function (result) {
+                    $('#lModalLabelSuccess').html("Create New Step Process");
+                    $('#lModalBodySuccess').html("Create Step Process Successed");
+                    $('#lModalSuccess').modal(options);
+                    $('#lModalSuccess').modal('show');
+                    
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#lModalLabelError').html("Create New Step Process");
+                    $('#lModalBodyError').html("Cannot Create Step Process : " + errorThrown );
+                    $('#lModalError').modal(options);
+                    $('#lModalError').modal('show');
+                }
+            })
+            return false;
+    }
+</script>

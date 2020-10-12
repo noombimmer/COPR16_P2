@@ -1,0 +1,627 @@
+﻿@*@model CM_APPLICATIONS.COPR16_OPTIONVAL_MSTR*@
+@model CM_APPLICATIONS.Models.OptionsModel
+@{
+    ViewBag.Title = "OPTIONS VALUE MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var rowIndex = 0;
+}
+
+<h2>OPTIONS VALUE MASTER</h2>
+@using (Html.BeginForm())
+{
+
+
+
+    <table width="100%">
+        <tr>
+            <th>
+
+                @Html.AntiForgeryToken()
+                @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+                <div class="form-horizontal">
+                    <h4>NEW</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.cOPR16_OPTIONVAL_MSTR.MSTYPE_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.cOPR16_OPTIONVAL_MSTR.MSTYPE_ID, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.cOPR16_OPTIONVAL_MSTR.MSTYPE_ID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_OPTIONVAL_MSTR.OPTION_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_OPTIONVAL_MSTR.OPTION_ID, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_OPTIONVAL_MSTR.OPTION_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_OPTIONVAL_MSTR.OPTION_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_OPTIONVAL_MSTR.OPTION_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_OPTIONVAL_MSTR.OPTION_NAME, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_OPTIONVAL_MSTR.FLGACT, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_OPTIONVAL_MSTR.FLGACT, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_OPTIONVAL_MSTR.FLGACT, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.cOPR16_OPTIONVAL_MSTR.OPTION_VALUE, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.cOPR16_OPTIONVAL_MSTR.OPTION_VALUE, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.cOPR16_OPTIONVAL_MSTR.OPTION_VALUE, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_OPTIONVAL_MSTR.ADATE, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_OPTIONVAL_MSTR.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_OPTIONVAL_MSTR.ADATE, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_OPTIONVAL_MSTR.CRE_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_OPTIONVAL_MSTR.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_OPTIONVAL_MSTR.CRE_BY, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_OPTIONVAL_MSTR.MOD_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_OPTIONVAL_MSTR.MOD_DATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_OPTIONVAL_MSTR.MOD_DATE, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_OPTIONVAL_MSTR.MOD_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_OPTIONVAL_MSTR.MOD_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_OPTIONVAL_MSTR.MOD_BY, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_OPTIONVAL_MSTR.DEF_FLG, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.cOPR16_OPTIONVAL_MSTR.DEF_FLG)
+                                @Html.ValidationMessageFor(model => model.cOPR16_OPTIONVAL_MSTR.DEF_FLG, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    *@
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            @*<input type="submit" value="Save" class="btn btn-primary" />*@
+                            <input type="button" value="Create" class="btn btn-primary button saveAllBtn" />
+
+                            <input type="reset" value="Clear" class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="form-horizontal details">
+                    <p>
+                        @*@Html.ActionLink("ADD NEW OPTIONS", "Create", "COPR16_OPTIONVAL_MSTR", new { @class = "btn btn-primary button" })*@
+                        <a class="btn btn-primary button addbtn">ADD MEASUREMENT TYPE</a>
+                    </p>
+                    <style>
+                        .dataTables_wrapper {
+                            float: left !important;
+                            width: 75% !important;
+                            margin-left: 0px !important;
+                        }
+
+                        table.dataTable thead tr {
+                            background-color: #005495;
+                            color: #fff;
+                        }
+
+                        table.dataTable {
+                            margin-left: 0px !important;
+                            width: 100% !important;
+                        }
+
+                        div.dataTables_length {
+                            display: none !important;
+                        }
+
+                        div.dataTables_filter {
+                            display: none !important;
+                        }
+
+                        div.dataTables_paginate {
+                            display: none !important;
+                        }
+
+                        .modal-header {
+                            background-color: #005495 !important;
+                            color: #ffffff !important;
+                        }
+
+                        td.command {
+                            flex-flow: nowrap;
+                            flex-wrap: nowrap;
+                            white-space: nowrap !important;
+                        }
+
+                        th.command {
+                            flex-flow: nowrap;
+                            flex-wrap: nowrap;
+                            white-space: nowrap !important;
+                        }
+                    </style>
+
+                    <table class="table table-list stripe option-list">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.cOPR16_OPTDTVALUE_MSTR.OPTDT_ID)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.cOPR16_OPTDTVALUE_MSTR.DESC)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.cOPR16_OPTDTVALUE_MSTR.OPTDT_VALUE)
+                                </th>
+                                <th class="username">
+                                    @Html.DisplayNameFor(model => model.cOPR16_OPTDTVALUE_MSTR.FLGDEF)
+                                </th>
+                                @*<th class="username">
+                                        @Html.DisplayNameFor(model => model.cOPR16_OPTDTVALUE_MSTR.FLGACT)
+                                    </th>
+                                    <th class="username">
+                                        @Html.DisplayNameFor(model => model.cOPR16_OPTDTVALUE_MSTR.ADATE)
+                                    </th>
+                                    <th class="username">
+                                        @Html.DisplayNameFor(model => model.cOPR16_OPTDTVALUE_MSTR.CRE_BY)
+                                    </th>*@
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.cOPR16_OPTIONVAL_MSTR.MOD_BY)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.cOPR16_OPTIONVAL_MSTR.MOD_DATE)
+                                    </th>*@
+                                <th class="command">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.cOPR16_OPTDTVALUE_MSTR_LIST)
+                            {
+                                var strrow = "class=row-id-" + rowIndex + "";
+
+                                <tr @strrow>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OPTDT_ID)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DESC)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OPTDT_VALUE)
+                                    </td>
+                                    <td class="username">
+                                        @*@Html.DisplayFor(modelItem => item.FLGDEF)*@
+                                        @item.FLGDEF
+                                    </td>
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.FLGACT)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ADATE)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CRE_BY)
+                                        </td>*@
+                                    @*<td>
+                                            @Html.DisplayFor(modelItem => item.MOD_BY)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MOD_DATE)
+                                        </td>*@
+                                    <td class="command" id="action_btn">
+                                        @Html.Hidden("hRowId", "row-id-" + rowIndex++)
+                                        @Html.Hidden("hOPTVAL_ID", item.OPTDT_ID)
+                                        @Html.Hidden("hOPTVAL_DEF", item.FLGDEF.ToString())
+                                        @Html.Hidden("hOPTVAL_VAL", item.OPTDT_VALUE)
+                                        @Html.Hidden("hOPTVAL_DESC", item.DESC)
+
+                                        <a class='btn btn-primary button editbtn'>EDIT</a>
+                                        <a class='btn btn-primary button removebtn'>REMOVE</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <div class="form-vertical footer">
+                    <p>
+
+                        @Html.ActionLink("Back to List", "Index", "COPR16_OPTIONVAL_MSTR", new { @class = "btn btn-primary button" })
+                    </p>
+                </div>
+            </th>
+        </tr>
+    </table>
+}
+
+<div class="modal fade" id="OPTIONS_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">ADD ITEM DETAILS</h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_OPTDTVALUE_MSTR.OPTDT_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_OPTDTVALUE_MSTR.OPTDT_ID, new { htmlAttributes = new { @class = "form-control optval_id" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_OPTDTVALUE_MSTR.OPTDT_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_OPTDTVALUE_MSTR.OPTDT_VALUE, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_OPTDTVALUE_MSTR.OPTDT_VALUE, new { htmlAttributes = new { @class = "form-control optval_val", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_OPTDTVALUE_MSTR.OPTDT_VALUE, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_OPTDTVALUE_MSTR.FLGDEF, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.cOPR16_OPTDTVALUE_MSTR.FLGDEF, new { htmlAttributes = new { @class = "form-control optval_def" } })
+                                @Html.ValidationMessageFor(model => model.cOPR16_OPTDTVALUE_MSTR.FLGDEF, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_OPTDTVALUE_MSTR.DESC, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.cOPR16_OPTDTVALUE_MSTR.DESC, new { @class = "form-control optval_desc", @rows = "10" })
+                            @Html.ValidationMessageFor(model => model.cOPR16_OPTDTVALUE_MSTR.DESC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <input type="hidden" id="hSelectRowid" value="" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button insertbtn">ADD ITEM</a>
+                <a class="btn btn-primary button updatebtn">UPDATE ITEM</a>
+                <a class="btn btn-secondary button closbtn">CLOSE</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="CONFIRMED_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to remove this row?</H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesConfirmedBtn">YES</a>
+                <a class="btn btn-secondary button NoConfirmedBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="SAVE_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to save this ?</H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesSavedBtn">YES</a>
+                <a class="btn btn-secondary button NoSaveBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="SAVEALL_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to save this ?</H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesSavedAllBtn">YES</a>
+                <a class="btn btn-secondary button NoSaveAllBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var counter = @rowIndex;
+    var rowObject = null;
+    $("a.addbtn").click(function () {
+        var rowid = "row-id-" + counter;
+        var rowCnt = tb1.rows().count();
+        $(".optval_id").val("");
+        $(".optval_val").val(rowCnt);
+        $(".optval_def").val("");
+        $(".optval_desc").val("");
+
+        $("a.insertbtn").css("display", "");
+        $("a.updatebtn").css("display", "none");
+
+        $("#hSelectRowid").val(rowid);
+        $('#OPTIONS_DLG').modal('show');
+    });
+    $("input.saveAllBtn").click(function () {
+        $('#SAVEALL_DLG').modal('show');
+    });
+    $("a.closbtn").click(function () {
+        $('#OPTIONS_DLG').modal('hide');
+    });
+    $("a.NoConfirmedBtn").click(function () {
+        $('#CONFIRMED_DLG').modal('hide');
+    });
+    $("a.NoSaveAllBtn").click(function () {
+        $('#SAVEALL_DLG').modal('hide');
+    });
+    $("a.YesConfirmedBtn").click(function () {
+
+        var p = $(rowObject).parent();
+        var msg = $(p).find("#hRowId").val();
+        tb1.row("." + msg).remove().draw();
+        counter--;
+        //alert(msg);
+        rowObject = null;
+
+        $('#CONFIRMED_DLG').modal('hide');
+    });
+    $("a.insertbtn").click(function () {
+
+        setDefualt();
+        var OPTVAL_ID = $(".optval_id").val();
+        var OPTVAL_DEF = $(".optval_def").val();
+        var OPTVAL_VAL = $(".optval_val").val();
+        var OPTVAL_DESC = $(".optval_desc").val();
+        var rowid = "row-id-" + counter;
+        var hRowId = $("<input type='hidden' value='" + rowid + "' id='hRowId'/>");
+        var hOPTVAL_ID = $("<input type='hidden' value='" + OPTVAL_ID + "' id='hOPTVAL_ID'/>");
+        var hOPTVAL_DEF = $("<input type='hidden' value='" + OPTVAL_DEF + "' id='hOPTVAL_DEF'/>");
+        var hOPTVAL_VAL = $("<input type='hidden' value='" + OPTVAL_VAL + "' id='hOPTVAL_VAL'/>");
+        var hOPTVAL_DESC = $("<input type='hidden' value='" + OPTVAL_DESC + "' id='hOPTVAL_DESC'/>");
+
+
+        var removeBtn = $("<a class='btn btn-primary button removebtn' >REMOVE</a>");
+        var editBtn = $("<a class='btn btn-primary button editbtn'>EDIT</a>");
+
+
+        var row = tb1.row.add(
+            [OPTVAL_ID
+                , OPTVAL_DESC
+                , OPTVAL_VAL
+                , OPTVAL_DEF
+                , ""
+            ]
+        ).draw(false)
+            .node();
+        counter++;
+        $(row).addClass(rowid)
+        $(row).find('td').eq(4).addClass('command');
+        $(row).find('td').eq(4).append(editBtn);
+        $(row).find('td').eq(4).append("\|");
+        $(row).find('td').eq(4).append(removeBtn);
+        $(row).find('td').eq(4).append(hRowId);
+
+        $(row).find('td').eq(4).append(hOPTVAL_ID);
+        $(row).find('td').eq(4).append(hOPTVAL_DEF);
+        $(row).find('td').eq(4).append(hOPTVAL_VAL);
+        $(row).find('td').eq(4).append(hOPTVAL_DESC);
+
+        $('#OPTIONS_DLG').modal('hide');
+
+    });
+
+    //function removeRow(obj) {
+    //    if (counter == 0) return;
+    //    var p = $(obj).parent();
+    //    var msg = $(p).find("#hRowId").val();
+    //    tb1.row("." + msg).remove().draw();
+    //    counter--;
+    //}
+
+    $("body").on("click", "a.removebtn", function (ev) {
+        //removeRow(this);
+        //var p = $(this).parent();
+        rowObject = this;
+        $('#CONFIRMED_DLG').modal('show');
+    });
+    $("body").on("click", "a.editbtn", function (ev) {
+        if (counter == 0) return;
+
+        var p = $(this).parent();
+        var id = $(p).find("#hOPTVAL_ID").val();
+        var value = $(p).find("#hOPTVAL_VAL").val();
+        var def = $(p).find("#hOPTVAL_DEF").val();
+        var desc = $(p).find("#hOPTVAL_DESC").val();
+        var hRowId = $(p).find("#hRowId").val();
+        //hRowId
+        $(".optval_id").val(id);
+        $(".optval_val").val(value);
+        $(".optval_def").val(def);
+        $(".optval_desc").val(desc);
+        $("#hSelectRowid").val(hRowId);
+
+        $("a.insertbtn").css("display", "none");
+        $("a.updatebtn").css("display", "");
+        $('#OPTIONS_DLG').modal('show');
+    });
+    $("a.updatebtn").click(function () {
+        setDefualt();
+        var msg = $("#hSelectRowid").val();
+        //alert("msg :" + msg);
+        var OPTVAL_ID = $(".optval_id").val();
+        var OPTVAL_DEF = $(".optval_def").val();
+        var OPTVAL_VAL = $(".optval_val").val();
+        var OPTVAL_DESC = $(".optval_desc").val();
+        var SelectedRow = $(tb1.row("." + msg).node()).find('td');
+        //alert("SelectedRow : " + SelectedRow);
+        //alert("SelectedRow.eq(0) : " + SelectedRow.eq(0).html());
+        //alert("SelectedRow.eq(0) : " + SelectedRow.eq(0).text().length);
+        //alert("SelectedRow.eq(0) : [" + SelectedRow.eq(0).text()+"]");
+        //alert("SelectedRow.eq(0) : " + SelectedRow.eq(0).val());
+        SelectedRow.eq(0).text(OPTVAL_ID);
+        SelectedRow.eq(4).find("#hOPTVAL_ID").val(OPTVAL_ID);
+
+        SelectedRow.eq(1).text(OPTVAL_DESC);
+        SelectedRow.eq(4).find("#hOPTVAL_DESC").val(OPTVAL_DESC);
+
+        SelectedRow.eq(2).text(OPTVAL_VAL);
+        SelectedRow.eq(4).find("#hOPTVAL_VAL").val(OPTVAL_VAL);
+        //alert("new : " + OPTVAL_DEF);
+        //alert("old : " + SelectedRow.eq(3).text().trim());
+        SelectedRow.eq(3).text(OPTVAL_DEF);
+        SelectedRow.eq(3).html(OPTVAL_DEF);
+        SelectedRow.eq(4).find("#hOPTVAL_DEF").val(OPTVAL_DEF);
+        $('#OPTIONS_DLG').modal('hide');
+    });
+
+    function setDefualt() {
+        if (counter == 0) return;
+        var rows = counter - 1;
+        var selectedValue = $(".optval_def").val();
+        if (selectedValue != "true") return;
+
+        tb1.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var node = this.node();
+            var val = $(node).find('td').eq(3).text();
+            if (val == "true") {
+                $(node).find('td').eq(3).text("false");
+                $(node).find('td').eq(4).find("#hOPTVAL_DEF").val("false");
+            }
+        });
+    }
+
+
+</script>
+
+<script>
+
+    $("#cOPR16_OPTIONVAL_MSTR_CRE_BY").val("@CM_APPLICATIONS.Models.AppPropModel.username");
+    $("#cOPR16_OPTIONVAL_MSTR_ADATE").val("@System.DateTime.Now");
+    $("#cOPR16_OPTIONVAL_MSTR_FLGACT").val("true");
+</script>
+<script>
+    $(".YesSavedAllBtn").click(function () {
+        saveJson();
+        $("#SAVEALL_DLG").modal("hide");
+    });
+
+    function saveJson() {
+        var opdt = {};
+        var dtdt = [];
+        //$("body").on("click", "input.#hOPTVAL_VAL", function (ev) { });
+        //console.log("BF OK in function");
+
+        //console.log("AF OK in function");
+//        console.log(dtdt);
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "option_id": $("#cOPR16_OPTIONVAL_MSTR_OPTION_ID").val(),
+            "option_name": $("#cOPR16_OPTIONVAL_MSTR_OPTION_NAME").val(),
+            "username": $("#UID").val(),
+            //"jsonString": $('form').serialize()
+            "jsonString": [{}]
+        };
+        var firstFlg = true;
+        tb1.rows().every(function (rowIdx, tableLoop, rowLoop) {
+
+          //   console.log("OK in function");
+            var node = this.node();
+            var OPDTD_VAL = $(node).find('td').eq(4).find("#hOPTVAL_VAL").val();
+            var OPDTD_ID= $(node).find('td').eq(4).find("#hOPTVAL_ID").val();
+            var FLGDEF = $(node).find('td').eq(4).find("#hOPTVAL_DEF").val();
+            var DESC = $(node).find('td').eq(4).find("#hOPTVAL_DESC").val();
+            opdt = {
+                "OPTION_ID": $("#cOPR16_OPTIONVAL_MSTR_OPTION_ID").val(),
+                "OPTDT_ID": OPDTD_ID,
+                "OPTDT_VALUE": OPDTD_VAL,
+                "FLGDEF": FLGDEF,
+                "DESC": DESC
+            };
+            //console.log(opdt);
+
+            if (jdata["jsonString"].length == 1 && firstFlg == true) {
+                jdata["jsonString"][0] = opdt;
+                firstFlg = false;
+            } else {
+                jdata["jsonString"].push(opdt);
+            }
+
+
+        });
+        console.log(jdata);
+            var urlText = "@Url.Action("CreateJson","COPR16_OPTIONVAL_MSTR")";
+            var options = { "backdrop": "static", keyboard: true };
+            console.log();
+            $.ajax({
+                type: "POST",
+                url: urlText,     //your action
+                //data: $('form').serialize(),   //your form name.it takes all the values of model
+                //dataType: 'json',
+                data: jdata,
+                success: function (result) {
+                    $('#ModalLabelSuccess').html("Create New Options Value");
+                    $('#ModalBodySuccess').html("Create New Options Value Successed");
+                    $('#ModalSuccess').modal(options);
+                    $('#ModalSuccess').modal('show');
+                    //window.location.href = "@Url.Action("Index","COPR16_OPTIONVAL_MSTR")";;
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#ModalLabelError').html("Create New Option Value");
+                    $('#ModalBodyError').html("Cannot save data : " + errorThrown );
+                    $('#ModalError').modal(options);
+                    $('#ModalError').modal('show');
+                }
+            })
+            return false;
+    }
+
+</script>

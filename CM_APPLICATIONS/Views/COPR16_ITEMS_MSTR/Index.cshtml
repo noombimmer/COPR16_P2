@@ -1,0 +1,352 @@
+﻿@model IEnumerable<CM_APPLICATIONS.COPR16_ITEMS_MSTR>
+
+@{
+    ViewBag.Title = "ITEMS MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ITEMS MASTER</h2>
+
+<p>
+    @Html.ActionLink("ADD NEW ITEM", "Create", "COPR16_ITEMS_MSTR", new { @class = "btn btn-primary button" })
+    @Html.ActionLink("UPLOAD FG VOLUME", "Create", "COPR16_FILE_IMPORT", new { id = 0 }, new { @class = "btn btn-primary button" })
+    @*@Html.ActionLink("RESULT UPLOADING", "gLockUpload", "COPR16_FILE_IMPORT", new { id = 0 }, new { @class = "btn btn-primary button" })*@
+</p>
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.Label("FROM DATE : ", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.Editor("FROM_DATE", new { htmlAttributes = new { @class = "form-control from-date", @readonly = "true", @name = "FROM_DATE" } })
+            @Html.Hidden("hidden_FROM_DATE", "")
+            <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-from-date-picker">
+        </div>
+
+    </div>
+    <div class="form-group">
+        @Html.Label("TO DATE : ", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.Editor("TO_DATE", new { htmlAttributes = new { @class = "form-control to-date", @readonly = "true", @name = "TO_DATE" } })
+            @Html.Hidden("hidden_TO_DATE", "")
+            <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-to-date-picker">
+        </div>
+
+    </div>
+    <div class="form-group">
+        @Html.Label("FILTER ITEMS : ", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.Editor("FITEMS", new { htmlAttributes = new { @class = "form-control item-id", @name = "FITEMS" } })
+            @Html.Hidden("hidden_FITEMS", "")
+        </div>
+
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-1 col-md-10">
+            <input type="button" value="REFRESH" class="btn btn-primary button refreshBtn" />
+        </div>
+    </div>
+</div>
+
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 100% !important;
+        margin-left: 0px !important;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        /*width: 100% !important;*/
+        border: thin 0.5px grey !important;
+    }
+
+    div.dataTables_length {
+        display: none !important;
+    }
+
+    div.dataTables_filter {
+        display: none !important;
+    }
+
+    div.dataTables_paginate {
+        display: none !important;
+    }
+
+    .modal-header {
+        background-color: #005495 !important;
+        color: #ffffff !important;
+    }
+
+    td.command {
+        flex-flow: nowrap;
+        flex-wrap: nowrap;
+        white-space: nowrap !important;
+    }
+
+    th.command {
+        flex-flow: nowrap;
+        flex-wrap: nowrap;
+        white-space: nowrap !important;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .no-wrap-th {
+        white-space: nowrap;
+    }
+
+    .numericCol {
+        text-align: right;
+    }
+
+    .textCol {
+        text-align: left;
+    }
+
+    .matrixValue {
+        width: 1% !important;
+    }
+</style>
+
+<table class="table stripe option-list data-step">
+    <thead>
+        <tr>
+            <th class="no-wrap-th textCol">Part No.(S/B)</th>
+        </tr>
+    </thead>
+    @*<tbody>
+            <tr>
+                <td></td>
+            </tr>
+        </tbody>*@
+</table>
+
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+
+<script>
+    var tbVar;
+
+    //var tbVar = $('.data-step').DataTable({
+    //    "paging": true,
+    //    "ordering": false,
+    //    "info": true,
+    //    "stripe": true,
+    //    "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+    //    "language": {
+    //        "lengthMenu": "Display _MENU_ items per page",
+    //        "zeroRecords": "No items view",
+    //        "info": "Showing _START_-_END_ of _TOTAL_ items",
+    //        "infoEmpty": "No Items to view",
+    //        "infoFiltered": "(filtered from _MAX_ total items)"
+    //    }
+
+    //});
+
+    //tbVar.clear().draw();
+    $('.to-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.from-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.edit-from-date-picker').click(function () {
+        $('.from-date').datepicker("setDate", $('.from-date').val());
+        $('.from-date').datepicker('show');
+    });
+    $('.edit-to-date-picker').click(function () {
+        $('.to-date').datepicker("setDate", $('.to-date').val());
+        $('.to-date').datepicker('show');
+    });
+</script>
+<script>
+    function setDefDate() {
+        var date = new Date();
+        var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+        var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        $('.from-date').val($.datepicker.formatDate("yy-M-dd", firstDay));
+        $('.to-date').val($.datepicker.formatDate("yy-M-dd", lastDay));
+    }
+    setDefDate();
+</script>
+<script>
+    function getTableHeader(singleRow) {
+        //tbVar.rows().clear();
+        var skipFirst = true;
+        if (tbVar != null || tbVar != undefined) {
+
+            $('.data-step').DataTable().destroy();
+            //console.log($('.data-step'));
+            $('.data-step').html("");
+            $('.data-step').removeClass("dataTable");
+            $('.data-step').removeClass("no-footer");
+            $('.data-step').removeAttr("id");
+            $('.data-step').removeAttr("aria-describedby");
+            $('.data-step').removeAttr("role");
+            var rowTheader = "<thead></thead>";
+            $('.data-step').append(rowTheader);
+            var rowTr = "<tr></tr>";
+            $('.data-step').find('thead').eq(0).append(rowTr);
+            var headerString = "<th class='no-wrap-th textCol'>Part No.(S/B)</th>";
+            $('.data-step').find('tr').eq(0).append(headerString);
+        }
+
+        $.each(singleRow, function (ikey, ivalue) {
+            if (skipFirst==false) {
+                var headerString = "<th class='no-wrap-th matrixValue'>" + ikey + "</th>";
+                var rowString = "<td class='no-wrap-th'>" + ikey + "</td>";
+                $('.data-step').find('tr').eq(0).append(headerString);
+            }
+            skipFirst = false;
+
+        });
+        $('.data-step').css("padding-right","15px");
+        $('html').css("overflow", "scroll");
+
+
+
+        //tbVar = null;
+        //if (tbVar == null || tbVar == undefined) {
+            tbVar = $('.data-step').DataTable({
+                "destroy": true,
+                "paging": false,
+                "ordering": false,
+                "info": true,
+                "stripe": true,
+                "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                "language": {
+                    "lengthMenu": "Display _MENU_ items per page",
+                    "zeroRecords": "No items view",
+                    "info": "Showing _START_-_END_ of _TOTAL_ items",
+                    "infoEmpty": "No Items to view",
+                    "infoFiltered": "(filtered from _MAX_ total items)"
+                },
+                "aoColumnDefs": [
+                    {
+                         "sClass": "numericCol", "aTargets": "_all"
+                    }
+
+                ]
+            });
+        //}
+
+    }
+    function getTableRows(rowsData) {
+        var skipFirst = false;
+
+        $.each(rowsData, function (key, value) {
+            if (skipFirst == false) {
+                var rowData = [];
+                $.each(value, function (ikey, ivalue) {
+                    rowData.push(ivalue == null ? "0" : ivalue);
+                });
+                //console.log(rowData);
+                var rowNode = tbVar.row.add(rowData).draw(false).node();
+                $(rowNode).find('td').eq(0).removeClass("numericCol");
+                $(rowNode).find('td').eq(0).addClass("textCol");
+            }
+            skipFirst = false;
+            //rowData.clear();
+        });
+    }
+    function refreshData() {
+        var fromDate = $('.from-date').val();
+        var toDate = $('.to-date').val();
+        var itemID = $('.item-id').val();
+
+        var urlText = "@Url.Action("GetVolumeMatrix","COPR16_ITEMS_MSTR")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {
+            "FROM_DATE": fromDate,
+            "TO_DATE": toDate,
+            "ITEM_ID" : itemID
+        };
+        console.log(jdata);
+        //console.log(".---.");
+        autoCloseCompleted = false;
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+
+                getTableHeader(result.Data[0]);
+                getTableRows(result.Data);
+                //$.each(result.Data, function (key, value) {
+                //    $.each(value, function (ikey,ivalue) {
+                //        console.log(ikey);
+                //    });
+                //});
+                closeConpleting();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                $('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalError').modal("show");
+                closeConpleting();
+            }
+        });
+    }
+    $('.refreshBtn').click(function(){
+        refreshData();
+    })
+    $(document).on('keypress', function (e) {
+        if (e.which == 13) {
+            refreshData();
+        }
+    });
+</script>

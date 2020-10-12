@@ -1,0 +1,83 @@
+﻿@model CM_APPLICATIONS.COPR16_RTVALUE_TR
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>COPR16_RTVALUE_TR</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.RTV_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RTV_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ADATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CRE_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CRE_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOD_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOD_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOD_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOD_DATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RTYPE_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RTYPE_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MANC_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MANC_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DEF_VALUE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DEF_VALUE)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RTV_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

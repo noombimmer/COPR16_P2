@@ -1,0 +1,98 @@
+﻿@model IEnumerable<CM_APPLICATIONS.COPR16_MODEL_MSTR>
+
+@{
+    ViewBag.Title = "MODELS MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MODELS MASTER</h2>
+
+<p>
+    @Html.ActionLink("ADD NEW MODEL", "Create", "COPR16_MODEL_MSTR", new { @class = "btn btn-primary button" })
+</p>
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 99% !important;
+        margin-left: 0px !important;
+        ;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+</style>
+<table class="table table-list stripe">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BRAND_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MODEL_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MODEL_DESC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FLGACT)
+            </th>
+            <th class="username">
+                @Html.DisplayNameFor(model => model.ADATE)
+            </th>
+            <th class="username">
+                @Html.DisplayNameFor(model => model.CRE_BY)
+            </th>
+            <th class="command">ACTION</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BRAND_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MODEL_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MODEL_DESC)
+            </td>
+            <td class="username">
+                @Html.DisplayFor(modelItem => item.FLGACT)
+            </td>
+            <td class="username">
+                @Html.DisplayFor(modelItem => item.ADATE)
+            </td>
+            <td class="username">
+                @Html.DisplayFor(modelItem => item.CRE_BY)
+            </td>
+            <td class="command">
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.MODEL_ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.MODEL_ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.MODEL_ID })*@
+                @Html.ActionLink("Edit", "Edit", "COPR16_MODEL_MSTR", new { id = item.MODEL_ID }, new { @class = "btn btn-primary button" }) |
+                @Html.ActionLink("View", "Details", "COPR16_MODEL_MSTR", new { id = item.MODEL_ID }, new { @class = "btn btn-primary button" }) |
+                @{
+
+                    if (item.FLGACT == true)
+                    {
+                        @Html.ActionLink("Deactivate", "Deactive", "COPR16_MODEL_MSTR", new { id = item.MODEL_ID }, new { @class = "btn btn-primary button" });
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Activate", "Active", "COPR16_MODEL_MSTR", new { id = item.MODEL_ID }, new { @class = "btn btn-primary button" });
+                    }
+                }
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

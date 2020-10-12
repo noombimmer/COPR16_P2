@@ -1,0 +1,1445 @@
+﻿@model CM_APPLICATIONS.Models.HandheldModel
+@{
+    ViewBag.Title = "COP R16 HANDHELD";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var rowIndex = 0;
+}
+
+<h2>
+    COP NO :  @Html.DisplayFor(m => m.FG_DETAILS)
+</h2>
+<style>
+    .PN-TEXT {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 11px;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .FG-TYPE {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 38px;
+    }
+
+    .COP-TITLE {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 20px;
+    }
+
+    .label-sticker {
+        width: 11cm !important;
+        height: 5.2cm !important;
+        max-height: 5.2cm !important;
+        max-width: 11cm !important;
+        overflow: hidden;
+        /*background-color: lightgray;*/
+        border: 1px solid lightgray;
+        display: inline-block;
+        padding-left: 15px;
+    }
+
+    .uploadClass {
+        font-size: 10px !important;
+    }
+    .workflow-step td{
+        padding-left:0px !important;
+    }
+    @@media only screen and (max-width: 501px) {
+        #DataTables_Table_0_wrapper {
+            font-size: 80% !important;
+        }
+
+        .dataTables_length {
+            display: none !important;
+        }
+
+        .dataTables_info {
+            display: none !important;
+        }
+
+        .dataTables_filter {
+            text-align: left !important;
+        }
+
+        .dataTables_paginate {
+            text-align: left !important;
+        }
+
+        .text-center {
+            text-align: center !important;
+        }
+
+        .table-head-mobile {
+            vertical-align: top !important;
+            white-space: normal !important;
+            text-align: center !important;
+        }
+
+        .form-horizontal {
+            column-count: 2;
+            zoom: 0.7;
+            -moz-transform: scale(0.7);
+        }
+
+        .form-group {
+            break-inside: avoid-column;
+        }
+
+            .form-group:nth-of-type(4) {
+                break-after: column;
+                display: block;
+            }
+    }
+</style>
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 99% !important;
+        margin-left: 0px !important;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+</style>
+
+@using (Html.BeginForm("TestResult","COPR16_COPRUNNING_RT",FormMethod.Post,new { @class = "_mainform" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    <table with="100%">
+        <tr>
+            <th class="col-md-2" style="vertical-align: top !important;">
+                <div class="form-horizontal col-md-12">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+
+                    @Html.Hidden("text-hSB-PNO", Model.cOPR16_COPRUNNING_DT_SB.PNO)
+                    @Html.Hidden("text-hBKL-PNO", Model.cOPR16_COPRUNNING_DT_BKL.PNO)
+                    @Html.Hidden("text-hSB-LOTNO", Model.cOPR16_COPRUNNING_DT_SB.LOTNO)
+                    @Html.Hidden("text-hBKL-LOTNO", Model.cOPR16_COPRUNNING_DT_BKL.LOTNO)
+
+                    @Html.HiddenFor(model => model.cOPR16_COPRUNNING.COPR_ID)
+                    @Html.Hidden("hSEQ_NO", "1")
+                    @Html.Hidden("hCOPR_ID", Model.cOPR16_COPRUNNING.COPR_ID)
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.cOPR16_COPRUNNING.COPR_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.cOPR16_COPRUNNING.COPR_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.COPR_ID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.WRK_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING.WRK_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.WRK_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.cOPR16_COPRUNNING.PROC_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.cOPR16_COPRUNNING.PROC_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                                @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.PROC_ID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.MODEL_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING.MODEL_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.MODEL_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.POSITION_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING.POSITION_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.POSITION_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.DESC, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.TextAreaFor(model => model.cOPR16_COPRUNNING.DESC, new { @class = "form-control", @rows = "6", @readonly = "true" })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.DESC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.ADATE, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.ADATE, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.CRE_BY, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.CRE_BY, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    @*<div class="form-group">
+                            <div class="col-md-offset-8 col-md-8">
+                                <input type="button" value="Save" class="btn btn-primary button createBtn" />
+                                <input type="reset" value="Clear" class="btn btn-secondary" />
+                            </div>
+                        </div>*@
+
+                </div>
+            </th>
+            <th class="col-md-4" style="vertical-align:top">
+                <div class="label-sticker machine-sticker-a menu-desktop">
+                    <table width="100%" border="0">
+                        <tr>
+                            <th width="100px" class="COP-TITLE"> COP No. : </th>
+                            <th colspan="2" style="padding-right:15px;text-align:right;" class="COP-TITLE">
+                                <lable class="COPNOA" /><u>A</u>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="COP-TITLE"> Model: <lable class="COPMODELA" /></th>
+
+                            <th width="110px" rowspan="3" style="text-align:right;"><div class="col-md-2 qr-code-dsp-a" style="text-align:right;"></div></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="COP-TITLE"><lable class="COPPOSA" /></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="FG-TYPE"><b>SB</b></th>
+                        </tr>
+                        <tr>
+                            <th class="PN-TEXT">SB P/No.: <lable class="COPSBPNOA" /></th>
+                            <th>&nbsp;</th>
+                            <th class="PN-TEXT">Lot.: <lable class="COPSBLOTA" /></th>
+                        </tr>
+                        <tr>
+                            <th class="PN-TEXT">BKL P/No.:<lable class="COPBKLPNOA" /></th>
+                            <th>&nbsp;</th>
+                            <th class="PN-TEXT">Lot.:<lable class="COPBKLLOTA" /></th>
+                        </tr>
+                    </table>
+
+                </div>
+                @*<div>
+                        <input type="button" value="Select Seat Belt" class="btn btn-primary button sbBtn" />
+                        <input type="button" value="Print Seat Belt Sticker" class="btn btn-primary button sb-print-Btn" />
+                    </div>*@
+                <hr>
+                <div class="label-sticker machine-sticker-b menu-desktop">
+                    <table width="100%" border="0">
+                        <tr>
+                            <th width="100px" class="COP-TITLE"> COP No. : </th>
+                            <th colspan="2" style="padding-right:15px;text-align:right;" class="COP-TITLE">
+                                <lable class="COPNOB" /><u>B</u>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="COP-TITLE"> Model: <lable class="COPMODELB" /></th>
+
+                            <th width="110px" rowspan="3" style="text-align:right;"><div class="col-md-2 qr-code-dsp-b" style="text-align:right;"></div></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="COP-TITLE"><lable class="COPPOSB" /></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="FG-TYPE"><b>BKL</b></th>
+                        </tr>
+                        <tr>
+                            <th class="PN-TEXT">SB P/No.:<lable class="COPSBPNOB" /></th>
+                            <th>&nbsp;</th>
+                            <th class="PN-TEXT">Lot.:<lable class="COPSBLOTB" /></th>
+                        </tr>
+                        <tr>
+                            <th class="PN-TEXT">BKL P/No.:<lable class="COPBKLPNOB" /></th>
+                            <th>&nbsp;</th>
+                            <th class="PN-TEXT">Lot.:<lable class="COPBKLLOTB" /></th>
+                        </tr>
+                    </table>
+
+
+                </div>
+                @*<div>
+                        <input type="button" value="Select Bunkle" class="btn btn-primary button bklBtn" />
+                        <input type="button" value="Price Bunkle Sticker" class="btn btn-primary button bkl-print-Btn" />
+                    </div>*@
+            </th>
+        </tr>
+    </table>
+
+}
+<hr>
+
+<table class="table stripe option-list workflow-step">
+    <thead>
+        <tr>
+            <th class="table-head-mobile">
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.SEQ_NO)
+            </th>
+            <th class="menu-desktop">
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.WRKD_ID)
+            </th>
+
+            <th class="table-head-mobile">
+                @Html.DisplayNameFor(model => model.cOPR16_WORKFLOW_DT.WRKD_DESC)
+            </th>
+            <th class="menu-desktop">
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.MACHINETYPE_ID)
+
+            </th>
+            <th class="table-head-mobile">
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.MACHINE_ID)
+            </th>
+            <th class="menu-desktop">
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.FGTYPE_ID)
+            </th>
+            <th class="table-head-mobile">
+                @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.STATUS_ID)
+            </th>
+            <th class="command">ACTION</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.WorkProcess_List)
+        {
+            var strrow = "class=row-id-" + rowIndex + "";
+
+            <tr @strrow>
+                <td class="username text-center">
+                    @Html.DisplayFor(modelItem => item.WRKD_SEQ)
+                </td>
+                <td class="menu-desktop">
+                    @Html.DisplayFor(modelItem => item.WRKD_ID)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.WRKD_DESC)
+                </td>
+                <td class="menu-desktop">
+                    @Html.DisplayFor(modelItem => item.MACHINETYPE_ID)
+                    @{
+                        if (item.MACHINETYPE_ID.Contains("MT001"))
+                        {
+                            @*<a class="btn btn-primary button uploadBtn uploadClass">UPLOAD FILE</a>*@
+                        }
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MACHINE_ID)
+                </td>
+                <td class="menu-desktop">
+                    @Html.DisplayFor(modelItem => item.FGTYPE_ID)
+                </td>
+
+                <td class="table-head-mobile"
+                    @{ var Pstring = ""; var style1 = ""; if (item.STATUS_ID != null) { var colorP = Model.localCopsModel.STATUS_LIST.Where(l => l.value.Equals(item.STATUS_ID)).FirstOrDefault(); style1 = "style=text-align:center;background-color:" + colorP.color + ";"; if (colorP.fcolor != null) { style1 = style1 + ";color:" + colorP.fcolor + ";"; } } }
+                    @style1>
+                    @Html.DisplayFor(modelItem => item.STATUS_ID)
+
+                </td>
+                <td class="command table-head-mobile" id="action_btn">
+                    @Html.Hidden("hRowId", "row-id-" + rowIndex++)
+                    @Html.Hidden("hWRKD_ID", item.WRKD_ID)
+                    @Html.Hidden("hSEQ_NO", item.WRKD_SEQ)
+                    @if (item.STATUS_ID != null)
+                    {
+
+                        if (item.STATUS_ID.Equals("WAIT"))
+                        {
+                            Pstring = "<a class='btn btn-success startBtn'>START TEST</a>";
+                        }
+                        if (item.STATUS_ID.Equals("TESTING"))
+                        {
+                            Pstring = "<a class='btn btn-success finshBtn'>TEST FINISH</a><a class='btn btn-danger abortBtn'>ABORT TEST</a>";
+                        }
+                        if (item.STATUS_ID.Equals("FINISH"))
+                        {
+                            Pstring = "<a class='btn btn-info resultBtn'>ENTER RESULT</a>";
+                        }
+
+                    }
+                    @Html.Raw(@Pstring)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div id="previewImage" class="label" style="display:none !important; ">
+</div>
+<div>
+    @Html.ActionLink("Back to List", "HANDHELD", "COPR16_COPRUNNING_RT", new { @class = "btn btn-primary button" })
+</div>
+
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+
+<div class="modal fade display-result" id="DISPLAY-RESULT" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">GLOCK UPLOAD FILE</h4>
+            </div>
+            <div class="modal-body" id="DISPLAY-RESULT-FORM">
+                @using (Html.BeginForm("GlockUploading", "COPR16_FILE_IMPORT", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "main-form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+                    @Html.Hidden("form-file-type", "", htmlAttributes: new { @class = "form-file-type" })
+                    @Html.Hidden("form-file-format", "", htmlAttributes: new { @class = "form-file-format" })
+                    @Html.Hidden("form-file-path", "", htmlAttributes: new { @class = "form-file-path" })
+                    @Html.Hidden("form-file-size", "", htmlAttributes: new { @class = "form-file-size" })
+                    @Html.Hidden("form-file-name", "", htmlAttributes: new { @class = "form-file-name" })
+
+                    <div class="modal-header">
+                        @Html.Label("G-LOCK TEST RESULT FILE", htmlAttributes: new { @class = "modal-title" })
+                        <div class="modal-title" style="display:flex;flex-wrap:nowrap">
+                            <input class="form-file-input" id="FSIM_NAME" name="FSIM_NAME" type="file" value="" accept=".xlsx, .xls, .csv" style="position:relative;top:0px;">
+                        </div>
+                    </div>
+
+                }
+            </div>
+            <div class="modal-body" id="DISPLAY-RESULT-BODY">
+                <H4 id="DISPLAY-RESULT-TITLE" style="text-align:left">Result rows</H4>
+                <TABLE class="table-result table">
+                    <THEAD>
+                        <tr>
+                            <TH>No</TH>
+                            <TH>Name</TH>
+                            <TH>Value</TH>
+                        </tr>
+                    </THEAD>
+                    <tbody>
+                        @*<tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>*@
+                    </tbody>
+                </TABLE>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button display-result-save">Save</a>
+                <a class="btn btn-secondary button display-result-close">Close</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal Confirm Remove -->
+<script>
+    $("#cOPR16_COPRUNNING_MOD_BY").val("@CM_APPLICATIONS.Models.AppPropModel.username");
+    $("#cOPR16_COPRUNNING_MOD_DATE").val("@System.DateTime.Now");
+    //$("#cOPR16_COPRUNNING_COP_STATUS").val("NEW");
+    var fileBody = "";
+    var fileNameValue = "";
+
+    var strDate = "";
+    var strTime = "";
+    var strTester = "";
+    var strPartNo = "";
+    var strModelNo = "";
+
+    var strWSI2 = "0";
+    var strWSI3 = "0";
+    var strWSI8 = "0";
+
+    var strVSI1 = "0";
+    var strVSI2 = "0";
+    var strVSI3 = "0";
+    var strVSI4 = "0";
+
+    var strTAL1 = "0";
+    var strTAL2 = "0";
+    var strTAL3 = "0";
+    var strTAL4 = "0";
+    function resetValue() {
+        strDate = "";
+        strTime = "";
+        strTester = "";
+        strPartNo = "";
+        strModelNo = "";
+
+        strWSI2 = "0";
+        strWSI3 = "0";
+        strWSI8 = "0";
+
+        strVSI1 = "0";
+        strVSI2 = "0";
+        strVSI3 = "0";
+        strVSI4 = "0";
+
+        strTAL1 = "0";
+        strTAL2 = "0";
+        strTAL3 = "0";
+        strTAL4 = "0";
+    }
+    var arrayResult = [];
+    function readDataOmg(str) {
+        if (typeof str === "object") {
+            str = str.target.result; // file reader
+            fileBody = str;
+            console.log(fileBody);
+        }
+    }
+    $('.form-file-input').change(function (e) {
+        var filename = e.target.files[0].name;
+        var type = e.target.files[0].type;
+        var size = e.target.files[0].size;
+        var path = $(this).val().replace(filename, '');
+        var extension = filename.replace(/^.*\./, '');
+        //alert(filename);
+
+        $('.form-file-type').val(extension);
+        $('.form-file-format').val(type);
+        $('.form-file-path').val(path);
+        $('.form-file-size').val(size);
+        $('.form-file-name').val(filename);
+        /*
+        console.log(e.target.files[0]);
+        console.log(e.target.files[0].webkitRelativePath);
+        $('.file-info').show();
+        $('.uploadBtn').attr("disabled", false);
+        $('.confirmBtn').attr("disabled", true);
+        */
+        var fileObj = this;
+        if (fileObj.files) {
+            // create reader
+            file = fileObj.files[0];
+            var reader = new FileReader();
+            reader.onloadend = readDataOmg;
+            reader.readAsText(file);
+        }
+        resetValue();
+        upload_files();
+    });
+    var tbVarSB = $('.workflow-step').DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": false,
+        "stripe": true,
+        "search": false,
+        "searching": false,
+        "language": {
+            "lengthMenu": "Display _MENU_ steps per page",
+            "zeroRecords": "No step available",
+            "info": "Showing _START_-_END_ of _TOTAL_ steps",
+            "infoEmpty": "No step available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        }
+    });
+
+    var tbVarBKL = $('.table-bkl').DataTable({
+        "paging": true,
+        "ordering": true,
+        "info": true,
+        "stripe": true,
+        "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "No records available",
+            "info": "Showing _START_-_END_ of _TOTAL_ rows",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        }
+    });
+</script><!-- /Script For First Display -->
+
+<script>
+    $('.search-sb-btn').click(function () {
+        var fg_no = $('.FG_NO').val();
+        var brand_no = $('.BRAND_NO').val();
+        var model_no = $('.MODEL_NO').val();
+
+        var urlText = "@Url.Action("GetItems","COPR16_COPRUNNING")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {"fg_no":fg_no,"model_no": model_no,"brand_no":brand_no}
+        console.log(jdata);
+        //console.log(".---.");
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                //alert(result);
+                //updateInfo(result);
+                tbVarSB.clear().draw();
+                var selectBtn = "<a class='btn btn-primary button sb_select_btn'>SELECT</a>";
+
+                $.each(result, function (i, item) {
+                    var row = tbVarSB.row.add([
+                        result[i].a_FG_NO,
+                        result[i].b_FG_DESC,
+                        result[i].a_MODLE_ID,
+                        result[i].a_MODLE_ID,
+                        ""]).draw(false).node();
+			var hPNO = $("<input type='hidden' value='" + result[i].a_FG_NO + "' id='hSB-PNO' class='hSB-PNO'/>");
+                        $(row).find('td').eq(4).addClass('command');
+                        $(row).find('td').eq(4).append(selectBtn);
+			$(row).find('td').eq(4).append(hPNO);
+                });
+
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("error:" + errorThrown);
+            }
+        });
+        return false;
+    });
+
+    $('#cOPR16_COPRUNNING_PROC_ID').change(function () {
+        updateProc();
+    });
+    $('#cOPR16_COPRUNNING_MODEL_ID').change(function () {
+        updateModel();
+    });
+    $('#cOPR16_COPRUNNING_POSITION_ID').change(function () {
+        updatePosition();
+    });
+    var COPRUNING_NO = "";
+    function updateInfo(rst) {
+        $('.qr-code-dsp-a').html("");
+        $('.qr-code-dsp-b').html("");
+        var COP_FULL_DIGIT = rst[0]["COPRUN"] + "-02-00";
+        COPRUNING_NO = rst[0]["COPRUN"];
+        var COP_FULL_DIGIT_A = COP_FULL_DIGIT + "A";
+        var COP_FULL_DIGIT_B = COP_FULL_DIGIT + "B";
+        $('#cOPR16_COPRUNNING_COPR_ID').val(COP_FULL_DIGIT);
+        $('.qr-code-dsp-a').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_A });
+        $('.qr-code-dsp-b').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_B });
+        $('.COPNOA').html(COP_FULL_DIGIT + "<u>A</u>");
+        $('.COPNOB').html(COP_FULL_DIGIT + "<u>B</u>");
+        updateProc();
+    }
+    function updateEditInfo(copruning,proc_id) {
+        $('.qr-code-dsp-a').html("");
+        $('.qr-code-dsp-b').html("");
+        var COP_FULL_DIGIT = copruning;
+        COPRUNING_NO = copruning;
+        var COP_FULL_DIGIT_A = COP_FULL_DIGIT + "A";
+        var COP_FULL_DIGIT_B = COP_FULL_DIGIT + "B";
+        //$('#cOPR16_COPRUNNING_COPR_ID').val(COP_FULL_DIGIT);
+        $('.qr-code-dsp-a').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_A });
+        $('.qr-code-dsp-b').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_B });
+        $('.COPNOA').html(COP_FULL_DIGIT + "<u>A</u>");
+        $('.COPNOB').html(COP_FULL_DIGIT + "<u>B</u>");
+        updateProc();
+    }
+
+    function updatePosition() {
+        var varText = $('#cOPR16_COPRUNNING_POSITION_ID').val();
+        $('.COPPOSB').html(varText);
+        $('.COPPOSA').html(varText);
+    }
+    function updateModel() {
+        var varText = $('#cOPR16_COPRUNNING_MODEL_ID').val();
+        $('.COPMODELA').html(varText);
+        $('.COPMODELB').html(varText);
+    }
+    function updateProc() {
+        $('.qr-code-dsp-a').html("");
+        $('.qr-code-dsp-b').html("");
+        var varText = $('#cOPR16_COPRUNNING_PROC_ID').val();
+        var COP_FULL_DIGIT = COPRUNING_NO;
+        var COP_FULL_DIGIT_A = COP_FULL_DIGIT + "A";
+        var COP_FULL_DIGIT_B = COP_FULL_DIGIT + "B";
+        $('#cOPR16_COPRUNNING_COPR_ID').val(COP_FULL_DIGIT);
+        $('.qr-code-dsp-a').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_A });
+        $('.qr-code-dsp-b').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_B });
+        $('.COPNOA').html(COP_FULL_DIGIT + "<u>A</u>");
+        $('.COPNOB').html(COP_FULL_DIGIT + "<u>B</u>");
+    }
+    function getCopRunning() {
+        var urlText = "@Url.Action("GetCOPID","COPR16_COPRUNNING")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {id:""}
+        //console.log(jdata);
+        //console.log(".---.");
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                //alert(result);
+                updateInfo(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("error:" + errorThrown);
+            }
+        });
+        return false;
+
+    }
+    //getCopRunning();
+    updateEditInfo($('#cOPR16_COPRUNNING_COPR_ID').val(),$('#cOPR16_COPRUNNING_PROC_ID').val());
+    updatePosition();
+    updateModel();
+
+</script>
+<script>
+    $("a.sbclosebtn").click(function () {
+        $('#SB_DLG').modal('hide');
+        $('#BKL_DLG').modal('hide');
+    });
+    $("input.sbBtn").click(function () {
+        var MODEL_NO = $('#cOPR16_COPRUNNING_MODEL_ID').val();
+        $('.SB-MODEL-NO').val(MODEL_NO);
+        $('#SB_DLG').modal('show');
+    });
+    $("input.bklBtn").click(function () {
+        var MODEL_NO = $('#cOPR16_COPRUNNING_MODEL_ID').val();
+        $('.BKL-MODEL-NO').val(MODEL_NO);
+        $('#BKL_DLG').modal('show');
+    });
+</script>
+<script>
+    var elementA = $(".machine-sticker-a");
+    var elementB = $(".machine-sticker-b");
+    var getCanvas;
+    $(".sb-print-Btn").on('click', function () {
+        $(".machine-sticker-a").css("padding-left", "20px");
+        html2canvas(elementA, {
+            onrendered: function (canvas) {
+                $("#previewImage").html("");
+                getCanvas = canvas;
+                var strUrl = canvas.toDataURL("image/png");
+                var img = "<img id='img01' class='img01' src='" + strUrl + "'/>";
+                $("#previewImage").append(img);
+
+                PrintDiv("previewImage");
+                $(".machine-sticker-a").css("padding-left", "0px");
+            }
+        });
+    });
+    $(".bkl-print-Btn").on('click', function () {
+        $(".machine-sticker-b").css("padding-left", "20px");
+        html2canvas(elementB, {
+            onrendered: function (canvas) {
+                $("#previewImage").html("");
+                getCanvas = canvas;
+                var strUrl = canvas.toDataURL("image/png");
+                var img = "<img id='img01' class='img01' src='" + strUrl + "'/>";
+                $("#previewImage").append(img);
+
+                PrintDiv("previewImage");
+                $(".machine-sticker-b").css("padding-left", "0px");
+            }
+        });
+    });
+</script><!-- /Script For Select Seat Belt -->
+<script>
+
+    $("body").on("click", '.close-select-Btn', function (env) {
+        $('#SELECT-SB-DLG').modal('hide');
+         $('#SELECT-BKL-DLG').modal('hide');
+    });
+
+    $("body").on("click", "a.sb_select_btn", function (ev) {
+        var p = $(this).parent();
+        var fg_id = $(p).find(".hSB-PNO").val();
+        $('#SELECT-SB-DLG').modal('show');
+        $('#SB_DLG').modal('hide');
+        $('.SB-PNO').val(fg_id);
+        $('.SB-LOTNO').focus();
+    });
+    $("body").on("click", "a.bkl_select_btn", function (ev) {
+        var p = $(this).parent();
+        var fg_id = $(p).find(".hBKL-PNO").val();
+        $('#SELECT-BKL-DLG').modal('show');
+        $('#BKL_DLG').modal('hide');
+        $('.CONFIRM-BKL-PNO').val(fg_id);
+        $('.CONFIRM-BKL-LOTNO').focus();
+    });
+    $('.confirm-select-Btn').click(function () {
+        var SBPNO = $('.SB-PNO').val();
+        var SBLOTNO = $('.SB-LOTNO').val();
+        $('#SELECT-SB-DLG').modal('hide');
+        $('.COPSBPNOA').html(SBPNO);
+        $('.COPSBLOTA').html(SBLOTNO);
+        $('.COPSBPNOB').html(SBPNO);
+        $('.COPSBLOTB').html(SBLOTNO);
+        $('#text-hSB-PNO').val(SBPNO);
+        $('#text-hSB-LOTNO').val(SBLOTNO);
+    });
+
+    $('.bkl-confirm-select-Btn').click(function () {
+
+        var PNO = $('.CONFIRM-BKL-PNO').val();
+        var LOTNO = $('.CONFIRM-BKL-LOTNO').val();
+
+        $('#SELECT-BKL-DLG').modal('hide');
+        $('.COPBKLPNOA').html(PNO);
+        $('.COPBKLLOTA').html(LOTNO);
+        $('.COPBKLPNOB').html(PNO);
+        $('.COPBKLLOTB').html(LOTNO);
+        $('#text-hBKL-PNO').val(PNO);
+        $('#text-hBKL-LOTNO').val(LOTNO);
+    });
+
+    function UpdateBkl() {
+        var PNO = $('#text-hBKL-PNO').val();
+        var LOTNO = $('#text-hBKL-LOTNO').val();
+
+        $('#SELECT-BKL-DLG').modal('hide');
+        $('.COPBKLPNOA').html(PNO);
+        $('.COPBKLLOTA').html(LOTNO);
+        $('.COPBKLPNOB').html(PNO);
+        $('.COPBKLLOTB').html(LOTNO);
+        $('#text-hBKL-PNO').val(PNO);
+        $('#text-hBKL-LOTNO').val(LOTNO);
+    }
+    function UpdateSb() {
+        var SBPNO = $('#text-hSB-PNO').val();
+        var SBLOTNO = $('#text-hSB-LOTNO').val();
+
+        $('#SELECT-SB-DLG').modal('hide');
+        $('.COPSBPNOA').html(SBPNO);
+        $('.COPSBLOTA').html(SBLOTNO);
+        $('.COPSBPNOB').html(SBPNO);
+        $('.COPSBLOTB').html(SBLOTNO);
+        $('#text-hSB-PNO').val(SBPNO);
+        $('#text-hSB-LOTNO').val(SBLOTNO);
+    }
+    $('.search-bkl-btn').click(function () {
+        var fg_no = $('.BKL_FG_NO').val();
+        var brand_no = $('.BKL_BRAND_NO').val();
+        var model_no = $('.BKL_MODEL_NO').val();
+
+        var urlText = "@Url.Action("GetItems","COPR16_COPRUNNING")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {"fg_no":fg_no,"model_no": model_no,"brand_no":brand_no}
+        console.log(jdata);
+        //console.log(".---.");
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                //alert(result);
+                //updateInfo(result);
+                tbVarSB.clear().draw();
+                var selectBtn = "<a class='btn btn-primary button bkl_select_btn'>SELECT</a>";
+
+                $.each(result, function (i, item) {
+                    var row = tbVarBKL.row.add([
+                        result[i].a_FG_NO,
+                        result[i].b_FG_DESC,
+                        result[i].a_MODLE_ID,
+                        result[i].a_MODLE_ID,
+                        ""]).draw(false).node();
+			            var hPNO = $("<input type='hidden' value='" + result[i].a_FG_NO + "' id='hBKL-PNO' class='hBKL-PNO'/>");
+                        $(row).find('td').eq(4).addClass('command');
+                        $(row).find('td').eq(4).append(selectBtn);
+			$(row).find('td').eq(4).append(hPNO);
+                });
+
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("error:" + errorThrown);
+            }
+        });
+        return false;
+    });
+    UpdateBkl();
+    UpdateSb();
+</script><!-- /Script For Select Bunkle -->
+<script>
+    $('.createBtn').click(function () {
+        $('#SAVEALL_DLG').modal("show");
+    });
+    $('.NoSaveAllBtn').click(function () {
+        $('#SAVEALL_DLG').modal('hide');
+    });
+    $('.YesSavedAllBtn').click(function () {
+        var COPR_ID = $('#cOPR16_COPRUNNING_COPR_ID').val();
+        var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+        var PROC_ID = $('#cOPR16_COPRUNNING_PROC_ID').val();
+        var MODEL_ID = $('#cOPR16_COPRUNNING_MODEL_ID').val();
+        var POSITION_ID = $('#cOPR16_COPRUNNING_POSITION_ID').val();
+        var DESC = $('#cOPR16_COPRUNNING_DESC').val();
+        var COP_STATUS = $('#cOPR16_COPRUNNING_COP_STATUS').val();
+
+        //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+        //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+        //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+        //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+
+        var opdt = {};
+        var dtdt = [];
+        //$("body").on("click", "input.#hOPTVAL_VAL", function (ev) { });
+        //console.log("BF OK in function");
+
+        //console.log("AF OK in function");
+//        console.log(dtdt);
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "COPR_ID": COPR_ID,
+            "WRK_ID": WRK_ID,
+            "PROC_ID": PROC_ID,
+            "MODEL_ID": MODEL_ID,
+            "POSITION_ID": POSITION_ID,
+            "DESC": DESC,
+            "COP_STATUS": COP_STATUS,
+            "username": $("#UID").val(),
+            //"jsonString": $('form').serialize()
+            "jsonString": [{}]
+        };
+
+        opdt = {
+                "COPR_ID": COPR_ID,
+                "FGTYPE_ID": "SEATBELT",
+                "PNO": $('#text-hSB-PNO').val(),
+                "LOTNO": $('#text-hSB-LOTNO').val(),
+                "DESC": ""
+        };
+        jdata["jsonString"][0] = opdt;
+        opdt = {
+                "COPR_ID": COPR_ID,
+                "FGTYPE_ID": "BUNKLE",
+                "PNO": $('#text-hBKL-PNO').val(),
+                "LOTNO": $('#text-hBKL-LOTNO').val(),
+                "DESC": ""
+        };
+        jdata["jsonString"][1] = opdt;
+
+        console.log(jdata);
+        var urlText = "@Url.Action("SaveJson","COPR16_COPRUNNING")";
+        var options = { "backdrop": "static", keyboard: true };
+        console.log();
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                $('#lModalLabelSuccess').html("Edit COP Running Number");
+                $('#lModalBodySuccess').html("Edit COP Running Number Successed");
+                $('#lModalSuccess').modal(options);
+                $('#lModalSuccess').modal('show');
+                //window.location.href = "@Url.Action("Index","COPR16_OPTIONVAL_MSTR")";;
+                $('#SAVEALL_DLG').modal('hide');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalLabelError').html("Edit COP Running Number");
+                $('#lModalBodyError').html("Cannot save data : " + errorThrown );
+                $('#lModalError').modal(options);
+                $('#lModalError').modal('show');
+                $('#SAVEALL_DLG').modal('hide');
+            }
+        })
+        return false;
+
+    });
+    $(".lSuccesscloseBtn").click(function () {
+       // window.location.href = "@Url.Action("Index","COPR16_COPRUNNING")";
+        $("#lModalSuccess").modal("hide");
+    });
+    $('.startBtn').click(function () {
+        var COPR_RUNNUNG = $('#cOPR16_COPRUNNING_COPR_ID').val();
+        window.location.href = "/COPR16_COPRUNNING_RT/StartTest/" + COPR_RUNNUNG;
+    });
+    @*$('.finshBtn').click(function () {
+        var pValue = "2";
+        $('Form').attr('action', "@Url.Action("TestResult","COPR16_COPRUNNING_RT")");
+        $("#hSEQ_NO").val(pValue);
+        $('Form').submit();
+    });*@
+    $("body").on("click", "a.finshBtn", function (ev) {
+
+        var p = $(this).parent();
+        var seq_no = $(p).find("#hSEQ_NO").val();
+        $('._mainform').attr('action', "@Url.Action("StartTestForResult","COPR16_COPRUNNING_RT")");
+        $("#hSEQ_NO").val(seq_no);
+        $('._mainform').submit();
+
+        //var COPR_RUNNUNG = $('#cOPR16_COPRUNNING_COPR_ID').val();
+        //window.location.href = "/COPR16_COPRUNNING_RT/StartTestForResult/" + COPR_RUNNUNG;
+
+    });
+
+
+    $('body').on('click', 'a.uploadBtn', function (t) {
+
+        //display-result
+        $('.display-result').modal("show");
+        /*
+        var filename = $(".form-file-input").val();
+        if (filename == undefined || filename == "") {
+            $('#lModalBodyError').html("Please select file for uploading");
+            $('#lModalError').modal("show");
+            return;
+        }
+
+        upload_files();
+        */
+    });
+
+    function upload_files() {
+        //alert("upload_files ok");
+        var formObject = $('.main-form-data');
+        var formData = new FormData(formObject[0]);
+        autoCloseCompleted = false;
+        console.log(formData);
+
+        $.ajax({
+            type: "POST",
+            url: $(formObject).prop("action"),
+            data: formData,
+            contentType: false, //this is requireded please see answers above
+            processData: false, //this is requireded please see answers above
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalError').modal("show");
+                console.log(jqXHR);
+                tbVar.clear().draw();
+                closeConpleting();
+            },
+            success: function (result) {
+                console.log(result);
+                var rowResult = result.Data;
+                var resultFlag = false;
+
+
+
+                console.log(rowResult);
+                $.each(rowResult, function (i, singleRow) {
+                    //console.log(singleRow);
+                    var strText = Object.keys(singleRow);
+                    //console.log(strText);
+                    if (i < 10) {
+                        switch (singleRow[strText[0]]) {
+                            case "Test Date":
+                                strDate = singleRow[strText[1]]
+                                break;
+                            case "Test Time":
+                                strTime = singleRow[strText[1]]
+                                break;
+                            case "Test by":
+                                strTester = singleRow[strText[1]]
+                                break;
+                            case "Part Number":
+                                strPartNo = singleRow[strText[1]]
+                                break;
+                            case "Model":
+                                strModelNo = singleRow[strText[1]]
+                                break;
+
+                        }
+
+                        //$('.body-text').append(getDisplayLabel(singleRow[strText[0]], singleRow[strText[1]], "2"));
+                    }
+                    if (resultFlag == true) {
+                        if (singleRow[strText[1]] == "Web") {
+                            if (singleRow[strText[3]] == "3") {
+                                var tempValue = singleRow[strText[11]];
+                                if (tempValue > strWSI3) {
+                                    strWSI3 = tempValue;
+                                }
+
+                            }
+                            if (singleRow[strText[3]] == "2") {
+                                var tempValue = singleRow[strText[11]];
+                                if (tempValue > strWSI2) {
+                                    strWSI2 = tempValue;
+                                }
+                            }
+                            if (singleRow[strText[3]] == "0.8") {
+                                var tempValue = singleRow[strText[15]];
+                                if (tempValue > strWSI8) {
+                                    strWSI8 = tempValue;
+                                }
+                            }
+                        }
+                        if (singleRow[strText[1]] == "Vehicle") {
+                            if (singleRow[strText[2]] == "0") {
+                                var tempValue = singleRow[strText[11]];
+                                if (tempValue > strVSI1) {
+                                    strVSI1 = tempValue;
+                                }
+
+                            }
+                            if (singleRow[strText[2]] == "90") {
+                                var tempValue = singleRow[strText[11]];
+                                if (tempValue > strVSI2) {
+                                    strVSI2 = tempValue;
+                                }
+                            }
+                            if (singleRow[strText[2]] == "180") {
+                                var tempValue = singleRow[strText[11]];
+                                if (tempValue > strVSI3) {
+                                    strVSI3 = tempValue;
+                                }
+                            }
+                            if (singleRow[strText[2]] == "270") {
+                                var tempValue = singleRow[strText[11]];
+                                if (tempValue > strVSI4) {
+                                    strVSI4 = tempValue;
+                                }
+                            }
+                        }
+                        if (singleRow[strText[1]] == "Tilt") {
+                            if (singleRow[strText[2]] == "0") {
+                                var tempValue = singleRow[strText[13]];
+                                if (tempValue > strTAL1) {
+                                    strTAL1 = tempValue;
+                                }
+
+                            }
+                            if (singleRow[strText[2]] == "90") {
+                                var tempValue = singleRow[strText[13]];
+                                if (tempValue > strTAL2) {
+                                    strTAL2 = tempValue;
+                                }
+                            }
+                            if (singleRow[strText[2]] == "180") {
+                                var tempValue = singleRow[strText[13]];
+                                if (tempValue > strTAL3) {
+                                    strTAL3 = tempValue;
+                                }
+                            }
+                            if (singleRow[strText[2]] == "270") {
+                                var tempValue = singleRow[strText[13]];
+                                if (tempValue > strTAL4) {
+                                    strTAL4 = tempValue;
+                                }
+                            }
+                        }                    }
+                    if (singleRow[strText[0]] == "Step No.") {
+                        resultFlag = true;
+                    }
+                    /*
+                    $.each(singleRow, function (column, value) {
+                        console.log("column: [" + column + "]" + ", Key:[" + value + "]");
+                    });
+                    */
+                });
+
+                display_result();
+                /*
+                $('.body-text').append(getDisplayLabel("Test Date", strDate, "strDate"));
+                $('.body-text').append(getDisplayLabel("Test Time", strTime, "strTime"));
+                $('.body-text').append(getDisplayLabel("Test By", strTester, "strTester"));
+                $('.body-text').append(getDisplayLabel("Part Number", strPartNo, "strPartNo"));
+                $('.body-text').append(getDisplayLabel("Model", strModelNo, "strModelNo"));
+
+
+                $('.body-text').append(getDisplayLabel("Initial WSI Locking 0.8g", strWSI8, "strWSI8"));
+                $('.body-text').append(getDisplayLabel("Initial WSI Locking 2g", strWSI2, "strWSI2"));
+                $('.body-text').append(getDisplayLabel("Initial WSI Locking 3g", strWSI3, "strWSI3"));
+
+                $('.body-text').append(getDisplayLabel("Initial VSI Locking 0.45g (0°)", strVSI1, "strVSI1"));
+                $('.body-text').append(getDisplayLabel("Initial VSI Locking 0.45g (90°)", strVSI2, "strVSI2"));
+                $('.body-text').append(getDisplayLabel("Initial VSI Locking 0.45g (180°)", strVSI3, "strVSI3"));
+                $('.body-text').append(getDisplayLabel("Initial VSI Locking 0.45g (270°)", strVSI4, "strVSI4"));
+
+                $('.body-text').append(getDisplayLabel("Initial Tilt Angle Lock (0°)", strTAL1, "strTAL1"));
+                $('.body-text').append(getDisplayLabel("Initial Tilt Angle Lock (90°)", strTAL2, "strTAL2"));
+                $('.body-text').append(getDisplayLabel("Initial Tilt Angle Lock (180°)", strTAL3, "strTAL3"));
+                $('.body-text').append(getDisplayLabel("Initial Tilt Angle Lock (270°)", strTAL4, "strTAL4"));
+                */
+
+                //$('.body-text').append(getDisplayLabel(rowResult[0]));
+                /*
+                tbVar.clear().draw();
+                for (var jsonRow = 1; jsonRow < rowResult.length; jsonRow++) {
+                    var cols = rowResult[jsonRow];
+                    var arrVar = [];
+                    $.each(cols, function (i, v) {
+                        arrVar.push(v);
+                    });
+                    var vFGNO = checkField(cols,'Item Number');
+                    if (vFGNO == null) return;
+                    var vDATE = checkField(cols,'Date');
+                    if (vDATE == null) return;
+                    var vQTY=checkField(cols,'Loc Qty Change');
+                    if (vQTY == null) return;
+
+                    var nvDATE = moment.utc(vDATE).toDate();
+                    console.log("nvDATE: " + nvDATE);
+                    console.log("vDATE: " + vDATE);
+                    //var nvDATE = moment.utc(vDATE);
+                    vDATE = moment(nvDATE).local().format('YYYY-MMM-DD');
+                    var rows = tbVar.row.add([vFGNO,vDATE,vQTY]).draw(false).node();
+                }
+
+                //$('#lModalBodySuccess').html("This Volume Date uploaded");
+                //$('#lModalSuccess').modal("show");
+                */
+                closeConpleting();
+
+                //$('.uploadBtn').attr("disabled", true);
+                $('.display-result-save').attr("disabled", false);
+            }
+        });
+
+    }
+
+   function display_result() {
+        var rowIndex = 1;
+        $('.display-result').modal('show');
+        $('.table-result').html("");
+        var tempValue = [];
+        $('.table-result').append("<thead class='table-header'><tr><td>No</td><td>Name</td><td>Value</td></tr></thead>");
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td  class=\"text-left\">Test Date</td><td  class=\"text-left\">" + strDate + "</td></tr>");
+        tempValue.push("Test Date");
+        tempValue.push(strDate);
+        tempValue.push("2GLOCK-TESTDATE");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Test Time</td><td  class=\"text-left\">" + strTime + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Test Time");
+       tempValue.push(strTime);
+       tempValue.push("3GLOCK-TESTTIME");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Test By</td><td  class=\"text-left\">" + strTester + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Test By");
+       tempValue.push(strTester);
+       tempValue.push("4GLOCK-TESTBY");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Part Number</td><td  class=\"text-left\">" + strPartNo + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Part Number");
+       tempValue.push(strPartNo);
+       tempValue.push("Part Number");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Model</td><td  class=\"text-left\">" + strModelNo + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Model");
+       tempValue.push(strModelNo);
+       tempValue.push("Model");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial WSI Locking 0.8g</td><td>" + strWSI8 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial WSI Locking 0.8g");
+       tempValue.push(strWSI8);
+       tempValue.push("5GLOCK_WSI08G");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial WSI Locking 2g</td><td>" + strWSI2 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial WSI Locking 2g");
+       tempValue.push(strWSI2);
+       tempValue.push("6GLOCK_WSI2G");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>"+ (rowIndex++) +"</td><td class=\"text-left\">Initial WSI Locking 3g</td><td>"+strWSI3+"</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial WSI Locking 3g");
+       tempValue.push(strWSI3);
+       tempValue.push("7GLOCK_WSI3G");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial VSI Locking 0.45g (0°)</td><td>" + strVSI1 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial VSI Locking 0.45g (0°)");
+       tempValue.push(strVSI1);
+       tempValue.push("8GLOCK_VSI0DEG");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial VSI Locking 0.45g (90°)</td><td>" + strVSI2 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial VSI Locking 0.45g (90°)");
+       tempValue.push(strVSI2);
+       tempValue.push("9GLOCK_VSI90DEG");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial VSI Locking 0.45g (180°)</td><td>" + strVSI3 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial VSI Locking 0.45g (180°)");
+       tempValue.push(strVSI3);
+       tempValue.push("9Z1GLOCK_VSI180DEC");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial VSI Locking 0.45g (270°)</td><td>" + strVSI4 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial VSI Locking 0.45g (270°)");
+       tempValue.push(strVSI4);
+       tempValue.push("9Z2GLOCK_VSI270DEG");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial Tilt Angle Lock (0°)</td><td>" + strTAL1 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial Tilt Angle Lock (0°)");
+       tempValue.push(strTAL1);
+       tempValue.push("9Z3GLOCK_TAL0DEG");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial Tilt Angle Lock (90°)</td><td>" + strTAL2 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial Tilt Angle Lock (90°)");
+       tempValue.push(strTAL2);
+       tempValue.push("9Z4GLOCK_TAL90DEG");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial Tilt Angle Lock (180°)</td><td>" + strTAL3 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial Tilt Angle Lock (180°)");
+       tempValue.push(strTAL3);
+       tempValue.push("9Z5GLOCK_TAL180DEG");
+        arrayResult.push(tempValue);
+
+        $('.table-result').append("<tr><td>" + (rowIndex++) + "</td><td class=\"text-left\">Initial Tilt Angle Lock (270°)</td><td>" + strTAL4 + "</td></tr>");
+        tempValue = [];
+        tempValue.push("Initial Tilt Angle Lock (270°)");
+       tempValue.push(strTAL4);
+       tempValue.push("9Z6GLOCK_TAL270DEG");
+        arrayResult.push(tempValue);
+
+    }
+
+    $('.display-result-save').click(function () {
+        $('.display-result').modal('hide');
+        saveResult();
+    });
+
+    $('.display-result-close').click(function () {
+         $('.display-result').modal('hide');
+    });
+    $('.display-result-save').attr("disabled", true);
+
+    function saveResult() {
+        var COPR_NO = "@Model.FG_DETAILS";
+        var RST_ID = $.datepicker.formatDate('yyMdd', new Date()) + "_"  + COPR_NO;
+        var urlText = "@Url.Action("gLockConfirmUpload","COPR16_FILE_IMPORT")";
+        var options = { "backdrop": "static", keyboard: true };
+        var NAME = $('.form-file-name').val();
+
+        var headerData = {
+            RST_ID: RST_ID,
+            COPR_ID: COPR_NO,
+            RST_FILENAME: NAME,
+            RST_FILE_DATA: fileBody,
+            ADATE: "",
+            CRE_BY: "@CM_APPLICATIONS.Models.AppPropModel.username",
+            MOD_DATE: "",
+            MOD_BY: ""
+        };
+        var formData = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "rstHeader": headerData,
+            "rsDetails": []
+        };
+        console.log(arrayResult);
+        $.each(arrayResult, function (i, items) {
+            //console.log(i);
+            //console.log(key);
+            itemsVal = {
+                "RST_ID": RST_ID,
+	            "RST_KEY":items[0],
+                "RST_VALUE": items[1],
+                "RST_SELECT": true,
+                "RTDT_ID":items[2]
+            }
+            formData["rsDetails"].push(itemsVal);
+
+        });
+        console.log(formData);
+        /*
+        tbVar.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var node = this.node();
+            var ITEM_ID = $(node).find('td').eq(0).text();
+            var BUSI_DATE = $(node).find('td').eq(1).text();
+            var QTY = $(node).find('td').eq(2).text();
+            itemsVal = {
+                "RST_ID": RST_ID,
+	            "RST_KEY":"",
+                "RST_VALUE": "",
+                "RST_SELECT":true
+            };
+            formData["rsDetails"].push(itemsVal);
+        });
+        */
+
+        console.log(formData);
+
+        $.ajax({
+            type: "POST",
+            url: urlText,
+            data: formData,
+            success: function (result) {
+                console.log(result);
+                $('#lModalBodySuccess').html("This result data was uploaded");
+                $('#lModalSuccess').modal("show");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                $('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalError').modal("show");
+            }
+        });
+
+        return false;
+
+    }
+</script><!-- /Script For Save to database visa json -->

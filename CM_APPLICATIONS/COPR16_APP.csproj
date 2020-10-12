@@ -1,0 +1,1321 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F8EAED45-EB20-415D-8B3F-03AE84EE48D3}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CM_APPLICATIONS</RootNamespace>
+    <AssemblyName>CM_APPLICATIONS</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress>true</Use64BitIISExpress>
+    <IISExpressSSLPort>44359</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>3.5</TypeScriptToolsVersion>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.9.1.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
+      <HintPath>..\packages\DocumentFormat.OpenXml.2.9.1\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.3.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServerCompact, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.SqlServerCompact.6.3.0\lib\net45\EntityFramework.SqlServerCompact.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authentication.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authentication.Core, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authentication.Core.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authentication.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authorization, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authorization.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authorization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Authorization.Policy, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Authorization.Policy.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Authorization.Policy.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Hosting.Server.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Extensions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Extensions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Http.Features, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Http.Features.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Mvc.Core, Version=2.2.5.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Mvc.Core.2.2.5\lib\netstandard2.0\Microsoft.AspNetCore.Mvc.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.ResponseCaching.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.ResponseCaching.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.ResponseCaching.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Routing.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Routing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.Routing.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.Routing.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.Routing.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNetCore.WebUtilities, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNetCore.WebUtilities.2.2.0\lib\netstandard2.0\Microsoft.AspNetCore.WebUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.DotNet.PlatformAbstractions, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.DotNet.PlatformAbstractions.2.1.0\lib\net45\Microsoft.DotNet.PlatformAbstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Configuration.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.2.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyModel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyModel.2.1.0\lib\net451\Microsoft.Extensions.DependencyModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.FileProviders.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Hosting.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.ObjectPool, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.ObjectPool.2.2.0\lib\netstandard2.0\Microsoft.Extensions.ObjectPool.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Options.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Net.Http.Headers, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Net.Http.Headers.2.2.0\lib\netstandard2.0\Microsoft.Net.Http.Headers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data.OleDb, Version=4.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.OleDb.4.7.0\lib\net461\System.Data.OleDb.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Compact.4.0.8876.1\lib\net40\System.Data.SqlServerCe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.5.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.FileSystem.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.FileSystem.Primitives.4.3.0\lib\net46\System.IO.FileSystem.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IO.Packaging, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Packaging.4.5.0\lib\net46\System.IO.Packaging.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.1\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.6.0\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.0.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=4.1.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.4.6.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.5.0\lib\netstandard2.0\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.1\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\COPR16_BRAND_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_COPRUNNINGController.cs" />
+    <Compile Include="Controllers\COPR16_COPRUNNING_RTController.cs" />
+    <Compile Include="Controllers\COPR16_FGTYPE_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_FG_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_FILES_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_FILE_IMPORTController.cs" />
+    <Compile Include="Controllers\COPR16_FTYPE_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_ITEMS_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_ITEMS_VOLUMEController.cs" />
+    <Compile Include="Controllers\COPR16_LINE_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_MACHINE_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_MANCTYPE_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_MEASURETYPE_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_MODEL_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_OPTDTVALUE_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_OPTIONVAL_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_POSITION_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_PROC_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_RETURNTYPE_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_RTVALUE_TRController.cs" />
+    <Compile Include="Controllers\COPR16_STDREG_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_STD_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_STEP_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_UNITS_MSTRController.cs" />
+    <Compile Include="Controllers\COPR16_WORKFLOWController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="COPR16_BRAND_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_COPRUNNING.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_COPRUNNING_DT.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_COPRUNNING_RT.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_DBI.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>COPR16_DBI.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_DBI.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_DBI.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>COPR16_DBI.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_DBI1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>COPR16_DBI.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_FGTDET_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_FGTEST.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_FGTYPE_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_FG_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_FILES_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_FILE_IMPORT.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_FTYPE_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_GROUPTEST_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_IMPORT_CONTENTS.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_ITEMS_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_ITEMS_VOLUME.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_LINE_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_MACHINE_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_MANCTYPE_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_MEASURETYPE_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_MODEL_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_OPTDTVALUE_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_OPTIONVAL_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_POSITION_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_PROC_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_REPORT.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_RETURNTYPE_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_RTDT_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_RTVALUE_TR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_STDDET.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_STDREG_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_STD_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_STEP_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_SUBGRPTEST_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_UNITS_MSTR.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_WORKFLOW.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="COPR16_WORKFLOW_DT.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetAllItems_Result.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="getItems_Result.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetItemWithParams_Result.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GetSeqNextValue1_Result.cs">
+      <DependentUpon>COPR16_DBI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AppPropModel.cs" />
+    <Compile Include="Models\CopRunningModel.cs" />
+    <Compile Include="Models\FieldType.cs" />
+    <Compile Include="Models\FileImportModel.cs" />
+    <Compile Include="Models\GenericParser.cs" />
+    <Compile Include="Models\GenericParserAdapter.cs" />
+    <Compile Include="Models\HandheldModel.cs" />
+    <Compile Include="Models\MachineListModel.cs" />
+    <Compile Include="Models\FileModel.cs" />
+    <Compile Include="Models\ItemsModel.cs" />
+    <Compile Include="Models\JsonOptionsModel.cs" />
+    <Compile Include="Models\MachineTypeModel.cs" />
+    <Compile Include="Models\MSTypeModel.cs" />
+    <Compile Include="Models\OptionDetailsModel.cs" />
+    <Compile Include="Models\OptionsModel.cs" />
+    <Compile Include="Models\ParserState.cs" />
+    <Compile Include="Models\ParsingException.cs" />
+    <Compile Include="Models\ProcessModel.cs" />
+    <Compile Include="Models\ProcessStepsModel.cs" />
+    <Compile Include="Models\ReturnTypeModel.cs" />
+    <Compile Include="Models\WrkFlwModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\auoliv_logo.png" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\datatables.min.css" />
+    <Content Include="Content\favicon.ico" />
+    <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\images\calendar.png" />
+    <Content Include="Content\images\csv.svg" />
+    <Content Include="Content\images\search.png" />
+    <Content Include="Content\images\txt.svg" />
+    <Content Include="Content\images\xls.svg" />
+    <Content Include="Content\images\xlsx.svg" />
+    <Content Include="Content\jquery.dataTables.min.css" />
+    <Content Include="Content\jquery.qrcode.min.js" />
+    <Content Include="Content\sort_asc.png" />
+    <Content Include="Content\sort_asc_disabled.png" />
+    <Content Include="Content\sort_both.png" />
+    <Content Include="Content\sort_desc.png" />
+    <Content Include="Content\sort_desc_disabled.png" />
+    <Content Include="Content\external\jquery\jquery.js" />
+    <Content Include="Content\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\tableexport.css" />
+    <Content Include="Content\tableexport.js" />
+    <Content Include="Content\themes\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\jquery-ui.css" />
+    <Content Include="Content\themes\jquery-ui.structure.css" />
+    <Content Include="Content\themes\jquery-ui.theme.css" />
+    <Content Include="Content\themes\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\base\theme.css" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-bg_diagonals-thick_8_333333_40x40.png" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-bg_glass_40_111111_1x400.png" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-bg_glass_55_1c1c1c_1x400.png" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-bg_highlight-hard_100_f9f9f9_1x100.png" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-bg_highlight-hard_40_aaaaaa_1x100.png" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-bg_highlight-soft_50_aaaaaa_1x100.png" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-bg_inset-hard_45_cd0a0a_1x100.png" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-bg_inset-hard_55_ffeb80_1x100.png" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-icons_4ca300_256x240.png" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-icons_bbbbbb_256x240.png" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-icons_ededed_256x240.png" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-icons_ffcf29_256x240.png" />
+    <Content Include="Content\themes\themes\black-tie\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\black-tie\jquery-ui.css" />
+    <Content Include="Content\themes\themes\black-tie\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\black-tie\theme.css" />
+    <Content Include="Content\themes\themes\blitzer\images\ui-bg_diagonals-thick_75_f3d8d8_40x40.png" />
+    <Content Include="Content\themes\themes\blitzer\images\ui-bg_dots-small_65_a6a6a6_2x2.png" />
+    <Content Include="Content\themes\themes\blitzer\images\ui-bg_glass_55_fbf8ee_1x400.png" />
+    <Content Include="Content\themes\themes\blitzer\images\ui-bg_highlight-hard_100_eeeeee_1x100.png" />
+    <Content Include="Content\themes\themes\blitzer\images\ui-bg_highlight-hard_100_f6f6f6_1x100.png" />
+    <Content Include="Content\themes\themes\blitzer\images\ui-bg_highlight-soft_15_cc0000_1x100.png" />
+    <Content Include="Content\themes\themes\blitzer\images\ui-icons_004276_256x240.png" />
+    <Content Include="Content\themes\themes\blitzer\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\themes\blitzer\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\blitzer\jquery-ui.css" />
+    <Content Include="Content\themes\themes\blitzer\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\blitzer\theme.css" />
+    <Content Include="Content\themes\themes\cupertino\images\ui-bg_diagonals-thick_90_eeeeee_40x40.png" />
+    <Content Include="Content\themes\themes\cupertino\images\ui-bg_glass_100_e4f1fb_1x400.png" />
+    <Content Include="Content\themes\themes\cupertino\images\ui-bg_glass_50_3baae3_1x400.png" />
+    <Content Include="Content\themes\themes\cupertino\images\ui-bg_glass_80_d7ebf9_1x400.png" />
+    <Content Include="Content\themes\themes\cupertino\images\ui-bg_highlight-hard_100_f2f5f7_1x100.png" />
+    <Content Include="Content\themes\themes\cupertino\images\ui-bg_highlight-hard_70_000000_1x100.png" />
+    <Content Include="Content\themes\themes\cupertino\images\ui-bg_highlight-soft_100_deedf7_1x100.png" />
+    <Content Include="Content\themes\themes\cupertino\images\ui-bg_highlight-soft_25_ffef8f_1x100.png" />
+    <Content Include="Content\themes\themes\cupertino\images\ui-icons_2694e8_256x240.png" />
+    <Content Include="Content\themes\themes\cupertino\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\themes\cupertino\images\ui-icons_3d80b3_256x240.png" />
+    <Content Include="Content\themes\themes\cupertino\images\ui-icons_72a7cf_256x240.png" />
+    <Content Include="Content\themes\themes\cupertino\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\cupertino\jquery-ui.css" />
+    <Content Include="Content\themes\themes\cupertino\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\cupertino\theme.css" />
+    <Content Include="Content\themes\themes\dark-hive\images\ui-bg_glass_40_ffc73d_1x400.png" />
+    <Content Include="Content\themes\themes\dark-hive\images\ui-bg_highlight-hard_20_0972a5_1x100.png" />
+    <Content Include="Content\themes\themes\dark-hive\images\ui-bg_highlight-soft_33_003147_1x100.png" />
+    <Content Include="Content\themes\themes\dark-hive\images\ui-bg_highlight-soft_35_222222_1x100.png" />
+    <Content Include="Content\themes\themes\dark-hive\images\ui-bg_highlight-soft_44_444444_1x100.png" />
+    <Content Include="Content\themes\themes\dark-hive\images\ui-bg_highlight-soft_80_eeeeee_1x100.png" />
+    <Content Include="Content\themes\themes\dark-hive\images\ui-bg_loop_25_000000_21x21.png" />
+    <Content Include="Content\themes\themes\dark-hive\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\themes\dark-hive\images\ui-icons_4b8e0b_256x240.png" />
+    <Content Include="Content\themes\themes\dark-hive\images\ui-icons_a83300_256x240.png" />
+    <Content Include="Content\themes\themes\dark-hive\images\ui-icons_cccccc_256x240.png" />
+    <Content Include="Content\themes\themes\dark-hive\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\dark-hive\jquery-ui.css" />
+    <Content Include="Content\themes\themes\dark-hive\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\dark-hive\theme.css" />
+    <Content Include="Content\themes\themes\dot-luv\images\ui-bg_diagonals-thick_15_0b3e6f_40x40.png" />
+    <Content Include="Content\themes\themes\dot-luv\images\ui-bg_dots-medium_30_0b58a2_4x4.png" />
+    <Content Include="Content\themes\themes\dot-luv\images\ui-bg_dots-small_20_333333_2x2.png" />
+    <Content Include="Content\themes\themes\dot-luv\images\ui-bg_dots-small_30_a32d00_2x2.png" />
+    <Content Include="Content\themes\themes\dot-luv\images\ui-bg_dots-small_40_00498f_2x2.png" />
+    <Content Include="Content\themes\themes\dot-luv\images\ui-bg_gloss-wave_20_111111_500x100.png" />
+    <Content Include="Content\themes\themes\dot-luv\images\ui-icons_00498f_256x240.png" />
+    <Content Include="Content\themes\themes\dot-luv\images\ui-icons_98d2fb_256x240.png" />
+    <Content Include="Content\themes\themes\dot-luv\images\ui-icons_9ccdfc_256x240.png" />
+    <Content Include="Content\themes\themes\dot-luv\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\dot-luv\jquery-ui.css" />
+    <Content Include="Content\themes\themes\dot-luv\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\dot-luv\theme.css" />
+    <Content Include="Content\themes\themes\eggplant\images\ui-bg_gloss-wave_30_3d3644_500x100.png" />
+    <Content Include="Content\themes\themes\eggplant\images\ui-bg_highlight-soft_100_dcd9de_1x100.png" />
+    <Content Include="Content\themes\themes\eggplant\images\ui-bg_highlight-soft_100_eae6ea_1x100.png" />
+    <Content Include="Content\themes\themes\eggplant\images\ui-bg_highlight-soft_25_30273a_1x100.png" />
+    <Content Include="Content\themes\themes\eggplant\images\ui-bg_highlight-soft_45_5f5964_1x100.png" />
+    <Content Include="Content\themes\themes\eggplant\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\themes\eggplant\images\ui-icons_734d99_256x240.png" />
+    <Content Include="Content\themes\themes\eggplant\images\ui-icons_8d78a5_256x240.png" />
+    <Content Include="Content\themes\themes\eggplant\images\ui-icons_a8a3ae_256x240.png" />
+    <Content Include="Content\themes\themes\eggplant\images\ui-icons_ebccce_256x240.png" />
+    <Content Include="Content\themes\themes\eggplant\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\eggplant\jquery-ui.css" />
+    <Content Include="Content\themes\themes\eggplant\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\eggplant\theme.css" />
+    <Content Include="Content\themes\themes\excite-bike\images\ui-bg_diagonals-small_25_c5ddfc_40x40.png" />
+    <Content Include="Content\themes\themes\excite-bike\images\ui-bg_diagonals-thick_20_e69700_40x40.png" />
+    <Content Include="Content\themes\themes\excite-bike\images\ui-bg_diagonals-thick_22_1484e6_40x40.png" />
+    <Content Include="Content\themes\themes\excite-bike\images\ui-bg_diagonals-thick_26_2293f7_40x40.png" />
+    <Content Include="Content\themes\themes\excite-bike\images\ui-bg_highlight-soft_100_f9f9f9_1x100.png" />
+    <Content Include="Content\themes\themes\excite-bike\images\ui-bg_inset-hard_100_eeeeee_1x100.png" />
+    <Content Include="Content\themes\themes\excite-bike\images\ui-icons_0a82eb_256x240.png" />
+    <Content Include="Content\themes\themes\excite-bike\images\ui-icons_0b54d5_256x240.png" />
+    <Content Include="Content\themes\themes\excite-bike\images\ui-icons_5fa5e3_256x240.png" />
+    <Content Include="Content\themes\themes\excite-bike\images\ui-icons_fcdd4a_256x240.png" />
+    <Content Include="Content\themes\themes\excite-bike\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\excite-bike\jquery-ui.css" />
+    <Content Include="Content\themes\themes\excite-bike\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\excite-bike\theme.css" />
+    <Content Include="Content\themes\themes\flick\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\themes\flick\images\ui-bg_highlight-soft_100_f6f6f6_1x100.png" />
+    <Content Include="Content\themes\themes\flick\images\ui-bg_highlight-soft_25_0073ea_1x100.png" />
+    <Content Include="Content\themes\themes\flick\images\ui-bg_highlight-soft_50_dddddd_1x100.png" />
+    <Content Include="Content\themes\themes\flick\images\ui-icons_0073ea_256x240.png" />
+    <Content Include="Content\themes\themes\flick\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\themes\flick\images\ui-icons_666666_256x240.png" />
+    <Content Include="Content\themes\themes\flick\images\ui-icons_ff0084_256x240.png" />
+    <Content Include="Content\themes\themes\flick\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\flick\jquery-ui.css" />
+    <Content Include="Content\themes\themes\flick\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\flick\theme.css" />
+    <Content Include="Content\themes\themes\hot-sneaks\images\ui-bg_diagonals-small_40_db4865_40x40.png" />
+    <Content Include="Content\themes\themes\hot-sneaks\images\ui-bg_diagonals-small_50_93c3cd_40x40.png" />
+    <Content Include="Content\themes\themes\hot-sneaks\images\ui-bg_diagonals-small_50_ff3853_40x40.png" />
+    <Content Include="Content\themes\themes\hot-sneaks\images\ui-bg_diagonals-small_75_ccd232_40x40.png" />
+    <Content Include="Content\themes\themes\hot-sneaks\images\ui-bg_dots-medium_80_ffff38_4x4.png" />
+    <Content Include="Content\themes\themes\hot-sneaks\images\ui-bg_dots-small_35_35414f_2x2.png" />
+    <Content Include="Content\themes\themes\hot-sneaks\images\ui-bg_white-lines_85_f7f7ba_40x100.png" />
+    <Content Include="Content\themes\themes\hot-sneaks\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\themes\hot-sneaks\images\ui-icons_88a206_256x240.png" />
+    <Content Include="Content\themes\themes\hot-sneaks\images\ui-icons_c02669_256x240.png" />
+    <Content Include="Content\themes\themes\hot-sneaks\images\ui-icons_e1e463_256x240.png" />
+    <Content Include="Content\themes\themes\hot-sneaks\images\ui-icons_ffeb33_256x240.png" />
+    <Content Include="Content\themes\themes\hot-sneaks\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\hot-sneaks\jquery-ui.css" />
+    <Content Include="Content\themes\themes\hot-sneaks\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\hot-sneaks\theme.css" />
+    <Content Include="Content\themes\themes\humanity\images\ui-bg_glass_100_f5f0e5_1x400.png" />
+    <Content Include="Content\themes\themes\humanity\images\ui-bg_glass_25_cb842e_1x400.png" />
+    <Content Include="Content\themes\themes\humanity\images\ui-bg_glass_70_ede4d4_1x400.png" />
+    <Content Include="Content\themes\themes\humanity\images\ui-bg_highlight-hard_100_f4f0ec_1x100.png" />
+    <Content Include="Content\themes\themes\humanity\images\ui-bg_highlight-hard_65_fee4bd_1x100.png" />
+    <Content Include="Content\themes\themes\humanity\images\ui-bg_highlight-hard_75_f5f5b5_1x100.png" />
+    <Content Include="Content\themes\themes\humanity\images\ui-bg_inset-soft_100_f4f0ec_1x100.png" />
+    <Content Include="Content\themes\themes\humanity\images\ui-icons_c47a23_256x240.png" />
+    <Content Include="Content\themes\themes\humanity\images\ui-icons_cb672b_256x240.png" />
+    <Content Include="Content\themes\themes\humanity\images\ui-icons_f08000_256x240.png" />
+    <Content Include="Content\themes\themes\humanity\images\ui-icons_f35f07_256x240.png" />
+    <Content Include="Content\themes\themes\humanity\images\ui-icons_ff7519_256x240.png" />
+    <Content Include="Content\themes\themes\humanity\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\humanity\jquery-ui.css" />
+    <Content Include="Content\themes\themes\humanity\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\humanity\theme.css" />
+    <Content Include="Content\themes\themes\le-frog\images\ui-bg_diagonals-small_0_aaaaaa_40x40.png" />
+    <Content Include="Content\themes\themes\le-frog\images\ui-bg_diagonals-thick_15_444444_40x40.png" />
+    <Content Include="Content\themes\themes\le-frog\images\ui-bg_diagonals-thick_95_ffdc2e_40x40.png" />
+    <Content Include="Content\themes\themes\le-frog\images\ui-bg_glass_55_fbf5d0_1x400.png" />
+    <Content Include="Content\themes\themes\le-frog\images\ui-bg_highlight-hard_30_285c00_1x100.png" />
+    <Content Include="Content\themes\themes\le-frog\images\ui-bg_highlight-soft_33_3a8104_1x100.png" />
+    <Content Include="Content\themes\themes\le-frog\images\ui-bg_highlight-soft_50_4eb305_1x100.png" />
+    <Content Include="Content\themes\themes\le-frog\images\ui-bg_highlight-soft_60_4ca20b_1x100.png" />
+    <Content Include="Content\themes\themes\le-frog\images\ui-bg_inset-soft_10_285c00_1x100.png" />
+    <Content Include="Content\themes\themes\le-frog\images\ui-icons_4eb305_256x240.png" />
+    <Content Include="Content\themes\themes\le-frog\images\ui-icons_72b42d_256x240.png" />
+    <Content Include="Content\themes\themes\le-frog\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\themes\le-frog\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\le-frog\jquery-ui.css" />
+    <Content Include="Content\themes\themes\le-frog\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\le-frog\theme.css" />
+    <Content Include="Content\themes\themes\mint-choc\images\ui-bg_glass_15_5f391b_1x400.png" />
+    <Content Include="Content\themes\themes\mint-choc\images\ui-bg_gloss-wave_20_1c160d_500x100.png" />
+    <Content Include="Content\themes\themes\mint-choc\images\ui-bg_gloss-wave_25_453326_500x100.png" />
+    <Content Include="Content\themes\themes\mint-choc\images\ui-bg_gloss-wave_30_44372c_500x100.png" />
+    <Content Include="Content\themes\themes\mint-choc\images\ui-bg_highlight-soft_20_201913_1x100.png" />
+    <Content Include="Content\themes\themes\mint-choc\images\ui-bg_highlight-soft_20_619226_1x100.png" />
+    <Content Include="Content\themes\themes\mint-choc\images\ui-bg_inset-soft_10_201913_1x100.png" />
+    <Content Include="Content\themes\themes\mint-choc\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\themes\mint-choc\images\ui-icons_9bcc60_256x240.png" />
+    <Content Include="Content\themes\themes\mint-choc\images\ui-icons_add978_256x240.png" />
+    <Content Include="Content\themes\themes\mint-choc\images\ui-icons_e3ddc9_256x240.png" />
+    <Content Include="Content\themes\themes\mint-choc\images\ui-icons_f1fd86_256x240.png" />
+    <Content Include="Content\themes\themes\mint-choc\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\mint-choc\jquery-ui.css" />
+    <Content Include="Content\themes\themes\mint-choc\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\mint-choc\theme.css" />
+    <Content Include="Content\themes\themes\overcast\images\ui-bg_glass_100_f8f8f8_1x400.png" />
+    <Content Include="Content\themes\themes\overcast\images\ui-bg_glass_35_dddddd_1x400.png" />
+    <Content Include="Content\themes\themes\overcast\images\ui-bg_glass_60_eeeeee_1x400.png" />
+    <Content Include="Content\themes\themes\overcast\images\ui-bg_inset-hard_75_999999_1x100.png" />
+    <Content Include="Content\themes\themes\overcast\images\ui-bg_inset-soft_50_c9c9c9_1x100.png" />
+    <Content Include="Content\themes\themes\overcast\images\ui-icons_3383bb_256x240.png" />
+    <Content Include="Content\themes\themes\overcast\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\themes\overcast\images\ui-icons_70b2e1_256x240.png" />
+    <Content Include="Content\themes\themes\overcast\images\ui-icons_999999_256x240.png" />
+    <Content Include="Content\themes\themes\overcast\images\ui-icons_fbc856_256x240.png" />
+    <Content Include="Content\themes\themes\overcast\jquery-ui.css" />
+    <Content Include="Content\themes\themes\overcast\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\overcast\theme.css" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-bg_diagonal-maze_20_6e4f1c_10x10.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-bg_diagonal-maze_40_000000_10x10.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-bg_fine-grain_10_eceadf_60x60.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-bg_fine-grain_10_f8f7f6_60x60.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-bg_fine-grain_15_eceadf_60x60.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-bg_fine-grain_15_f7f3de_60x60.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-bg_fine-grain_15_ffffff_60x60.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-bg_fine-grain_65_654b24_60x60.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-bg_fine-grain_68_b83400_60x60.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-icons_3572ac_256x240.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-icons_8c291d_256x240.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-icons_b83400_256x240.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-icons_fbdb93_256x240.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\pepper-grinder\jquery-ui.css" />
+    <Content Include="Content\themes\themes\pepper-grinder\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\pepper-grinder\theme.css" />
+    <Content Include="Content\themes\themes\redmond\images\ui-bg_glass_75_d0e5f5_1x400.png" />
+    <Content Include="Content\themes\themes\redmond\images\ui-bg_glass_85_dfeffc_1x400.png" />
+    <Content Include="Content\themes\themes\redmond\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\themes\redmond\images\ui-bg_gloss-wave_55_5c9ccc_500x100.png" />
+    <Content Include="Content\themes\themes\redmond\images\ui-bg_inset-hard_100_f5f8f9_1x100.png" />
+    <Content Include="Content\themes\themes\redmond\images\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
+    <Content Include="Content\themes\themes\redmond\images\ui-icons_217bc0_256x240.png" />
+    <Content Include="Content\themes\themes\redmond\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\themes\redmond\images\ui-icons_469bdd_256x240.png" />
+    <Content Include="Content\themes\themes\redmond\images\ui-icons_6da8d5_256x240.png" />
+    <Content Include="Content\themes\themes\redmond\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\themes\redmond\images\ui-icons_d8e7f3_256x240.png" />
+    <Content Include="Content\themes\themes\redmond\images\ui-icons_f9bd01_256x240.png" />
+    <Content Include="Content\themes\themes\redmond\jquery-ui.css" />
+    <Content Include="Content\themes\themes\redmond\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\redmond\theme.css" />
+    <Content Include="Content\themes\themes\smoothness\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\themes\smoothness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\themes\smoothness\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\themes\smoothness\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\themes\smoothness\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\themes\smoothness\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\themes\smoothness\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\themes\smoothness\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\themes\smoothness\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\themes\smoothness\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\themes\smoothness\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\themes\smoothness\jquery-ui.css" />
+    <Content Include="Content\themes\themes\smoothness\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\smoothness\theme.css" />
+    <Content Include="Content\themes\themes\south-street\images\ui-bg_glass_55_fcf0ba_1x400.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-bg_gloss-wave_100_ece8da_500x100.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-bg_highlight-hard_100_f5f3e5_1x100.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-bg_highlight-hard_100_fafaf4_1x100.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-bg_highlight-hard_15_459e00_1x100.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-bg_highlight-hard_95_cccccc_1x100.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-bg_highlight-soft_25_67b021_1x100.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-bg_highlight-soft_95_ffedad_1x100.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-bg_inset-soft_15_2b2922_1x100.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-icons_808080_256x240.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-icons_847e71_256x240.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-icons_8DC262_256x240.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-icons_eeeeee_256x240.png" />
+    <Content Include="Content\themes\themes\south-street\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\south-street\jquery-ui.css" />
+    <Content Include="Content\themes\themes\south-street\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\south-street\theme.css" />
+    <Content Include="Content\themes\themes\start\images\ui-bg_glass_45_0078ae_1x400.png" />
+    <Content Include="Content\themes\themes\start\images\ui-bg_glass_55_f8da4e_1x400.png" />
+    <Content Include="Content\themes\themes\start\images\ui-bg_glass_75_79c9ec_1x400.png" />
+    <Content Include="Content\themes\themes\start\images\ui-bg_gloss-wave_45_e14f1c_500x100.png" />
+    <Content Include="Content\themes\themes\start\images\ui-bg_gloss-wave_50_6eac2c_500x100.png" />
+    <Content Include="Content\themes\themes\start\images\ui-bg_gloss-wave_75_2191c0_500x100.png" />
+    <Content Include="Content\themes\themes\start\images\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
+    <Content Include="Content\themes\themes\start\images\ui-icons_0078ae_256x240.png" />
+    <Content Include="Content\themes\themes\start\images\ui-icons_056b93_256x240.png" />
+    <Content Include="Content\themes\themes\start\images\ui-icons_d8e7f3_256x240.png" />
+    <Content Include="Content\themes\themes\start\images\ui-icons_e0fdff_256x240.png" />
+    <Content Include="Content\themes\themes\start\images\ui-icons_f5e175_256x240.png" />
+    <Content Include="Content\themes\themes\start\images\ui-icons_f7a50d_256x240.png" />
+    <Content Include="Content\themes\themes\start\images\ui-icons_fcd113_256x240.png" />
+    <Content Include="Content\themes\themes\start\jquery-ui.css" />
+    <Content Include="Content\themes\themes\start\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\start\theme.css" />
+    <Content Include="Content\themes\themes\sunny\images\ui-bg_diagonals-medium_20_d34d17_40x40.png" />
+    <Content Include="Content\themes\themes\sunny\images\ui-bg_gloss-wave_45_817865_500x100.png" />
+    <Content Include="Content\themes\themes\sunny\images\ui-bg_gloss-wave_60_fece2f_500x100.png" />
+    <Content Include="Content\themes\themes\sunny\images\ui-bg_gloss-wave_70_ffdd57_500x100.png" />
+    <Content Include="Content\themes\themes\sunny\images\ui-bg_gloss-wave_90_fff9e5_500x100.png" />
+    <Content Include="Content\themes\themes\sunny\images\ui-bg_highlight-soft_100_feeebd_1x100.png" />
+    <Content Include="Content\themes\themes\sunny\images\ui-bg_inset-soft_30_ffffff_1x100.png" />
+    <Content Include="Content\themes\themes\sunny\images\ui-icons_3d3d3d_256x240.png" />
+    <Content Include="Content\themes\themes\sunny\images\ui-icons_bd7b00_256x240.png" />
+    <Content Include="Content\themes\themes\sunny\images\ui-icons_d19405_256x240.png" />
+    <Content Include="Content\themes\themes\sunny\images\ui-icons_eb990f_256x240.png" />
+    <Content Include="Content\themes\themes\sunny\images\ui-icons_ed9f26_256x240.png" />
+    <Content Include="Content\themes\themes\sunny\images\ui-icons_fadc7a_256x240.png" />
+    <Content Include="Content\themes\themes\sunny\images\ui-icons_ffe180_256x240.png" />
+    <Content Include="Content\themes\themes\sunny\jquery-ui.css" />
+    <Content Include="Content\themes\themes\sunny\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\sunny\theme.css" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-bg_diamond_10_4f4221_10x8.png" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-bg_diamond_20_372806_10x8.png" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-bg_diamond_25_675423_10x8.png" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-bg_diamond_25_d5ac5d_10x8.png" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-bg_diamond_8_261803_10x8.png" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-bg_diamond_8_443113_10x8.png" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-bg_highlight-hard_65_fee4bd_1x100.png" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-icons_070603_256x240.png" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-icons_e8e2b5_256x240.png" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-icons_e9cd86_256x240.png" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-icons_efec9f_256x240.png" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-icons_f2ec64_256x240.png" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-icons_f9f2bd_256x240.png" />
+    <Content Include="Content\themes\themes\swanky-purse\images\ui-icons_ff7519_256x240.png" />
+    <Content Include="Content\themes\themes\swanky-purse\jquery-ui.css" />
+    <Content Include="Content\themes\themes\swanky-purse\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\swanky-purse\theme.css" />
+    <Content Include="Content\themes\themes\trontastic\images\ui-bg_diagonals-small_50_262626_40x40.png" />
+    <Content Include="Content\themes\themes\trontastic\images\ui-bg_glass_40_0a0a0a_1x400.png" />
+    <Content Include="Content\themes\themes\trontastic\images\ui-bg_glass_55_f1fbe5_1x400.png" />
+    <Content Include="Content\themes\themes\trontastic\images\ui-bg_glass_60_000000_1x400.png" />
+    <Content Include="Content\themes\themes\trontastic\images\ui-bg_gloss-wave_55_000000_500x100.png" />
+    <Content Include="Content\themes\themes\trontastic\images\ui-bg_gloss-wave_85_9fda58_500x100.png" />
+    <Content Include="Content\themes\themes\trontastic\images\ui-bg_gloss-wave_95_f6ecd5_500x100.png" />
+    <Content Include="Content\themes\themes\trontastic\images\ui-icons_000000_256x240.png" />
+    <Content Include="Content\themes\themes\trontastic\images\ui-icons_1f1f1f_256x240.png" />
+    <Content Include="Content\themes\themes\trontastic\images\ui-icons_9fda58_256x240.png" />
+    <Content Include="Content\themes\themes\trontastic\images\ui-icons_b8ec79_256x240.png" />
+    <Content Include="Content\themes\themes\trontastic\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\themes\trontastic\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\trontastic\jquery-ui.css" />
+    <Content Include="Content\themes\themes\trontastic\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\trontastic\theme.css" />
+    <Content Include="Content\themes\themes\ui-darkness\images\ui-bg_glass_20_555555_1x400.png" />
+    <Content Include="Content\themes\themes\ui-darkness\images\ui-bg_glass_40_0078a3_1x400.png" />
+    <Content Include="Content\themes\themes\ui-darkness\images\ui-bg_glass_40_ffc73d_1x400.png" />
+    <Content Include="Content\themes\themes\ui-darkness\images\ui-bg_gloss-wave_25_333333_500x100.png" />
+    <Content Include="Content\themes\themes\ui-darkness\images\ui-bg_highlight-soft_80_eeeeee_1x100.png" />
+    <Content Include="Content\themes\themes\ui-darkness\images\ui-bg_inset-soft_25_000000_1x100.png" />
+    <Content Include="Content\themes\themes\ui-darkness\images\ui-bg_inset-soft_30_f58400_1x100.png" />
+    <Content Include="Content\themes\themes\ui-darkness\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\themes\ui-darkness\images\ui-icons_4b8e0b_256x240.png" />
+    <Content Include="Content\themes\themes\ui-darkness\images\ui-icons_a83300_256x240.png" />
+    <Content Include="Content\themes\themes\ui-darkness\images\ui-icons_cccccc_256x240.png" />
+    <Content Include="Content\themes\themes\ui-darkness\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\ui-darkness\jquery-ui.css" />
+    <Content Include="Content\themes\themes\ui-darkness\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\ui-darkness\theme.css" />
+    <Content Include="Content\themes\themes\ui-lightness\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\themes\themes\ui-lightness\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\themes\themes\ui-lightness\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\themes\themes\ui-lightness\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\themes\themes\ui-lightness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\themes\ui-lightness\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\themes\themes\ui-lightness\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\themes\themes\ui-lightness\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\themes\themes\ui-lightness\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\themes\ui-lightness\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\themes\themes\ui-lightness\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\themes\themes\ui-lightness\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\themes\themes\ui-lightness\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\themes\ui-lightness\jquery-ui.css" />
+    <Content Include="Content\themes\themes\ui-lightness\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\ui-lightness\theme.css" />
+    <Content Include="Content\themes\themes\vader\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\themes\vader\images\ui-bg_gloss-wave_16_121212_500x100.png" />
+    <Content Include="Content\themes\themes\vader\images\ui-bg_highlight-hard_15_888888_1x100.png" />
+    <Content Include="Content\themes\themes\vader\images\ui-bg_highlight-hard_55_555555_1x100.png" />
+    <Content Include="Content\themes\themes\vader\images\ui-bg_highlight-soft_35_adadad_1x100.png" />
+    <Content Include="Content\themes\themes\vader\images\ui-bg_highlight-soft_60_dddddd_1x100.png" />
+    <Content Include="Content\themes\themes\vader\images\ui-bg_inset-soft_15_121212_1x100.png" />
+    <Content Include="Content\themes\themes\vader\images\ui-icons_666666_256x240.png" />
+    <Content Include="Content\themes\themes\vader\images\ui-icons_aaaaaa_256x240.png" />
+    <Content Include="Content\themes\themes\vader\images\ui-icons_bbbbbb_256x240.png" />
+    <Content Include="Content\themes\themes\vader\images\ui-icons_c98000_256x240.png" />
+    <Content Include="Content\themes\themes\vader\images\ui-icons_cccccc_256x240.png" />
+    <Content Include="Content\themes\themes\vader\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\themes\vader\images\ui-icons_f29a00_256x240.png" />
+    <Content Include="Content\themes\themes\vader\jquery-ui.css" />
+    <Content Include="Content\themes\themes\vader\jquery-ui.min.css" />
+    <Content Include="Content\themes\themes\vader\theme.css" />
+    <Content Include="COPR16_DBI.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>COPR16_DBI.edmx</DependentUpon>
+      <LastGenOutput>COPR16_DBI.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="COPR16_DBI.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>COPR16_DBI.edmx</DependentUpon>
+      <LastGenOutput>COPR16_DBI.cs</LastGenOutput>
+    </Content>
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\fontawesome-webfont.eot" />
+    <Content Include="Content\fontawesome-webfont.ttf" />
+    <Content Include="Content\fontawesome-webfont.woff" />
+    <Content Include="Content\fontawesome-webfont.woff2" />
+    <EntityDeploy Include="COPR16_DBI.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>COPR16_DBI1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="COPR16_DBI.edmx.diagram">
+      <DependentUpon>COPR16_DBI.edmx</DependentUpon>
+    </Content>
+    <Content Include="Scripts\audio\beep.mp3" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\datatables.min.js" />
+    <Content Include="Scripts\esm\popper-utils.js" />
+    <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Scripts\esm\popper-utils.min.js" />
+    <Content Include="Scripts\esm\popper-utils.min.js.map" />
+    <Content Include="Scripts\esm\popper.js" />
+    <Content Include="Scripts\esm\popper.js.map" />
+    <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="Scripts\FileSaver.js" />
+    <Content Include="Scripts\html2canvas.js" />
+    <Content Include="Scripts\html2canvas.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jQuery.print.js" />
+    <Content Include="Scripts\jquery.qrcode.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\js\DecoderWorker.js" />
+    <Content Include="Scripts\js\filereader.js" />
+    <Content Include="Scripts\js\jquery.js" />
+    <Content Include="Scripts\js\main.js" />
+    <Content Include="Scripts\js\mainjquery.js" />
+    <Content Include="Scripts\js\qrcodelib.js" />
+    <Content Include="Scripts\js\webcodecamjquery.js" />
+    <Content Include="Scripts\js\webcodecamjs.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\popper-utils.js" />
+    <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\printThis.js" />
+    <Content Include="Scripts\README.md" />
+    <Content Include="Scripts\sheetjs\cpexcel.js" />
+    <Content Include="Scripts\sheetjs\jszip.js" />
+    <Content Include="Scripts\sheetjs\LICENSE" />
+    <Content Include="Scripts\sheetjs\shim.min.js" />
+    <Content Include="Scripts\sheetjs\xlsx.core.min.js" />
+    <Content Include="Scripts\sheetjs\xlsx.extendscript.js" />
+    <Content Include="Scripts\sheetjs\xlsx.full.min.js" />
+    <Content Include="Scripts\sheetjs\xlsx.js" />
+    <Content Include="Scripts\sheetjs\xlsx.min.js" />
+    <Content Include="Scripts\sheetjs\xlsx.mini.min.js" />
+    <Content Include="Scripts\tableexport.js" />
+    <Content Include="Scripts\umd\popper-utils.js" />
+    <Content Include="Scripts\umd\popper-utils.js.map" />
+    <Content Include="Scripts\umd\popper-utils.min.js" />
+    <Content Include="Scripts\umd\popper-utils.min.js.map" />
+    <Content Include="Scripts\umd\popper.js" />
+    <Content Include="Scripts\umd\popper.js.map" />
+    <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Scripts\umd\popper.min.js.map" />
+    <Content Include="Views\COPR16_BRAND_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_BRAND_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_BRAND_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_BRAND_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_BRAND_MSTR\Index.cshtml" />
+    <Content Include="Content\Sorting icons.psd" />
+    <Content Include="libman.json" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Views\COPR16_ITEMS_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_ITEMS_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_ITEMS_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_ITEMS_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_ITEMS_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_LINE_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_LINE_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_LINE_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_LINE_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_LINE_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_POSITION_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_POSITION_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_POSITION_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_POSITION_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_POSITION_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_MODEL_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_MODEL_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_MODEL_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_MODEL_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_MODEL_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_FG_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_FG_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_FG_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_FG_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_FG_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_ITEMS_VOLUME\Create.cshtml" />
+    <Content Include="Views\COPR16_ITEMS_VOLUME\Delete.cshtml" />
+    <Content Include="Views\COPR16_ITEMS_VOLUME\Details.cshtml" />
+    <Content Include="Views\COPR16_ITEMS_VOLUME\Edit.cshtml" />
+    <Content Include="Views\COPR16_ITEMS_VOLUME\Index.cshtml" />
+    <Content Include="Views\COPR16_MANCTYPE_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_MANCTYPE_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_MANCTYPE_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_MANCTYPE_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_MANCTYPE_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_PROC_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_PROC_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_PROC_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_PROC_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_PROC_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_STD_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_STD_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_STD_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_STD_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_STD_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_STDREG_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_STDREG_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_STDREG_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_STDREG_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_STDREG_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_UNITS_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_UNITS_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_UNITS_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_UNITS_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_UNITS_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_RETURNTYPE_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_RETURNTYPE_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_RETURNTYPE_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_RETURNTYPE_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_RETURNTYPE_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_MEASURETYPE_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_MEASURETYPE_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_MEASURETYPE_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_MEASURETYPE_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_MEASURETYPE_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_OPTIONVAL_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_OPTIONVAL_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_OPTIONVAL_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_OPTIONVAL_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_OPTIONVAL_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_RTVALUE_TR\Create.cshtml" />
+    <Content Include="Views\COPR16_RTVALUE_TR\Delete.cshtml" />
+    <Content Include="Views\COPR16_RTVALUE_TR\Details.cshtml" />
+    <Content Include="Views\COPR16_RTVALUE_TR\Edit.cshtml" />
+    <Content Include="Views\COPR16_RTVALUE_TR\Index.cshtml" />
+    <Content Include="Views\COPR16_FGTYPE_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_FGTYPE_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_FGTYPE_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_FGTYPE_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_FGTYPE_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_FTYPE_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_FTYPE_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_FTYPE_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_FTYPE_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_FTYPE_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_FILES_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_FILES_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_FILES_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_FILES_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_FILES_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_OPTDTVALUE_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_OPTDTVALUE_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_OPTDTVALUE_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_OPTDTVALUE_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_OPTDTVALUE_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_OPTIONVAL_MSTR\SaveJson.cshtml" />
+    <Content Include="Views\COPR16_OPTIONVAL_MSTR\CreateJson.cshtml" />
+    <Content Include="Views\COPR16_STDREG_MSTR\SaveJson.cshtml" />
+    <Content Include="Views\COPR16_STDREG_MSTR\CreateJson.cshtml" />
+    <Content Include="Views\COPR16_MEASURETYPE_MSTR\CreateJson.cshtml" />
+    <Content Include="Views\COPR16_MEASURETYPE_MSTR\SaveJson.cshtml" />
+    <Content Include="Views\COPR16_RETURNTYPE_MSTR\CreateJson.cshtml" />
+    <Content Include="Views\COPR16_RETURNTYPE_MSTR\SaveJson.cshtml" />
+    <Content Include="Views\COPR16_RETURNTYPE_MSTR\RemoveRDTD.cshtml" />
+    <Content Include="Views\COPR16_MACHINE_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_MACHINE_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_MACHINE_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_MACHINE_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_MACHINE_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_MACHINE_MSTR\CreateJson.cshtml" />
+    <Content Include="Views\COPR16_MACHINE_MSTR\SaveJson.cshtml" />
+    <Content Include="Views\COPR16_STEP_MSTR\Create.cshtml" />
+    <Content Include="Views\COPR16_STEP_MSTR\Delete.cshtml" />
+    <Content Include="Views\COPR16_STEP_MSTR\Details.cshtml" />
+    <Content Include="Views\COPR16_STEP_MSTR\Edit.cshtml" />
+    <Content Include="Views\COPR16_STEP_MSTR\Index.cshtml" />
+    <Content Include="Views\COPR16_STEP_MSTR\CreateJson.cshtml" />
+    <Content Include="Views\COPR16_STEP_MSTR\SaveJson.cshtml" />
+    <Content Include="Views\COPR16_WORKFLOW\Create.cshtml" />
+    <Content Include="Views\COPR16_WORKFLOW\Delete.cshtml" />
+    <Content Include="Views\COPR16_WORKFLOW\Details.cshtml" />
+    <Content Include="Views\COPR16_WORKFLOW\Edit.cshtml" />
+    <Content Include="Views\COPR16_WORKFLOW\Index.cshtml" />
+    <Content Include="Views\COPR16_WORKFLOW\CreateJson.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\Create.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\Delete.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\Details.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\Edit.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\Index.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\Create.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\Delete.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\Details.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\Edit.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\Index.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\HANDHELD.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\REPORTS.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\DashBoard.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\Tracking.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\Dispatch.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\VIEW_DT.cshtml" />
+    <Content Include="Views\COPR16_WORKFLOW\SaveJson.cshtml" />
+    <Content Include="Views\COPR16_FILE_IMPORT\Create.cshtml" />
+    <Content Include="Views\COPR16_FILE_IMPORT\Delete.cshtml" />
+    <Content Include="Views\COPR16_FILE_IMPORT\Details.cshtml" />
+    <Content Include="Views\COPR16_FILE_IMPORT\Edit.cshtml" />
+    <Content Include="Views\COPR16_FILE_IMPORT\Index.cshtml" />
+    <Content Include="Views\COPR16_ITEMS_MSTR\MatchingParts.cshtml" />
+    <Content Include="Views\COPR16_ITEMS_MSTR\EditEx.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\StartTest.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\MACHINE_SELECT.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\STARTCONFIRM.cshtml" />
+    <Content Include="Views\COPR16_FILE_IMPORT\Uploading.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\TestResult.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\HANDHELD_SEARCH.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\FilterIndex.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\REPORTS.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\FINAL_REPORTS.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\CreateMarcro.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\CreateMacro.cshtml" />
+    <Content Include="Views\COPR16_FILE_IMPORT\gLockUpload.cshtml" />
+    <Content Include="Views\COPR16_ITEMS_MSTR\EditModel.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\StartTestForResult.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING_RT\MACHINE_SELECTforResult.cshtml" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\sheetjs\xlsx.core.min.map" />
+    <Content Include="Scripts\sheetjs\xlsx.full.min.map" />
+    <Content Include="Scripts\sheetjs\xlsx.min.map" />
+    <Content Include="Scripts\sheetjs\xlsx.mini.min.map" />
+    <Content Include="Views\COPR16_COPRUNNING\Create.cshtml.bak" />
+    <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceer40EN.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlcecompact40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\sqlceca40.dll" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\README_ENU.txt" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\msvcr90.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlcese40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceqp40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceme40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceer40EN.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlcecompact40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\sqlceca40.dll" />
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\README_ENU.txt" />
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\msvcr90.dll" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <None Include="_bin_deployableAssemblies\amd64\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
+    <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="Microsoft.Office.Interop.Access.Dao">
+      <Guid>{4AC9E1DA-5BAD-4AC7-86E3-24F4CDCECA28}</Guid>
+      <VersionMajor>12</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>51745</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44359/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.3.0\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.3.0\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.3.0\build\EntityFramework.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

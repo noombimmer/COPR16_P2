@@ -1,0 +1,635 @@
+﻿@*@model CM_APPLICATIONS.COPR16_RETURNTYPE_MSTR*@
+@model CM_APPLICATIONS.Models.ReturnTypeModel
+@{
+    ViewBag.Title = "RETURN TYPE MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var rowIndex = 0;
+}
+
+<h2>RETURN TYPE MASTER</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+    <table width="100%">
+        <tr>
+            <td>
+                <div class="form-horizontal">
+                    <h4>NEW</h4>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_RETURNTYPE_MSTR.RTYPE_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_RETURNTYPE_MSTR.RTYPE_ID, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_RETURNTYPE_MSTR.RTYPE_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_RETURNTYPE_MSTR.RTYPE_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_RETURNTYPE_MSTR.RTYPE_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_RETURNTYPE_MSTR.RTYPE_NAME, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_RETURNTYPE_MSTR.DESC, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.cOPR16_RETURNTYPE_MSTR.DESC, new { @class = "form-control", @rows = "5" })
+                            @Html.ValidationMessageFor(model => model.cOPR16_RETURNTYPE_MSTR.DESC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_RETURNTYPE_MSTR.FLGACT, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_RETURNTYPE_MSTR.FLGACT, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_RETURNTYPE_MSTR.FLGACT, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_RETURNTYPE_MSTR.ADATE, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_RETURNTYPE_MSTR.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_RETURNTYPE_MSTR.ADATE, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_RETURNTYPE_MSTR.CRE_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_RETURNTYPE_MSTR.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_RETURNTYPE_MSTR.CRE_BY, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="button" value="Create" class="btn btn-primary button saveAllBtn" />
+                            <input type="reset" value="Clear" class="btn btn-secondary" />
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-horizontal details">
+                    <p>
+                        @*@Html.ActionLink("ADD NEW OPTIONS", "Create", "COPR16_OPTIONVAL_MSTR", new { @class = "btn btn-primary button" })*@
+                        <a class="btn btn-primary button addbtn">ADD NEW OPTIONS</a>
+                    </p>
+                    <style>
+                        .dataTables_wrapper {
+                            float: left !important;
+                            width: 75% !important;
+                            margin-left: 0px !important;
+                        }
+
+                        table.dataTable thead tr {
+                            background-color: #005495;
+                            color: #fff;
+                        }
+
+                        table.dataTable {
+                            margin-left: 0px !important;
+                            width: 100% !important;
+                        }
+
+                        div.dataTables_length {
+                            display: none !important;
+                        }
+
+                        div.dataTables_filter {
+                            display: none !important;
+                        }
+
+                        div.dataTables_paginate {
+                            display: none !important;
+                        }
+
+                        .modal-header {
+                            background-color: #005495 !important;
+                            color: #ffffff !important;
+                        }
+
+                        td.command {
+                            flex-flow: nowrap;
+                            flex-wrap: nowrap;
+                            white-space: nowrap !important;
+                        }
+
+                        th.command {
+                            flex-flow: nowrap;
+                            flex-wrap: nowrap;
+                            white-space: nowrap !important;
+                        }
+                    </style>
+
+                    <table class="table table-list stripe option-list">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.cOPR16_RTDT_MSTR.RTDT_ID)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.cOPR16_RTDT_MSTR.RTDT_NAME)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.cOPR16_RTDT_MSTR.MSTYPE_ID)
+                                </th>
+
+                                @*<th class="username">
+                                        @Html.DisplayNameFor(model => model.cOPR16_OPTDTVALUE_MSTR.FLGACT)
+                                    </th>
+                                    <th class="username">
+                                        @Html.DisplayNameFor(model => model.cOPR16_OPTDTVALUE_MSTR.ADATE)
+                                    </th>
+                                    <th class="username">
+                                        @Html.DisplayNameFor(model => model.cOPR16_OPTDTVALUE_MSTR.CRE_BY)
+                                    </th>*@
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.cOPR16_OPTIONVAL_MSTR.MOD_BY)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.cOPR16_OPTIONVAL_MSTR.MOD_DATE)
+                                    </th>*@
+                                <th class="command">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.cOPR16_RTDT_MSTR_LIST)
+                            {
+                                var strrow = "class=row-id-" + rowIndex + "";
+                                <tr @strrow>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RTDT_ID)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RTDT_NAME)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MSTYPE_ID)
+                                    </td>
+                                    <td class="command" id="action_btn">
+                                        @Html.Hidden("hRowId", "row-id-" + rowIndex++)
+                                        @Html.Hidden("hRTDT_ID", item.RTDT_ID)
+                                        @Html.Hidden("hRTDT_NAME", item.RTDT_NAME.ToString())
+                                        @Html.Hidden("hMSTYPE_ID", item.MSTYPE_ID)
+
+                                        <a class='btn btn-primary button editbtn'>EDIT</a>
+                                        <a class='btn btn-primary button removebtn'>REMOVE</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="form-vertical footer">
+                    @*@Html.ActionLink("Back to List", "Index", new { @class = "btn btn-secondary" })*@
+                    @Html.ActionLink("Back to List", "Index", "COPR16_RETURNTYPE_MSTR", new { @class = "btn btn-primary button" })
+                </div>
+            </td>
+        </tr>
+    </table>
+
+}
+
+
+<div class="modal fade" id="MSTYPE_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">ADD ITEM DETAILS</h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <div class="form-horizontal">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_RTDT_MSTR.RTDT_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_RTDT_MSTR.RTDT_ID, new { htmlAttributes = new { @class = "form-control RTDT_ID" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_RTDT_MSTR.RTDT_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_RTDT_MSTR.RTDT_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.cOPR16_RTDT_MSTR.RTDT_NAME, new { @class = "form-control RTDT_NAME", @rows = "5" })
+                            @Html.ValidationMessageFor(model => model.cOPR16_RTDT_MSTR.RTDT_NAME, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_RTDT_MSTR.MSTYPE_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <div class="checkbox">
+                                @Html.DropDownListFor(model => model.cOPR16_RTDT_MSTR.MSTYPE_ID, Model.MSTYPE_LIST, null, new { @class = "form-control MSTYPE_ID" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_RTDT_MSTR.REF_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.cOPR16_RTDT_MSTR.REF_ID, new { htmlAttributes = new { @class = "form-control REF_ID", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_RTDT_MSTR.REF_ID, "", new { @class = "text-danger" })
+
+                        </div>
+                    </div>
+                    <input type="hidden" id="hSelectRowid" value="" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button insertbtn">ADD ITEM</a>
+                <a class="btn btn-primary button updatebtn">UPDATE ITEM</a>
+                <a class="btn btn-secondary button closbtn">CLOSE</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="SAVEALL_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to save this ?</H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesSavedAllBtn">YES</a>
+                <a class="btn btn-secondary button NoSaveAllBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="CONFIRMED_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to remove this row?</H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesConfirmedBtn">YES</a>
+                <a class="btn btn-secondary button NoConfirmedBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+
+    $("#cOPR16_RETURNTYPE_MSTR_CRE_BY").val("@CM_APPLICATIONS.Models.AppPropModel.username");
+    $("#cOPR16_RETURNTYPE_MSTR_ADATE").val("@System.DateTime.Now");
+    $("#cOPR16_RETURNTYPE_MSTR_FLGACT").val("true");
+
+</script>
+
+<script>
+    var counter = @rowIndex;
+    var rowObject = null;
+    $("a.addbtn").click(function () {
+        var rowid = "row-id-" + counter;
+        var rowCnt = tb1.rows().count();
+        $(".RTDT_ID").val("");
+        //$(".optval_val").val(rowCnt);
+        $(".RTDT_NAME").val("");
+        $(".MSTYPE_ID").val("");
+        $(".REF_ID").val("");
+
+        $("a.insertbtn").css("display", "");
+        $("a.updatebtn").css("display", "none");
+
+        $("#hSelectRowid").val(rowid);
+        $('#MSTYPE_DLG').modal('show');
+    });
+    $("input.saveAllBtn").click(function () {
+        $('#SAVEALL_DLG').modal('show');
+    });
+    $("a.closbtn").click(function () {
+        $('#MSTYPE_DLG').modal('hide');
+    });
+    $("a.NoConfirmedBtn").click(function () {
+        $('#CONFIRMED_DLG').modal('hide');
+    });
+    $("a.NoSaveAllBtn").click(function () {
+        $('#SAVEALL_DLG').modal('hide');
+    });
+    $("a.YesConfirmedBtn").click(function () {
+
+        var p = $(rowObject).parent();
+        var msg = $(p).find("#hRowId").val();
+        tb1.row("." + msg).remove().draw();
+        counter--;
+        //alert(msg);
+        rowObject = null;
+
+        $('#CONFIRMED_DLG').modal('hide');
+    });
+    $("a.insertbtn").click(function () {
+
+        //setDefualt();
+        var RTDT_ID = $(".RTDT_ID").val();
+        var RTDT_NAME = $(".RTDT_NAME").val();
+        var MSTYPE_ID = $(".MSTYPE_ID").val();
+        var REF_ID = $(".REF_ID").val();
+
+        var rowid = "row-id-" + counter;
+        var hRowId = $("<input type='hidden' value='" + rowid + "' id='hRowId'/>");
+        var hRTDT_ID = $("<input type='hidden' value='" + RTDT_ID + "' id='hRTDT_ID'/>");
+        var hRTDT_NAME = $("<input type='hidden' value='" + RTDT_NAME + "' id='hRTDT_NAME'/>");
+        var hMSTYPE_ID = $("<input type='hidden' value='" + MSTYPE_ID + "' id='hMSTYPE_ID'/>");
+        var hREF_ID = $("<input type='hidden' value='" + REF_ID + "' id='hREF_ID'/>");
+
+
+        var removeBtn = $("<a class='btn btn-primary button removebtn' >REMOVE</a>");
+        var editBtn = $("<a class='btn btn-primary button editbtn'>EDIT</a>");
+
+
+        var row = tb1.row.add(
+            [RTDT_ID
+                , RTDT_NAME
+                , MSTYPE_ID
+                //, OPTVAL_DEF
+                , ""
+            ]
+        ).draw(false)
+            .node();
+        counter++;
+        $(row).addClass(rowid)
+        $(row).find('td').eq(3).addClass('command');
+        $(row).find('td').eq(3).append(editBtn);
+        $(row).find('td').eq(3).append("\|");
+        $(row).find('td').eq(3).append(removeBtn);
+        $(row).find('td').eq(3).append(hRowId);
+
+        $(row).find('td').eq(3).append(hRTDT_ID);
+        $(row).find('td').eq(3).append(hRTDT_NAME);
+        $(row).find('td').eq(3).append(hMSTYPE_ID);
+        $(row).find('td').eq(3).append(hREF_ID);
+
+        $('#MSTYPE_DLG').modal('hide');
+
+    });
+
+    //function removeRow(obj) {
+    //    if (counter == 0) return;
+    //    var p = $(obj).parent();
+    //    var msg = $(p).find("#hRowId").val();
+    //    tb1.row("." + msg).remove().draw();
+    //    counter--;
+    //}
+
+    $("body").on("click", "a.removebtn", function (ev) {
+        //removeRow(this);
+        //var p = $(this).parent();
+        rowObject = this;
+        $('#CONFIRMED_DLG').modal('show');
+    });
+    $("body").on("click", "a.editbtn", function (ev) {
+        if (counter == 0) return;
+
+        var p = $(this).parent();
+        var id = $(p).find("#hRTDT_ID").val();
+        var value = $(p).find("#hRTDT_NAME").val();
+        var def = $(p).find("#hMSTYPE_ID").val();
+        var desc = $(p).find("#hREF_ID").val();
+        var hRowId = $(p).find("#hRowId").val();
+        //hRowId
+        $(".RTDT_ID").val(id);
+        $(".RTDT_NAME").val(value);
+        $(".MSTYPE_ID").val(def);
+        $(".REF_ID").val(desc);
+        $("#hSelectRowid").val(hRowId);
+
+        $("a.insertbtn").css("display", "none");
+        $("a.updatebtn").css("display", "");
+        $('#MSTYPE_DLG').modal('show');
+    });
+    $("a.updatebtn").click(function () {
+        //setDefualt();
+        var msg = $("#hSelectRowid").val();
+        //alert("msg :" + msg);
+        var RTDT_ID = $(".RTDT_ID").val();
+        var RTDT_NAME = $(".RTDT_NAME").val();
+        var MSTYPE_ID = $(".MSTYPE_ID").val();
+        var REF_ID = $(".REF_ID").val();
+        var SelectedRow = $(tb1.row("." + msg).node()).find('td');
+        //alert("SelectedRow : " + SelectedRow);
+        //alert("SelectedRow.eq(0) : " + SelectedRow.eq(0).html());
+        //alert("SelectedRow.eq(0) : " + SelectedRow.eq(0).text().length);
+        //alert("SelectedRow.eq(0) : [" + SelectedRow.eq(0).text()+"]");
+        //alert("SelectedRow.eq(0) : " + SelectedRow.eq(0).val());
+        SelectedRow.eq(0).text(RTDT_ID);
+        SelectedRow.eq(3).find("#hRTDT_ID").val(RTDT_ID);
+
+        SelectedRow.eq(1).text(RTDT_NAME);
+        SelectedRow.eq(3).find("#hRTDT_NAME").val(RTDT_NAME);
+
+        SelectedRow.eq(2).text(MSTYPE_ID);
+        SelectedRow.eq(3).find("#hMSTYPE_ID").val(MSTYPE_ID);
+        //alert("new : " + OPTVAL_DEF);
+        //alert("old : " + SelectedRow.eq(3).text().trim());
+        SelectedRow.eq(3).text(REF_ID);
+        SelectedRow.eq(4).find("#hREF_ID").val(REF_ID);
+        $('#MSTYPE_DLG').modal('hide');
+    });
+
+    function setDefualt() {
+        if (counter == 0) return;
+        var rows = counter - 1;
+        var selectedValue = $(".optval_def").val();
+        if (selectedValue != "true") return;
+
+        tb1.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var node = this.node();
+            var val = $(node).find('td').eq(3).text();
+            if (val == "true") {
+                $(node).find('td').eq(3).text("false");
+                $(node).find('td').eq(4).find("#hOPTVAL_DEF").val("false");
+            }
+        });
+    }
+
+
+</script>
+<script>
+    $('#cOPR16_RTDT_MSTR_MSTYPE_ID').change(function () {
+        var mstype_id = $('#cOPR16_RTDT_MSTR_MSTYPE_ID').val();
+        getRefID(mstype_id);
+    });
+    function getRefID(option_id) {
+        var urlText = "@Url.Action("GetREFID","COPR16_MEASURETYPE_MSTR")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {id:option_id}
+        console.log(jdata);
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                //alert(result);
+                UpdateRefID(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("error:" + errorThrown);
+            }
+        });
+        return false;
+    }
+    function UpdateRefID(data) {
+
+        var option_unit = data[0]["OPTION_UNIT"];
+        var file_flag = data[0]["FROM_FILE"];
+        if (file_flag == true) {
+
+            $('#cOPR16_RTDT_MSTR_REF_ID').val(data[0]["FILE_ID"]);
+        } else {
+            if (option_unit == true) {
+                $('#cOPR16_RTDT_MSTR_REF_ID').val(data[0]["OPT_ID"]);
+            } else {
+                $('#cOPR16_RTDT_MSTR_REF_ID').val(data[0]["UNIT_ID"]);
+            }
+        }
+
+
+    }
+</script>
+
+<script>
+    $(".YesSavedAllBtn").click(function () {
+        saveJson();
+        $("#SAVEALL_DLG").modal("hide");
+    });
+    $(".lerrcloseBtn").click(function () {
+        $("#lModalError").modal("hide");
+    });
+    $(".lSuccesscloseBtn").click(function () {
+        window.location.href = "@Url.Action("Index","COPR16_RETURNTYPE_MSTR")";
+        $("#lModalSuccess").modal("hide");
+    });
+    function saveJson() {
+        var opdt = {};
+        var dtdt = [];
+
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "rt_id": $("#cOPR16_RETURNTYPE_MSTR_RTYPE_ID").val(),
+            "rt_name": $("#cOPR16_RETURNTYPE_MSTR_RTYPE_NAME").val(),
+            "rt_desc": $("#cOPR16_RETURNTYPE_MSTR_DESC").val(),
+            "flgact":$("#cOPR16_RETURNTYPE_MSTR_FLGACT").val(),
+            "username": $("#UID").val(),
+            //"jsonString": $('form').serialize()
+            "jsonString": [{}]
+        };
+        var firstFlg = true;
+        tb1.rows().every(function (rowIdx, tableLoop, rowLoop) {
+            var node = this.node();
+            var RTDT_ID = $(node).find('td').eq(3).find("#hRTDT_ID").val();
+            var RTDT_NAME= $(node).find('td').eq(3).find("#hRTDT_NAME").val();
+            var MSTYPE_ID = $(node).find('td').eq(3).find("#hMSTYPE_ID").val();
+            var REF_ID = $(node).find('td').eq(3).find("#hREF_ID").val();
+            opdt = {
+                "RTTYPE_ID": $("#cOPR16_RETURNTYPE_MSTR_RTYPE_ID").val(),
+                "RTDT_ID": RTDT_ID,
+                "RTDT_NAME": RTDT_NAME,
+                "MSTYPE_ID": MSTYPE_ID,
+                "REF_ID": REF_ID
+            };
+            //console.log(opdt);
+
+            if (jdata["jsonString"].length == 1 && firstFlg == true) {
+                jdata["jsonString"][0] = opdt;
+                firstFlg = false;
+            } else {
+                jdata["jsonString"].push(opdt);
+            }
+
+
+        });
+        console.log(jdata);
+            var urlText = "@Url.Action("CreateJson","COPR16_RETURNTYPE_MSTR")";
+            var options = { "backdrop": "static", keyboard: true };
+            console.log();
+            $.ajax({
+                type: "POST",
+                url: urlText,     //your action
+                //data: $('form').serialize(),   //your form name.it takes all the values of model
+                //dataType: 'json',
+                data: jdata,
+                success: function (result) {
+                    $('#lModalLabelSuccess').html("Create New Return Type");
+                    $('#lModalBodySuccess').html("Create New Return Type is Successful");
+                    $('#lModalSuccess').modal(options);
+                    $('#lModalSuccess').modal('show');
+
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#lModalLabelError').html("Create New Return Type");
+                    $('#lModalBodyError').html("Cannot save data : " + errorThrown );
+                    $('#lModalError').modal(options);
+                    $('#lModalError').modal('show');
+                }
+            })
+            return false;
+    }
+</script>

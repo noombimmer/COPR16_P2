@@ -1,0 +1,134 @@
+﻿@*@model CM_APPLICATIONS.COPR16_FILES_MSTR*@
+
+@model CM_APPLICATIONS.Models.FileModel
+
+@{
+    ViewBag.Title = "FILE MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>FILE MASTER</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>NEW</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILES_MSTR.FT_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.cOPR16_FILES_MSTR.FT_ID, Model.FTYPE_LIST, null, new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.cOPR16_FILES_MSTR.FT_ID, new { htmlAttributes = new { @class = "form-control" } })*@
+                @Html.ValidationMessageFor(model => model.cOPR16_FILES_MSTR.FT_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILES_MSTR.FILE_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_FILES_MSTR.FILE_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILES_MSTR.FILE_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILES_MSTR.FILE_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_FILES_MSTR.FILE_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILES_MSTR.FILE_NAME, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILES_MSTR.FILE_URL, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_FILES_MSTR.FILE_URL, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILES_MSTR.FILE_URL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILES_MSTR.FILE_FUNC, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_FILES_MSTR.FILE_FUNC, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILES_MSTR.FILE_FUNC, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILES_MSTR.FLGNETWORK, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.cOPR16_FILES_MSTR.FLGNETWORK, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.cOPR16_FILES_MSTR.FLGNETWORK, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILES_MSTR.FLGACT, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.cOPR16_FILES_MSTR.FLGACT, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.cOPR16_FILES_MSTR.FLGACT, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILES_MSTR.ADATE, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_FILES_MSTR.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILES_MSTR.ADATE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILES_MSTR.CRE_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_FILES_MSTR.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILES_MSTR.CRE_BY, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILES_MSTR.MOD_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_FILES_MSTR.MOD_DATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILES_MSTR.MOD_DATE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_FILES_MSTR.MOD_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_FILES_MSTR.MOD_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_FILES_MSTR.MOD_BY, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="reset" value="Clear" class="btn btn-secondary" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @*@Html.ActionLink("Back to List", "Index", new { @class = "btn btn-secondary" })*@
+    @Html.ActionLink("Back to List", "Index", "COPR16_FILES_MSTR", new { @class = "btn btn-primary button" })
+</div>
+
+<script>
+
+    $("#cOPR16_FILES_MSTR_CRE_BY").val("@System.Environment.UserName.ToLower()");
+    $("#cOPR16_FILES_MSTR_ADATE").val("@System.DateTime.Now");
+    $("#cOPR16_FILES_MSTR_FLGACT").val("true");
+    $("#cOPR16_FILES_MSTR_FLGNETWORK").val("false");
+
+</script>

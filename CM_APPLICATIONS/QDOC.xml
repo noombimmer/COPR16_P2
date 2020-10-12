@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Body>
+<maintainSalesOrder>
+<qcom:dsSessionContext>
+<qcom:ttContext>
+<qcom:propertyQualifier>QAD</qcom:propertyQualifier>
+<qcom:propertyName>domain</qcom:propertyName>
+<qcom:propertyValue />
+</qcom:ttContext>
+<qcom:ttContext>
+<qcom:propertyQualifier>QAD</qcom:propertyQualifier>
+<qcom:propertyName>scopeTransaction</qcom:propertyName>
+<qcom:propertyValue>false</qcom:propertyValue>
+</qcom:ttContext>
+<qcom:ttContext>
+<qcom:propertyQualifier>QAD</qcom:propertyQualifier>
+<qcom:propertyName>version</qcom:propertyName>
+<qcom:propertyValue>eB2_2</qcom:propertyValue>
+</qcom:ttContext>
+<qcom:ttContext>
+<qcom:propertyQualifier>QAD</qcom:propertyQualifier>
+<qcom:propertyName>mnemonicsRaw</qcom:propertyName>
+<qcom:propertyValue>false</qcom:propertyValue>
+</qcom:ttContext>
+<qcom:ttContext>
+<qcom:propertyQualifier>QAD</qcom:propertyQualifier>
+<qcom:propertyName>username</qcom:propertyName>
+<qcom:propertyValue />
+</qcom:ttContext>
+<qcom:ttContext>
+<qcom:propertyQualifier>QAD</qcom:propertyQualifier>
+<qcom:propertyName>password</qcom:propertyName>
+<qcom:propertyValue />
+</qcom:ttContext>
+</qcom:dsSessionContext>
+<dsSalesOrder>
+<salesOrder>
+<operation>text</operation>
+<soNbr>SO987654</soNbr>
+<soCust>001</soCust>
+<soSlspsn>CDO</soSlspsn>
+<soSlspsn>GDB</soSlspsn>
+<soSlspsn>HDA</soSlspsn>
+<soSlspsn>JP</soSlspsn>
+<multSlspsn>yes</multSlspsn>
+<salesOrderTransComment>
+<operation>text</operation>
+<cmtCmmt>Line 1</cmtCmmt>
+<cmtCmmt/>
+<cmtCmmt/>
+<cmtCmmt/>
+<cmtCmmt/>
+<cmtCmmt/>
+<cmtCmmt/>
+<cmtCmmt/>
+<cmtCmmt/>
+<cmtCmmt>Line 10</cmtCmmt>
+</salesOrderTransComment>
+<salesOrderDetail>
+<operation>text</operation>
+<line>1</line>
+<sodPart>item6</sodPart>
+<sodQtyOrd>1</sodQtyOrd>
+</salesOrderDetail>
+<salesOrderDetail>
+<operation>text</operation>
+<line>2</line>
+<sodPart>10-15000</sodPart>
+<sodQtyOrd>1</sodQtyOrd>
+</salesOrderDetail>
+</salesOrder>
+</dsSalesOrder>
+</maintainSalesOrder>
+</soapenv:Body>

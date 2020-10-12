@@ -1,0 +1,56 @@
+﻿@model CM_APPLICATIONS.Models.HandheldModel
+@{
+    ViewBag.Title = "VIEW";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <h2>
+        COP R16 RUNNING @Html.LabelFor(m => m.FG_DETAILS)
+        @Html.DisplayFor(m => m.FG_DETAILS)
+    </h2>
+<style>
+    .PN-TEXT {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 14px;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .FG-TYPE {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 38px;
+    }
+
+    .COP-TITLE {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 20px;
+    }
+
+    .label-sticker {
+        width: 10cm !important;
+        height: 5.2cm !important;
+        max-height: 5.2cm !important;
+        max-width: 10cm !important;
+        overflow: hidden;
+        /*background-color: lightgray;*/
+        border: 1px solid lightgray;
+        display: inline-block;
+    }
+</style>
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 99% !important;
+        margin-left: 0px !important;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+</style>

@@ -1,0 +1,113 @@
+﻿@model IEnumerable<CM_APPLICATIONS.COPR16_PROC_MSTR>
+
+@{
+    ViewBag.Title = "PROCESS MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>PROCESS MASTER</h2>
+
+<p>
+    @Html.ActionLink("ADD NEW FG", "Create", "COPR16_PROC_MSTR", new { @class = "btn btn-primary button" })
+</p>
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 99% !important;
+        margin-left: 0px !important;
+        ;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+</style>
+<table class="table table-list stripe">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PROC_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PROC_NAME)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PROC_DESC)
+            </th>
+            <th class="username">
+                @Html.DisplayNameFor(model => model.FLGACT)
+            </th>
+            <th class="username">
+                @Html.DisplayNameFor(model => model.ADATE)
+            </th>
+            <th class="username">
+                @Html.DisplayNameFor(model => model.CRE_BY)
+            </th>
+            @*<th>
+            @Html.DisplayNameFor(model => model.MOD_BY)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NOD_DATE)
+        </th>*@
+
+            <th class="command">ACTION</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PROC_ID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PROC_NAME)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PROC_DESC)
+            </td>
+            <td class="username">
+                @Html.DisplayFor(modelItem => item.FLGACT)
+            </td>
+            <td class="username">
+                @Html.DisplayFor(modelItem => item.ADATE)
+            </td>
+            <td class="username">
+                @Html.DisplayFor(modelItem => item.CRE_BY)
+            </td>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.MOD_BY)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NOD_DATE)
+        </td>*@
+
+        <td class="command">
+            @*@Html.ActionLink("Edit", "Edit", new { id = item.PROC_ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.PROC_ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.PROC_ID })*@
+
+            @Html.ActionLink("Edit", "Edit", "COPR16_PROC_MSTR", new { id = item.PROC_ID }, new { @class = "btn btn-primary button" }) |
+            @Html.ActionLink("View", "Details", "COPR16_PROC_MSTR", new { id = item.PROC_ID }, new { @class = "btn btn-primary button" }) |
+            @{
+
+                if (item.FLGACT == true)
+                {
+                    @Html.ActionLink("Deactivate", "Deactive", "COPR16_PROC_MSTR", new { id = item.PROC_ID }, new { @class = "btn btn-primary button" });
+                }
+                else
+                {
+                    @Html.ActionLink("Activate", "Active", "COPR16_PROC_MSTR", new { id = item.PROC_ID }, new { @class = "btn btn-primary button" });
+                }
+            }
+        </td>
+        </tr>
+        }
+    </tbody>
+</table>

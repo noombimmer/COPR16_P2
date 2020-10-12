@@ -1,0 +1,83 @@
+﻿@model CM_APPLICATIONS.COPR16_FILE_IMPORT
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>COPR16_FILE_IMPORT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.FSIM_DT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FSIM_DT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FSIM_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FSIM_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FSIM_EXT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FSIM_EXT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FSIM_PATH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FSIM_PATH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FSIM_SIZE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FSIM_SIZE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FSIM_FORMAT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FSIM_FORMAT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FSIM_UNIQ_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FSIM_UNIQ_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CRE_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CRE_BY)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.FSIM_SEQDT }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

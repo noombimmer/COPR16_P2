@@ -1,0 +1,46 @@
+﻿@model IEnumerable<CM_APPLICATIONS.COPR16_ITEMS_VOLUME>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ITEM_ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BUSI_DATE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QTY)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ITEM_ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BUSI_DATE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QTY)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.RUNNING_ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.RUNNING_ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.RUNNING_ID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,119 @@
+﻿@*@model CM_APPLICATIONS.COPR16_STD_MSTR*@
+
+@model CM_APPLICATIONS.Models.ProcessModel
+@{
+    ViewBag.Title = "STANDARD MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>STANDARD MASTER</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>NEW</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STD_MSTR.STDREG_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.cOPR16_STD_MSTR.STDREG_ID, Model.REG_LIST, null, new { @class = "form-control" })
+            @*@Html.EditorFor(model => model.cOPR16_STD_MSTR.PROC_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_STD_MSTR.PROC_ID, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STD_MSTR.PROC_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.cOPR16_STD_MSTR.PROC_ID, Model.PROC_LIST, null, new { @class = "form-control" })
+            @*@Html.EditorFor(model => model.cOPR16_STD_MSTR.PROC_ID, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_STD_MSTR.PROC_ID, "", new { @class = "text-danger" })*@
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STD_MSTR.STD_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_STD_MSTR.STD_ID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_STD_MSTR.STD_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STD_MSTR.STD_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_STD_MSTR.STD_NAME, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_STD_MSTR.STD_NAME, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STD_MSTR.STD_DESC, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_STD_MSTR.STD_DESC, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_STD_MSTR.STD_DESC, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STD_MSTR.FLGACT, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.cOPR16_STD_MSTR.FLGACT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_STD_MSTR.FLGACT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STD_MSTR.ADATE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_STD_MSTR.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_STD_MSTR.ADATE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STD_MSTR.CRE_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_STD_MSTR.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_STD_MSTR.CRE_BY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STD_MSTR.MOD_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_STD_MSTR.MOD_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_STD_MSTR.MOD_BY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_STD_MSTR.NOD_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_STD_MSTR.NOD_DATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_STD_MSTR.NOD_DATE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-primary" />
+            <input type="reset" value="Clear" class="btn btn-secondary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "COPR16_STD_MSTR", new { @class = "btn btn-primary button" })
+</div>
+<script>
+
+    $("#cOPR16_STD_MSTR_CRE_BY").val("@System.Environment.UserName.ToLower()");
+    $("#cOPR16_STD_MSTR_ADATE").val("@System.DateTime.Now");
+    $("#cOPR16_STD_MSTR_FLGACT").val("true");
+
+</script>

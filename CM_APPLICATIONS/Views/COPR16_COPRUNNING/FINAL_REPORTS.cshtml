@@ -1,0 +1,1584 @@
+﻿@model CM_APPLICATIONS.Models.CopRunningModel
+
+@{
+    ViewBag.Title = "COP FINAL REPORTS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var row = 0;
+}
+     <style id="style_local">
+        .dataTables_wrapper {
+            float: left !important;
+            width: 100% !important;
+            margin-left: 0px !important;
+        }
+
+        .table_display {
+            overflow: auto !important;
+        }
+
+        table.dataTable thead tr {
+            background-color: #005495;
+            color: #fff;
+        }
+
+        table td {
+            white-space: nowrap !important;
+        }
+
+        table.dataTable {
+            margin-left: 0px !important;
+            width: 100% !important;
+            border: thin 0.5px grey !important;
+        }
+
+        div.dataTables_length {
+            display: none !important;
+        }
+
+        div.dataTables_filter {
+            display: none !important;
+        }
+
+        div.dataTables_paginate {
+            display: none !important;
+        }
+
+        .modal-header {
+            background-color: #005495 !important;
+            color: #ffffff !important;
+        }
+
+        td.command {
+            flex-flow: nowrap;
+            flex-wrap: nowrap;
+            white-space: nowrap !important;
+        }
+
+        th.command {
+            flex-flow: nowrap;
+            flex-wrap: nowrap;
+            white-space: nowrap !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .no-wrap-th {
+            white-space: nowrap;
+        }
+
+        .numericCol {
+            text-align: right;
+        }
+
+        .textCol {
+            text-align: center !important;
+            width: 1% !important;
+            white-space: nowrap;
+            border: 1px solid darkgrey;
+        }
+
+        .matrixValue {
+            /*width: 1% !important;*/
+        }
+
+        .hiddenCol {
+            display: none !important;
+        }
+
+        .boldText {
+            font-weight: bold;
+        }
+
+        .boldTextRow {
+            font-weight: bold;
+            background-color: #cae4f3 !important;
+        }
+
+        .boldTextRowAcc {
+            font-weight: bold;
+            background-color: #005495 !important;
+            color: #fff !important;
+        }
+
+        .boldTextRowLast td {
+            font-weight: bold;
+            background-color: #7cbcfa !important;
+            border-bottom: 2px double #005495 !important;
+            color: #fff !important;
+        }
+
+        .boldTextRowWIthoutID td {
+            font-weight: bold;
+            background-color: #7cbcfa !important;
+            color: #fff !important;
+        }
+
+        .boldTextRowWithout td {
+            font-weight: bold;
+            background-color: #ffd800 !important;
+            /*border-bottom:2px double #005495 !important;*/
+        }
+
+        .option-list tbody tr td {
+            border: 1px solid darkgrey;
+        }
+
+        .table_item_totale {
+            vertical-align: middle !important;
+            font-weight: bold !important;
+            text-align: center !important;
+        }
+
+        .table_sub_item {
+            vertical-align: middle !important;
+        }
+
+        ul.ptest {
+            margin-top: 20px;
+            columns: 2;
+            -webkit-columns: 2;
+            -moz-columns: 2;
+        }
+
+        li.ptest {
+            margin-left: 15px;
+        }
+
+        .hideborder {
+            border-top: 5px solid white !important;
+            border-left: 5px solid white !important;
+            width: 20% !important;
+            text-align: left !important;
+            vertical-align: top !important;
+        }
+        html{
+            overflow:auto !important;
+        }
+        .blueText{
+            color:blue;
+            font-style:italic;
+        }
+        .blueText2{
+            color:blue;
+            font-style:italic;
+            font-weight:normal !important;
+        }
+        .headTitleCaption {
+            text-align:right !important;
+            background-color:#DDEBF7;
+            font-weight:bolder
+        }
+        .table > thead > tr > th{
+            border-bottom: 1px solid #ddd !important;
+        }
+    </style>
+<h2>ECE R16 Test Result</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("STANDARD : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @*@Html.Editor("STANDARD", new { htmlAttributes = new { @class = "form-control model-id", @name = "FITEMS" } })*@
+                @Html.DropDownListFor(model => model.cOPR16_COPRUNNING.WRK_ID, Model.STDREG, null, new { @class = "form-control STDREG_ID" })
+                @Html.Hidden("hidden_STANDARD", "")
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("MODEL NO : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @*@Html.Editor("MODELNO", new { htmlAttributes = new { @class = "form-control model-id", @name = "FITEMS" } })*@
+                @Html.DropDownListFor(model => model.cOPR16_COPRUNNING.MODEL_ID, Model.MODEL_LIST, null, new { @class = "form-control MODEL_ID" })
+
+                @Html.Hidden("hidden_MODELNO", "")
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("PERIOD DATE : ", htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="form-group" style="display:flex;flex-wrap:nowrap;width:400px;height:35px;overflow:hidden">
+                <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                    @Html.Editor("FROM_DATE", new { htmlAttributes = new { @class = "form-control from-date", @readonly = "true", @name = "FROM_DATE", @style = "width:120px;" } })
+                    @Html.Hidden("hidden_FROM_DATE", "")
+                    <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-from-date-picker">
+                </div>@Html.Label("TO : ", htmlAttributes: new { @class = "control-label col-md-1" })
+                <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                    @Html.Editor("TO_DATE", new { htmlAttributes = new { @class = "form-control to-date", @readonly = "true", @name = "TO_DATE", @style = "width:120px;" } })
+                    @Html.Hidden("hidden_TO_DATE", "")
+                    <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-to-date-picker">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-10">
+                <input type="button" value="REFRESH" class="btn btn-primary button refreshBtn" />
+                <input type="button" value="EXPORT TO XLS" class="btn btn-primary button exportBtn" />
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("TOTAL COP No : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("TOTAL_COP", new { htmlAttributes = new { @class = "form-control TOTAL_COP", @readonly = "true", @name = "TOTAL_COP", @style = "width:120px;" } })
+            </div>
+        </div>
+
+    </div>
+}
+
+
+<div class="table_dsp">
+    <table class="table stripe option-list data-step" style="border:1px solid darkgrey;">
+        <thead>
+            <tr class="rowhead_Gudgement">
+                <th class="no-wrap-th textCol hideborder" rowspan="5" style="width:1% !important;">
+
+                    @Html.Label("AUTOLIV PART NO : ", htmlAttributes: new { @class = "control-label col-md-1 part-title", @style = "white-space:nowrap;" })
+                </th>
+                <th class="no-wrap-th textCol hideborder part-list " colspan="3" rowspan="5" style="width:1% !important;">
+                </th>
+                <th class="no-wrap-th textCol headTitleCaption" style="background-color:#DDEBF7;">Gudgement</th>
+
+            </tr>
+            <tr class="rowhead_COPNO" >
+
+                <th class="no-wrap-th textCol headTitleCaption"  style="background-color:#DDEBF7;">COP No.</th>
+                
+            </tr>
+            <tr class="rowhead_Condition" >
+
+                <th class="no-wrap-th textCol headTitleCaption"  style="background-color:#DDEBF7;">Condition</th>
+                
+            </tr>
+            <tr class="rowhead_SummaryBy">
+
+                <th class="no-wrap-th textCol headTitleCaption"  style="background-color:#DDEBF7;">Summary By</th>
+
+            </tr>
+            <tr class="rowhead_ArooveBy">
+
+                <th class="no-wrap-th textCol headTitleCaption"  style="background-color:#DDEBF7;">Approve By</th>
+
+            </tr>
+            <tr style="background-color:#DDEBF7;" class="Header1_result">
+                <th class="no-wrap-th textCol" colspan="3">Item</th>
+                <th class="no-wrap-th textCol" colspan="2">Criteria</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr >
+                <td rowspan="12" class="table_item_totale">
+                    <b>
+                        Initial
+                        performance
+                    </b>
+                </td>
+                <td style="background-color:#DDEBF7;font-weight:bolder" class=" tableexport-string">1-1</td>
+                <td colspan="3" style="background-color:#DDEBF7;font-weight:bolder" class="Header_1-1"><b>Locking performance initial</b></td>
+
+
+            </tr>
+            @* Section 1 *@
+            <tr class="row_VSILOCKING_0DEG">
+                <td rowspan="4" class="table_sub_item tableexport-string">1-1-1</td>
+                <td rowspan="4" class="table_sub_item">VSI Locking</td>
+                <td rowspan="4" class="table_sub_item">4.41m/s2 within 50mm</td>
+                <td>direction 0°</td>
+                
+
+            </tr>
+            <tr class="row_VSILOCKING_90DEG">
+
+                <td>direction 90°</td>
+                
+            </tr>
+            <tr class="row_VSILOCKING_180DEG">
+
+                <td>direction 180°</td>
+                
+            </tr>
+            <tr class="row_VSILOCKING_270DEG">
+
+                <td>direction 270°</td>
+                
+
+            </tr>
+            <tr class="row_WSIUNLOCKING">
+                <td class=" tableexport-string">1-1-2</td>
+                <td>Wsi Unlock</td>
+                <td colspan="2">7.85m/s2  within 50mm</td>
+                
+            </tr>
+            <tr class="row_WSILOCKING">
+                <td class=" tableexport-string">1-1-3</td>
+                <td>Wsi Locking</td>
+                <td colspan="2">29.42m/s2  within 50mm</td>
+                
+
+            </tr>
+            <tr class="row_TILLANGLELOCK_0DEG">
+                <td rowspan="4" class="table_sub_item  tableexport-string">1-1-4</td>
+                <td rowspan="4" class="table_sub_item">Tilt angle Lock</td>
+                <td rowspan="4" class="table_sub_item">Lock between 12°-27°</td>
+                <td>direction 0°</td>
+                
+
+            </tr>
+            <tr class="row_TILLANGLELOCK_90DEG">
+
+                <td>direction 90°</td>
+                
+
+            </tr>
+            <tr class="row_TILLANGLELOCK_180DEG">
+
+                <td>direction 180°</td>
+                
+            </tr>
+            <tr class="row_TILLANGLELOCK_270DEG">
+
+                <td>direction 270°</td>
+                
+            </tr>
+            <tr class="row_RETRACTIONFORCE">
+                <td class=" tableexport-string">1-2</td>
+                <td>Retraction force</td>
+                <td colspan="2">0.1～0.7daN (1～7N)</td>
+               
+
+            </tr>
+
+            @* Section 2 *@
+            <tr>
+                <td rowspan="10" class="table_item_totale"><b>Durability</b></td>
+                <td style="background-color:#DDEBF7;font-weight:bolder" class=" tableexport-string"><b>2-1</b></td>
+                <td colspan="3" style="background-color:#DDEBF7;font-weight:bolder" class="Header_2-1"><b>Retracror Durability</b></td>
+
+
+            </tr>
+
+            <tr class="row_DURABILITY4000">
+                <td class=" tableexport-string">2-1-1</td>
+                <td>Durability 40,000 cycles</td>
+                <td colspan="2">No anomaly at sample and part </td>
+                
+
+
+            </tr>
+            <tr class="row_CORROSION">
+                <td class=" tableexport-string">2-1-2</td>
+                <td>Corrosion</td>
+                <td colspan="2">No anomaly at sample and part</td>
+                
+
+            </tr>
+            <tr class="row_DUSTTEST">
+                <td class=" tableexport-string">2-1-3</td>
+                <td>Dust test</td>
+                <td colspan="2">No anomaly at sample and part</td>
+               
+
+            </tr>
+            <tr class="row_DURABILITY5000">
+                <td class=" tableexport-string">2-1-4</td>
+                <td>Durability 5,000 cycles</td>
+                <td colspan="2">No anomaly at sample and part</td>
+
+              
+
+            </tr>
+            <tr>
+                <td style="background-color:#DDEBF7;font-weight:bolder" class=" tableexport-string"><b>2-2</b></td>
+                <td colspan="3" style="background-color:#DDEBF7;font-weight:bolder" class="Header_2-2"><b>Conditioning of the pretensioner system</b></td>
+            </tr>
+            <tr class="row_HEATCOOL">
+                <td class=" tableexport-string">2-2-1</td>
+                <td>Heat･Cold resistance </td>
+                <td colspan="2">Shall operate normally after condition</td>
+               
+
+            </tr>
+            <tr>
+                <td style="background-color:#DDEBF7;font-weight:bolder" class=" tableexport-string"><b>2-3</b></td>
+                <td colspan="3" style="background-color:#DDEBF7;font-weight:bolder" class=" tableexport-string Header_2-3"><b>Buckle durability</b></td>
+            </tr>
+            <tr class="row_CORROSION2">
+                <td class=" tableexport-string">2-3-1</td>
+                <td>Corrosion</td>
+                <td colspan="2">No anomaly at sample and part</td>
+                
+
+            </tr>
+            <tr class="row_REMOVETONGUE">
+                <td class=" tableexport-string">2-3-2</td>
+                <td>Remove tongue durability</td>
+                <td colspan="2">No anomaly at sample and part</td>
+                
+            </tr>
+
+            @* Section 3 *@
+            <tr>
+                <td rowspan="12" class="table_item_totale"><b>Post durability performance</b></td>
+                <td style="background-color:#DDEBF7;font-weight:bolder" class=" tableexport-string"><b>3-1</b></td>
+                <td colspan="3" style="background-color:#DDEBF7;font-weight:bolder"  class="Header_3-1"><b>Locking performance post</b></td>
+            </tr>
+
+            <tr class="row_P_VSILOCKING_0DEG">
+                <td rowspan="4" class="table_sub_item tableexport-string">3-1-1</td>
+                <td rowspan="4" class="table_sub_item">VSI Locking</td>
+                <td rowspan="4" class="table_sub_item">4.41m/s2 within 50mm</td>
+                <td>direction 0°</td>
+                
+
+            </tr>
+            <tr class="row_P_VSILOCKING_90DEG">
+                <td>direction 90°</td>
+                
+            </tr>
+            <tr class="row_P_VSILOCKING_180DEG">
+                <td>direction 180°</td>
+                
+            </tr>
+            <tr class="row_P_VSILOCKING_270DEG">
+                <td>direction 270°</td>
+               
+            </tr>
+            <tr class="row_P_WSIUNLOCK">
+                <td class="table_sub_item tableexport-string">3-1-2</td>
+                <td>Wsi Unlock</td>
+                <td colspan="2">7.85m/s2  within 50mm</td>
+                
+            </tr>
+            <tr class="row_P_WSILOCKING">
+                <td class="table_sub_item tableexport-string">3-1-3</td>
+                <td>Wsi Locking</td>
+                <td colspan="2">29.42m/s2  within 50mm</td>
+                
+
+            </tr>
+            <tr class="row_P_TILLANGLELOCK_0DEG">
+                <td rowspan="4" class="table_sub_item tableexport-string">3-1-4</td>
+                <td rowspan="4" class="table_sub_item">Tilt angle Lock</td>
+                <td rowspan="4" class="table_sub_item">Lock between 12°-27°</td>
+                <td>direction 0°</td>
+                
+
+            </tr>
+            <tr class="row_P_TILLANGLELOCK_90DEG">
+                <td>direction 90°</td>
+                
+            </tr>
+            <tr class="row_P_TILLANGLELOCK_180DEG">
+                <td>direction 180°</td>
+               
+            </tr>
+            <tr class="row_P_TILLANGLELOCK_270DEG">
+                <td>direction 270°</td>
+                
+            </tr>
+            <tr class="row_P_RETRACTIONFORCE">
+                <td class="table_sub_item tableexport-string">3-2</td>
+                <td>Retraction force</td>
+                <td colspan="2">0.1～0.7daN (1～7N)</td>
+                
+
+            </tr>
+
+            @* Section 4 *@
+            <tr>
+                <td rowspan="7" class="table_item_totale"><b> Dynamic Sled test </b></td>
+                <td style="background-color:#DDEBF7;font-weight:bolder" class="table_sub_item tableexport-string" >&nbsp;4</td>
+                <td colspan="3" style="background-color:#DDEBF7;font-weight:bolder"  class="Header_4"><b>Dynamic Sled after condition</b></td>
+
+
+            </tr>
+
+            <tr class="row_SAMPLEPART">
+                <td class="table_sub_item tableexport-string">4-1</td>
+                <td>Sample and part</td>
+                <td colspan="2">No separate</td>
+                
+            </tr>
+            <tr class="row_DUMMYMOVEMENT1">
+                <td class="table_sub_item tableexport-string">4-2</td>
+                <td>Dummy movement</td>
+                <td colspan="2">Plevis ：80(40) * ～200mm</td>
+               
+            </tr>
+            <tr class="row_DUMMYMOVEMENT2">
+                <td class="table_sub_item tableexport-string">4-3</td>
+                <td>Dummy movement</td>
+                <td colspan="2">Chest ：100(50)* ～300mm</td>
+               
+            </tr>
+            <tr class="row_DUMMYMOVEMENT3">
+                <td class="table_sub_item tableexport-string">4-4</td>
+                <td>Dummy movement</td>
+                <td colspan="2">** Chest speed：24km/h Max</td>
+                
+            </tr>
+            <tr class="row_RELEASEFORCE">
+                <td class="table_sub_item tableexport-string">4-5</td>
+                <td>Release force with load</td>
+                <td colspan="2">60N Max</td>
+                
+            </tr>
+            <tr class="row_Remark">
+                <td colspan="4" ><b>Remark</b></td>
+                
+            </tr>
+        </tbody>
+    </table>
+    <p style="margin-left:80px;" class="Remark_row1">
+        <b>* With pretensioner</b>
+    </p>
+    <p style="margin-left:80px;"  class="Remark_row2">
+        <b>** In case chest movement more than 300 mm, chest speed at 300mm = 24km/h max and for "Z type" Chest speed can more than 24km/h</b>
+    </p>
+</div>
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+
+<script>
+    var tbVar;
+    $('.to-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.from-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.edit-from-date-picker').click(function () {
+        $('.from-date').datepicker("setDate", $('.from-date').val());
+        $('.from-date').datepicker('show');
+    });
+    $('.edit-to-date-picker').click(function () {
+        $('.to-date').datepicker("setDate", $('.to-date').val());
+        $('.to-date').datepicker('show');
+    });
+</script>
+<script>
+    function setDefDate() {
+        var date = new Date();
+        var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+        var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        $('.from-date').val($.datepicker.formatDate("yy-M-dd", firstDay));
+        $('.to-date').val($.datepicker.formatDate("yy-M-dd", lastDay));
+    }
+    setDefDate();
+</script>
+<script>
+    var table_original;
+        $('.refreshBtn').click(function(){
+            //alert("test");
+            getCopData();
+        })
+        function getCopData() {
+            var MODEL_ID = $('.MODEL_ID').val();
+            var fromDATE = $('.from-date').val();
+            var toDATE = $('.to-date').val();
+            var jdata = {
+                "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+                "ModelID": MODEL_ID,
+                "fromDate":fromDATE,
+                "toDate":toDATE
+            };
+
+            console.log(jdata);
+            var urlText = "@Url.Action("getFinalReport","COPR16_COPRUNNING")";
+            $.ajax({
+                type: "POST",
+                url: urlText,
+                data: jdata,
+                success: function (result) {
+                    console.log(result);
+                    updateDataStep1(result.Data);
+                    updateRowWithColCount();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                }
+            })
+            return false;
+        }
+        var remark1 = $('.Remark_row1');
+        var remark2 = $('.Remark_row2');
+        function updateDataStep1(data) {
+            //console.log(data);
+
+            $('.table_dsp').html('');
+            var tempTable = table_original.clone();
+            $('.table_dsp').append(tempTable);
+            $('.table_dsp').append(remark1);
+            $('.table_dsp').append(remark2);
+
+            var cnt = data["0"];
+            var parts = data["1"];
+            var result = data["2"];
+            var cntInt = cnt[0].COP_CNT;
+            $('.part-list').html('');
+            $('.TOTAL_COP').val(cntInt);
+            //console.log(parts);
+            if (parts.length > 0) {
+                console.log(parts.length);
+                $('.part-list').html('');
+                 $.each(parts, function (i, k) {
+                    //console.log(k);
+                    var strVar = k.APNO + ' / ' + k.BPNO + '';
+                    //$('.PARTS_COP').append(strVar);
+                    var part_item = strVar + ",";
+                    $('.part-list').append("\n<Label >" + part_item + "</label>");
+
+                });
+                var firstRow = true;
+                $.each(result, function (i, k) {
+                    //console.log(k);
+                   
+                    var row = k;
+                    var Gudgement=false;
+                    var COPNO = false;
+                    var CONDITION = false;
+                    var SUMMARY = false;
+                    var APPROVE = false;
+
+
+                    var VSILOCKING_0DEG = false;
+                    var VSILOCKING_90DEG = false;
+                    var VSILOCKING_180DEG = false;
+                    var VSILOCKING_270DEG = false;
+                    var TILLANGLELOCK_0DEG = false;
+                    var TILLANGLELOCK_90DEG = false;
+                    var TILLANGLELOCK_180DEG = false;
+                    var TILLANGLELOCK_270DEG = false;
+                    var P_VSILOCKING_0DEG = false;
+                    var P_VSILOCKING_90DEG = false;
+                    var P_VSILOCKING_180DEG = false;
+                    var P_VSILOCKING_270DEG = false;
+                    var P_TILLANGLELOCK_0DEG = false;
+                    var P_TILLANGLELOCK_90DEG = false;
+                    var P_TILLANGLELOCK_180DEG = false;
+                    var P_TILLANGLELOCK_270DEG = false;
+
+                    var WSIUNLOCKING = false;
+                    var WSILOCKING = false;
+
+                    var RETRACTIONFORCE = false;
+
+                    var DURABILITY4000 = false;
+                    var CORROSION = false;
+                    var DUSTTEST = false;
+                    var DURABILITY5000 = false;
+
+                    var HEATCOOL = false;
+                    var CORROSION2 = false;
+                    var REMOVETONGUE = false;
+
+                    var P_WSIUNLOCK = false;
+                    var P_WSILOCKING = false;
+                    var P_RETRACTIONFORCE = false;
+
+
+                    var SAMPLEPART = false;
+                    var DUMMYMOVEMENT1 = false;
+                    var DUMMYMOVEMENT2 = false;
+                    var DUMMYMOVEMENT3 = false;
+                    var RELEASEFOCE = false;
+
+                    $.each(row, function (index, item) {
+                        if (Gudgement == true) {
+                            updateGudgement(item, index);
+                        }
+                        if (COPNO == true) {
+                            updateCOPNO(item, index);
+                        }
+                        if (APPROVE == true) {
+                            updateApprove(item, index);
+                        }
+                        if (CONDITION == true) {
+                            updateCondition(item, index);
+                        }
+                        if (SUMMARY == true) {
+                            updateSummary(item, index);
+                        }
+
+                        if (VSILOCKING_0DEG ==true) {
+                            updateVSILOCKING_0DEG(item, index);
+                        }
+                        if (VSILOCKING_90DEG ==true) {
+                            updateVSILOCKING_90DEG(item, index);
+                        }
+                        if (VSILOCKING_180DEG ==true) {
+                            updateVSILOCKING_180DEG(item, index);
+                        }
+                        if (VSILOCKING_270DEG ==true) {
+                            updateVSILOCKING_270DEG(item, index);
+                        }
+                        if (TILLANGLELOCK_0DEG ==true) {
+                            updateTILLANGLELOCK_0DEG(item, index);
+                        }
+                        if (TILLANGLELOCK_90DEG ==true) {
+                            updateTILLANGLELOCK_90DEG(item, index);
+                        }
+                        if (TILLANGLELOCK_180DEG ==true) {
+                            updateTILLANGLELOCK_180DEG(item, index);
+                        }
+                        if (TILLANGLELOCK_270DEG ==true) {
+                            updateTILLANGLELOCK_270DEG(item, index);
+                        }
+                        if (P_VSILOCKING_0DEG ==true) {
+                            updateP_VSILOCKING_0DEG(item, index);
+                        }
+                        if (P_VSILOCKING_90DEG ==true) {
+                            updateP_VSILOCKING_90DEG(item, index);
+                        }
+                        if (P_VSILOCKING_180DEG ==true) {
+                            updateP_VSILOCKING_180DEG(item, index);
+                        }
+                        if (P_VSILOCKING_270DEG ==true) {
+                            updateP_VSILOCKING_270DEG(item, index);
+                        }
+                        if (P_TILLANGLELOCK_0DEG ==true) {
+                            updateP_TILLANGLELOCK_0DEG(item, index);
+                        }
+                        if (P_TILLANGLELOCK_90DEG ==true) {
+                            updateP_TILLANGLELOCK_90DEG(item, index);
+                        }
+                        if (P_TILLANGLELOCK_180DEG ==true) {
+                            updateP_TILLANGLELOCK_180DEG(item, index);
+                        }
+                        if (P_TILLANGLELOCK_270DEG ==true) {
+                            updateP_TILLANGLELOCK_270DEG(item, index);
+                        }
+
+                        if (WSIUNLOCKING == true) {
+                            updateWSIUNLOCKING(item, index);
+                        }
+                        if (WSILOCKING ==true) {
+                            updateWSILOCKING(item, index);
+                        }
+                        if (RETRACTIONFORCE ==true) {
+                            updateRETRACTIONFORCE(item, index);
+                        }
+
+                        if (DURABILITY4000 ==true) {
+                            updateDURABILITY4000(item, index);
+                        }
+                        if (CORROSION ==true) {
+                            updateCORROSION(item, index);
+                        }
+                        if (DUSTTEST ==true) {
+                            updateDUSTTEST(item, index);
+                        }
+                        if (DURABILITY5000 ==true) {
+                            updateDURABILITY5000(item, index);
+                        }
+                        if (HEATCOOL ==true) {
+                            updateHEATCOOL(item, index);
+                        }
+                        if (CORROSION2 ==true) {
+                            updateCORROSION2(item, index);
+                        }
+                        if (REMOVETONGUE ==true) {
+                            updateREMOVETONGUE(item, index);
+                        }
+
+                        if (P_WSIUNLOCK ==true) {
+                            updateP_WSIUNLOCK(item, index);
+                        }
+                        if (P_WSILOCKING ==true) {
+                            updateP_WSILOCKING(item, index);
+                        }
+
+                        if (P_RETRACTIONFORCE ==true) {
+                            updateP_RETRACTIONFORCE(item, index);
+                        }
+
+                        if(SAMPLEPART == true) {
+                            updateSAMPLEPART(item, index);
+                        }
+                        if(DUMMYMOVEMENT1 == true) {
+                            updateDUMMYMOVEMENT1(item, index);
+                        }
+                        if(DUMMYMOVEMENT2 == true) {
+                            updateDUMMYMOVEMENT2(item, index);
+                        }
+                        if(DUMMYMOVEMENT3 == true) {
+                            updateDUMMYMOVEMENT3(item, index);
+                        }
+                        if(RELEASEFOCE == true) {
+                            updateRELEASEFORCE(item, index);
+                        }
+
+                        switch(item){
+                            case "Gudgement":
+                                Gudgement = true;
+                                break;
+                            case "COPNO":
+                                COPNO = true;
+                                break;
+                            case "Condition":
+                                CONDITION = true;
+                                break;
+                            case "Approved":
+                                APPROVE = true;
+                                break;
+                            case "Summary":
+                                SUMMARY = true;
+                                break;
+                            case "G-Lock-Initial-8GLOCK_VSI0DEG":
+                                VSILOCKING_0DEG = true;
+                                break;
+                            case "G-Lock-Initial-9GLOCK_VSI90DEG":
+                                VSILOCKING_90DEG = true;
+                                break;
+                            case "G-Lock-Initial-9Z1GLOCK_VSI180DEC":
+                                VSILOCKING_180DEG = true;
+                                break;
+                            case "G-Lock-Initial-9Z2GLOCK_VSI270DEG":
+                                VSILOCKING_270DEG = true;
+                                break;
+                            case "G-Lock-Initial-9Z3GLOCK_TAL0DEG":
+                                TILLANGLELOCK_0DEG = true;
+                                break;
+                            case "G-Lock-Initial-9Z4GLOCK_TAL90DEG":
+                                TILLANGLELOCK_90DEG = true;
+                                break;
+                            case "G-Lock-Initial-9Z5GLOCK_TAL180DEG":
+                                TILLANGLELOCK_180DEG = true;
+                                break;
+                            case "G-Lock-Initial-9Z6GLOCK_TAL270DEG":
+                                TILLANGLELOCK_270DEG = true;
+                                break;
+                            case "G-Lock-Post-8GLOCK_VSI0DEG":
+                                P_VSILOCKING_0DEG = true;
+                                break;
+                            case "G-Lock-Post-9GLOCK_VSI90DEG":
+                                P_VSILOCKING_90DEG = true;
+                                break;
+                            case "G-Lock-Post-9Z1GLOCK_VSI180DEC":
+                                P_VSILOCKING_180DEG = true;
+                                break;
+                            case "G-Lock-Post-9Z2GLOCK_VSI270DEG":
+                                P_VSILOCKING_270DEG = true;
+                                break;
+                            case "G-Lock-Post-9Z3GLOCK_TAL0DEG":
+                                P_TILLANGLELOCK_0DEG = true;
+                                break;
+                            case "G-Lock-Post-9Z4GLOCK_TAL90DEG":
+                                P_TILLANGLELOCK_90DEG = true;
+                                break;
+                            case "G-Lock-Post-9Z5GLOCK_TAL180DEG":
+                                P_TILLANGLELOCK_180DEG = true;
+                                break;
+                            case "G-Lock-Post-9Z6GLOCK_TAL270DEG":
+                                P_TILLANGLELOCK_270DEG = true;
+                                break;
+                            case "G-Lock-Initial-5GLOCK_WSI08G":
+                                WSIUNLOCKING = true;
+                                break;
+                            case "G-Lock-Initial-7GLOCK_WSI3G":
+                                WSILOCKING = true;
+                                break;
+                            case "Retraction-Force-Initial-Retraction_Force":
+                                RETRACTIONFORCE = true;
+                                break;
+                            case "Ret-Durability-40000-SB-NG":
+                                DURABILITY4000 = true;
+                                break;
+                            case "Corrosion-Test-SB-NG":
+                                CORROSION = true;
+                                break;
+                            case "Dust-Test-5hr-SB-NG":
+                                DUSTTEST = true;
+                                break;
+                            case "BKL-Durability-5000-NG":
+                                DURABILITY5000 = true;
+                                break;
+                            case "CHAMBER_TEST-NG":
+                                HEATCOOL = true;
+                                break;
+                            case "Corrosion-Test-BKL-NG":
+                                CORROSION2 = true;
+                                break;
+                            case "DURABILITY_TEST_500-NG":
+                                REMOVETONGUE = true;
+                                break;
+                            case "G-Lock-Post-5GLOCK_WSI08G":
+                                P_WSIUNLOCK = true;
+                                break;
+                            case "G-Lock-Post-7GLOCK_WSI3G":
+                                P_WSILOCKING = true;
+                                break;
+                            case "Retraction-Force-Post-Retraction_Force":
+                                P_RETRACTIONFORCE = true;
+                                break;
+
+                            case "SLED_TEST-Sample and part":
+                                SAMPLEPART = true;
+                                break;
+
+                            case "Sled-Test-Pelvis displ":
+                                DUMMYMOVEMENT1 = true;
+                                break;
+
+                            case "Sled-Test-CHest disl":
+                                DUMMYMOVEMENT2 = true;
+                                break;
+
+                            case "Sled-Test-Chest Speed":
+                                DUMMYMOVEMENT3 = true;
+                                break;
+                            case "Release-Force-Initial-Buckle_Release":
+                                RELEASEFOCE = true;
+                                break;
+                        }
+
+                    });
+                    //updateGudgement()
+                    firstRow = false;
+                    
+                });
+            }
+        }
+        function updateGudgement(value,index) {
+            var row = $('.rowhead_Gudgement');
+            var colName = "col" + index;
+            var col = "<th class=\"no-wrap-th textCol blueText "+colName+"\" style=\"color: blue;font-style: italic;\">"+ value +"</th>";
+            //console.log(".col" + index)
+            $(row).append(col);
+            //var cell = $(row).find(colName);
+            //$(cell).val(value);
+        }
+        function updateCOPNO(value,index) {
+            var row = $('.rowhead_COPNO');
+            var colName = "col" + index;
+            var col = "<th class=\"no-wrap-th textCol "+colName+"\"> "+ value +"</th>";
+            //console.log(".col" + index)
+            $(row).append(col);
+            //var cell = $(row).find(colName);
+            //$(cell).val(value);
+        }
+        function updateApprove(value,index) {
+            var row = $('.rowhead_ArooveBy');
+            var colName = "col" + index;
+
+
+            var col = "<th class=\"no-wrap-th textCol blueText2 "+colName+"\" style=\"color: blue;font-style: italic;font-weight: normal !important;\"> "+ value +"</th>";
+            //console.log(".col" + index)
+            $(row).append(col);
+            //var cell = $(row).find(colName);
+            //$(cell).val(value);
+        }
+        function updateSummary(value,index) {
+            var row = $('.rowhead_SummaryBy');
+            var colName = "col" + index;
+            var col = "<th class=\"no-wrap-th textCol blueText2 "+colName+"\" style=\"color: blue;font-style: italic;font-weight: normal !important;\" > "+ value +"</th>";
+            //console.log(".col" + index)
+            $(row).append(col);
+            //var cell = $(row).find(colName);
+            //$(cell).val(value);
+        }
+        function updateCondition(value,index) {
+            var row = $('.rowhead_Condition');
+            var colName = "col" + index;
+            if (value == "01") {
+                value = "Without"
+            } else {
+                value = "With Con"
+            }
+            var col = "<th class=\"no-wrap-th textCol "+colName+"\"> "+ value +"</th>";
+            $(row).append(col);
+        }
+
+
+        /*
+        function updateDURABILITY5000(value, index) {
+            var row = $('.row_DURABILITY5000');
+            var colName = ".col" + index;
+            if (value != null) {
+                var spValue = value.split(" ");
+                if (spValue.length > 1) {
+                    value = spValue[0];
+                } else {
+                    value = "";
+                }
+            } else {
+                value = "";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\">"+ value +"</td>";
+            $(row).append(col);
+        }
+        */
+        function updateVSILOCKING_0DEG(value, index) {
+            var row = $('.row_VSILOCKING_0DEG');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateVSILOCKING_90DEG(value, index) {
+            var row = $('.row_VSILOCKING_90DEG');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\"  style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateVSILOCKING_180DEG(value, index) {
+            var row = $('.row_VSILOCKING_180DEG');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\"  style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateVSILOCKING_270DEG(value, index) {
+            var row = $('.row_VSILOCKING_270DEG');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\"  style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateTILLANGLELOCK_0DEG(value, index) {
+            var row = $('.row_TILLANGLELOCK_0DEG');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            }else {
+                value = value.replace(" DEGREE","°")
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\"  style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateTILLANGLELOCK_90DEG(value, index) {
+            var row = $('.row_TILLANGLELOCK_90DEG');
+            var colName = ".col" + index;
+            if (value == null) {
+                value = "-";
+            }else {
+                value = value.replace(" DEGREE","°")
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\"  style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateTILLANGLELOCK_180DEG(value, index) {
+            var row = $('.row_TILLANGLELOCK_180DEG');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            }else {
+                value = value.replace(" DEGREE","°")
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\"  style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateTILLANGLELOCK_270DEG(value, index) {
+            var row = $('.row_TILLANGLELOCK_270DEG');
+            var colName = ".col" + index;
+            if (value == null) {
+                value = "-";
+            } else {
+                value = value.replace(" DEGREE","°")
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\"  style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateP_VSILOCKING_0DEG(value, index) {
+            var row = $('.row_P_VSILOCKING_0DEG');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\"  style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateP_VSILOCKING_90DEG(value, index) {
+            var row = $('.row_P_VSILOCKING_90DEG');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateP_VSILOCKING_180DEG(value, index) {
+            var row = $('.row_P_VSILOCKING_180DEG');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateP_VSILOCKING_270DEG(value, index) {
+            var row = $('.row_P_VSILOCKING_270DEG');
+            var colName = ".col" + index;
+            if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\">"+ value +"</td>";
+            $(row).append(col);
+        }
+
+        function updateP_TILLANGLELOCK_0DEG(value, index) {
+            var row = $('.row_P_TILLANGLELOCK_0DEG');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            } else {
+                value = value.replace(" DEGREE","°")
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateP_TILLANGLELOCK_90DEG(value, index) {
+            var row = $('.row_P_TILLANGLELOCK_90DEG');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            } else {
+                value = value.replace(" DEGREE","°")
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateP_TILLANGLELOCK_180DEG(value, index) {
+            var row = $('.row_P_TILLANGLELOCK_180DEG');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            } else {
+                value = value.replace(" DEGREE","°")
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateP_TILLANGLELOCK_270DEG(value, index) {
+            var row = $('.row_P_TILLANGLELOCK_270DEG');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            } else {
+                value = value.replace(" DEGREE","°")
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateWSIUNLOCKING(value, index) {
+            var row = $('.row_WSIUNLOCKING');
+            var colName = "col" + index;
+            if (value != null) {
+                var spValue = value.split(" ");
+                if (spValue.length > 1) {
+                    value = spValue[0] + " " + spValue[1];
+                } else {
+                    value = "-";
+                }
+            } else {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateWSILOCKING(value, index) {
+            var row = $('.row_WSILOCKING');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateRETRACTIONFORCE(value, index) {
+            var row = $('.row_RETRACTIONFORCE');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            } else {
+                value = value.replace(" NEWTON"," N")
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+
+        function updateDURABILITY4000(value, index) {
+            var row = $('.row_DURABILITY4000');
+            var colName = "col" + index;
+            if (value != null) {
+                var spValue = value.split(" ");
+                if (spValue.length > 1) {
+                    value = spValue[0];
+                } else {
+                    value = "-";
+                }
+            } else {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateCORROSION(value, index) {
+            var row = $('.row_CORROSION');
+            var colName = "col" + index;
+            if (value != null) {
+                var spValue = value.split(" ");
+                if (spValue.length > 1) {
+                    value = spValue[0];
+                } else {
+                    value = "-";
+                }
+            } else {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateDUSTTEST(value, index) {
+            var row = $('.row_DUSTTEST');
+            var colName = "col" + index;
+            if (value != null) {
+                var spValue = value.split(" ");
+                if (spValue.length > 1) {
+                    value = spValue[0];
+                } else {
+                    value = "-";
+                }
+            } else {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateDURABILITY5000(value, index) {
+            var row = $('.row_DURABILITY5000');
+            var colName = "col" + index;
+            if (value != null) {
+                var spValue = value.split(" ");
+                if (spValue.length > 1) {
+                    value = spValue[0];
+                } else {
+                    value = "-";
+                }
+            } else {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+
+        function updateHEATCOOL(value, index) {
+            var row = $('.row_HEATCOOL');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateCORROSION2(value, index) {
+            var row = $('.row_CORROSION2');
+            var colName = "col" + index;
+            if (value != null) {
+                var spValue = value.split(" ");
+                if (spValue.length > 1) {
+                    value = spValue[0];
+                } else {
+                    value = "-";
+                }
+            } else {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateREMOVETONGUE(value, index) {
+            var row = $('.row_REMOVETONGUE');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            } else {
+                var spValue = value.split(" ");
+                if (spValue.length > 1) {
+                    value = spValue[0];
+                } else {
+                    value = "-";
+                }
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\">&nbsp;"+ value +"</td>";
+            $(row).append(col);
+        }
+
+        function updateP_WSIUNLOCK(value, index) {
+            var row = $('.row_P_WSIUNLOCK');
+            var colName = "col" + index;
+            if (value != null) {
+                var spValue = value.split(" ");
+                if (spValue.length > 1) {
+                    value = spValue[0] + " " + spValue[1];
+                    value = value.replace("FREE-TEXT","");
+                } else {
+                    value = "-";
+                }
+            } else {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateP_WSILOCKING(value, index) {
+            var row = $('.row_P_WSILOCKING');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateP_RETRACTIONFORCE(value, index) {
+            var row = $('.row_P_RETRACTIONFORCE');
+            var colName = "col" + index;
+            if (value != null) {
+                var spValue = value.split(" ");
+                if (spValue.length > 1) {
+                    value = spValue[0];
+                } else {
+                    value = "-";
+                }
+            } else {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\">&nbsp;"+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateSAMPLEPART(value,index) {
+            var row = $('.row_SAMPLEPART');
+            var colName = "col" + index;
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateDUMMYMOVEMENT1(value,index) {
+            var row = $('.row_DUMMYMOVEMENT1');
+            var colName = ".col" + index;
+            if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateDUMMYMOVEMENT2(value,index) {
+            var row = $('.row_DUMMYMOVEMENT2');
+            var colName = "col" + index;
+             if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+        function updateDUMMYMOVEMENT3(value,index) {
+            var row = $('.row_DUMMYMOVEMENT3');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+        }
+    function updateRELEASEFORCE(value,index) {
+            var row = $('.row_RELEASEFORCE');
+            var colName = "col" + index;
+            if (value == null) {
+                value = "-";
+            } else {
+                value = value.replace(" NEWTON"," N")
+            }
+            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
+            $(row).append(col);
+    }
+    
+    function updateResult() {
+        var header1 = "<th class=\"no-wrap - th textCol\" > Result</th>";
+        $('.Header1_result').append(header1);
+    }
+    
+    function updateRowWithColCount() {
+        var rows = $('[class*=row_]');
+        //console.log(rows);
+
+        $.each(rows, function (i, k) {
+            var cols = $(k).find('[class*=col]');
+            if (cols != null) {
+                //console.log($(k) + ":" + cols.length);
+                if (cols.length == 0) {
+                    var totalCop = parseInt($('.TOTAL_COP').val());
+                    //console.log($(k) + ":0");
+                    var i;
+                    for (i = 0; i < totalCop; i++) {
+                        var colName = "col" + i;
+                        var objectTD = "<td class=\"no-wrap-th textCol " + colName + "\" style=\"text-align: center !important;\"> -</td>";
+                        $(k).append(objectTD);
+                       
+                    }
+                }
+            } else {
+                var totalCop = parseInt($('.TOTAL_COP').val());
+                //console.log($(k) + ":0");
+                var i;
+                for (i = 0; i < totalCop; i++) {
+                    var colName = "col" + i;
+                    var objectTD = "<td class=\"no-wrap-th textCol " + colName + "\" style=\"text-align: center !important;\"> -</td>";
+                    $(k).append(objectTD);
+                    
+                }
+                
+            }
+
+        });
+        
+        if (parseInt($('.TOTAL_COP').val()) > 0) {
+            $('.exportBtn').removeAttr("disabled");
+            /*
+            $('.data-step').tableExport({
+                filename: "COPR16_REPORT_" +  $('.MODEL_ID').val(),
+                sheetname: "COPR16_REPORT_" +  $('.MODEL_ID').val() ,
+                position: "top", 
+                formats: ["xlsx","xls", "csv", "txt"],
+                bootstrap: true,
+                ignoreRows: "5"
+            });
+            */
+            var totalCop = parseInt($('.TOTAL_COP').val());
+            //console.log($(k) + ":0");
+            var i;
+            for (i = 0; i < totalCop; i++) {
+                updateResult();
+            }
+            $('.Header_1-1').attr("colspan", totalCop + 3);
+            $('.Header_2-1').attr("colspan", totalCop + 3);
+            $('.Header_2-2').attr("colspan", totalCop + 3);
+            $('.Header_2-3').attr("colspan", totalCop + 3);
+            $('.Header_3-1').attr("colspan", totalCop + 3);
+            $('.Header_4').attr("colspan", totalCop + 3);
+        } else {
+            $('.exportBtn').attr("disabled","disabled");
+        }
+    }
+
+    table_original = $('.data-step').clone();
+    $('.exportBtn').click(function () {
+        //alert("ok");
+        exportToExcel();
+        //fnExcelReport();
+    });
+    function fnExcelReport()
+    {
+        var tab_text=$('.table_dsp').html();
+        var textRange;
+        var j = 0;
+
+
+        //tab_text=tab_text+"</table>";
+        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE "); 
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html","replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus(); 
+            sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
+        }  
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' + encodeURIComponent(tab_text));  
+
+        return (sa);
+    }
+
+    function exportToExcel() {
+        var style_sheet = $('#style_local').html();
+        var htmls = "";
+                var uri = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8;base64,';
+                var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style>{stylesheet}</style></head><body><table>{table}</table></body></html>'; 
+                var base64 = function(s) {
+                    return window.btoa(unescape(encodeURIComponent(s)))
+                };
+
+                var format = function(s, c) {
+                    return s.replace(/{(\w+)}/g, function(m, p) {
+                        return c[p];
+                    })
+                };
+        console.log(style_sheet);
+        htmls = $('.table_dsp').html().replace(/1\-1/g,'\u200C' + '1-1');
+        htmls = htmls.replace(/4\-/g, '\u200C' + '4-');
+        htmls = htmls.replace(/1\-2/g, '\u200C' + '1-2');
+        htmls = htmls.replace(/2\-/g, '\u200C' + '2-');
+        htmls = htmls.replace(/3\-/g, '\u200C' + '3-');
+           var ctx = {
+                    worksheet: "COPR16_REPORT_" + $('.MODEL_ID').val(),
+                    stylesheet: style_sheet,
+                    table: htmls
+                    
+                }
+                var link = document.createElement("a");
+                link.download = "COPR16_REPORT_" +  $('.MODEL_ID').val() + ".xls";
+                link.href = uri + base64(format(template, ctx));
+                link.click();
+    }
+
+</script>

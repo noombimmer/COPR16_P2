@@ -1,0 +1,105 @@
+﻿@model CM_APPLICATIONS.COPR16_COPRUNNING
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>COPR16_COPRUNNING</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MODEL_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MODEL_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.POSITION_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.POSITION_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FGTYPE_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FGTYPE_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WRK_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WRK_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DESC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DESC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ADATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CRE_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CRE_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOD_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOD_DATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOD_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOD_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.COP_STATUS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.COP_STATUS)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

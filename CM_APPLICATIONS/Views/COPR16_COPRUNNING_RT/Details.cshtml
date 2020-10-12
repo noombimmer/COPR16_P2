@@ -1,0 +1,107 @@
+﻿@model CM_APPLICATIONS.COPR16_COPRUNNING_RT
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>COPR16_COPRUNNING_RT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.WRK_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WRK_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WRKD_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WRKD_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MACHINETYPE_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MACHINETYPE_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RETURNTYPE_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RETURNTYPE_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VALUE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VALUE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STATUS_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STATUS_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TEST_START)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TEST_START)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TEST_FINISH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TEST_FINISH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TEST_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TEST_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.REV)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.REV)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SEQ_NO)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SEQ_NO)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

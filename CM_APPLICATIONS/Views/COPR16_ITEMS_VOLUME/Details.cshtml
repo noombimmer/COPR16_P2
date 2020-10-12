@@ -1,0 +1,43 @@
+﻿@model CM_APPLICATIONS.COPR16_ITEMS_VOLUME
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>COPR16_ITEMS_VOLUME</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ITEM_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ITEM_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BUSI_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BUSI_DATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QTY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QTY)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.RUNNING_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

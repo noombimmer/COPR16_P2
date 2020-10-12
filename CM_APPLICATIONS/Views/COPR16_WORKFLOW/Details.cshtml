@@ -1,0 +1,83 @@
+﻿@model CM_APPLICATIONS.COPR16_WORKFLOW
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>COPR16_WORKFLOW</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.WRK_NAME)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WRK_NAME)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WRK_DESC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WRK_DESC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.STDREG_ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.STDREG_ID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WRK_WITH)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WRK_WITH)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ADATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CRE_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CRE_BY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOD_DATE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOD_DATE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MOD_BY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MOD_BY)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.WRK_ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

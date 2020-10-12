@@ -1,0 +1,15 @@
+﻿
+@media print {
+
+    .label {
+        margin: 0;
+        border: initial;
+        border-radius: initial;
+        width: 3cm;
+        height: 2cm;
+        min-height: 2cm;
+        box-shadow: initial;
+        background: initial;
+        page-break-after: always;
+    }
+}

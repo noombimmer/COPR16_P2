@@ -1,0 +1,496 @@
+﻿@*@model CM_APPLICATIONS.COPR16_MEASURETYPE_MSTR*@
+@model CM_APPLICATIONS.Models.MSTypeModel
+@{
+    ViewBag.Title = "MEASUREMENT TYPE MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MEASUREMENT TYPE MASTER</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+<div class="form-horizontal">
+    <h4>EDIT</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.MSTYPE_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.MSTYPE_ID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.MSTYPE_ID, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.MSTYPE_NAME, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.MSTYPE_NAME, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.MSTYPE_NAME, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.DESC, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextAreaFor(model => model.cOPR16_MEASURETYPE_MSTR.DESC, new { @class = "form-control", @rows = "10" })
+            @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.DESC, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.FROM_FILE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.FROM_FILE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.FROM_FILE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.OPTION_UNIT, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.OPTION_UNIT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.OPTION_UNIT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container container-units">
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.UNIT_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.cOPR16_MEASURETYPE_MSTR.UNIT_ID, Model.UNIT_LIST, null, new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.UNIT_ID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.UNIT_ID, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.DEF_VALUE, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.DEF_VALUE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.DEF_VALUE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.MIN_VALUE, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.MIN_VALUE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.MIN_VALUE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.MAX_VALUE, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.MAX_VALUE, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.MAX_VALUE, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="container container-options">
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.OPT_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.cOPR16_MEASURETYPE_MSTR.OPT_ID, Model.OPT_LIST, null, new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.UNIT_ID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.UNIT_ID, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        @*<div class="form-group">
+                <label class="control-label col-md-2">SELECTING VALUE1</label>
+                <div class="col-md-10">
+                    <label class="control-label option1">NG</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">SELECTING VALUE2</label>
+                <div class="col-md-10">
+                    <label class="control-label option2">OK</label>
+                </div>
+            </div>*@
+    </div>
+
+    <div class="container container-files">
+        <div class="form-group">
+            @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.FILE_ID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.cOPR16_MEASURETYPE_MSTR.FILE_ID, Model.FILES_LIST, null, new { @class = "form-control" })
+                @*@Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.UNIT_ID, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.UNIT_ID, "", new { @class = "text-danger" })*@
+            </div>
+        </div>
+        @*<div class="form-group">
+                <label class="control-label col-md-2">FILE NAME</label>
+                <div class="col-md-10">
+                    <label class="control-label option2">XXXX.CSV</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">FILE FORMAT</label>
+                <div class="col-md-10">
+                    <label class="control-label option2">CSV</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">FILE PATH</label>
+                <div class="col-md-10">
+                    <label class="control-label option2">LOCATION</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-2">REMOTE COPY</label>
+                <div class="col-md-10">
+                    <label class="control-label option2">false</label>
+                </div>
+            </div>*@
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.FLGACT, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <div class="checkbox">
+                @Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.FLGACT, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.FLGACT, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.ADATE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.ADATE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.CRE_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.CRE_BY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.MOD_DATE, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.MOD_DATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.MOD_DATE, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.cOPR16_MEASURETYPE_MSTR.MOD_BY, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.cOPR16_MEASURETYPE_MSTR.MOD_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+            @Html.ValidationMessageFor(model => model.cOPR16_MEASURETYPE_MSTR.MOD_BY, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="button" value="Save" class="btn btn-primary button createBtn" />
+
+            <input type="reset" value="Clear" class="btn btn-secondary" />
+        </div>
+    </div>
+    <hr>
+
+
+
+    <div>
+        @Html.ActionLink("Back to List", "Index", "COPR16_MEASURETYPE_MSTR", new { @class = "btn btn-primary button" })
+    </div>
+</div>
+}
+<div class="modal fade" id="SAVEALL_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to save this ?</H4>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesSavedAllBtn">YES</a>
+                <a class="btn btn-secondary button NoSaveAllBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script>
+
+    $("#cOPR16_MEASURETYPE_MSTR_CRE_BY").val("@CM_APPLICATIONS.Models.AppPropModel.username");
+    $("#cOPR16_MEASURETYPE_MSTR_ADATE").val("@System.DateTime.Now");
+
+    //$("#cOPR16_MEASURETYPE_MSTR_FLGACT").val("true");
+    //$("#cOPR16_MEASURETYPE_MSTR_OPTION_UNIT").val("false");
+    //$("#cOPR16_MEASURETYPE_MSTR_FROM_FILE").val("false");
+    if ($("#cOPR16_MEASURETYPE_MSTR_FROM_FILE").val() == "true") {
+        $('.container-units').hide();
+        $('.container-options').hide();
+        $('.container-files').show();
+    } else {
+        if ($("#cOPR16_MEASURETYPE_MSTR_OPTION_UNIT").val() == "true") {
+            $('.container-units').hide();
+            $('.container-options').show();
+            $('.container-files').hide();
+        } else {
+            $('.container-units').show();
+            $('.container-options').hide();
+            $('.container-files').hide();
+        }
+    }
+    //$('.container-units').show();
+    //$('.container-options').hide();
+    //$('.container-files').hide();
+
+</script>
+<script>
+
+    $('#cOPR16_MEASURETYPE_MSTR_FROM_FILE').change(function () {
+        if ($(this).val() == "true") {
+            $('#cOPR16_MEASURETYPE_MSTR_OPTION_UNIT').val('false');
+            $('#cOPR16_MEASURETYPE_MSTR_OPTION_UNIT').attr("disabled", "disabled");
+            $('.container-files').show();
+            $('.container-units').hide();
+            $('.container-options').hide();
+            getFile($("#cOPR16_MEASURETYPE_MSTR_FILE_ID").val());
+        } else {
+            $('#cOPR16_MEASURETYPE_MSTR_OPTION_UNIT').removeAttr("disabled");
+            if ($('#cOPR16_MEASURETYPE_MSTR_OPTION_UNIT').val() == "false") {
+                $('.container-units').show();
+                $('.container-options').hide();
+                $('.container-files').hide();
+            } else {
+                $('.container-units').hide();
+                $('.container-options').show();
+                $('.container-files').hide();
+                getOptions($('#cOPR16_MEASURETYPE_MSTR_OPT_ID').val());
+            }
+        }
+    });
+    $('#cOPR16_MEASURETYPE_MSTR_OPTION_UNIT').change(function () {
+        if ($(this).val() == "false") {
+            $('.container-units').show();
+            $('.container-options').hide();
+            $('.container-files').hide();
+        } else {
+            $('.container-units').hide();
+            $('.container-options').show();
+            $('.container-files').hide();
+            getOptions($('#cOPR16_MEASURETYPE_MSTR_OPT_ID').val());
+        }
+    });
+    $('#cOPR16_MEASURETYPE_MSTR_FILE_ID').change(function () {
+        getFile($(this).val());
+    });
+    $('#cOPR16_MEASURETYPE_MSTR_OPT_ID').change(function () {
+        getOptions($(this).val());
+    });
+    function getFile(file_id) {
+        var urlText = "@Url.Action("GetFILES","COPR16_FILES_MSTR")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {id:file_id}
+        console.log(jdata);
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                //alert(result);
+                addFileInfo(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("error:" + errorThrown);
+            }
+        });
+        return false;
+    }
+    function addFileInfo(data) {
+
+        //var formGroup = "<div class='form-group div-group'></div>";
+        //var Title = "<label class='control-label col-md-2'>FILE NAME</label>";
+        //var ValDiv = "<div class='col-md-10 div-value'></div>";
+        //var Label = "<label class='control-label option2'>false</label>";
+        //$(".container-files").append(formGroup);
+        //var divGroup = $(".container-files").find('.div-group').eq(0);
+        //$(divGroup).append(Title);
+        //$(divGroup).append(ValDiv);
+        //$(divGroup).find('.div-value').eq(0).append(Label);
+        data.forEach(function (row) {
+            genInfo(".container-files", "div-filename", "FILE NAME", row["FILE_NAME"]);
+            genInfo(".container-files", "div-type", "FILE TYPE", row["FT_ID"]);
+            genInfo(".container-files", "div-path", "FILE PATH", row["FILE_URL"]);
+            genInfo(".container-files", "div-remote", "REMOTE COPY", row["FLGNETWORK"]);
+        });
+
+    }
+    function genInfo(DivWhere,divId, TitleText, ValueText) {
+         $(DivWhere).find("." + divId).eq(0).remove();
+        var formGroup = "<div class='form-group "+divId+"'></div>";
+        var Title = "<label class='control-label col-md-2'>"+TitleText+"</label>";
+        var ValDiv = "<div class='col-md-10 div-value'></div>";
+        var Label = "<label class='control-label option2'>"+ValueText+"</label>";
+        $(DivWhere).append(formGroup);
+        var divGroup = $(DivWhere).find("." + divId).eq(0);
+        $(divGroup).append(Title);
+        $(divGroup).append(ValDiv);
+        $(divGroup).find('.div-value').eq(0).append(Label);
+
+    }
+
+    function getOptions(option_id) {
+        var urlText = "@Url.Action("GetOPTIONVAL","COPR16_OPTIONVAL_MSTR")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {id:option_id}
+        console.log(jdata);
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                //alert(result);
+                addOptionInfo(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("error:" + errorThrown);
+            }
+        });
+        return false;
+    }
+    function addOptionInfo(data) {
+        var n = 0;
+        data.forEach(function (row) {
+            genInfo(".container-options", "div-option-"+n++, "VALUE "+n, row["OPTDT_ID"]);
+        });
+
+    }
+</script>
+<script>
+    $("input.createBtn").click(function () {
+        $('#SAVEALL_DLG').modal('show');
+    });
+    $("a.NoSaveAllBtn").click(function () {
+        $('#SAVEALL_DLG').modal('hide');
+    });
+    $(".YesSavedAllBtn").click(function () {
+        saveJson();
+        $("#SAVEALL_DLG").modal("hide");
+    });
+    $(".lerrcloseBtn").click(function () {
+        $("#lModalError").modal("hide");
+    });
+    $(".lSuccesscloseBtn").click(function () {
+        window.location.href = "@Url.Action("Index","COPR16_MEASURETYPE_MSTR")";
+        $("#lModalSuccess").modal("hide");
+    });
+    function saveJson() {
+        var opdt = {};
+        var dtdt = [];
+
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "MSTYPE_ID": $("#cOPR16_MEASURETYPE_MSTR_MSTYPE_ID").val(),
+            "MSTYPE_NAME": $("#cOPR16_MEASURETYPE_MSTR_MSTYPE_NAME").val(),
+            "DESC": $("#cOPR16_MEASURETYPE_MSTR_DESC").val(),
+            "FROM_FILE": $("#cOPR16_MEASURETYPE_MSTR_FROM_FILE").val(),
+            "OPTION_UNIT": $("#cOPR16_MEASURETYPE_MSTR_OPTION_UNIT").val(),
+            "OPT_ID": $("#cOPR16_MEASURETYPE_MSTR_OPT_ID").val(),
+            "UNIT_ID": $("#cOPR16_MEASURETYPE_MSTR_UNIT_ID").val(),
+            "FILE_ID": $("#cOPR16_MEASURETYPE_MSTR_FILE_ID").val(),
+            "DEF_VALUE": $("#cOPR16_MEASURETYPE_MSTR_DEF_VALUE").val(),
+            "MIN_VALUE": $("#cOPR16_MEASURETYPE_MSTR_MIN_VALUE").val(),
+            "MAX_VALUE": $("#cOPR16_MEASURETYPE_MSTR_MAX_VALUE").val(),
+
+
+            "FLGACT": $("#cOPR16_MEASURETYPE_MSTR_FLGACT").val(),
+            "username": $("#UID").val(),
+
+            //"jsonString": $('form').serialize()
+            "jsonString": [{}]
+        };
+
+        console.log(jdata);
+        var urlText = "@Url.Action("SaveJson","COPR16_MEASURETYPE_MSTR")";
+            var options = { "backdrop": "static", keyboard: true };
+            console.log();
+            $.ajax({
+                type: "POST",
+                url: urlText,     //your action
+                //data: $('form').serialize(),   //your form name.it takes all the values of model
+                //dataType: 'json',
+                data: jdata,
+                success: function (result) {
+                    $('#lModalLabelSuccess').html("Save Measurement Type");
+                    $('#lModalBodySuccess').html("Save Measurement Type Successed");
+                    $('#lModalSuccess').modal(options);
+                    $('#lModalSuccess').modal('show');
+                    //window.location.href = "@Url.Action("Index","COPR16_OPTIONVAL_MSTR")";;
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#lModalLabelError').html("Save Measurement Type");
+                    $('#lModalBodyError').html("Cannot Save Measurement Type : " + errorThrown );
+                    $('#lModalError').modal(options);
+                    $('#lModalError').modal('show');
+                }
+            })
+            return false;
+    }
+</script>

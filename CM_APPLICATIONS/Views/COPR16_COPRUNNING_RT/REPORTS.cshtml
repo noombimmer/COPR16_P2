@@ -1,0 +1,112 @@
+﻿@model IEnumerable<CM_APPLICATIONS.COPR16_COPRUNNING_RT>
+
+@{
+    ViewBag.Title = "COP R16 REPORTS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>COP R16 REPORTS</h2>
+
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 99% !important;
+        margin-left: 0px !important;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+</style>
+<table class="table table-list stripe">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.COPR_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SEQ_NO)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WRK_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WRKD_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MACHINETYPE_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VALUE)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.STATUS_ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TEST_START)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TEST_FINISH)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TEST_BY)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.REV)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WRK_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WRKD_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MACHINETYPE_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RETURNTYPE_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VALUE)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.STATUS_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TEST_START)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TEST_FINISH)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TEST_BY)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.REV)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SEQ_NO)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
