@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using CM_APPLICATIONS;
 using CM_APPLICATIONS.Models;
+using System.Data.SqlClient;
 
 namespace CM_APPLICATIONS.Controllers
 {
@@ -19,7 +20,8 @@ namespace CM_APPLICATIONS.Controllers
         // GET: COPR16_MODEL_MSTR
         public async Task<ActionResult> Index()
         {
-            return View(await db.COPR16_MODEL_MSTR.ToListAsync());
+            //return View(await db.COPR16_MODEL_MSTR.ToListAsync());
+            return View(await db.COPR16_MODEL_MSTR.Where(l => l.ADATE == null).ToListAsync());
         }
 
         // GET: COPR16_MODEL_MSTR/Details/5
@@ -61,6 +63,30 @@ namespace CM_APPLICATIONS.Controllers
             }
 
             return View(cOPR16_MODEL_MSTR);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> getMODELList(string BRANDNAME,string MODELNAME,string MODELDESC)
+        {
+            var rowData = new JsonResult();
+            if (db.Database.Connection.State != ConnectionState.Open)
+            {
+                await db.Database.Connection.OpenAsync();
+            }
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                cmd.CommandText = "exec [dbo].[sp_model_list] @brand_name,@model_name,@model_desc";
+                cmd.Parameters.Add(new SqlParameter("@brand_name", BRANDNAME == null ? "" : BRANDNAME));
+                cmd.Parameters.Add(new SqlParameter("@model_name", MODELNAME == null ? "" : MODELNAME));
+                cmd.Parameters.Add(new SqlParameter("@model_desc", MODELDESC == null ? "" : MODELDESC));
+
+                System.Data.Common.DbDataReader reader = await cmd.ExecuteReaderAsync();
+                {
+                    var model = Utils.Serialize((SqlDataReader)reader);
+                    rowData.Data = model;
+                }
+            }
+            return Json(rowData, JsonRequestBehavior.AllowGet);
         }
 
         // GET: COPR16_MODEL_MSTR/Edit/5

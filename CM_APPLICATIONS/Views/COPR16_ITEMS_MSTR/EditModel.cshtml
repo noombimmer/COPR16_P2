@@ -217,7 +217,20 @@
                         <tr @strrow>
                             <td>@Html.DisplayFor(modelItem => item.POS_ID)</td>
                             <td>@Html.DisplayFor(modelItem => item.FG_NO)</td>
-                            <td>@Html.DisplayFor(modelItem => item.ITEM_ID)</td>
+                            <td>
+                                @{
+                                    if (item.ITEM_ID != null)
+                                    {
+                                        @Html.DisplayFor(modelItem => item.ITEM_ID);
+                                        if (item.FGTYPE_ID != null)
+                                        {
+                                            if (item.FGTYPE_ID.Length > 0){<label>,&nbsp;</label>@Html.DisplayFor(modelItem => item.FGTYPE_ID)}
+                                        }
+                                    }
+                                
+                                }
+                               
+                            </td>
                             <td class="command">
                                 <input type="button" value="Edit" class="btn btn btn-primary button editRowBtn" />|
                                 <input type="button" value="Remove" class="btn btn btn-primary button removeRowBtn" />
@@ -349,8 +362,12 @@
                                     @Html.Label("BUNKLE2 (OPTIONAL)", htmlAttributes: new { @class = "control-label col-md-1" })
 
                                     <div class="col-md-offset-2 col-md-8" style="display:flex;flex-wrap:nowrap">
-                                        @Html.Editor("pFGTYPE_ID", new { htmlAttributes = new { @class = "form-control pFGTYPE_ID", @readonly = "true" } })
-                                        <input type="button" class="edit-ITEM2 searchBtn">
+                                        @*@Html.Editor("pFGTYPE_ID", new { htmlAttributes = new { @class = "form-control pFGTYPE_ID", @readonly = "true" } })*@
+                                        <textarea rows="5" class="form-control pFGTYPE_ID" readonly="readonly" id="pFGTYPE_ID" name="pFGTYPE_ID">
+    
+                                        </textarea>
+                                        <input type="button" class="edit-ITEM2 searchBtn" style="max-height:35px !important">
+                                        <input type="button" class="clear-ITEM2" value="Clear" style="max-height:35px !important">
                                     </div>
                                 </div>
                                 @*<input type="hidden" id="hSelectRowid" value="" />
@@ -645,8 +662,7 @@
         }
 
     });
-</script>
-<script>
+
     var rowObject = null;
     $('.edit-LineID').click(function () {
 
@@ -759,8 +775,8 @@
     });
     $('.edit-ITEM2').click(function () {
         optSelected = true;
-        var ITEMID = $('.pFGTYPE_ID').val();
-        $('.FG_NO_FIND').val(ITEMID);
+        //var ITEMID = $('.pFGTYPE_ID').val();
+        //$('.FG_NO_FIND').val(ITEMID);
         tbVar4.rows().clear().draw();
         $('#FG_DLG').modal('show');
     });
@@ -776,10 +792,15 @@
             if (sbSelected) $('.pFG_NO').val(FgNO);
             else $('.pITEM_ID').val(FgNO);
         } else {
-            $('.pFGTYPE_ID').val(FgNO);
+            var newOtion = '';
+            var oldText = $('.pFGTYPE_ID').val();
+            if (oldText.length > 0) {
+                newOtion = oldText + ', ' + FgNO;
+            } else {
+                newOtion = FgNO;
+            }
+            $('.pFGTYPE_ID').val(newOtion);
         }
-
-
         $('#FG_DLG').modal('hide');
     });
 
@@ -789,9 +810,14 @@
         var ITEMID = $('.pITEM_ID').val();
         var FGTYPEID = $('.pFGTYPE_ID').val();
         var rowData = [];
+        var buckleDisplay = ITEMID;
+
+        if (FGTYPEID.length > 0) {
+            buckleDisplay = buckleDisplay + ', ' + FGTYPEID;
+        }
         rowData.push(POSID);
         rowData.push(FGNO);
-        rowData.push(ITEMID);
+        rowData.push(buckleDisplay);
         rowData.push('');
 
         var strrow = "row-id-" + RowCount++ + "";
@@ -829,6 +855,11 @@
         var FGTYPEID = $('.pFGTYPE_ID').val();
 
         var SelectedRow = $(tbVar.row("." + msg).node()).find('td');
+        var buckleDisplay = ITEMID;
+
+        if (FGTYPEID.length > 0) {
+            buckleDisplay = buckleDisplay + ', ' + FGTYPEID;
+        }
 
         SelectedRow.eq(0).text(POSID);
         SelectedRow.eq(lastCol).find("#hPOS_ID").val(POSID);
@@ -836,7 +867,7 @@
         SelectedRow.eq(1).text(FGNO);
         SelectedRow.eq(lastCol).find("#hFG_NO").val(FGNO);
 
-        SelectedRow.eq(2).text(ITEMID);
+        SelectedRow.eq(2).text(buckleDisplay);
         SelectedRow.eq(lastCol).find("#hITEM_ID").val(ITEMID);
         //SelectedRow.eq(3).text(POSID);
         SelectedRow.eq(lastCol).find("#hFGTYPE_ID").val(FGTYPEID);
@@ -1062,5 +1093,31 @@
             }
         });
         return false;
+    });
+    $('.clear-ITEM2').click(function () {
+        $('.pFGTYPE_ID').val('');
+    });
+    $('.FG_NO_FIND').on('keypress', function (e) {
+        if (e.which == 13) {
+            var FgString = $('.FG_NO_FIND').val();
+            var FgDescString = $('.FG_DESC_FIND').val();
+            var urlText = "@Url.Action("getFgList","COPR16_ITEMS_MSTR")";
+            var options = { "backdrop": "static", keyboard: true };
+            var jdata = {FGNO : FgString,FGDESC:FgDescString }
+            console.log(jdata);
+            $.ajax({
+                type: "POST",
+                url: urlText,     //your action
+                data: jdata,
+                success: function (result) {
+                    console.log(result);
+                    FgRow(result.Data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(jqXHR);
+                    console.error("error:" + errorThrown);
+                }
+            });
+        }
     });
 </script>

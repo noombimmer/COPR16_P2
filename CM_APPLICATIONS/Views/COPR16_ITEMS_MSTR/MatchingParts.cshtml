@@ -395,6 +395,7 @@
                     if (ivalue != null) {
                         ivalue = ivalue.replace(/\,/g, '<br/> ');
                         //ivalue = ivalue.replace(",", "<br/>");
+                        ivalue = ivalue.replace(/#/g, ',');
                     }
                     rowData.push(ivalue == null ? "" : ivalue);
                 });

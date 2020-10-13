@@ -8,6 +8,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CM_APPLICATIONS;
+using System.Data.SqlClient;
+using CM_APPLICATIONS.Models;
 
 namespace CM_APPLICATIONS.Controllers
 {
@@ -18,9 +20,31 @@ namespace CM_APPLICATIONS.Controllers
         // GET: COPR16_LINE_MSTR
         public async Task<ActionResult> Index()
         {
-            return View(await db.COPR16_LINE_MSTR.ToListAsync());
+            return View(await db.COPR16_LINE_MSTR.Where(l => l.ADATE == null).ToListAsync());
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> getLINEList(string LINEID, string LINENAME)
+        {
+            var rowData = new JsonResult();
+            if (db.Database.Connection.State != ConnectionState.Open)
+            {
+                await db.Database.Connection.OpenAsync();
+            }
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                cmd.CommandText = "exec [dbo].[sp_line_list] @line_id,@line_name";
+                cmd.Parameters.Add(new SqlParameter("@line_id", LINEID == null ? "" : LINEID));
+                cmd.Parameters.Add(new SqlParameter("@line_name", LINENAME == null ? "" : LINENAME));
 
+                System.Data.Common.DbDataReader reader = await cmd.ExecuteReaderAsync();
+                {
+                    var model = Utils.Serialize((SqlDataReader)reader);
+                    rowData.Data = model;
+                }
+            }
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
         // GET: COPR16_LINE_MSTR/Details/5
         public async Task<ActionResult> Details(string id)
         {

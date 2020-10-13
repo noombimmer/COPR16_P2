@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using CM_APPLICATIONS;
 using System.Data.SqlClient;
+using CM_APPLICATIONS.Models;
 
 namespace CM_APPLICATIONS.Controllers
 {
@@ -79,7 +80,7 @@ namespace CM_APPLICATIONS.Controllers
                 
                 System.Data.Common.DbDataReader reader = await cmd.ExecuteReaderAsync();
                 {
-                    var model = Serialize((SqlDataReader)reader);
+                    var model = Utils.Serialize((SqlDataReader)reader);
                     rowData.Data = model;
                 }
             }
@@ -192,26 +193,26 @@ namespace CM_APPLICATIONS.Controllers
             }
             base.Dispose(disposing);
         }
-        public IEnumerable<Dictionary<string, object>> Serialize(SqlDataReader reader)
-        {
-            var results = new List<Dictionary<string, object>>();
-            var cols = new List<string>();
-            for (var i = 0; i < reader.FieldCount; i++)
-                cols.Add(reader.GetName(i));
+        //public IEnumerable<Dictionary<string, object>> Serialize(SqlDataReader reader)
+        //{
+        //    var results = new List<Dictionary<string, object>>();
+        //    var cols = new List<string>();
+        //    for (var i = 0; i < reader.FieldCount; i++)
+        //        cols.Add(reader.GetName(i));
 
-            while (reader.Read())
-                results.Add(SerializeRow(cols, reader));
+        //    while (reader.Read())
+        //        results.Add(SerializeRow(cols, reader));
 
-            return results;
-        }
-        private Dictionary<string, object> SerializeRow(IEnumerable<string> cols,
-                                                        SqlDataReader reader)
-        {
-            var result = new Dictionary<string, object>();
-            foreach (var col in cols)
-                result.Add(col, reader[col]);
-            return result;
-        }
+        //    return results;
+        //}
+        //private Dictionary<string, object> SerializeRow(IEnumerable<string> cols,
+        //                                                SqlDataReader reader)
+        //{
+        //    var result = new Dictionary<string, object>();
+        //    foreach (var col in cols)
+        //        result.Add(col, reader[col]);
+        //    return result;
+        //}
         private static IEnumerable<object[]> Read(SqlDataReader reader)
         {
 

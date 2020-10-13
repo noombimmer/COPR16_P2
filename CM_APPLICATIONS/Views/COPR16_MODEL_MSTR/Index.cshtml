@@ -28,7 +28,46 @@
         width: 100% !important;
     }
 </style>
-<table class="table table-list stripe">
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-2">BRAND NAME: </label>
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("BRAND NAME", new { htmlAttributes = new { @class = "form-control BRAND-NAME", } })
+                @*<input type="button"  class="edit-from-date-picker searchBtn">*@
+            </div>
+        </div>
+        <div class="form-group">
+
+            <label class="control-label col-md-2">MODEL NAME: </label>
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("MODEL NAME", new { htmlAttributes = new { @class = "form-control MODEL-NAME", } })
+                @*<input type="button"  class="edit-from-date-picker searchBtn">*@
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <label class="control-label col-md-2">MODLE DESCRIPTION: </label>
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("MODEL DESC", new { htmlAttributes = new { @class = "form-control MODEL-DESC", } })
+                @*<input type="button"  class="edit-from-date-picker searchBtn">*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="Search" class="btn btn-primary button refreshBtn" />
+                <input type="button" value="Clear" class="btn btn-secondary button resetBtn" />
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table table-lists stripe">
     <thead>
         <tr>
             <th>
@@ -55,44 +94,146 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.BRAND_ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MODEL_ID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MODEL_DESC)
-            </td>
-            <td class="username">
-                @Html.DisplayFor(modelItem => item.FLGACT)
-            </td>
-            <td class="username">
-                @Html.DisplayFor(modelItem => item.ADATE)
-            </td>
-            <td class="username">
-                @Html.DisplayFor(modelItem => item.CRE_BY)
-            </td>
-            <td class="command">
-                @*@Html.ActionLink("Edit", "Edit", new { id = item.MODEL_ID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.MODEL_ID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.MODEL_ID })*@
-                @Html.ActionLink("Edit", "Edit", "COPR16_MODEL_MSTR", new { id = item.MODEL_ID }, new { @class = "btn btn-primary button" }) |
-                @Html.ActionLink("View", "Details", "COPR16_MODEL_MSTR", new { id = item.MODEL_ID }, new { @class = "btn btn-primary button" }) |
-                @{
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BRAND_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MODEL_ID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MODEL_DESC)
+                </td>
+                <td class="username">
+                    @Html.DisplayFor(modelItem => item.FLGACT)
+                </td>
+                <td class="username">
+                    @Html.DisplayFor(modelItem => item.ADATE)
+                </td>
+                <td class="username">
+                    @Html.DisplayFor(modelItem => item.CRE_BY)
+                </td>
+                <td class="command">
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.MODEL_ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.MODEL_ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.MODEL_ID })*@
+                    @Html.ActionLink("Edit", "Edit", "COPR16_MODEL_MSTR", new { id = item.MODEL_ID }, new { @class = "btn btn-primary button" }) |
+                    @Html.ActionLink("View", "Details", "COPR16_MODEL_MSTR", new { id = item.MODEL_ID }, new { @class = "btn btn-primary button" }) |
+                    @{
 
-                    if (item.FLGACT == true)
-                    {
-                        @Html.ActionLink("Deactivate", "Deactive", "COPR16_MODEL_MSTR", new { id = item.MODEL_ID }, new { @class = "btn btn-primary button" });
+                        if (item.FLGACT == true)
+                        {
+                            @Html.ActionLink("Deactivate", "Deactive", "COPR16_MODEL_MSTR", new { id = item.MODEL_ID }, new { @class = "btn btn-primary button" });
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Activate", "Active", "COPR16_MODEL_MSTR", new { id = item.MODEL_ID }, new { @class = "btn btn-primary button" });
+                        }
                     }
-                    else
-                    {
-                        @Html.ActionLink("Activate", "Active", "COPR16_MODEL_MSTR", new { id = item.MODEL_ID }, new { @class = "btn btn-primary button" });
-                    }
-                }
-            </td>
-        </tr>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+<script>
+
+    var tbVar = $('.table-lists').DataTable({
+        "paging": true,
+        "ordering": false,
+        "info": true,
+        "stripe": true,
+        "filter":false,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "language": {
+            "lengthMenu": "Display  _MENU_  Items / Page",
+            "zeroRecords": "<center style='color:blue;'><b>items not found</b></center>",
+            "info": "Showing _START_-_END_ of _TOTAL_ items",
+            "infoEmpty": "",
+            "infoFiltered": "(filtered from _MAX_ total items)"
+        },
+        columnDefs: [
+            { className: 'text-center', targets: [2] }
+        ]
+    });
+    tbVar.clear().draw();
+    function getDataFromServer(result) {
+        tbVar.clear().draw();
+        console.log("STart....");
+        //console.log(result);
+        var rowResult = result.Data;
+        $.each(rowResult, function (i, singleRow) {
+            //console.log(singleRow);
+            var strText = Object.keys(singleRow);
+            //console.log(strText);
+            //var rows = tbVar.row.add([0, 1, 2, 3, 4, 5, 6]).draw(false).node();
+            //console.log(strText);
+            
+            var date = new Date(parseInt(singleRow.ADATE.substr(6)));
+            var editBtn = "<input type='button' name='edit_" + singleRow.MODEL_ID + "' id='edit_" + singleRow.MODEL_ID + "' value='edit' class='btn btn-primary button edit_" + singleRow.MODEL_ID + "'><input type='hidden' id='hMODEL_ID' name='hMODEL_ID' value='" + singleRow.MODEL_ID+"'>";
+            var rowdata = [
+                singleRow.BRAND_ID,
+                singleRow.MODEL_ID,
+                singleRow.MODEL_DESC,
+                singleRow.FLGACT,
+                dateFormat(date, 'dd mmm yyyy h:MM:ss tt'),
+                singleRow.CRE_BY, editBtn];
+            var rows = tbVar.row.add(rowdata).draw(false).node();
+            
+        });
+       
+
+    }
+    function refreshData() {
+        var BRANDNAME = $('.BRAND-NAME').val() != null ? $('.BRAND-NAME').val() : null;
+        var MODELNAME = $('.MODEL-NAME').val() != null ? $('.MODEL-NAME').val() : null;
+        var MODELDESC = $('.MODEL-DESC').val() != null ? $('.MODEL-DESC').val() : null;
+        var keyHidden = $('input[name="__RequestVerificationToken"]').val();
+        var urlText = "@Url.Action("getMODELList","COPR16_MODEL_MSTR")";
+        var dataSumbit = {
+            "__RequestVerificationToken": keyHidden,
+            "BRANDNAME": BRANDNAME,
+            "MODELNAME": MODELNAME,
+            "MODELDESC": MODELDESC
+        };
+        console.log(dataSumbit);
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: dataSumbit,
+            success: function (result) {
+                console.log(result);
+                //updateInfo(result);
+                getDataFromServer(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("error:" + errorThrown);
+            }
+        });
+    }
+    $('.resetBtn').click(function () {
+        //getDataFromServer();
+        tbVar.clear().draw();
+        $('.BRAND-NAME').val('');
+        $('.MODEL-NAME').val('');
+        $('.MODEL-DESC').val('');
+        //MODEL-NAME
+        $('.BRAND-NAME').focus();
+    });
+    $('.refreshBtn').click(function () {
+        refreshData();
+    });
+    $("body").on("click", "input[name^=edit]", function () {
+        var fg_no = $(this).parent().find('#hMODEL_ID').val();
+
+        console.log(fg_no);
+        var url = "@Url.Action("Edit","COPR16_MODEL_MSTR")/" + fg_no;
+        $(location).attr('href', url);
+    });
+    $(document).on('keypress', function (e) {
+        if (e.which == 13) {
+            refreshData();
+        }
+    });
+</script>
