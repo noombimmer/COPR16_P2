@@ -103,4 +103,11 @@ namespace CM_APPLICATIONS.Models
         public string Url { set; get; }
         public string TextValue { set; get; }
     }
+    public class qrPrint
+    {
+        public string copnoa { set; get; }
+        public string copnob { set; get; }
+        public string mode { set; get; }
+        public string pdf { set; get; }
+    }
 }
