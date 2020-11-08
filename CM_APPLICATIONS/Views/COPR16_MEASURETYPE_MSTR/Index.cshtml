@@ -41,11 +41,13 @@
                 @Html.DisplayNameFor(model => model.DESC)
             </th>
             <th class="username">
-                @Html.DisplayNameFor(model => model.OPTION_UNIT)
+                PROPERTIES/VALUE
+                @*@Html.DisplayNameFor(model => model.OPTION_UNIT)*@
             </th>
-            <th class="username">
+
+            @*<th class="username">
                 @Html.DisplayNameFor(model => model.FROM_FILE)
-            </th>
+            </th>*@
             <th class="username">
                 @Html.DisplayNameFor(model => model.FLGACT)
             </th>
@@ -72,11 +74,35 @@
                 @Html.DisplayFor(modelItem => item.DESC)
             </td>
             <td class="username">
-                @Html.DisplayFor(modelItem => item.OPTION_UNIT)
+
+                @*@Html.DisplayFor(modelItem => item.OPTION_UNIT)*@
+                @{
+                    if (item.OPTION_UNIT.Value.ToString().ToUpper().Contains("FALSE"))
+                    {
+
+                        if (!item.UNIT_ID.ToUpper().Contains("FREE-TEXT"))
+                        {
+                            <label>Unit Name : @Html.DisplayFor(modelItem => item.UNIT_ID)</label><br>
+                            <label>Min: </label>@Html.DisplayFor(modelItem => item.MIN_VALUE)
+                            <label>&nbsp; Max: </label>@Html.DisplayFor(modelItem => item.MAX_VALUE)
+                        }
+                        else
+                        {
+                            <label style="color:darkgray !important">@Html.DisplayFor(modelItem => item.UNIT_ID)</label><br>
+                        }
+                    }
+                    else
+                    {
+                        <label style="color:blue !important">Value of: @Html.DisplayFor(modelItem => item.OPT_ID)</label><br>
+                    }
+                }
             </td>
+
+            @*
             <td class="username">
                 @Html.DisplayFor(modelItem => item.FROM_FILE)
             </td>
+            *@
             <td class="username">
                 @Html.DisplayFor(modelItem => item.FLGACT)
             </td>

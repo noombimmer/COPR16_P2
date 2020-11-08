@@ -16,16 +16,16 @@ namespace CM_APPLICATIONS
     public partial class COPR16_MEASURETYPE_MSTR
     {
 
-        [DisplayName("MSTYPE_ID")]
+        [DisplayName("ID")]
         public string MSTYPE_ID { get; set; }
 
-        [DisplayName("MSTYPE_NAME")]
+        [DisplayName("NAME")]
         public string MSTYPE_NAME { get; set; }
 
-        [DisplayName("UNIT ID")]
+        [DisplayName("UNIT")]
         public string UNIT_ID { get; set; }
 
-        [DisplayName("DEF_VALUE")]
+        [DisplayName("DEFAULT VALUE")]
         public Nullable<decimal> DEF_VALUE { get; set; }
 
         [DisplayName("CREATED DATE")]
@@ -40,19 +40,19 @@ namespace CM_APPLICATIONS
         [DisplayName("MODIFIED DATE")]
         public Nullable<System.DateTime> MOD_DATE { get; set; }
 
-        [DisplayName("OPTION UNIT")]
+        [DisplayName("IS UNIT")]
         public Nullable<bool> OPTION_UNIT { get; set; }
 
-        [DisplayName("FROM FILE")]
+        [DisplayName("IS FROM FILE")]
         public Nullable<bool> FROM_FILE { get; set; }
 
         [DisplayName("ACTIVE")]
         public Nullable<bool> FLGACT { get; set; }
 
-        [DisplayName("OPT_ID")]
+        [DisplayName("OPTION VALUE")]
         public string OPT_ID { get; set; }
 
-        [DisplayName("FILE ID")]
+        [DisplayName("FILE")]
         public string FILE_ID { get; set; }
 
         [DisplayName("MIN VALUE")]

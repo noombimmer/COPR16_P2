@@ -281,6 +281,12 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="zxing, Version=0.16.6.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.6\lib\net47\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation, Version=0.16.6.0, Culture=neutral, PublicKeyToken=4e88037ac681fe60, processorArchitecture=MSIL">
+      <HintPath>..\packages\ZXing.Net.0.16.6\lib\net47\zxing.presentation.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -313,6 +319,7 @@
     <Compile Include="Controllers\COPR16_UNITS_MSTRController.cs" />
     <Compile Include="Controllers\COPR16_WORKFLOWController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MicsController.cs" />
     <Compile Include="COPR16_BRAND_MSTR.cs">
       <DependentUpon>COPR16_DBI.tt</DependentUpon>
     </Compile>
@@ -486,6 +493,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="0.jpg" />
+    <Content Include="1.jpg" />
+    <Content Include="2.png" />
+    <Content Include="Autoliv_logo_72dpi.png" />
     <Content Include="Content\auoliv_logo.png" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -1187,6 +1198,8 @@
     <Content Include="Scripts\sheetjs\xlsx.min.map" />
     <Content Include="Scripts\sheetjs\xlsx.mini.min.map" />
     <Content Include="Views\COPR16_COPRUNNING\Create.cshtml.bak" />
+    <Content Include="Views\Mics\CameraTest.cshtml" />
+    <Content Include="Views\Mics\IMG.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />
@@ -1226,6 +1239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="qrcode-cache\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

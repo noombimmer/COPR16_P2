@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "CameraTest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>CameraTest</h2>
+
+<video id="video" width="640" height="480" autoplay></video>
+<button id="snap">Snap Photo</button>
+<canvas id="canvas" width="640" height="480"></canvas>
+
+<script>
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var video = document.getElementById('video');
+    var mediaConfig = { video: true };
+    var errBack = function (e) {
+        console.log('An error has occurred!', e)
+    };
+    var tongleDisplay = true;
+    window.addEventListener("DOMContentLoaded", function () {
+        // Grab elements, create settings, etc.
+        // Put video listeners into place
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia(mediaConfig).then(function (stream) {
+                //video.src = window.URL.createObjectURL(stream);
+                video.srcObject = stream;
+                video.play();
+            });
+        } else if (navigator.getUserMedia) { // Standard
+            navigator.getUserMedia({ video: true }, function (stream) {
+                video.src = stream;
+                video.play();
+            }, errBack);
+        } else if (navigator.webkitGetUserMedia) { // WebKit-prefixed
+            navigator.webkitGetUserMedia({ video: true }, function (stream) {
+                video.src = window.webkitURL.createObjectURL(stream);
+                video.play();
+            }, errBack);
+        } else if (navigator.mozGetUserMedia) { // Mozilla-prefixed
+            navigator.mozGetUserMedia({ video: true }, function (stream) {
+                video.srcObject = stream;
+                video.play();
+            }, errBack);
+        }
+    }, false);
+    // Put event listeners into place
+
+    // Trigger photo take
+    document.getElementById('snap').addEventListener('click', function () {
+
+        //console.log(navigator.getUserMedianavigator);
+        //console.log(navigator.webkitGetUserMedia);
+        //console.log(navigator.mozGetUserMedia);
+        //var t = context.drawImage(video, 0, 0, 640, 480);
+        //console.log(t);
+        if (tongleDisplay == true) {
+            $("#canvas").attr("style", "display:none;");
+            $("#video").attr("style", "display:none;");
+            tongleDisplay = false;
+        } else {
+            $("#canvas").attr("style", "display:inline-block;");
+            $("#video").attr("style", "display:inline-block;");
+            tongleDisplay = true;
+        }
+
+    });
+
+
+</script>
