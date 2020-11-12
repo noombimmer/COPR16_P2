@@ -27,6 +27,11 @@ namespace CM_APPLICATIONS
 
             bundles.Add(new ScriptBundle("~/bundles/jquery-ui").Include(
                         "~/Scripts/jquery-ui.js"));
+            bundles.Add(new ScriptBundle("~/bundles/jsqr").Include(
+                        "~/Scripts/qr/js/qrcode-reader.js"));
+            bundles.Add(new ScriptBundle("~/bundles/FileSaver").Include(
+                        "~/Scripts/FileServer.js"));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(

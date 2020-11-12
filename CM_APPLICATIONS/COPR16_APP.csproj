@@ -534,6 +534,7 @@
     <Content Include="Content\images\xlsx.svg" />
     <Content Include="Content\jquery.dataTables.min.css" />
     <Content Include="Content\jquery.qrcode.min.js" />
+    <Content Include="Content\js-cop-label.css" />
     <Content Include="Content\sort_asc.png" />
     <Content Include="Content\sort_asc_disabled.png" />
     <Content Include="Content\sort_both.png" />
@@ -937,6 +938,7 @@
     <Content Include="Content\themes\themes\vader\jquery-ui.css" />
     <Content Include="Content\themes\themes\vader\jquery-ui.min.css" />
     <Content Include="Content\themes\themes\vader\theme.css" />
+    <Content Include="Content\w3.css" />
     <Content Include="COPR16_DBI.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>COPR16_DBI.edmx</DependentUpon>
@@ -963,6 +965,9 @@
       <DependentUpon>COPR16_DBI.edmx</DependentUpon>
     </Content>
     <Content Include="Scripts\audio\beep.mp3" />
+    <Content Include="Scripts\BMSQR\bms_qr.js" />
+    <Content Include="Scripts\BMSQR\jsQR\jsQR.js" />
+    <Content Include="Scripts\BMSQR\jsQR\jsQR.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\datatables.min.js" />
@@ -990,6 +995,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\cop-label\js-cop-label.js" />
     <Content Include="Scripts\js\DecoderWorker.js" />
     <Content Include="Scripts\js\filereader.js" />
     <Content Include="Scripts\js\jquery.js" />
@@ -1012,6 +1018,13 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\popper.min.js.map" />
     <Content Include="Scripts\printThis.js" />
+    <Content Include="Scripts\qr\audio\beep.mp3" />
+    <Content Include="Scripts\qr\css\qrcode-reader.css" />
+    <Content Include="Scripts\qr\css\qrcode-reader.min.css" />
+    <Content Include="Scripts\qr\js\jsQR\jsQR.js" />
+    <Content Include="Scripts\qr\js\jsQR\jsQR.min.js" />
+    <Content Include="Scripts\qr\js\qrcode-reader.js" />
+    <Content Include="Scripts\qr\js\qrcode-reader.min.js" />
     <Content Include="Scripts\README.md" />
     <Content Include="Scripts\sheetjs\cpexcel.js" />
     <Content Include="Scripts\sheetjs\jszip.js" />
@@ -1212,6 +1225,8 @@
     <Content Include="Views\COPR16_ITEMS_MSTR\EditModel.cshtml" />
     <Content Include="Views\COPR16_COPRUNNING_RT\StartTestForResult.cshtml" />
     <Content Include="Views\COPR16_COPRUNNING_RT\MACHINE_SELECTforResult.cshtml" />
+    <Content Include="Scripts\BMSQR\jsQR\LICENSE" />
+    <Content Include="Scripts\BMSQR\jsQR\README.md" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\sheetjs\xlsx.core.min.map" />
@@ -1223,6 +1238,9 @@
     <Content Include="Views\Mics\IMG.cshtml" />
     <Content Include="Views\Mics\QRMAKER.cshtml" />
     <Content Include="Views\Mics\LABEL_PRINTING.cshtml" />
+    <Content Include="Views\Mics\QRREADING.cshtml" />
+    <Content Include="Scripts\qr\js\jsQR\LICENSE" />
+    <Content Include="Scripts\qr\js\jsQR\README.md" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

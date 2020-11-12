@@ -5,7 +5,9 @@
 }
 
 <h2>CameraTest</h2>
+<textarea class="text-list" maxlength="1024" style="line-break:normal;height:200px">
 
+</textarea>
 <video id="video" width="640" height="480" autoplay></video>
 <button id="snap">Snap Photo</button>
 <canvas id="canvas" width="640" height="480"></canvas>
@@ -53,7 +55,7 @@
         //console.log(navigator.getUserMedianavigator);
         //console.log(navigator.webkitGetUserMedia);
         //console.log(navigator.mozGetUserMedia);
-        //var t = context.drawImage(video, 0, 0, 640, 480);
+        var t = context.drawImage(video, 0, 0, 640, 480);
         //console.log(t);
         if (tongleDisplay == true) {
             $("#canvas").attr("style", "display:none;");
@@ -65,6 +67,28 @@
             tongleDisplay = true;
         }
 
+        if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+            console.log("enumerateDevices() not supported.");
+            return;
+        }
+
+        // List cameras and microphones.
+        /*
+        navigator.mediaDevices.enumerateDevices()
+            .then(function (devices) {
+                devices.forEach(function (device) {
+                    console.log(device.kind + ": " + device.label +
+                        " id = " + device.deviceId);
+
+                    $('.text-list').text(device.kind + ": " + device.label +
+                        " id = " + device.deviceId);
+                });
+            })
+            .catch(function (e) {
+                console.log(e.name + ": " + e.message);
+                $('.text-list').text(e.name + ": " + e.message);
+            });
+            */
     });
 
 

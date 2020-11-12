@@ -1,0 +1,19 @@
+﻿<script src="~/Scripts/BMSQR/bms_qr.js"></script>
+
+<h1>QRCode reader plugin examples</h1>
+
+
+
+<input name="test01" id="test01" class="test01" type="text" value="" />
+<input name="test02" id="test02" class="test02" type="button" value="QR Read" />
+
+<script>
+        //$('.test02').click(function () {
+        //    $.qrCodeReader.jsQRpath = "/Scripts/qr/js/jsQR/jsQR.min.js";
+        //    $.qrCodeReader.beepPath = "/Scripts/qr/audio/beep.mp3";
+        //    $(".test02").qrCodeReader({ target: "#test01", audioFeedback: true });
+        //});
+    $('.test02').click(function () {
+        enableQr('.test01');
+    });
+ </script>

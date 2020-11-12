@@ -8,7 +8,7 @@
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="~/Content/tableexport.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="~/Content/w3.css">
     @Scripts.Render("~/bundles/modernizr")
     @{
         System.Web.HttpContext.Current.Session["APP-UID"] = CM_APPLICATIONS.Models.AppPropModel.username;
@@ -552,6 +552,9 @@
                             @* Tracking *@
                             @*@Html.ActionLink("COP VOLUME REPORT", "REPORTS", "COPR16_COPRUNNING", null, null)*@
                             @Html.ActionLink("QR-CODE MAKER", "QRMAKER", "MICS", null, null)
+                            @Html.ActionLink("QR Reading Test", "qrreading", "MICS", null, null)
+                            @Html.ActionLink("Camera Test", "cameratest", "MICS", null, null)
+                            @Html.ActionLink("Test Label", "label_printing", "MICS", null, null)
                             @Html.ActionLink("QAD SYNC.", "Index", "QAD", null, null)
 
                         </div>
@@ -559,26 +562,26 @@
                     </div>
                 </li>
                 @*<li class="menu-item ">
-            <div class="menu-item dropdown menuclick">
-                <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> ADMINS</a>
-                <div class="dropdown-content">
-                    @Html.ActionLink("USER LIST", "Index", "CM_DOMAIN_MSTR", null, null)
-                    @Html.ActionLink("ROLES LIST", "Index", "CM_SITES_MSTR", null, null)
-                    @Html.ActionLink("QR-CODE TRACKING", "Index", "CM_FACILITIES_MSTR", null, null)
-                </div>
-            </div>
-        </li>*@
+                        <div class="menu-item dropdown menuclick">
+                            <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> ADMINS</a>
+                            <div class="dropdown-content">
+                                @Html.ActionLink("USER LIST", "Index", "CM_DOMAIN_MSTR", null, null)
+                                @Html.ActionLink("ROLES LIST", "Index", "CM_SITES_MSTR", null, null)
+                                @Html.ActionLink("QR-CODE TRACKING", "Index", "CM_FACILITIES_MSTR", null, null)
+                            </div>
+                        </div>
+                    </li>*@
 
                 @*<li class="menu-item ">
-            <div class=" menu-item dropdown menuclick">
-                <a href="/HOME" class=" main-menu"><i class="fa fa-fw fa-file-o"></i> HELP</a>
-            </div>
-        </li>
-        <li class="menu-item ">
-            <div class=" menu-item dropdown menuclick">
-                <a href="/HOME/Contact" class=" main-menu"><i class="fa fa-fw fa-envelope"></i> CONTACT</a>
-            </div>
-        </li>*@
+                        <div class=" menu-item dropdown menuclick">
+                            <a href="/HOME" class=" main-menu"><i class="fa fa-fw fa-file-o"></i> HELP</a>
+                        </div>
+                    </li>
+                    <li class="menu-item ">
+                        <div class=" menu-item dropdown menuclick">
+                            <a href="/HOME/Contact" class=" main-menu"><i class="fa fa-fw fa-envelope"></i> CONTACT</a>
+                        </div>
+                    </li>*@
 
             </ul>
 
@@ -593,11 +596,12 @@
     @Scripts.Render("~/bundles/printThis")
     @Scripts.Render("~/bundles/jQuery-print")
     @Scripts.Render("~/bundles/jquery-ui")
+    @*@Scripts.Render("~/bundles/FileSaver")*@
     <script src="~/Scripts/datatables.min.js"></script>
     <script src="~/Scripts/html2canvas.js"></script>
     <script src="~/Scripts/moment.min.js"></script>
     <script src="~/Scripts/sheetjs/xlsx.core.min.js"></script>
-    <script src="~/Scripts/FileSaver.js"></script>
+                                                
     <script src="~/Scripts/tableexport.js"></script>
 
     @RenderSection("scripts", required: false)

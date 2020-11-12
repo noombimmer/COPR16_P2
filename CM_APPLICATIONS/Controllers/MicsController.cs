@@ -22,12 +22,18 @@ namespace CM_APPLICATIONS.Controllers
         {
             return View();
         }
+        public ActionResult QRREADING()
+        {
+            return View();
+        }
 
-        [HttpPost]
-        public JsonResult LABEL_PRINTING(qrPrint data)
+
+        //public JsonResult LABEL_PRINTING()
+        public ActionResult LABEL_PRINTING()
         {
 
             /*Generate QRCOde*/
+            /*
             bool export_pdf = data.pdf != null ? (data.pdf.ToLower().Equals("1") ? true : false) : false;
             string strText = data.copnoa != null ? data.copnoa : "no parameter";
             string fileName = Guid.NewGuid().ToString() + ".jpg";
@@ -43,8 +49,9 @@ namespace CM_APPLICATIONS.Controllers
             Response.Cache.SetNoStore();
             //Response.ContentType = "image/jpeg";
             img1.Save(pathFile, System.Drawing.Imaging.ImageFormat.Jpeg);
-
+            */
             /* Prepare Report **/
+            /*
             JsonResult jsonData = new JsonResult();
             ReportDocument RptDoc = new ReportDocument();
             string mode = data.mode != null ? data.mode : "2";
@@ -53,6 +60,8 @@ namespace CM_APPLICATIONS.Controllers
 
 
             return Json(jsonData, JsonRequestBehavior.AllowGet);
+            */
+            return View();
         }
         [HttpGet]
         public ActionResult QR_PRINTING(string parameter, string pdf)
