@@ -29,6 +29,8 @@
     width: 60mm;
     font-size: 1.8rem;
     font-weight: bold;
+    max-width:60mm !important;
+    overflow:hidden !important;
 }
 
 .cop-label-type-text {

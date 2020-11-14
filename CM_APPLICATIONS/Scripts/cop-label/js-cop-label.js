@@ -50,11 +50,13 @@ $.getScript("/Scripts/jquery.qrcode.min.js", function (data, textStatus, jqxhr) 
             this.COP_Tr6_TD2 = $('<td class="cop-label-td-pipe">|</td>');
             this.COP_Tr6_TD3 = $('<td class="cop-label-td-part-type">BKL1:</td>');
             this.COP_Tr6_TD4 = $('<td colspan="3" class="BKL1-PARTNO">' + this.settings.bkl1PartText + '</td>');
+
             this.COP_Tr7 = $('<tr class="cop-label-tr-part tr7"></tr>');
             this.COP_Tr7_TD1 = $('<td class="cop-label-td-lotno BKL2LOT" > ' + this.settings.bkl2LotText + '</td >');
             this.COP_Tr7_TD2 = $('<td class="cop-label-td-pipe">|</td>');
             this.COP_Tr7_TD3 = $('<td class="cop-label-td-part-type">BKL2:</td>');
             this.COP_Tr7_TD4 = $('<td colspan="3" class="BKL2-PARTNO">' + this.settings.bkl2PartText + '</td>');
+
             this.COP_Tr8 = $('<tr class="cop-label-tr-last tr8"></tr>');
             this.COP_Tr8_TD1 = $('<td>&nbsp;</td>');
             this.COP_Tr8_TD2 = $('<td>&nbsp;</td>');
@@ -181,7 +183,42 @@ $.getScript("/Scripts/jquery.qrcode.min.js", function (data, textStatus, jqxhr) 
             this.COP_Label.insertBefore($(element));
             //console.log(copr16.COP_Label);
             //console.log('asfas');
+        },
+        setCopno: function (textValue) {
+            this.settings.copnoText = textValue.substring(0, 13);
+            
+            this.copnoDisplay = this.settings.copnoText + this.sureFix;
+            this.COP_Tr2_TD2_Div.html("");
+            this.COP_Tr2_TD2_Div.qrcode({ width: 100, height: 100, text: this.copnoDisplay });
+            this.COP_Tr1_TD1.text(this.copnoDisplay);
+        },
+        setModelText: function (textValue) {
+            this.COP_Tr2_TD1.text(textValue.substring(0, 12));
+        },
+        setLineText: function (textValue) {
+            this.COP_Tr3_TD1.text(textValue.substring(0, 12));
+        },
+        setPosttion: function (symbo, text) {
+            //this.COP_Tr3_TD1.text(textValue.substring(0, 12));
+            this.COP_Tr4_TD1_Label.text(symbo.substring(0, 2));
+            this.COP_Tr4_TD2.text(text.substring(0, 10));
+        },
+        setSB: function (lotText,PartNo) {
+            //this.COP_Tr3_TD1.text(textValue.substring(0, 12));
+            this.COP_Tr5_TD1.text(lotText.substring(0, 4));
+            this.COP_Tr5_TD4.text(PartNo.substring(0, 9));
+        },
+        setBKL1: function (lotText, PartNo) {
+            //this.COP_Tr3_TD1.text(textValue.substring(0, 12));
+            this.COP_Tr6_TD1.text(lotText.substring(0, 4));
+            this.COP_Tr6_TD4.text(PartNo.substring(0, 9));
+        },
+        setBKL2: function (lotText, PartNo) {
+            //this.COP_Tr3_TD1.text(textValue.substring(0, 12));
+            this.COP_Tr7_TD1.text(lotText.substring(0, 4));
+            this.COP_Tr7_TD4.text(PartNo.substring(0, 9));
         }
+
     };
 
     $.copR16_Label = {
