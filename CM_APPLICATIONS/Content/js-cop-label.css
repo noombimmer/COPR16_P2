@@ -3,9 +3,9 @@
     margin: 2px;
     padding-left: 2px;
     max-width: 81mm;
-    max-height: 61mm;
+    max-height: 60.3mm;
     overflow: hidden;
-    border: 1px red solid;
+    /*border: 1px red solid;*/
     font-size: 6px !important;
 }
 
@@ -60,6 +60,7 @@
     vertical-align: middle;
     text-align: center;
     margin-top: 3px;
+   /* border: 1px black solid;*/
 }
 
 .cop-label-position-symbo {
@@ -94,4 +95,17 @@
 }
 .cop-label-td-part-type {
     font-weight: bold;
+    max-width: 50px;
+    width: 50px;
+    /*border: 1px green solid;*/
+}
+.BKL2-PARTNO{
+    /*border:1px blue solid;*/
+}
+.cop-label-pos-td {
+   /* border: 1px blue solid;*/
+}
+.cop-label-tr-last {
+    max-height:1px !important;
+    height:1px !important;
 }

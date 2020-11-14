@@ -174,10 +174,30 @@
             });
             return false;
         });
+        var tt1 = $('.btn-print').COPR16newLabel({
+            nameObjectLabel: "SB",
+            copnoText: "2001579-02-00",
+            modelText: "2GM",
+            lineText: "R200RRS",
+            posSymbo: "S4"
+        });
+        var tt2 = $('.btn-print-bkl').COPR16newLabel({ nameObjectLabel: "BKL", copnoText: "2001579-02-00"  });
+        $('.btn-print-bkl').click(function () {
+            tt2.createLabel(this);
+            console.log(tt2.settings);
+        });
         $('.btn-print').click(function () {
-            alert('ok');
+            //alert('ok');
+            /*
             var objectLabel = genLabel('SB01');
             objectLabel.insertBefore(this);
             setLabel();
+            */
+            tt1.createLabel(this);
+
+            console.log(tt1.settings);
+
+
+
         });
     </script>

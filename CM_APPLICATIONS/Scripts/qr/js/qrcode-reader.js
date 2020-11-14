@@ -81,7 +81,7 @@
     },
 
     // build the HTML interface of the widget
-      buildHTML: function () {
+    buildHTML: function () {
 
       qrr.bgOverlay = $('<div id="qrr-overlay"></div>');
       qrr.container = $('<div id="qrr-container"></div>');
@@ -224,7 +224,7 @@
     },
 
     // get the camera, show video, start searching qrcode in the stream
-      start: function () {
+    start: function () {
 
       // Use {facingMode: environment} to attempt to get the front camera on phones
       navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function(stream) {
