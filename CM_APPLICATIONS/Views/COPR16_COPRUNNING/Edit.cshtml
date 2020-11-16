@@ -6,7 +6,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
-
+<link href="~/Content/js-cop-label.css" rel="stylesheet" />
+<script src="~/Scripts/cop-label/js-cop-label.js"></script>
+<script src="~/Scripts/html2canvas.js"></script>
 <h2>COP R16 RUNNING</h2>
 <style>
     .PN-TEXT {
@@ -102,7 +104,7 @@
                             @Html.Hidden("hPROC_ID", Model.cOPR16_COPRUNNING.PROC_ID);
                             @*@Html.EditorFor(model => model.cOPR16_COPRUNNING.PROC_ID, new { @class = "form-control PROC_ID", @rows = "6" })*@
                             @*@Html.EditorFor(model => model.cOPR16_COPRUNNING.PROC_ID, new { htmlAttributes = new { @class = "form-control PROC_ID", @readonly = "true" } })*@
-                            @Html.DropDownListFor(model => model.cOPR16_COPRUNNING.PROC_ID, Model.PROC_LIST, null, new { @class = "form-control PROC_ID", @readonly = "true", @disabled = "disabled" })
+                            @Html.DropDownListFor(model => model.cOPR16_COPRUNNING.PROC_ID, Model.PROC_LIST, null, new { @class = "form-control PROC_ID_VALUE", @readonly = "true", @disabled = "disabled" })
                             @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.PROC_ID, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -117,6 +119,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.cOPR16_COPRUNNING.LINE_ID, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-8">
+                            @Html.Hidden("hLINE_ID", Model.cOPR16_COPRUNNING.LINE_ID)
                             @*@Html.EditorFor(model => model.cOPR16_COPRUNNING.MODEL_ID, new { htmlAttributes = new { @class = "form-control" } })*@
                             @Html.DropDownListFor(model => model.cOPR16_COPRUNNING.LINE_ID, Model.LINE_LIST, null, new { @class = "form-control list_LINE_ID" })
                             @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.LINE_ID, "", new { @class = "text-danger" })
@@ -213,7 +216,7 @@
                             <th class="PN-TEXT">Lot.: <lable class="COPSBLOTA" /></th>
                         </tr>
                         <tr>
-                            <th class="PN-TEXT">BKL: <lable class="COPBKLPNOA" style="max-width: 80px; word-wrap: break-word"/></th>
+                            <th class="PN-TEXT">BKL: <lable class="COPBKLPNOA" style="max-width: 80px; word-wrap: break-word" /></th>
                             <th>&nbsp;</th>
                             <th class="PN-TEXT" style="vertical-align: top;">Lot.: <lable class="COPBKLLOTA" /></th>
                         </tr>
@@ -822,7 +825,9 @@
 </script><!-- /Script For First Display -->
 
 <script>
-     $('.search-sb-btn').click(function () {
+    var COPRUNING_NO = "";
+
+    $('.search-sb-btn').click(function () {
         var fg_no = $('.FG_NO').val();
         var line_no = $('.list_LINE_ID').val();
         var model_no = $('.MODEL_NO').val();
@@ -875,7 +880,7 @@
         return false;
     });
 
-    $('.PROC_ID').change(function () {
+    $('.PROC_ID_VALUE').change(function () {
         updateProc();
     });
     $('#cOPR16_COPRUNNING_MODEL_ID').change(function () {
@@ -884,7 +889,7 @@
     $('#cOPR16_COPRUNNING_POSITION_ID').change(function () {
         updatePosition();
     });
-    var COPRUNING_NO = "";
+    
     function updateInfo(rst) {
         $('.qr-code-dsp-a').html("");
         $('.qr-code-dsp-b').html("");
@@ -911,15 +916,22 @@
         $('.qr-code-dsp-b').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_B });
         $('.COPNOA').html(COP_FULL_DIGIT + "<u>A</u>");
         $('.COPNOB').html(COP_FULL_DIGIT + "<u>B</u>");
+        sbLabel.createLabel('.machine-sticker-a');
+        $('.machine-sticker-a').attr('style', 'display:none;');
+        bklLabel.createLabel('.machine-sticker-b');
+        $('.machine-sticker-b').attr('style', 'display:none;');
+
         updateProc();
     }
-
     function updatePosition() {
         //var varText = $('#cOPR16_COPRUNNING_POSITION_ID').val();
         var selObj = document.getElementById("cOPR16_COPRUNNING_POSITION_ID");
         var varCaption = selObj.options[selObj.selectedIndex].text;
         $('.COPPOSB').html(varCaption);
         $('.COPPOSA').html(varCaption);
+        sbLabel.setPosttion(varCaption.substring(0, 2), varCaption.substring(2, varCaption.length - 1).replace("(", "").replace(")", ""));
+        bklLabel.setPosttion(varCaption.substring(0, 2), varCaption.substring(2, varCaption.length - 1).replace("(", "").replace(")", ""));
+
     }
     /*
     function updateModel() {
@@ -928,6 +940,10 @@
         $('.COPMODELB').html(varText);
     }
     */
+    $('.list_LINE_ID').change(function () {
+        sbLabel.setLineText($('.list_LINE_ID').val());
+        bklLabel.setLineText($('.list_LINE_ID').val());
+    });
     function updateModel() {
         var varText = $('#cOPR16_COPRUNNING_MODEL_ID').val();
         var urlText = "@Url.Action("getModelName","COPR16_COPRUNNING")";
@@ -947,6 +963,9 @@
                 $('.COPMODELB').html(modelString);
                 updateLineList(varText);
                 updatePosList(varText);
+                sbLabel.setModelText(modelString);
+                bklLabel.setModelText(modelString);
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert("error:" + errorThrown);
@@ -980,6 +999,9 @@
                     var item = this;
                     $('.list_LINE_ID').append($('<option>').val(item.LINE_ID).text(item.LINE_DESC));
                 });
+                setFirstDisplay();
+                sbLabel.setLineText($('.list_LINE_ID').val());
+                bklLabel.setLineText($('.list_LINE_ID').val());
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert("error:" + errorThrown);
@@ -1008,20 +1030,27 @@
                 $('.list_POSITION_ID').empty();
                 var listData = result.Data;
                 console.log(listData);
+
                 $.each(listData, function () {
                     var item = this;
                     $('.list_POSITION_ID').append($('<option>').val(item.POS_ID).text(item.POS_DESC));
                 });
+                positionString = $('.list_POSITION_ID option:selected').text();
+                sbLabel.setPosttion(positionString.substring(0, 2), positionString.substring(2, positionString.length - 1).replace("(", "").replace(")", ""));
+                bklLabel.setPosttion(positionString.substring(0, 2), positionString.substring(2, positionString.length - 1).replace("(", "").replace(")", ""));
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert("error:" + errorThrown);
             }
         });
     }
+
     function updateProc() {
         $('.qr-code-dsp-a').html("");
         $('.qr-code-dsp-b').html("");
         var varText = $('.hPROC_ID').val();
+        
         var COP_FULL_DIGIT = COPRUNING_NO;
         var COP_FULL_DIGIT_A = COP_FULL_DIGIT + "A";
         var COP_FULL_DIGIT_B = COP_FULL_DIGIT + "B";
@@ -1030,6 +1059,9 @@
         $('.qr-code-dsp-b').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_B });
         $('.COPNOA').html(COP_FULL_DIGIT + "<u>A</u>");
         $('.COPNOB').html(COP_FULL_DIGIT + "<u>B</u>");
+        
+        sbLabel.setCopno(COP_FULL_DIGIT);
+        bklLabel.setCopno(COP_FULL_DIGIT);
     }
     function getCopRunning() {
         var urlText = "@Url.Action("GetCOPID","COPR16_COPRUNNING")";
@@ -1056,9 +1088,7 @@
 
     }
     //getCopRunning();
-    updateEditInfo($('#cOPR16_COPRUNNING_COPR_ID').val(),$('.hPROC_ID').val());
-    updatePosition();
-    updateModel();
+
 
 </script>
 <script>
@@ -1101,13 +1131,14 @@
     var getCanvas;
     $(".sb-print-Btn").on('click', function () {
         //$(".machine-sticker-a").css("padding-left", "20px");
+        var elementA = sbLabel.getLabel();//$(".machine-sticker-a");
         html2canvas(elementA, {
             onrendered: function (canvas) {
                 $("#previewImage").html("");
                 getCanvas = canvas;
                 console.log(getCanvas);
                 var strUrl = canvas.toDataURL("image/png");
-                var img = "<img id='img01' class='img01' src='" + strUrl + "' style='width:31.5mm !important;height:16.5mm !important' />";
+                var img = "<img id='img01' class='img01' src='" + strUrl + "'  />";
                 $("#previewImage").append(img);
 
                 PrintDiv("previewImage");
@@ -1118,12 +1149,13 @@
     });
     $(".bkl-print-Btn").on('click', function () {
         //$(".machine-sticker-b").css("padding-left", "20px");
+        var elementB = bklLabel.getLabel();//$(".machine-sticker-a");
         html2canvas(elementB, {
             onrendered: function (canvas) {
                 $("#previewImage").html("");
                 getCanvas = canvas;
                 var strUrl = canvas.toDataURL("image/png");
-                var img = "<img id='img01' class='img01' src='" + strUrl + "' style='width:31.5mm !important;height:16.5mm !important' />";
+                var img = "<img id='img01' class='img01' src='" + strUrl + "' />";
                 $("#previewImage").append(img);
 
                 PrintDiv("previewImage");
@@ -1134,7 +1166,7 @@
     });
 </script><!-- /Script For Select Seat Belt -->
 <script>
-
+    var options = { "backdrop": "static", keyboard: true };
     $("body").on("click", '.close-select-Btn', function (env) {
         $('#SELECT-SB-DLG').modal('hide');
          $('#SELECT-BKL-DLG').modal('hide');
@@ -1151,6 +1183,7 @@
     $("body").on("click", "a.bkl_select_btn", function (ev) {
         var p = $(this).parent();
         var fg_id = $(p).find(".hBKL-PNO").val();
+        bklNo = 1;
         $('#SELECT-BKL-DLG').modal('show');
         $('#BKL_DLG').modal('hide');
         $('.CONFIRM-BKL-PNO').val(fg_id);
@@ -1160,6 +1193,7 @@
         var p = $(this).parent();
         var fg_id = $(p).find(".hBKL-PNO").val();
         var value1 = $('.CONFIRM-BKL-PNO').val();
+        bklNo = 2;
         $('#SELECT-BKL-DLG').modal('show');
         $('#BKL_DLG').modal('hide');
         $('.CONFIRM-BKL-PNO').val(value1 + ", " + fg_id);
@@ -1168,6 +1202,8 @@
     $('.confirm-select-Btn').click(function () {
         var SBPNO = $('.SB-PNO').val();
         var SBLOTNO = $('.SB-LOTNO').val();
+        sbLabel.setSB(SBLOTNO, SBPNO);
+        bklLabel.setSB(SBLOTNO, SBPNO);
         $('#SELECT-SB-DLG').modal('hide');
         $('.COPSBPNOA').html(SBPNO);
         $('.COPSBLOTA').html(SBLOTNO);
@@ -1176,37 +1212,97 @@
         $('#text-hSB-PNO').val(SBPNO);
         $('#text-hSB-LOTNO').val(SBLOTNO);
     });
-
     $('.bkl-confirm-select-Btn').click(function () {
 
         var PNO = $('.CONFIRM-BKL-PNO').val();
         var LOTNO = $('.CONFIRM-BKL-LOTNO').val();
+        var res = PNO.split(",", 2);
+        if (bklNo == 1 && (sbLabel.getbkl1(LOTNO, PNO) || sbLabel.getbkl1(LOTNO, (res.length > 1 ? res[0] : PNO))) && sbLabel.getBklLot1 == LOTNO) {
+            
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('#lModalLabelError').html("Select Buckle ");
+            $('#lModalBodyError').html("Cannot duplicate buckle partno  : " + PNO);
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            $('#SAVEALL_DLG').modal('hide');
+        } else if (bklNo == 2 && (sbLabel.getbkl2(LOTNO, PNO) || sbLabel.getbkl2(LOTNO, (res.length > 1 ? res[1] : PNO))) &&  sbLabel.getBklLot2 == LOTNO) {
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('#lModalLabelError').html("Select Buckle ");
+            $('#lModalBodyError').html("Cannot duplicate buckle partno  : " + PNO);
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            $('#SAVEALL_DLG').modal('hide');
+        } else {
+            if (bklNo == 1) {
+                sbLabel.setBKL1(LOTNO, (res.length > 1 ? res[0] : PNO));
+                bklLabel.setBKL1(LOTNO, (res.length > 1 ? res[0] : PNO));
+            }
+            if (bklNo == 2) {
+                sbLabel.setBKL2(LOTNO, (res.length > 1 ? res[1] : PNO));
+                bklLabel.setBKL2(LOTNO, (res.length > 1 ? res[1] : PNO));
+            }
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('.COPBKLPNOA').html(PNO);
+            $('.COPBKLLOTA').html(LOTNO);
+            $('.COPBKLPNOB').html(PNO);
+            $('.COPBKLLOTB').html(LOTNO);
+            $('#text-hBKL-PNO').val(PNO);
+            //$('#text-hBKL-LOTNO').val(LOTNO);
+            $('#text-hBKL-LOTNO').val(sbLabel.getBklLots());
+        }
 
-        $('#SELECT-BKL-DLG').modal('hide');
-        $('.COPBKLPNOA').html(PNO);
-        $('.COPBKLLOTA').html(LOTNO);
-        $('.COPBKLPNOB').html(PNO);
-        $('.COPBKLLOTB').html(LOTNO);
-        $('#text-hBKL-PNO').val(PNO);
-        $('#text-hBKL-LOTNO').val(LOTNO);
     });
-
     function UpdateBkl() {
         var PNO = $('#text-hBKL-PNO').val();
         var LOTNO = $('#text-hBKL-LOTNO').val();
+        var res = PNO.split(",", 2);
+        var resLot = LOTNO.split(",", 2);
 
-        $('#SELECT-BKL-DLG').modal('hide');
-        $('.COPBKLPNOA').html(PNO);
-        $('.COPBKLLOTA').html(LOTNO);
-        $('.COPBKLPNOB').html(PNO);
-        $('.COPBKLLOTB').html(LOTNO);
-        $('#text-hBKL-PNO').val(PNO);
-        $('#text-hBKL-LOTNO').val(LOTNO);
+        if (bklNo == 1 && (sbLabel.getbkl1(LOTNO, PNO) || sbLabel.getbkl1(LOTNO, (res.length > 1 ? res[0] : PNO)))) {
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('#lModalLabelError').html("Select Buckle ");
+            $('#lModalBodyError').html("Cannot duplicate buckle partno  : " + PNO);
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            $('#SAVEALL_DLG').modal('hide');
+        } else if (bklNo == 2 && (sbLabel.getbkl2(LOTNO, PNO) || sbLabel.getbkl2(LOTNO, (res.length > 1 ? res[1] : PNO)))) {
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('#lModalLabelError').html("Select Buckle ");
+            $('#lModalBodyError').html("Cannot duplicate buckle partno  : " + PNO);
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            $('#SAVEALL_DLG').modal('hide');
+        } else {
+            if (bklNo == 1) {
+                sbLabel.setBKL1(LOTNO, (res.length > 1 ? res[0] : PNO));
+                bklLabel.setBKL1(LOTNO, (res.length > 1 ? res[0] : PNO));
+            }
+            if (bklNo == 2) {
+                sbLabel.setBKL2(LOTNO, (res.length > 1 ? res[1] : PNO));
+                bklLabel.setBKL2(LOTNO, (res.length > 1 ? res[1] : PNO));
+            } else {
+                sbLabel.setBKL1((resLot.length > 1 ? resLot[0] : LOTNO), (res.length > 1 ? res[0] : PNO));
+                bklLabel.setBKL1((resLot.length > 1 ? resLot[0] : LOTNO), (res.length > 1 ? res[0] : PNO));
+                if (res.length > 1) {
+                    sbLabel.setBKL2((resLot.length > 1 ? resLot[1] : LOTNO), (res.length > 1 ? res[1] : PNO));
+                    bklLabel.setBKL2((resLot.length > 1 ? resLot[1] : LOTNO), (res.length > 1 ? res[1] : PNO));
+                }
+            }
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('.COPBKLPNOA').html(PNO);
+            $('.COPBKLLOTA').html(LOTNO);
+            $('.COPBKLPNOB').html(PNO);
+            $('.COPBKLLOTB').html(LOTNO);
+            $('#text-hBKL-PNO').val(PNO);
+            //$('#text-hBKL-LOTNO').val(LOTNO);
+            $('#text-hBKL-LOTNO').val(sbLabel.getBklLots());
+        }
     }
     function UpdateSb() {
         var SBPNO = $('#text-hSB-PNO').val();
         var SBLOTNO = $('#text-hSB-LOTNO').val();
-
+        sbLabel.setSB(SBLOTNO, SBPNO);
+        bklLabel.setSB(SBLOTNO, SBPNO);
         $('#SELECT-SB-DLG').modal('hide');
         $('.COPSBPNOA').html(SBPNO);
         $('.COPSBLOTA').html(SBLOTNO);
@@ -1244,7 +1340,7 @@
                 console.log(result);
                 //alert(result);
                 //updateInfo(result);
-                
+
                 tbVarBKL.clear().draw();
 
                 $.each(result.Data, function (i, item) {
@@ -1281,7 +1377,7 @@
                             $.each(blkArr, function (index, keyString) {
                                 console.log("index: ",index);
                                 console.log("keyString: ",keyString);
-                                
+
                                 var row = tbVarBKL.row.add([
                                     keyString,
                                     result.Data[i].MODLE_ID,
@@ -1298,13 +1394,13 @@
                                     $(row).find('td').eq(4).attr("style", "text-align:left  !important;");
                                 }
                                 $(row).find('td').eq(4).append(hPNO);
-                                
+
                             });
                         }
-                   
+
                     } else {
                         var selectBtn = "<a class='btn btn-primary button bkl_select_btn'>SELECT BLK </a>";
-                        
+
                         var row = tbVarBKL.row.add([
                             (varMultipleBLK == false) ? result.Data[i].ITEM_ID : result.Data[i].ITEM_ID + ', ' + result.Data[i].fgtype_id,
                             result.Data[i].MODLE_ID,
@@ -1319,12 +1415,12 @@
                         $(row).find('td').eq(4).append(hPNO);
 
                     }
-                    
-			        
+
+
                 });
 
 
-                
+
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 alert("error:" + errorThrown);
@@ -1333,8 +1429,7 @@
         return false;
     });
 
-    UpdateBkl();
-    UpdateSb();
+
 </script><!-- /Script For Select Bunkle -->
 <script>
     $('.createBtn').click(function () {
@@ -1346,11 +1441,13 @@
     $('.YesSavedAllBtn').click(function () {
         var COPR_ID = $('#cOPR16_COPRUNNING_COPR_ID').val();
         var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
-        var PROC_ID = $('.hPROC_ID').val();
+        var PROC_ID = $('.hPROC_ID_VALUE').val();
+        var PROC_ID2 = $('.PROC_ID_VALUE').val();
         var MODEL_ID = $('#cOPR16_COPRUNNING_MODEL_ID').val();
         var POSITION_ID = $('#cOPR16_COPRUNNING_POSITION_ID').val();
         var DESC = $('#cOPR16_COPRUNNING_DESC').val();
         var COP_STATUS = $('#cOPR16_COPRUNNING_COP_STATUS').val();
+        var LINE_ID = $('#cOPR16_COPRUNNING_LINE_ID').val();
 
         //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
         //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
@@ -1363,42 +1460,44 @@
         //console.log("BF OK in function");
 
         //console.log("AF OK in function");
-//        console.log(dtdt);
+        //        console.log(dtdt);
         var jdata = {
-            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "__RequestVerificationToken": $('input[name="__RequestVerificationToken"').val(),
             "COPR_ID": COPR_ID,
             "WRK_ID": WRK_ID,
-            "PROC_ID": PROC_ID,
+            "PROC_ID": PROC_ID2,
             "MODEL_ID": MODEL_ID,
             "POSITION_ID": POSITION_ID,
             "DESC": DESC,
             "COP_STATUS": COP_STATUS,
+            "LINE_ID": LINE_ID,
             "username": $("#UID").val(),
             //"jsonString": $('form').serialize()
             "jsonString": [{}]
         };
 
         opdt = {
-                "COPR_ID": COPR_ID,
-                "FGTYPE_ID": "SEATBELT",
-                "PNO": $('#text-hSB-PNO').val(),
-                "LOTNO": $('#text-hSB-LOTNO').val(),
-                "DESC": ""
+            "COPR_ID": COPR_ID,
+            "FGTYPE_ID": "SEATBELT",
+            "PNO": $('#text-hSB-PNO').val(),
+            "LOTNO": $('#text-hSB-LOTNO').val(),
+            "DESC": ""
         };
         jdata["jsonString"][0] = opdt;
         opdt = {
-                "COPR_ID": COPR_ID,
-                "FGTYPE_ID": "BUNKLE",
-                "PNO": $('#text-hBKL-PNO').val(),
-                "LOTNO": $('#text-hBKL-LOTNO').val(),
-                "DESC": ""
+            "COPR_ID": COPR_ID,
+            "FGTYPE_ID": "BUNKLE",
+            "PNO": $('#text-hBKL-PNO').val(),
+            "LOTNO": $('#text-hBKL-LOTNO').val(),
+            "DESC": ""
         };
         jdata["jsonString"][1] = opdt;
 
         console.log(jdata);
         var urlText = "@Url.Action("SaveJson","COPR16_COPRUNNING")";
         var options = { "backdrop": "static", keyboard: true };
-        console.log();
+        console.log(jdata);
+        
         $.ajax({
             type: "POST",
             url: urlText,     //your action
@@ -1410,17 +1509,18 @@
                 $('#lModalBodySuccess').html("Edit COP Running Number Successed");
                 $('#lModalSuccess').modal(options);
                 $('#lModalSuccess').modal('show');
-                //window.location.href = "@Url.Action("Index","COPR16_OPTIONVAL_MSTR")";;
+                
                 $('#SAVEALL_DLG').modal('hide');
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#lModalLabelError').html("Edit COP Running Number");
-                $('#lModalBodyError').html("Cannot save data : " + errorThrown );
+                $('#lModalBodyError').html("Cannot save data : " + errorThrown);
                 $('#lModalError').modal(options);
                 $('#lModalError').modal('show');
                 $('#SAVEALL_DLG').modal('hide');
-            }
-        })
+        }
+        });
+        
         return false;
 
     });
@@ -1543,6 +1643,7 @@
         $('form').attr('action', '@Url.Action("FilterIndex","COPR16_COPRUNNING")');
         $('form').submit();
     });
+    var fiestTime = true;
     function updateProcSELECTED() {
         $('.qr-code-dsp-a').html("");
         $('.qr-code-dsp-b').html("");
@@ -1557,6 +1658,55 @@
         });
         //alert(varText);
     }
+    function setFirstDisplay() {
+        if (fiestTime) {
+            var lineText = $('#hLINE_ID').val();
+            console.log("DDD: " + lineText);
+            $('.list_LINE_ID option[value="' + lineText + '"]').attr('selected', 'selected');
+            console.log('.list_LINE_ID option[value=' + lineText + ']');
+            console.log($('.list_LINE_ID option[value="' + lineText + '"]'));
+        }
+
+    }
+
+    var bklNo = 0;
+    var sbLabel = $('.machine-sticker-a').COPR16newLabel({
+        nameObjectLabel: "SB",
+        copnoText: "11111111-11-00",
+        modelText: "",
+        lineText: "",
+        posSymbo: "",
+        posText: "",
+        sbLotText: "",
+        sbPartText: "",
+        bkl1LotText: "",
+        bkl2LotText: "",
+        bkl1PartText: "",
+        bkl2PartText: "",
+
+    });
+    var bklLabel = $('.machine-sticker-a').COPR16newLabel({
+        nameObjectLabel: "BKL",
+        copnoText: "11111111-11-00",
+        modelText: "",
+        lineText: "",
+        posSymbo: "",
+        posText: "",
+        sbLotText: "",
+        sbPartText: "",
+        bkl1LotText: "",
+        bkl2LotText: "",
+        bkl1PartText: "",
+        bkl2PartText: "",
+
+    });
+    updateEditInfo($('#cOPR16_COPRUNNING_COPR_ID').val(), $('.hPROC_ID').val());
+    updatePosition();
+    updateModel();
+    UpdateBkl();
+    UpdateSb();
     updateProcSELECTED();
     updateProc();
+    setFirstDisplay();
+    
 </script><!-- /Script For Save to database visa json -->

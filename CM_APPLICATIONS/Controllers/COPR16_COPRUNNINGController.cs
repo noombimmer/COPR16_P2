@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.Data.Entity.Infrastructure;
 using System.Data.Common;
 using System.Data.Entity.Core.Objects;
+using FastMember;
 
 namespace CM_APPLICATIONS.Controllers
 {
@@ -818,6 +819,68 @@ namespace CM_APPLICATIONS.Controllers
 
             return RedirectToAction("Index");
         }
+        public async Task<ActionResult> checkCOPNO(string SELECTED_COPNO)
+        {
+            /*
+            string SQLCMD = "SELECT * FROM COPR16_COPRUNNING WHERE COP_STATUS IN ('READY','TESTING') ORDER BY COPR_ID DESC";
+            //model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.Where(l => l.COP_STATUS.Equals("READY") || l.COP_STATUS.Equals("TESTING")).ToListAsync();
+            model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.SqlQuery(SQLCMD).ToListAsync();
+            foreach (var rows in model.cOPR16_COPRUNNING_List)
+            {
+                COPR16_POSITION_MSTR posName = await db.COPR16_POSITION_MSTR.Where(l => l.POS_ID == rows.POSITION_ID).FirstAsync();
+                COPR16_MODEL_MSTR modelName = await db.COPR16_MODEL_MSTR.Where(l => l.MODEL_ID == rows.MODEL_ID).FirstAsync();
+
+                rows.POSITION_ID = posName.POS_DESC;
+                rows.MODEL_ID = modelName.MODEL_DESC;
+
+            }
+            //model.cOPR16_COPRUNNING_List = model.cOPR16_COPRUNNING_List.OrderByDescending(l => l.COPR_ID).ToList();
+            model.statusCode = "";
+             */
+            if (db.Database.Connection.State != ConnectionState.Open)
+            {
+                await db.Database.Connection.OpenAsync();
+            }
+
+            JsonResult rowData = new JsonResult();
+
+            COPR16_COPRUNNING cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                cmd.CommandText = "SELECT * FROM COPR16_COPRUNNING WHERE COP_STATUS IN ('READY','TESTING') AND COPR_ID = @COPR_ID";
+                cmd.Parameters.Add(new SqlParameter("@COPR_ID", SELECTED_COPNO == null ? "" : SELECTED_COPNO));
+                DbDataReader readerEx = await cmd.ExecuteReaderAsync();
+                if (readerEx.HasRows)
+                {
+                    Type type = typeof(COPR16_COPRUNNING);
+                    var accessor = TypeAccessor.Create(type);
+                    while (readerEx.Read())
+                    {
+                        for (int i = 0; i < readerEx.FieldCount; i++)
+                        {
+                            object value = readerEx[readerEx.GetName(i)];
+                            Type valueType = readerEx[readerEx.GetName(i)].GetType();
+                            if (value != DBNull.Value)
+                            {
+                                if (!Utils.IsNullableType(valueType))
+                                {
+                                    accessor[cOPR16_COPRUNNING, readerEx.GetName(i)] = readerEx[readerEx.GetName(i)];
+                                }
+                            }
+
+
+                        }
+
+                    }
+                }
+                readerEx.Close();
+
+            }
+
+            rowData.Data = cOPR16_COPRUNNING;
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         // GET: COPR16_COPRUNNING/Edit/5
@@ -827,8 +890,47 @@ namespace CM_APPLICATIONS.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            COPR16_COPRUNNING cOPR16_COPRUNNING = await db.COPR16_COPRUNNING.FindAsync(SELECTED_COPNO);
+            COPR16_COPRUNNING cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            
+
             CopRunningModel model = new CopRunningModel(db);
+
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+                
+                cmd.CommandText = "SELECT * FROM COPR16_COPRUNNING WHERE COPR_ID = @COPR_ID";
+                cmd.Parameters.Add(new SqlParameter("@COPR_ID", SELECTED_COPNO == null ? "" : SELECTED_COPNO));
+                DbDataReader readerEx = await cmd.ExecuteReaderAsync();
+                if (readerEx.HasRows)
+                {
+                    Type type = typeof(COPR16_COPRUNNING);
+                    var accessor = TypeAccessor.Create(type);
+                    while (readerEx.Read())
+                    {
+                        for (int i = 0; i < readerEx.FieldCount; i++)
+                        {
+                            object value = readerEx[readerEx.GetName(i)];
+                            Type valueType = readerEx[readerEx.GetName(i)].GetType();
+                            if (value != DBNull.Value)
+                            {
+                                if (!Utils.IsNullableType(valueType))
+                                {
+                                    accessor[cOPR16_COPRUNNING, readerEx.GetName(i)] = readerEx[readerEx.GetName(i)];
+                                }
+                            }
+
+
+                        }
+
+                    }
+                }
+                readerEx.Close();
+                
+            }
 
             model.stDate = FROM_DATE;
             model.enDate = TO_DATE;
@@ -865,7 +967,10 @@ namespace CM_APPLICATIONS.Controllers
 
             using (var cmd = db.Database.Connection.CreateCommand())
             {
-                await db.Database.Connection.OpenAsync();
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
                 cmd.CommandText = SQLCMD2;
                 cmd.Parameters.Add(new SqlParameter("@COPR_ID", SELECTED_COPNO == null ? "" : SELECTED_COPNO));
                 DbDataReader reader = await cmd.ExecuteReaderAsync();
@@ -878,10 +983,11 @@ namespace CM_APPLICATIONS.Controllers
                     }
                     
                 }
+                reader.Close();
             }
             return View(model);
         }
-        T GetObject<T>(Dictionary<string, object> dict)
+        public T GetObject<T>(Dictionary<string, object> dict)
         {
             Type type = typeof(T);
             var obj = Activator.CreateInstance(type);
@@ -914,6 +1020,7 @@ namespace CM_APPLICATIONS.Controllers
             string POSITION_ID,
             string DESC,
             string COP_STATUS,
+            string LINE_ID,
             string username,
             List<ITEMSROW> jsonString
         )
@@ -922,9 +1029,10 @@ namespace CM_APPLICATIONS.Controllers
             COPR16_COPRUNNING cOPR16_COPRUNNING = await db.COPR16_COPRUNNING.FindAsync(COPR_ID);
             //cOPR16_COPRUNNING.COPR_ID = COPR_ID;
             cOPR16_COPRUNNING.WRK_ID = WRK_ID;
-            cOPR16_COPRUNNING.PROC_ID = PROC_ID;
+            //cOPR16_COPRUNNING.PROC_ID = PROC_ID;
             cOPR16_COPRUNNING.MODEL_ID = MODEL_ID;
             cOPR16_COPRUNNING.POSITION_ID = POSITION_ID;
+            //cOPR16_COPRUNNING.LINEL_ID = LINEL_ID;
             cOPR16_COPRUNNING.DESC = DESC;
             cOPR16_COPRUNNING.COP_STATUS = COP_STATUS;
             cOPR16_COPRUNNING.CRE_BY = username;
@@ -933,6 +1041,7 @@ namespace CM_APPLICATIONS.Controllers
             //db.COPR16_COPRUNNING.Add(cOPR16_COPRUNNING);
             db.Entry(cOPR16_COPRUNNING).State = EntityState.Modified;
             await db.SaveChangesAsync();
+
             foreach (ITEMSROW item in jsonString)
             {
                 //COPR16_COPRUNNING_DT dtdt = new COPR16_COPRUNNING_DT();
@@ -947,6 +1056,7 @@ namespace CM_APPLICATIONS.Controllers
                 //db.COPR16_COPRUNNING_DT.Add(dtdt);
                 await db.SaveChangesAsync();
             }
+            SaveLineID(COPR_ID, LINE_ID);
             return RedirectToAction("Index");
 
             //if (ModelState.IsValid)
@@ -973,6 +1083,22 @@ namespace CM_APPLICATIONS.Controllers
         //    return View(cOPR16_COPRUNNING);
         //}
         // GET: COPR16_COPRUNNING/Dispatch/5
+        public void SaveLineID(string COPNO, string LINE_ID)
+        {
+            if (db.Database.Connection.State != ConnectionState.Open)
+            {
+                db.Database.Connection.Open();
+            }
+            string SQLCMD2 = "exec dbo.sp_SaveLineToCOPNO @COPR_ID,@LINE_ID";
+
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                cmd.CommandText = SQLCMD2;
+                cmd.Parameters.Add(new SqlParameter("@COPR_ID", COPNO == null ? "" : COPNO));
+                cmd.Parameters.Add(new SqlParameter("@LINE_ID", LINE_ID == null ? "" : LINE_ID));
+                cmd.ExecuteNonQuery();
+            }
+        }
         public async Task<ActionResult> Dispatch(string id)
         {
             if (id == null)

@@ -7,8 +7,9 @@
 }
 
 
-
+<script src="~/Scripts/BMSQR/bms_qr.js"></script>
 <style>
+
     .PN-TEXT {
         /*font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;*/
         font-family: Calibri;
@@ -50,8 +51,9 @@
         width: 20mm;
         height: 30mm
     }
-    .rightText{
-        text-align:right !important;
+
+    .rightText {
+        text-align: right !important;
     }
     /* change height as you like */
     @@media print {
@@ -104,9 +106,9 @@
     <h2>
         RESULT :
         @{
-                if (Model.cOPR16_COPRUNNING_RT.MACHINETYPE_ID.Contains("MT001"))
-                {
-                    glocked = true;
+            if (Model.cOPR16_COPRUNNING_RT.MACHINETYPE_ID.Contains("MT001"))
+            {
+                glocked = true;
                 <a class="btn btn-primary button uploadBtn uploadClass">UPLOAD FILE</a>
             }
         }
@@ -175,6 +177,9 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @{
+
+                        }
                         @foreach (var item in Model.cOPR16_COPRUNNING_RT_List)
                         {
 
@@ -184,6 +189,7 @@
                                     @{
                                         if (glocked == true)
                                         {
+
                                             @Html.EditorFor(modelItem => item.VALUE, new { htmlAttributes = new { @class = "form-control " + item.RTDT_ID, @disabled = "disabled", @style = "padding-left:1px;width:80px !important;" } })
                                         }
                                         else
@@ -195,19 +201,34 @@
                                             if (mstype.OPTION_UNIT == true)
                                             {
                                                 var optList = Model.cOPR16_OPTDTVALUE_MSTR_List.Where(l => l.OPTION_ID.Equals(mstype.OPT_ID)).ToList();
-                                                <select class="form-control text-box single-line" id="item_VALUE" name="item.VALUE" style="padding-left:1px;width:80px !important;" >
-                                                @foreach (var opts in optList)
-                                                {
-                                                    <option value="@opts.OPTDT_ID"> @opts.DESC</option>
-                                                }
+                                                <select class="form-control text-box single-line" id="item_VALUE" name="item.VALUE" style="padding-left:1px;width:80px !important;">
+                                                    @foreach (var opts in optList)
+                                                    {
+                                                        <option value="@opts.OPTDT_ID"> @opts.DESC</option>
+                                                    }
                                                 </select>
                                             }
                                             else
                                             {
-                                                @Html.EditorFor(modelItem => item.VALUE, new { htmlAttributes = new { @class = "form-control " + item.RTDT_ID, @style = "padding-left:1px;width:80px !important;" } })
+                                                var text_edit_class = "line_input_" + indexNo;
+                                    <div>
+                                    @Html.EditorFor(modelItem => item.VALUE, new { htmlAttributes = new { @class = "form-control " + text_edit_class + " " + item.RTDT_ID, @style = "padding-left:1px;width:80px !important;" } })
+                                    <text>
+                                        <input name="btnCOPNO" id="btnCOPNO" class="btnCOPNO" type="button"
+                                               style="        width: 40px;
+        position: relative;
+        top: 0px;
+        background-image: url(/Content/images/138360-200.png);
+        background-position: 0px 0px;
+        background-repeat: no-repeat;
+        background-size: 35px 30px;border:unset;" onclick="getQr('@text_edit_class')" />
+                                    </text>
+                                        </div>
+                                
                                             }
 
                                         }
+
                                     }
 
                                 </td>
@@ -217,6 +238,7 @@
                                 <td style="white-space:nowrap">
                                     &nbsp;
                                     @Html.DisplayFor(modelItem => item.RTDT_REF_ID)
+
                                     @Html.Hidden("hRTDT_ID", item.RTDT_ID)
                                 </td>
                             </tr>
@@ -350,6 +372,31 @@
         </div>
     </div>
 </div><!-- / Modal Confirm Remove -->
+
+<div class="modal fade" id="QRSCANNER" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelScanner">QR-CODE SCANNER</h4>
+            </div>
+            <div class="modal-body">
+
+                @Html.Editor("QR-SCANNER-TEXT", new { @class = "control-label col-md-1 QR-SCANNER-TEXT" })
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <button type="button" class="w3-button w3-indigo pull-right ScannerBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
 
 <script>
     var fileBody = "";
@@ -535,7 +582,7 @@
         var urlText = "@Url.Action("SaveResult","COPR16_COPRUNNING_RT")";
         var options = { "backdrop": "static", keyboard: true };
         console.log();
-        
+
         $.ajax({
             type: "POST",
             url: urlText,     //your action
@@ -560,8 +607,8 @@
                 //$('#SAVEALL_DLG').modal('hide');
             }
         });
-        
-        
+
+
         return false;
     });
     $('.display-result-save').click(function () {
@@ -717,7 +764,7 @@
                             }
                             if (parseInt(singleRow[strText[3]]) == 2) {
                                 var tempValue = singleRow[strText[11]];
-                                
+
                                 if (tempValue > strWSI2) {
                                     strWSI2 = tempValue;
                                 }
@@ -952,5 +999,34 @@
         arrayResult.push(tempValue);
 
     }
+    var textInput = null;
+    function getQr(objectClass) {
+        var parentObject = $(this).parent();
+        var textObject = $('.' + objectClass);
+        console.log("Begin");
+        console.log(objectClass);
+        console.log(this);
+        console.log($(parentObject));
+        textObject.val('');
+        console.log("End");
+        textInput = textObject;
+        //enableQr('.COPNO');
+        $('#QR-SCANNER-TEXT').val('');
+        $('#QR-SCANNER-TEXT').val('');
+        enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
+        $('#QRSCANNER').modal('show');
+    }
+     $('#QR-SCANNER-TEXT').change(function () {
+         var COPNO = $('#QR-SCANNER-TEXT').val();
+         $(textInput).val(COPNO);
+         console.log("COPNO: " + COPNO);
+         console.log("Object: " + textInput);
+         enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
+            
+         $('#QRSCANNER').modal('hide');
 
+    });
+    $('.ScannerBtn').click(function () {
+        enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
+    });
 </script>

@@ -598,7 +598,7 @@
     @Scripts.Render("~/bundles/jquery-ui")
     @*@Scripts.Render("~/bundles/FileSaver")*@
     <script src="~/Scripts/datatables.min.js"></script>
-    <script src="~/Scripts/html2canvas.js"></script>
+
     <script src="~/Scripts/moment.min.js"></script>
     <script src="~/Scripts/sheetjs/xlsx.core.min.js"></script>
                                                 
@@ -815,6 +815,7 @@
             var frameDoc = frame1.contentWindow ? frame1.contentWindow : frame1.contentDocument.document ? frame1.contentDocument.document : frame1.contentDocument;
             frameDoc.document.open();
             frameDoc.document.write('<html><head><title>DIV Contents</title>');
+            frameDoc.document.write('<style>body{margin:0px;padding:0px;}</style>');
             frameDoc.document.write('</head><body>');
             frameDoc.document.write(contents);
             frameDoc.document.write('</body></html>');

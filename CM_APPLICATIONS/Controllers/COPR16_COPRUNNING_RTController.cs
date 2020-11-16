@@ -11,6 +11,7 @@ using CM_APPLICATIONS;
 using System.Data.SqlClient;
 using CM_APPLICATIONS.Models;
 using System.Data.Common;
+using FastMember;
 
 namespace CM_APPLICATIONS.Controllers
 {
@@ -231,7 +232,45 @@ namespace CM_APPLICATIONS.Controllers
         {
             HandheldModel model = new HandheldModel(db);
             //model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.Where(l => l.COP_STATUS.Equals("RDY")).ToListAsync();
-            model.cOPR16_COPRUNNING = await db.COPR16_COPRUNNING.FindAsync(id);// Header
+            //model.cOPR16_COPRUNNING = await db.COPR16_COPRUNNING.FindAsync(id);// Header
+            model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+
+                cmd.CommandText = "SELECT * FROM COPR16_COPRUNNING WHERE COPR_ID = @COPR_ID";
+                cmd.Parameters.Add(new SqlParameter("@COPR_ID", id == null ? "" : id));
+                DbDataReader readerEx = await cmd.ExecuteReaderAsync();
+                if (readerEx.HasRows)
+                {
+                    Type type = typeof(COPR16_COPRUNNING);
+                    var accessor = TypeAccessor.Create(type);
+                    while (readerEx.Read())
+                    {
+                        for (int i = 0; i < readerEx.FieldCount; i++)
+                        {
+                            object value = readerEx[readerEx.GetName(i)];
+                            Type valueType = readerEx[readerEx.GetName(i)].GetType();
+                            if (value != DBNull.Value)
+                            {
+                                if (!Utils.IsNullableType(valueType))
+                                {
+                                    accessor[model.cOPR16_COPRUNNING, readerEx.GetName(i)] = readerEx[readerEx.GetName(i)];
+                                }
+                            }
+
+
+                        }
+
+                    }
+                }
+                readerEx.Close();
+
+            }
+
             model.cOPR16_COPRUNNING_DT_List = await db.COPR16_COPRUNNING_DT.Where(l => l.COPR_ID.Equals(id)).ToListAsync();// QR-CODE
             model.cOPR16_COPRUNNING_DT_BKL = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("BUNKLE"));// QR-CODE
             model.cOPR16_COPRUNNING_DT_SB = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("SEATBELT"));// QR-CODE
@@ -260,6 +299,11 @@ namespace CM_APPLICATIONS.Controllers
             model.WorkProcess_List = await db.Database.SqlQuery<WorkProcess>(SQLCMD).ToListAsync();
             //return View(await db.COPR16_COPRUNNING_RT.ToListAsync());
             model.workProcess = new WorkProcess();
+            COPR16_POSITION_MSTR posName = await db.COPR16_POSITION_MSTR.Where(l => l.POS_ID == model.cOPR16_COPRUNNING.POSITION_ID).FirstAsync();
+            COPR16_MODEL_MSTR modelName = await db.COPR16_MODEL_MSTR.Where(l => l.MODEL_ID == model.cOPR16_COPRUNNING.MODEL_ID).FirstAsync();
+
+            model.cOPR16_COPRUNNING.POSITION_ID = posName.POS_DESC;
+            model.cOPR16_COPRUNNING.MODEL_ID = modelName.MODEL_DESC;
             return View(model);
         }
 
@@ -269,7 +313,45 @@ namespace CM_APPLICATIONS.Controllers
         {
             HandheldModel model = new HandheldModel(db);
             //model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.Where(l => l.COP_STATUS.Equals("RDY")).ToListAsync();
-            model.cOPR16_COPRUNNING = await db.COPR16_COPRUNNING.FindAsync(hCOPR_ID);// Header
+            //model.cOPR16_COPRUNNING = await db.COPR16_COPRUNNING.FindAsync(hCOPR_ID);// Header
+            model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+
+                cmd.CommandText = "SELECT * FROM COPR16_COPRUNNING WHERE COPR_ID = @COPR_ID";
+                cmd.Parameters.Add(new SqlParameter("@COPR_ID", hCOPR_ID == null ? "" : hCOPR_ID));
+                DbDataReader readerEx = await cmd.ExecuteReaderAsync();
+                if (readerEx.HasRows)
+                {
+                    Type type = typeof(COPR16_COPRUNNING);
+                    var accessor = TypeAccessor.Create(type);
+                    while (readerEx.Read())
+                    {
+                        for (int i = 0; i < readerEx.FieldCount; i++)
+                        {
+                            object value = readerEx[readerEx.GetName(i)];
+                            Type valueType = readerEx[readerEx.GetName(i)].GetType();
+                            if (value != DBNull.Value)
+                            {
+                                if (!Utils.IsNullableType(valueType))
+                                {
+                                    accessor[model.cOPR16_COPRUNNING, readerEx.GetName(i)] = readerEx[readerEx.GetName(i)];
+                                }
+                            }
+
+
+                        }
+
+                    }
+                }
+                readerEx.Close();
+
+            }
+
             model.cOPR16_COPRUNNING_DT_List = await db.COPR16_COPRUNNING_DT.Where(l => l.COPR_ID.Equals(hCOPR_ID)).ToListAsync();// QR-CODE
             model.cOPR16_COPRUNNING_DT_BKL = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("BUNKLE"));// QR-CODE
             model.cOPR16_COPRUNNING_DT_SB = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("SEATBELT"));// QR-CODE
@@ -298,6 +380,11 @@ namespace CM_APPLICATIONS.Controllers
             model.WorkProcess_List = await db.Database.SqlQuery<WorkProcess>(SQLCMD).ToListAsync();
             //return View(await db.COPR16_COPRUNNING_RT.ToListAsync());
             model.workProcess = new WorkProcess();
+            COPR16_POSITION_MSTR posName = await db.COPR16_POSITION_MSTR.Where(l => l.POS_ID == model.cOPR16_COPRUNNING.POSITION_ID).FirstAsync();
+            COPR16_MODEL_MSTR modelName = await db.COPR16_MODEL_MSTR.Where(l => l.MODEL_ID == model.cOPR16_COPRUNNING.MODEL_ID).FirstAsync();
+
+            model.cOPR16_COPRUNNING.POSITION_ID = posName.POS_DESC;
+            model.cOPR16_COPRUNNING.MODEL_ID = modelName.MODEL_DESC;
             return View(model);
         }
 
@@ -479,7 +566,45 @@ namespace CM_APPLICATIONS.Controllers
         {
             HandheldModel model = new HandheldModel(db);
             //model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.Where(l => l.COP_STATUS.Equals("RDY")).ToListAsync();
-            model.cOPR16_COPRUNNING = await db.COPR16_COPRUNNING.FindAsync(id);// Header
+            //model.cOPR16_COPRUNNING = await db.COPR16_COPRUNNING.FindAsync(id);// Header
+            model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+
+                cmd.CommandText = "SELECT * FROM COPR16_COPRUNNING WHERE COPR_ID = @COPR_ID";
+                cmd.Parameters.Add(new SqlParameter("@COPR_ID", id == null ? "" : id));
+                DbDataReader readerEx = await cmd.ExecuteReaderAsync();
+                if (readerEx.HasRows)
+                {
+                    Type type = typeof(COPR16_COPRUNNING);
+                    var accessor = TypeAccessor.Create(type);
+                    while (readerEx.Read())
+                    {
+                        for (int i = 0; i < readerEx.FieldCount; i++)
+                        {
+                            object value = readerEx[readerEx.GetName(i)];
+                            Type valueType = readerEx[readerEx.GetName(i)].GetType();
+                            if (value != DBNull.Value)
+                            {
+                                if (!Utils.IsNullableType(valueType))
+                                {
+                                    accessor[model.cOPR16_COPRUNNING, readerEx.GetName(i)] = readerEx[readerEx.GetName(i)];
+                                }
+                            }
+
+
+                        }
+
+                    }
+                }
+                readerEx.Close();
+
+            }
+
             model.cOPR16_COPRUNNING_DT_List = await db.COPR16_COPRUNNING_DT.Where(l => l.COPR_ID.Equals(id)).ToListAsync();// QR-CODE
             model.cOPR16_COPRUNNING_DT_BKL = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("BUNKLE"));// QR-CODE
             model.cOPR16_COPRUNNING_DT_SB = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("SEATBELT"));// QR-CODE

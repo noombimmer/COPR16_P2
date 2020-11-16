@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var row = 0;
 }
-
+<script src="~/Scripts/BMSQR/bms_qr.js"></script>
 <h2>COP RUNNING</h2>
 
 <p>
@@ -55,8 +55,9 @@
         <div class="form-group">
             @Html.Label("COP NO : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
             <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
-                @Html.Editor("COPNO", new { htmlAttributes = new { @class = "form-control model-id", @name = "FITEMS" } })
+                @Html.Editor("COPNO", new { htmlAttributes = new { @class = "form-control model-id COPNO", @name = "FITEMS" } })
                 @Html.Hidden("hidden_COPNO", "")
+                @*<input name="btnCOPNO" id="btnCOPNO" class="btnCOPNO" type="button" value="QR Read" />*@
             </div>
 
         </div>
@@ -247,4 +248,7 @@
         $('form').attr('action','@Url.Action("Edit","COPR16_COPRUNNING")');
         $('form').submit();
     });
+    //$('.btnCOPNO').click(function () {
+    //    enableQr('.COPNO');
+    //});
 </script>

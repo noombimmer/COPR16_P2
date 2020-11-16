@@ -5,6 +5,7 @@
     ViewBag.Title = "MACHINE LIST";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script src="~/Scripts/BMSQR/bms_qr.js"></script>
 <style>
     .PN-TEXT {
         /*font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;*/
@@ -183,17 +184,17 @@
                 <div class="machine-sticker">
                     <table width="100%" border="0" height="100%">
                         <tr style="height:1%">
-                            <th class="COP-TITLE"><b><lable class="MACHINE-ID" /></b></th>
+                            <th class="COP-TITLE"><b><lable class="MACHINE-ID" style="display:none !important;"/></b></th>
                         </tr>
                         <tr style="height:1%">
-                            <th class="PN-TEXT" style="vertical-align:text-bottom"><lable class="MACHINE-TYPE" /></th>
+                            <th class="PN-TEXT COP-TITLE" style="vertical-align:text-bottom"><lable class="MACHINE-TYPE" /></th>
                         </tr>
                         <tr>
-                            <th class="PN-TEXT-2" style="vertical-align:top;"><lable class="MACHINE-DESC" /></th>
+                            <th class="PN-TEXT-2" style="vertical-align:top;"><lable class="MACHINE-DESC" />@Html.DisplayFor(model => model.cOPR16_MANCTYPE_MSTR.DESC)</th>
                         </tr>
                         <tr>
                             <th class="QR-CODE" style="text-align:center;">
-                                <div class="qr-code-dsp" style="text-align:center;"></div>
+                                <div class="qr-code-dsp" style="text-align:left;"></div>
                             </th>
                         </tr>
 
@@ -284,9 +285,6 @@
                 <h4 class="header modal-title" id="lModalLabelScanner">QR-CODE SCANNER</h4>
             </div>
             <div class="modal-body">
-                <canvas></canvas>
-                <h4 id="lModalBodyScanner"></h4>
-
                 @Html.Editor("QR-SCANNER-TEXT", new { @class = "control-label col-md-1 QR-SCANNER-TEXT" })
                 <br />
                 <div class="row">
@@ -308,7 +306,7 @@
         }
     };
     //var decoder = $("canvas").WebCodeCamJQuery(arg).data().plugin_WebCodeCamJQuery;
-    $("canvas").WebCodeCamJQuery(arg).data().plugin_WebCodeCamJQuery.play();
+    //$("canvas").WebCodeCamJQuery(arg).data().plugin_WebCodeCamJQuery.play();
 
 </script>
 <script>
@@ -317,7 +315,7 @@
         $('.qr-code-dsp').qrcode({ width: 272, height: 272, text: $("#cOPR16_MACHINE_MSTR_MANC_ID").val() });
         $('.MACHINE-ID').html($("#cOPR16_MACHINE_MSTR_MANC_ID").val() );
         $('.MACHINE-TYPE').html($("#cOPR16_MACHINE_MSTR_MTYPE_ID").val() );
-        $('.MACHINE-DESC').html($("#cOPR16_MACHINE_MSTR_MTYPE_ID option:selected").text());
+        //$('.MACHINE-DESC').html($("#cOPR16_MACHINE_MSTR_MTYPE_ID option:selected").text());
     }
     $("#cOPR16_MACHINE_MSTR_MTYPE_ID").change(function () {
         updateQR();
@@ -436,7 +434,9 @@
     });
     $('.scanBtn').click(function () {
         $('#QR-SCANNER-TEXT').val('');
+        enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
         $('#QRSCANNER').modal('show');
+
     });
 
     function check_machine_lock(machine_id,scanText) {
@@ -512,6 +512,13 @@
         var COPR_RUNNUNG = $('#cOPR16_MACHINE_MSTR_MANC_ID').val();
         var scantext = $(this).val();
         var rtn = check_machine_lock(COPR_RUNNUNG,scantext);
+        console.log("rtn: " + rtn);
+        if (!rtn) {
+            enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
+        }
+    });
+    $('.ScannerBtn').click(function () {
 
+        enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
     });
 </script>

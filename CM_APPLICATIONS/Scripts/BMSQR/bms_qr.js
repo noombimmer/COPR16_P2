@@ -42,8 +42,10 @@ var tergetTextBox;
 var isEnable = false;
 var wrap_qrcode_scanner = null;
 var localStream = null;
-
-
+var spaceView = null;
+var parent_Height = null;
+var parentObj = null;
+var _parentObject = null;
 function drawLine(begin, end, color) {
     canvas.beginPath();
     canvas.moveTo(begin.x, begin.y);
@@ -58,7 +60,9 @@ function enableQr(targetName) {
         var qrCamera = document.getElementById('wrap-qrcode-scanner');
         //qrCamera.hidden = true;
         $('.wrap-qrcode-scanner').remove();
-
+        $(spaceView).html("");
+        $(spaceView).remove();
+        parentObj.css("height", parent_Height);
         video.pause();
         video.src = "";
         isEnable = false;
@@ -72,6 +76,7 @@ function enableQr(targetName) {
 
         navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function (stream) {
             localStream = stream;
+            video.muted = true;
             video.srcObject = stream;
             video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
             video.play();
@@ -80,12 +85,54 @@ function enableQr(targetName) {
         isEnable = true;
     }
 }
-function createElement(targetName) {
-    var target = $(targetName);
-    wrap_qrcode_scanner = '<div class="wrap-qrcode-scanner" id="wrap-qrcode-scanner"></div>';
+function enableQrFix(targetName, parentObjectID) {
+    _parentObject = parentObjectID;
+    if (isEnable) {
+        var qrCamera = document.getElementById('wrap-qrcode-scanner');
+        //qrCamera.hidden = true;
+        $('.wrap-qrcode-scanner').remove();
+        $(spaceView).html("");
+        $(spaceView).remove();
+        //parentObj.css("height", parent_Height);
+        video.pause();
+        video.src = "";
+        isEnable = false;
+        console.log(localStream);
+        localStream.getTracks()[0].stop();
+        return;
 
-    $(wrap_qrcode_scanner).insertBefore(targetName);
-    
+    } else {
+        createElementPos(targetName);
+        // Use facingMode: environment to attemt to get the front camera on phones
+
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } }).then(function (stream) {
+            localStream = stream;
+            video.muted = true;
+            video.srcObject = stream;
+            video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
+            video.play();
+            requestAnimationFrame(tick);
+        });
+        isEnable = true;
+    }
+}
+function createElementPos(targetName) {
+    var target = $(targetName);
+    var parentID = $(_parentObject);
+    var pos = target.offset();
+
+    var parent = target.parent();
+    parent_Height = parent.height();
+    console.log("parent_Height: " + parent_Height);
+    parentObj = parent;
+    //parent_Height
+    wrap_qrcode_scanner = '<div class="wrap-qrcode-scanner" id="wrap-qrcode-scanner"></div>';
+    //spaceView = '<div id="spaceDiv" name="spaceDiv"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>';
+    //$(wrap_qrcode_scanner).insertBefore('body');
+    $(wrap_qrcode_scanner).insertBefore(parentID);
+    //parent.css("height", "300px");
+    //$(spaceView).insertBefore(targetName);
+
     canvasElement = '<canvas id="canvas" hidden></canvas>';
     $(canvasElement).appendTo('.wrap-qrcode-scanner');
     canvasElement = document.getElementById("canvas");
@@ -93,7 +140,7 @@ function createElement(targetName) {
     canvas = canvasElement.getContext("2d");
     console.log(canvas);
 
-    loadingMessage = '<div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>';
+    loadingMessage = '<div id="loadingMessage"></div>';
     $(loadingMessage).appendTo('.wrap-qrcode-scanner');
 
     outputContainer = '<div id="output" hidden></div>';
@@ -141,16 +188,92 @@ function createElement(targetName) {
     tergetTextBox = target;
     */
 }
+function createElement(targetName) {
+    var target = $(targetName);
+    var pos = target.position();
+    var top = parseInt(pos.top) + 45;
+    var parent = target.parent();
+    parent_Height = parent.height();
+    console.log("parent_Height: " + parent_Height);
+    parentObj = parent;
+    //parent_Height
+    wrap_qrcode_scanner = '<div class="wrap-qrcode-scanner" id="wrap-qrcode-scanner" style="display: block;position: absolute;top:' + top + 'px;"></div>';
+    spaceView = '<div id="spaceDiv" name="spaceDiv"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>';
+    //$(wrap_qrcode_scanner).insertBefore('body');
+    $(wrap_qrcode_scanner).insertBefore(targetName);
+    parent.css("height","300px");
+    //$(spaceView).insertBefore(targetName);
+
+    canvasElement = '<canvas id="canvas" hidden></canvas>';
+    $(canvasElement).appendTo('.wrap-qrcode-scanner');
+    canvasElement = document.getElementById("canvas");
+    console.log(canvasElement);
+    canvas = canvasElement.getContext("2d");
+    console.log(canvas);
+
+    loadingMessage = '<div id="loadingMessage"></div>';
+    $(loadingMessage).appendTo('.wrap-qrcode-scanner');
+
+    outputContainer = '<div id="output" hidden></div>';
+    $(outputContainer).appendTo('.wrap-qrcode-scanner');
+
+    outputMessage = '<div id="outputMessage">No QR code detected.</div>';
+    $(outputMessage).appendTo('#output');
+
+    outputData = '<span id="outputData"></span>';
+    $(outputData).appendTo('#output');
+    outputData = document.getElementById("outputData");
+
+    beepsound = '<audio id="beepsound" controls style="display:none;"><source src="/Scripts/qr/audio/beep.mp3" type="audio/mpeg"></audio>';
+    $(beepsound).appendTo('.wrap-qrcode-scanner');
+    beepsound = document.getElementById("beepsound");
+
+    outputQrcode = '<img id="outputqrcode">';
+    $(outputQrcode).appendTo('.wrap-qrcode-scanner');
+
+    
+
+    tergetTextBox = target;
+    /*
+    canvasElement = document.getElementById("canvas");
+
+    canvas = canvasElement.getContext("2d");
+
+    loadingMessage = '<div id="loadingMessage">🎥 Unable to access video stream (please make sure you have a webcam enabled)</div>';
+    loadingMessage.appendTo('.wrap-qrcode-scanner');
+
+    outputContainer = '<div id="output" hidden></div>';
+    outputContainer.appendTo('.wrap-qrcode-scanner');
+
+    outputMessage = '<div id="outputMessage">No QR code detected.</div>';
+    outputMessage.appendTo('#output');
+
+    outputData = '<span id="outputData"></span>';
+    outputData.appendTo('#output');
+
+    beepsound = '<audio id="beepsound" controls><source src="/Scripts/qr/audio/beep.mp3" type="audio/mpeg"></audio>';
+    beepsound.appendTo('.wrap-qrcode-scanner');
+
+    outputQrcode = '<img id="outputqrcode">';
+    outputQrcode.appendTo('.wrap-qrcode-scanner');
+    tergetTextBox = target;
+    */
+}
 
 function tick() {
-    loadingMessage.innerText = "⏳ Loading video..."
+    loadingMessage.innerText = "⏳ Loading video...";
+
     if (video.readyState === video.HAVE_ENOUGH_DATA) {
         loadingMessage.hidden = true;
         canvasElement.hidden = false;
         outputContainer.hidden = false;
 
-        canvasElement.height = video.videoHeight;
-        canvasElement.width = video.videoWidth;
+        //canvasElement.height = video.videoHeight;
+        //canvasElement.width = video.videoWidth;
+
+        canvasElement.height = 240;
+        canvasElement.width = 320;
+        $(loadingMessage).attr("style", "display:none");
         canvas.drawImage(video, 0, 0, canvasElement.width, canvasElement.height);
         if (!video.paused) {
             var imageData = canvas.getImageData(0, 0, canvasElement.width, canvasElement.height);
@@ -167,9 +290,10 @@ function tick() {
             outputData.parentElement.hidden = false;
             outputData.innerText = code.data;
             if (code.data != "" && !waiting && TLR == true && TRR == true && BRL == true && BLL == true) {
-                console.log(code.data);
-                console.log(tergetTextBox);
+                //console.log(code.data);
+                //console.log(tergetTextBox);
                 tergetTextBox.val(code.data);
+                tergetTextBox.trigger("change");
                 // สามารถส่งค่า code.data ไปทำงานอย่างอื่นๆ ผ่าน ajax ได้
                 video.pause();
                 beepsound.play();
@@ -179,7 +303,8 @@ function tick() {
                 // ให้เริ่มเล่นวิดีโอก่อนล็กน้อย เพื่อล้างค่ารูป qrcod ล่าสุด เป็นการใช้รูปจากกล้องแทน
                 setTimeout(function () {
                     video.play();
-                }, 4500);
+                    tergetTextBox.val('');
+                }, 1000);
                 // ให้รอ 5 วินาทีสำหรับการ สแกนในครั้งจ่อไป
                 waiting = setTimeout(function () {
                     TLR, TRR, BRL, BLL = null;
@@ -188,7 +313,7 @@ function tick() {
                         clearTimeout(waiting);
                         waiting = null;
                     }
-                }, 5000);
+                }, 1500);
             }
         } else {
             outputMessage.hidden = false;

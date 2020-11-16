@@ -3,6 +3,7 @@ var scriptLoaded = false;
 $.getScript("/Scripts/jquery.qrcode.min.js", function (data, textStatus, jqxhr) {
     if (jqxhr.status == 200) {
         scriptLoaded = true;
+        
     } else {
         console.error("Error loading QRCode parser script");
     };
@@ -10,6 +11,18 @@ $.getScript("/Scripts/jquery.qrcode.min.js", function (data, textStatus, jqxhr) 
 });
 
 ; (function ($, window, document, undefined) {
+    function loadStyle(directory, files) {
+        var head = document.getElementsByTagName("head")[0]
+        var extension = '.css'
+        for (var file of files) {
+            var path = directory + file + extension
+            var link = document.createElement("link")
+            link.href = path
+            link.type = "text/css"
+            link.rel = "stylesheet"
+            head.appendChild(link)
+        }
+    }
 
     COPR16Label = {
         //constructor: COPR16Label,
@@ -120,7 +133,7 @@ $.getScript("/Scripts/jquery.qrcode.min.js", function (data, textStatus, jqxhr) 
 
             this.COP_Tr2_TD2_Div.appendTo(this.COP_Tr2_TD2);
             this.COP_Tr4_TD1_Label.appendTo(this.COP_Tr4_TD1);
-            this.COP_Tr2_TD2_Div.qrcode({ width: 100, height: 100, text: this.copnoDisplay});
+            this.COP_Tr2_TD2_Div.qrcode({ width: 30, height: 30, text: this.copnoDisplay});
             this.COP_Tr1_TD2.text(this.settings.nameObjectLabel);
 
             
@@ -201,7 +214,7 @@ $.getScript("/Scripts/jquery.qrcode.min.js", function (data, textStatus, jqxhr) 
         setPosttion: function (symbo, text) {
             //this.COP_Tr3_TD1.text(textValue.substring(0, 12));
             this.COP_Tr4_TD1_Label.text(symbo.substring(0, 2));
-            this.COP_Tr4_TD2.text(text.substring(0, 10));
+            this.COP_Tr4_TD2.text(text);
         },
         setSB: function (lotText,PartNo) {
             //this.COP_Tr3_TD1.text(textValue.substring(0, 12));
@@ -209,15 +222,43 @@ $.getScript("/Scripts/jquery.qrcode.min.js", function (data, textStatus, jqxhr) 
             this.COP_Tr5_TD4.text(PartNo.substring(0, 9));
         },
         setBKL1: function (lotText, PartNo) {
+            this.bkl1_partno = PartNo;
+            this.bkl1_lotno = lotText;
+            this.bklLot1 = lotText;
             //this.COP_Tr3_TD1.text(textValue.substring(0, 12));
-            this.COP_Tr6_TD1.text(lotText.substring(0, 4));
-            this.COP_Tr6_TD4.text(PartNo.substring(0, 9));
+            this.COP_Tr6_TD1.text(lotText);
+            this.COP_Tr6_TD4.text(PartNo);
         },
         setBKL2: function (lotText, PartNo) {
             //this.COP_Tr3_TD1.text(textValue.substring(0, 12));
-            this.COP_Tr7_TD1.text(lotText.substring(0, 4));
-            this.COP_Tr7_TD4.text(PartNo.substring(0, 9));
+            this.bkl2_partno = PartNo;
+            this.bkl2_lotno = lotText;
+            this.bklLot2 = lotText;
+            this.COP_Tr7_TD1.text(lotText);
+            this.COP_Tr7_TD4.text(PartNo);
+        },
+        getbkl1: function (lotText, PartNo) {
+            if (PartNo == this.bkl1_partno) return true;
+            else return false;
+        },
+        getbkl2: function (lotText, PartNo) {
+            if (PartNo == this.bkl1_partno) return true;
+            else return false;
+        },
+        getLabel: function () {
+            return this.COP_Label;
+        },
+        getBklLot1: function () {
+            return this.bklLot1;
+        },
+        getBklLot2: function () {
+            return this.bklLot2;
+        },
+        getBklLots: function () {
+            var textReturn = (this.bklLot1 != undefined ? this.bklLot1 : "") + (this.bklLot1 != undefined ? "," + this.bklLot1 : "")
+            return textReturn;
         }
+
 
     };
 

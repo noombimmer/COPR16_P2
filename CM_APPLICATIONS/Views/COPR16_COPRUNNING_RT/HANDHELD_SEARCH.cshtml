@@ -5,7 +5,7 @@
     ViewBag.Title = "COP R16 TESTING";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="~/Scripts/BMSQR/bms_qr.js"></script>
 <h2>COP R16 TESTING (HANDHELD)</h2>
 
 <style>
@@ -88,7 +88,14 @@
             <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
                 @Html.Editor("TO_DATE", new { htmlAttributes = new { @class = "form-control to-date", @readonly = "true", @name = "TO_DATE", @style = "width:120px;" } })
                 @Html.Hidden("hidden_TO_DATE", "")
-                <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-to-date-picker">
+                <input name="btnCOPNO" id="btnCOPNO" class="btnCOPNO" type="button"
+                       style="width: 40px;
+        position: relative;
+        top: 0px;
+        background-image: url(/Content/images/calendar.png);
+        background-position: 0px 0px;
+        background-repeat: no-repeat;
+        background-size: 35px 30px;" />
             </div>
 
         </div>
@@ -97,6 +104,14 @@
             <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
                 @Html.Editor("COPNO", new { htmlAttributes = new { @class = "form-control model-id", @name = "FITEMS" } })
                 @Html.Hidden("hidden_COPNO", "")
+                <input name="btnCOPNO" id="btnCOPNO" class="btnCOPNO" type="button" style="width: 40px;
+        position: relative;
+        top: 0px;
+        background-image: url(/Content/images/41C68Cd9eoL.png);
+        background-position: 0px 0px;
+        background-repeat: no-repeat;
+        background-size: 35px 30px;border:unset;" />
+
             </div>
 
         </div>
@@ -105,7 +120,7 @@
             <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
 
                 @*@Html.Editor("TESTER", new { htmlAttributes = new { @class = "form-control item-id", @name = "FITEMS" } })
-                @Html.Hidden("hidden_TESTER", "")*@
+                    @Html.Hidden("hidden_TESTER", "")*@
                 @Html.DropDownListFor(model => model.statusCode, Model.statusList, null, new { @class = "form-control" })
             </div>
 
@@ -113,7 +128,7 @@
         <div class="form-group">
             <div class="col-md-offset-1 col-md-10">
                 <input type="button" value="REFRESH" class="btn btn-primary button refreshBtn" />
-				<input type="button" value="CLEAR/RESET" class="btn btn-secondary button clrBtn" />
+                <input type="button" value="CLEAR/RESET" class="btn btn-secondary button clrBtn" />
             </div>
         </div>
     </div>
@@ -156,7 +171,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.ADATE)
                 </td>
-                <td @{ var style1 = ""; if (item.COP_STATUS != null) { var colorP = Model.localCopsModel.STATUS_LIST.Where(l => l.value.Equals(item.COP_STATUS)).FirstOrDefault(); if (colorP != null) { style1 = "style=text-align:center;background-color:" + colorP.color + ";"; if (colorP.fcolor != null) { style1 = style1 + ";color:" + colorP.fcolor + ";"; }  } } }
+                <td @{ var style1 = ""; if (item.COP_STATUS != null) { var colorP = Model.localCopsModel.STATUS_LIST.Where(l => l.value.Equals(item.COP_STATUS)).FirstOrDefault(); if (colorP != null) { style1 = "style=text-align:center;background-color:" + colorP.color + ";"; if (colorP.fcolor != null) { style1 = style1 + ";color:" + colorP.fcolor + ";"; } } } }
                     @style1>
                     @Html.DisplayFor(modelItem => item.COP_STATUS)
                 </td>
@@ -207,6 +222,52 @@
     </div>
 </div><!-- / Modal CONFIRM SELECT SEAT BELT -->
 
+<div class="modal fade" id="QRSCANNER" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelScanner">QR-CODE SCANNER</h4>
+            </div>
+            <div class="modal-body">
+
+                @Html.Editor("QR-SCANNER-TEXT", new { @class = "control-label col-md-1 QR-SCANNER-TEXT" })
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <button type="button" class="w3-button w3-indigo pull-right ScannerBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <script>
     var tbVar;
 
@@ -282,9 +343,28 @@
     $('.clrBtn').click(function () {
         //console.log($('FORM'));
         $('#COPNO').val('');
-		$('#hidden_COPNO').val('');
-		$('#COPNO').focus();
-    });	
+        $('#hidden_COPNO').val('');
+        $('#COPNO').focus();
+    });
+    $('.btnCOPNO').click(function () {
+        //enableQr('.COPNO');
+        $('#QR-SCANNER-TEXT').val('');
+        $('#QR-SCANNER-TEXT').val('');
+        enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
+        $('#QRSCANNER').modal('show');
+    });
+    $('#QR-SCANNER-TEXT').change(function () {
+        var COPNO = $('#QR-SCANNER-TEXT').val();
+        if (COPNO.length > 13) {
+            COPNO = COPNO.substring(0,13);
+            enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
+            console.log("COPNO: " + COPNO);
+            $('#QRSCANNER').modal('hide');
+            console.log("@Url.Action("VIEW_DT","COPR16_COPRUNNING_RT")/" + COPNO + "");
+            checkCOPNO(COPNO);
+        }
+
+    });
     $('#COPNO').keyup(function () {
 
         var textValue = $(this).val();
@@ -298,8 +378,46 @@
                 $(this).val(copNumber);
                 $('#hidden_COPNO').val(copNumber);
             }
-			$('FORM').submit();
+            $('FORM').submit();
         }
-        
+
+    });
+    function checkCOPNO(COPNO) {
+        var varText = COPNO;
+        var urlText = "@Url.Action("checkCOPNO", "COPR16_COPRUNNING")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {
+            "SELECTED_COPNO": varText
+        }
+        console.log(jdata);
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                var listData = result.Data;
+                console.log(listData);
+
+                if (listData['COPR_ID'] != null) {
+                    window.location.href = "@Url.Action("VIEW_DT","COPR16_COPRUNNING_RT")/" + varText + "";
+                } else {
+                    $('#lModalLabelError').html("Save Error");
+                    $('#lModalBodyError').html("Cannot search data : " + COPNO);
+                    $('#lModalError').modal(options);
+                    $('#lModalError').modal('show');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalLabelError').html("Save Error");
+                $('#lModalBodyError').html("Cannot search data : " + COPNO);
+                $('#lModalError').modal(options);
+                $('#lModalError').modal('show');
+                return false;
+            }
+        });
+    }
+    $('.ScannerBtn').click(function () {
+        enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
     });
 </script>

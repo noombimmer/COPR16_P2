@@ -56,6 +56,11 @@ namespace CM_APPLICATIONS.Models
             var img = new Bitmap(result);
             return img;
         }
+        public static bool IsNullableType(Type valueType)
+        {
+            return (valueType.IsGenericType &&
+                valueType.GetGenericTypeDefinition().Equals(typeof(Nullable<>)));
+        }
         public static Image DrawText(String text, Font font, Color textColor, Color backColor)
         {
             //first, create a dummy bitmap just to get a graphics object  

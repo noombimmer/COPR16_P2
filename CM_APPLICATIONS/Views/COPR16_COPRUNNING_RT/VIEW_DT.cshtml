@@ -4,7 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var rowIndex = 0;
 }
-
+<link href="~/Content/js-cop-label.css" rel="stylesheet" />
+<script src="~/Scripts/cop-label/js-cop-label.js"></script>
 <h2>
     COP NO :  @Html.DisplayFor(m => m.FG_DETAILS)
 </h2>
@@ -41,9 +42,11 @@
     .uploadClass {
         font-size: 10px !important;
     }
-    .workflow-step td{
-        padding-left:0px !important;
+
+    .workflow-step td {
+        padding-left: 0px !important;
     }
+
     @@media only screen and (max-width: 501px) {
         #DataTables_Table_0_wrapper {
             font-size: 80% !important;
@@ -109,7 +112,7 @@
     }
 </style>
 
-@using (Html.BeginForm("TestResult","COPR16_COPRUNNING_RT",FormMethod.Post,new { @class = "_mainform" }))
+@using (Html.BeginForm("TestResult", "COPR16_COPRUNNING_RT", FormMethod.Post, new { @class = "_mainform" }))
 {
     @Html.AntiForgeryToken()
     <hr />
@@ -129,12 +132,12 @@
                     @Html.Hidden("hSEQ_NO", "1")
                     @Html.Hidden("hCOPR_ID", Model.cOPR16_COPRUNNING.COPR_ID)
                     @*<div class="form-group">
-                            @Html.LabelFor(model => model.cOPR16_COPRUNNING.COPR_ID, htmlAttributes: new { @class = "control-label col-md-3" })
-                            <div class="col-md-8">
-                                @Html.EditorFor(model => model.cOPR16_COPRUNNING.COPR_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
-                                @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.COPR_ID, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
+            @Html.LabelFor(model => model.cOPR16_COPRUNNING.COPR_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.cOPR16_COPRUNNING.COPR_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.COPR_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
                     <div class="form-group">
                         @Html.LabelFor(model => model.cOPR16_COPRUNNING.WRK_ID, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-8">
@@ -144,12 +147,12 @@
                         </div>
                     </div>
                     @*<div class="form-group">
-                            @Html.LabelFor(model => model.cOPR16_COPRUNNING.PROC_ID, htmlAttributes: new { @class = "control-label col-md-3" })
-                            <div class="col-md-8">
-                                @Html.EditorFor(model => model.cOPR16_COPRUNNING.PROC_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
-                                @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.PROC_ID, "", new { @class = "text-danger" })
-                            </div>
-                        </div>*@
+            @Html.LabelFor(model => model.cOPR16_COPRUNNING.PROC_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.cOPR16_COPRUNNING.PROC_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.PROC_ID, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
                     <div class="form-group">
                         @Html.LabelFor(model => model.cOPR16_COPRUNNING.MODEL_ID, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-8">
@@ -157,7 +160,15 @@
                             @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.MODEL_ID, "", new { @class = "text-danger" })
                         </div>
                     </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.LINE_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING.LINE_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @*@Html.DropDownListFor(model => model.cOPR16_COPRUNNING.LINE_ID, Model.LINE_LIST, null, new { @class = "form-control list_LINE_ID" })*@
 
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.LINE_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
                     <div class="form-group">
                         @Html.LabelFor(model => model.cOPR16_COPRUNNING.POSITION_ID, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-8">
@@ -190,16 +201,16 @@
                     </div>
 
                     @*<div class="form-group">
-                            <div class="col-md-offset-8 col-md-8">
-                                <input type="button" value="Save" class="btn btn-primary button createBtn" />
-                                <input type="reset" value="Clear" class="btn btn-secondary" />
-                            </div>
-                        </div>*@
+            <div class="col-md-offset-8 col-md-8">
+                <input type="button" value="Save" class="btn btn-primary button createBtn" />
+                <input type="reset" value="Clear" class="btn btn-secondary" />
+            </div>
+        </div>*@
 
                 </div>
             </th>
             <th class="col-md-4" style="vertical-align:top">
-                <div class="label-sticker machine-sticker-a menu-desktop">
+                <div class="label-sticker machine-sticker-a">
                     <table width="100%" border="0">
                         <tr>
                             <th width="100px" class="COP-TITLE"> COP No. : </th>
@@ -236,7 +247,7 @@
                         <input type="button" value="Print Seat Belt Sticker" class="btn btn-primary button sb-print-Btn" />
                     </div>*@
                 <hr>
-                <div class="label-sticker machine-sticker-b menu-desktop">
+                <div class="label-sticker machine-sticker-b">
                     <table width="100%" border="0">
                         <tr>
                             <th width="100px" class="COP-TITLE"> COP No. : </th>
@@ -580,7 +591,6 @@
             "infoFiltered": "(filtered from _MAX_ total records)"
         }
     });
-
     var tbVarBKL = $('.table-bkl').DataTable({
         "paging": true,
         "ordering": true,
@@ -642,7 +652,6 @@
         });
         return false;
     });
-
     $('#cOPR16_COPRUNNING_PROC_ID').change(function () {
         updateProc();
     });
@@ -680,17 +689,29 @@
         $('.COPNOA').html(COP_FULL_DIGIT + "<u>A</u>");
         $('.COPNOB').html(COP_FULL_DIGIT + "<u>B</u>");
         updateProc();
+        sbLabel.createLabel('.machine-sticker-a');
+        $('.machine-sticker-a').attr('style', 'display:none;');
+        bklLabel.createLabel('.machine-sticker-b');
+        $('.machine-sticker-b').attr('style', 'display:none;');
     }
-
     function updatePosition() {
         var varText = $('#cOPR16_COPRUNNING_POSITION_ID').val();
+        var varCaption = varText;
         $('.COPPOSB').html(varText);
         $('.COPPOSA').html(varText);
+
+        sbLabel.setPosttion(varCaption.substring(0, 2), varCaption.substring(2, varCaption.length - 1).replace("(", "").replace(")", ""));
+        bklLabel.setPosttion(varCaption.substring(0, 2), varCaption.substring(2, varCaption.length - 1).replace("(", "").replace(")", ""));
     }
     function updateModel() {
         var varText = $('#cOPR16_COPRUNNING_MODEL_ID').val();
         $('.COPMODELA').html(varText);
         $('.COPMODELB').html(varText);
+        sbLabel.setModelText(varText);
+        bklLabel.setModelText(varText);
+        sbLabel.setLineText($('#cOPR16_COPRUNNING_LINE_ID').val());
+        bklLabel.setLineText($('#cOPR16_COPRUNNING_LINE_ID').val());
+
     }
     function updateProc() {
         $('.qr-code-dsp-a').html("");
@@ -704,6 +725,8 @@
         $('.qr-code-dsp-b').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_B });
         $('.COPNOA').html(COP_FULL_DIGIT + "<u>A</u>");
         $('.COPNOB').html(COP_FULL_DIGIT + "<u>B</u>");
+        sbLabel.setCopno(COP_FULL_DIGIT);
+        bklLabel.setCopno(COP_FULL_DIGIT);
     }
     function getCopRunning() {
         var urlText = "@Url.Action("GetCOPID","COPR16_COPRUNNING")";
@@ -730,9 +753,7 @@
 
     }
     //getCopRunning();
-    updateEditInfo($('#cOPR16_COPRUNNING_COPR_ID').val(),$('#cOPR16_COPRUNNING_PROC_ID').val());
-    updatePosition();
-    updateModel();
+
 
 </script>
 <script>
@@ -838,14 +859,49 @@
     function UpdateBkl() {
         var PNO = $('#text-hBKL-PNO').val();
         var LOTNO = $('#text-hBKL-LOTNO').val();
+        var res = PNO.split(",", 2);
+        var resLot = LOTNO.split(",", 2);
+        if (bklNo == 1 && (sbLabel.getbkl1(LOTNO, PNO) || sbLabel.getbkl1(LOTNO, (res.length > 1 ? res[0] : PNO)))) {
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('#lModalLabelError').html("Select Buckle ");
+            $('#lModalBodyError').html("Cannot duplicate buckle partno  : " + PNO);
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            $('#SAVEALL_DLG').modal('hide');
+        } else if (bklNo == 2 && (sbLabel.getbkl2(LOTNO, PNO) || sbLabel.getbkl2(LOTNO, (res.length > 1 ? res[1] : PNO)))) {
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('#lModalLabelError').html("Select Buckle ");
+            $('#lModalBodyError').html("Cannot duplicate buckle partno  : " + PNO);
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            $('#SAVEALL_DLG').modal('hide');
+        } else {
+            if (bklNo == 1) {
+                sbLabel.setBKL1(LOTNO, (res.length > 1 ? res[0] : PNO));
+                bklLabel.setBKL1(LOTNO, (res.length > 1 ? res[0] : PNO));
+            }
+            if (bklNo == 2) {
+                sbLabel.setBKL2(LOTNO, (res.length > 1 ? res[1] : PNO));
+                bklLabel.setBKL2(LOTNO, (res.length > 1 ? res[1] : PNO));
+            } else {
+                sbLabel.setBKL1((resLot.length > 1 ? resLot[0] : LOTNO), (res.length > 1 ? res[0] : PNO));
+                bklLabel.setBKL1((resLot.length > 1 ? resLot[0] : LOTNO), (res.length > 1 ? res[0] : PNO));
+                if (res.length > 1) {
+                    sbLabel.setBKL2((resLot.length > 1 ? resLot[1] : LOTNO), (res.length > 1 ? res[1] : PNO));
+                    bklLabel.setBKL2((resLot.length > 1 ? resLot[1] : LOTNO), (res.length > 1 ? res[1] : PNO));
+                }
+            }
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('.COPBKLPNOA').html(PNO);
+            $('.COPBKLLOTA').html(LOTNO);
+            $('.COPBKLPNOB').html(PNO);
+            $('.COPBKLLOTB').html(LOTNO);
+            $('#text-hBKL-PNO').val(PNO);
+            //$('#text-hBKL-LOTNO').val(LOTNO);
+            //$('#text-hBKL-LOTNO').val(LOTNO);
+            $('#text-hBKL-LOTNO').val(sbLabel.getBklLots());
+        }
 
-        $('#SELECT-BKL-DLG').modal('hide');
-        $('.COPBKLPNOA').html(PNO);
-        $('.COPBKLLOTA').html(LOTNO);
-        $('.COPBKLPNOB').html(PNO);
-        $('.COPBKLLOTB').html(LOTNO);
-        $('#text-hBKL-PNO').val(PNO);
-        $('#text-hBKL-LOTNO').val(LOTNO);
     }
     function UpdateSb() {
         var SBPNO = $('#text-hSB-PNO').val();
@@ -858,6 +914,9 @@
         $('.COPSBLOTB').html(SBLOTNO);
         $('#text-hSB-PNO').val(SBPNO);
         $('#text-hSB-LOTNO').val(SBLOTNO);
+        sbLabel.setSB(SBLOTNO, SBPNO);
+        bklLabel.setSB(SBLOTNO, SBPNO);
+        $('.machine-sticker-a').css("display","none !important");
     }
     $('.search-bkl-btn').click(function () {
         var fg_no = $('.BKL_FG_NO').val();
@@ -904,8 +963,8 @@
         });
         return false;
     });
-    UpdateBkl();
-    UpdateSb();
+    //UpdateBkl();
+    //UpdateSb();
 </script><!-- /Script For Select Bunkle -->
 <script>
     $('.createBtn').click(function () {
@@ -1063,8 +1122,6 @@
                 console.log(result);
                 var rowResult = result.Data;
                 var resultFlag = false;
-
-
 
                 console.log(rowResult);
                 $.each(rowResult, function (i, singleRow) {
@@ -1239,7 +1296,7 @@
 
     }
 
-   function display_result() {
+    function display_result() {
         var rowIndex = 1;
         $('.display-result').modal('show');
         $('.table-result').html("");
@@ -1442,4 +1499,45 @@
         return false;
 
     }
+    var bklNo = 0;
+    var sbLabel = $('.machine-sticker-a').COPR16newLabel({
+        nameObjectLabel: "SB",
+        copnoText: "11111111-11-00",
+        modelText: "",
+        lineText: "",
+        posSymbo: "",
+        posText: "",
+        sbLotText: "",
+        sbPartText: "",
+        bkl1LotText: "",
+        bkl2LotText: "",
+        bkl1PartText: "",
+        bkl2PartText: "",
+
+    });
+    var bklLabel = $('.machine-sticker-a').COPR16newLabel({
+        nameObjectLabel: "BKL",
+        copnoText: "11111111-11-00",
+        modelText: "",
+        lineText: "",
+        posSymbo: "",
+        posText: "",
+        sbLotText: "",
+        sbPartText: "",
+        bkl1LotText: "",
+        bkl2LotText: "",
+        bkl1PartText: "",
+        bkl2PartText: "",
+
+    });
+    function updateLine() {
+        var LINE_ID = $('#cOPR16_COPRUNNING_LINE_ID').val();
+    }
+
+    updateEditInfo($('#cOPR16_COPRUNNING_COPR_ID').val(), $('#cOPR16_COPRUNNING_PROC_ID').val());
+    updatePosition();
+    updateModel();
+    UpdateBkl();
+    UpdateSb();
+
 </script><!-- /Script For Save to database visa json -->
