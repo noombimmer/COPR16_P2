@@ -868,9 +868,15 @@
         var txtBox=document.getElementById("QR-SCANNER-TEXT" );
         txtBox.focus();
         $('#QR-SCANNER-TEXT').val("");
-        enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
+		$('#QRSCANNER').modal('show');
+		try{
+			enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
+		}catch(err){
+			console.log(err);
+		}
+        
         //enableQrFix('#QR-SCANNER-TEXT');
-        $('#QRSCANNER').modal('show');
+        
     });
     $('#QR-SCANNER-TEXT').change(function () {
         

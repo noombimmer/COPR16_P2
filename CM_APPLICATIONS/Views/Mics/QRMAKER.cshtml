@@ -1,6 +1,7 @@
 ﻿@{
     String username = CM_APPLICATIONS.Models.AppPropModel.username;
 }
+<script src="~/Scripts/html2canvas.js"></script>
 <p>&nbsp; </p>
 <P>Hello @username</P>
 @Html.Label("QR-CODE MAKER", htmlAttributes: new { @class = "control-label" })
@@ -30,7 +31,7 @@
             @Html.Label("QR-CODE: ", htmlAttributes: new { @class = "control-label col-sm-3" })
             <div class="col-sm-offset-3 col-sm-12">
 
-                <div class="qr-code-dsp" id="qr-code-dsp" name="qr-code-dsp" style="max-height:201px;max-width:201px;height:200px;width:200px">
+                <div class="qr-code-dsp" id="qr-code-dsp" name="qr-code-dsp" style="max-height:300px;max-width:300px;height:300px;width:300px;display:inline-table;">
 
                 </div>
             </div>
@@ -46,7 +47,8 @@
     </div>
 }
 
-<script>
+
+    <script>
     $('.btn-clear').click(function () {
         $('form').trigger('reset');
         $('.qr-code-dsp').html("");
@@ -55,75 +57,96 @@
     $('.btn-preview').click(function () {
         var TEXT = $('#TEXT-ARAR1').val();
         $('.qr-code-dsp').html("");
-        $('.qr-code-dsp').qrcode({ width: 50, height: 50, text: TEXT });
+        $('.qr-code-dsp').qrcode2({ width: 200, height: 200, text: TEXT, canvasID: "qr001", withText: true });
     });
     //$("body").on("click", "a.sb_select_btn", function (ev) {});
     $('body').on("keyup", "#TEXT-ARAR1", function () {
         var TEXT = $(this).val();
         $('.qr-code-dsp').html("");
-        $('.qr-code-dsp').qrcode({ width: 100, height: 100, text: TEXT });
+        $('.qr-code-dsp').qrcode2({ width: 200, height: 200, text: TEXT, canvasID: "qr001", withText: true  });
     });
     $('.btn-export-png').click(function () {
         //var TEXT = $('#TEXT-ARAR1').val();
-        var canvas = $('.qr-code-dsp').find('canvas')[0];
-        console.log(canvas);
-        //var strUrl = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");;
-
-        //saveAs(strUrl, TEXT + ".png");
-
-        canvas.toBlob(function (blob) {
-            var TEXT = $('#TEXT-ARAR1').val();
-            saveAs(blob, TEXT + ".png");
+        var TEXT = $('#TEXT-ARAR1').val();
+        //var canvas2 = document.getElementById("qr001");
+        //var old_color = $("#qr-code-dsp").css("background-color");
+        //$("#qr-code-dsp").css("background-color", "white");
+        html2canvas(document.getElementById("qr-code-dsp"), {
+            onrendered: function (canvas2) {
+                console.log(canvas2);
+                canvas2.toBlob(function (blob) {
+                    var TEXT = $('#TEXT-ARAR1').val();
+                    saveAs(blob, TEXT + ".png");
+                }, "image/png");
+            }
         });
+        //$("#qr-code-dsp").css("background-color", old_color);
     });
     $('.btn-export-jpg').click(function () {
         var TEXT = $('#TEXT-ARAR1').val();
-        var canvas = $('.qr-code-dsp').find('canvas')[0];
-        console.log(canvas);
-        //var strUrl = canvas.toDataURL("image/jpg").replace("image/jpg", "image/octet-stream");;
-        //saveAs(strUrl, TEXT + ".jpg");
-
-
-        canvas.toBlob(function (blob) {
+        //var canvas2 = document.getElementById("qr001");
+        var old_color = $("#qr-code-dsp").css("background-color");
+        $("#qr-code-dsp").css("background-color","white");
+        html2canvas(document.getElementById("qr-code-dsp"), {
+            onrendered: function (canvas2) {
+                console.log(canvas2);
+                canvas2.toBlob(function (blob) {
+                    var TEXT = $('#TEXT-ARAR1').val();
+                    saveAs(blob, TEXT + ".jpg");
+                }, "image/jpeg");
+            }
+        });
+        $("#qr-code-dsp").css("background-color", old_color);
+        /*
+        console.log(canvas2);
+        canvas2.toBlob(function (blob) {
             var TEXT = $('#TEXT-ARAR1').val();
             saveAs(blob, TEXT + ".jpg");
-        });
-
+        },"image/jpeg");
+        */
     });
     $('.btn-print').click(function () {
         var TEXT = $('#TEXT-ARAR1').val();
         var divPrint = $('.qr-code-dsp');
         console.log(divPrint);
-        //PrintDiv2("qr-code-dsp");
-        var urlText = "@Url.Action("QR_PRINTING", "MICS")?parameter=" + TEXT + "&pdf=0";
-        window.location.href = urlText;
+        PrintDiv2("qr-code-dsp");
+        //var urlText = "@Url.Action("QR_PRINTING", "MICS")?parameter=" + TEXT + "&pdf=0";
+        //window.location.href = urlText;
 
     });
     function PrintDiv2(divid) {
-        var contents = document.getElementById(divid).innerHTML;
+
+        //var contents = document.getElementById(divid).innerHTML;
+        html2canvas(document.getElementById(divid), {
+            onrendered: function (canvas) {
+                var data = canvas.toDataURL();
+                var contents = "<img src=\"" + data + "\" />";
+                console.log(contents);
+                var frame1 = document.createElement('iframe');
+                frame1.name = "frame1";
+                frame1.style.position = "absolute";
+                frame1.style.display = "none";
+                //frame1.style.top = "-1000000px";
+                document.body.appendChild(frame1);
+                var frameDoc = frame1.contentWindow ? frame1.contentWindow : frame1.contentDocument.document ? frame1.contentDocument.document : frame1.contentDocument;
+                frameDoc.document.open();
+                frameDoc.document.write('<html><head><title>DIV Contents</title>');
+                var mesh = "<style> @@page {margin:0;} @@media print {body {margin:0; color: black;}}</style>";
+                frameDoc.document.write(mesh);
+                frameDoc.document.write('</head><body>');
+                frameDoc.document.write(contents);
+                frameDoc.document.write('</body></html>');
+                frameDoc.document.close();
+                setTimeout(function () {
+                    window.frames["frame1"].focus();
+                    window.frames["frame1"].print();
+                    document.body.removeChild(frame1);
+                }, 500);
+            }
+        });
         var canvas = $('#' + divid).find("canvas")[0];
-        var data = canvas.toDataURL();
-        contents = "<img src=\"" + data +"\" />";
-        console.log(contents);
-        var frame1 = document.createElement('iframe');
-        frame1.name = "frame1";
-        frame1.style.position = "absolute";
-        //frame1.style.top = "-1000000px";
-        document.body.appendChild(frame1);
-        var frameDoc = frame1.contentWindow ? frame1.contentWindow : frame1.contentDocument.document ? frame1.contentDocument.document : frame1.contentDocument;
-        frameDoc.document.open();
-        frameDoc.document.write('<html><head><title>DIV Contents</title>');
-        var mesh = "<style> @@page {margin:0;} @@media print {body {margin:0; color: black;}}</style>";
-        frameDoc.document.write(mesh);
-        frameDoc.document.write('</head><body>');
-        frameDoc.document.write(contents);
-        frameDoc.document.write('</body></html>');
-        frameDoc.document.close();
-        setTimeout(function () {
-            window.frames["frame1"].focus();
-            window.frames["frame1"].print();
-            document.body.removeChild(frame1);
-        }, 500);
+
         return false;
     }
-</script>
+    </script>
+

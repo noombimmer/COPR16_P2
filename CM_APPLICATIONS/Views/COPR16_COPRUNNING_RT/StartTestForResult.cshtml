@@ -882,8 +882,12 @@
         var txtBox = document.getElementById("QR-SCANNER-TEXT");
         $("#QR-SCANNER-TEXT").val('');
         txtBox.focus();
-        enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
-        $('#QRSCANNER').modal('show');
+		$('#QRSCANNER').modal('show');
+		try{
+			enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
+		}catch(err){
+			console.log(err);
+		}
     });
     $('#QR-SCANNER-TEXT').change(function () {
         var COPR_RUNNUNG = $('#FG_DETAILS').val();

@@ -11,8 +11,12 @@ namespace CM_APPLICATIONS
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jquery-qrcode2").Include(
+                        "~/Scripts/jquery.qrcode2.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jquery-qrcode").Include(
                         "~/Scripts/jquery.qrcode.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/sheetjs").Include(
                         "~/Scripts/sheetjs/xlsx.full.min.js"));
 
@@ -30,7 +34,7 @@ namespace CM_APPLICATIONS
             bundles.Add(new ScriptBundle("~/bundles/jsqr").Include(
                         "~/Scripts/qr/js/qrcode-reader.js"));
             bundles.Add(new ScriptBundle("~/bundles/FileSaver").Include(
-                        "~/Scripts/FileServer.js"));
+                        "~/Scripts/FileSaver.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at https://modernizr.com to pick only the tests you need.
@@ -39,6 +43,24 @@ namespace CM_APPLICATIONS
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
+            
+            bundles.Add(new ScriptBundle("~/bundles/canvas2blob").Include(
+                      "~/Scripts/canvas2blob/canvas-to-blob.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/DataTables").Include(
+                      "~/Scripts/datatables.min.js"));
+            
+            bundles.Add(new ScriptBundle("~/bundles/Moment").Include(
+                      "~/Scripts/moment.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/Xlsx-Core").Include(
+                      "~/Scripts/sheetjs/xlsx.core.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/TableExport").Include(
+                      "~/Scripts/tableexport.js"));
+            
+            bundles.Add(new ScriptBundle("~/bundles/canvas2pdf").Include(
+                      "~/Scripts/canvas2pdf/canvas2pdf.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

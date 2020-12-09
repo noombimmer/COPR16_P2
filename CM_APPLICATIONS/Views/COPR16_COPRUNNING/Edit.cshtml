@@ -7,8 +7,13 @@
 
 }
 <link href="~/Content/js-cop-label.css" rel="stylesheet" />
+<script src="~/Scripts/canvas2pdf/lib/pdfkit.js"></script>
+<script src="~/Scripts/canvas2pdf/lib/blob-stream.js"></script>
+<script src="~/Scripts/canvas2pdf/canvas2pdf.js"></script>
 <script src="~/Scripts/cop-label/js-cop-label.js"></script>
 <script src="~/Scripts/html2canvas.js"></script>
+
+
 <h2>COP R16 RUNNING</h2>
 <style>
     .PN-TEXT {
@@ -128,6 +133,7 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.cOPR16_COPRUNNING.POSITION_ID, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-8">
+                            @Html.Hidden("hPOSITION_ID", Model.cOPR16_COPRUNNING.POSITION_ID, new { @class = "hPOSITION_ID" })
                             @Html.DropDownListFor(model => model.cOPR16_COPRUNNING.POSITION_ID, Model.POSITION_LIST, null, new { @class = "form-control POSID list_POSITION_ID" })
                             @*@Html.EditorFor(model => model.cOPR16_COPRUNNING.POSITION_ID, new { htmlAttributes = new { @class = "form-control" } })*@
                             @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.POSITION_ID, "", new { @class = "text-danger" })
@@ -180,7 +186,10 @@
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-8 col-md-8">
-                            <input type="button" value="Save" class="btn btn-primary button createBtn" />
+                            @if (Model.cOPR16_COPRUNNING.COP_STATUS.Contains("NEW"))
+                            {
+                                <input type="button" value="Save" class="btn btn-primary button createBtn" />
+                            }
                             @*<input type="button" value="Generate Job" class="btn btn-warning button genJobBtn" />*@
                             <input type="reset" value="Close" class="btn btn-secondary closeFormBtn" />
                         </div>
@@ -265,6 +274,7 @@
                 </div>
                 <div>
                     <input type="button" value="Select Buckle" class="btn btn-primary button bklBtn" />
+
                     <input type="button" value="Print Buckle Sticker" class="btn btn-primary button bkl-print-Btn" />
                 </div>
             </th>
@@ -469,7 +479,7 @@
                 <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
             </div>
             <div class="modal-body" id="OPTIONS_BODY">
-                <H4>Please confirm to create this ?</H4>
+                <H4>Please confirm to save COPR16 No : <b>@Model.COPNO </b> ?</H4>
             </div>
             <div class="modal-footer">
                 <a class="btn btn-primary button YesSavedAllBtn">YES</a>
@@ -889,7 +899,7 @@
     $('#cOPR16_COPRUNNING_POSITION_ID').change(function () {
         updatePosition();
     });
-    
+
     function updateInfo(rst) {
         $('.qr-code-dsp-a').html("");
         $('.qr-code-dsp-b').html("");
@@ -997,9 +1007,10 @@
                 console.log(listData);
                 $.each(listData, function () {
                     var item = this;
-                    $('.list_LINE_ID').append($('<option>').val(item.LINE_ID).text(item.LINE_DESC));
+                    $('.list_LINE_ID').append($('<option ></option>').val(item.LINE_ID).text(item.LINE_DESC));
                 });
                 setFirstDisplay();
+
                 sbLabel.setLineText($('.list_LINE_ID').val());
                 bklLabel.setLineText($('.list_LINE_ID').val());
             },
@@ -1029,11 +1040,12 @@
                 //$('.COPMODELB').html(modelString);
                 $('.list_POSITION_ID').empty();
                 var listData = result.Data;
+                var hPositionID = $('.hPOSITION_ID').val();
                 console.log(listData);
 
                 $.each(listData, function () {
                     var item = this;
-                    $('.list_POSITION_ID').append($('<option>').val(item.POS_ID).text(item.POS_DESC));
+                    $('.list_POSITION_ID').append($('<option ' + (hPositionID == item.POS_ID ? ' selected="selected"':'' ) + '> </option>').val(item.POS_ID).text(item.POS_DESC));
                 });
                 positionString = $('.list_POSITION_ID option:selected').text();
                 sbLabel.setPosttion(positionString.substring(0, 2), positionString.substring(2, positionString.length - 1).replace("(", "").replace(")", ""));
@@ -1050,7 +1062,7 @@
         $('.qr-code-dsp-a').html("");
         $('.qr-code-dsp-b').html("");
         var varText = $('.hPROC_ID').val();
-        
+
         var COP_FULL_DIGIT = COPRUNING_NO;
         var COP_FULL_DIGIT_A = COP_FULL_DIGIT + "A";
         var COP_FULL_DIGIT_B = COP_FULL_DIGIT + "B";
@@ -1059,7 +1071,7 @@
         $('.qr-code-dsp-b').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_B });
         $('.COPNOA').html(COP_FULL_DIGIT + "<u>A</u>");
         $('.COPNOB').html(COP_FULL_DIGIT + "<u>B</u>");
-        
+
         sbLabel.setCopno(COP_FULL_DIGIT);
         bklLabel.setCopno(COP_FULL_DIGIT);
     }
@@ -1126,26 +1138,37 @@
     });
 </script>
 <script>
+
+    console.log("\n *STARTING* \n");
+
     var elementA = $(".machine-sticker-a");
     var elementB = $(".machine-sticker-b");
     var getCanvas;
     $(".sb-print-Btn").on('click', function () {
         //$(".machine-sticker-a").css("padding-left", "20px");
         var elementA = sbLabel.getLabel();//$(".machine-sticker-a");
+        var exCanvas = null;
         html2canvas(elementA, {
             onrendered: function (canvas) {
                 $("#previewImage").html("");
                 getCanvas = canvas;
+                exCanvas = $(canvas);
+                console.log(exCanvas);
+
                 console.log(getCanvas);
                 var strUrl = canvas.toDataURL("image/png");
+                //var strUrl = seCanvas.toDataURL("image/png");
                 var img = "<img id='img01' class='img01' src='" + strUrl + "'  />";
                 $("#previewImage").append(img);
-
                 PrintDiv("previewImage");
                 $(".machine-sticker-a").css("padding-left", "0px");
                 $("#previewImage").hide();
+
+
             }
         });
+
+
     });
     $(".bkl-print-Btn").on('click', function () {
         //$(".machine-sticker-b").css("padding-left", "20px");
@@ -1218,7 +1241,7 @@
         var LOTNO = $('.CONFIRM-BKL-LOTNO').val();
         var res = PNO.split(",", 2);
         if (bklNo == 1 && (sbLabel.getbkl1(LOTNO, PNO) || sbLabel.getbkl1(LOTNO, (res.length > 1 ? res[0] : PNO))) && sbLabel.getBklLot1 == LOTNO) {
-            
+
             $('#SELECT-BKL-DLG').modal('hide');
             $('#lModalLabelError').html("Select Buckle ");
             $('#lModalBodyError').html("Cannot duplicate buckle partno  : " + PNO);
@@ -1497,7 +1520,7 @@
         var urlText = "@Url.Action("SaveJson","COPR16_COPRUNNING")";
         var options = { "backdrop": "static", keyboard: true };
         console.log(jdata);
-        
+
         $.ajax({
             type: "POST",
             url: urlText,     //your action
@@ -1509,7 +1532,7 @@
                 $('#lModalBodySuccess').html("Edit COP Running Number Successed");
                 $('#lModalSuccess').modal(options);
                 $('#lModalSuccess').modal('show');
-                
+
                 $('#SAVEALL_DLG').modal('hide');
             },
             error: function (jqXHR, textStatus, errorThrown) {
@@ -1520,7 +1543,7 @@
                 $('#SAVEALL_DLG').modal('hide');
         }
         });
-        
+
         return false;
 
     });
@@ -1708,5 +1731,5 @@
     updateProcSELECTED();
     updateProc();
     setFirstDisplay();
-    
+
 </script><!-- /Script For Save to database visa json -->

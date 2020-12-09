@@ -201,7 +201,7 @@
                                             if (mstype.OPTION_UNIT == true)
                                             {
                                                 var optList = Model.cOPR16_OPTDTVALUE_MSTR_List.Where(l => l.OPTION_ID.Equals(mstype.OPT_ID)).ToList();
-                                                <select class="form-control text-box single-line" id="item_VALUE" name="item.VALUE" style="padding-left:1px;width:80px !important;">
+                                                <select class="form-control text-box single-line" id="item_VALUE" name="item.VALUE" style="padding-left:1px;width:100px !important;">
                                                     @foreach (var opts in optList)
                                                     {
                                                         <option value="@opts.OPTDT_ID"> @opts.DESC</option>
@@ -211,19 +211,25 @@
                                             else
                                             {
                                                 var text_edit_class = "line_input_" + indexNo;
-                                    <div>
-                                    @Html.EditorFor(modelItem => item.VALUE, new { htmlAttributes = new { @class = "form-control " + text_edit_class + " " + item.RTDT_ID, @style = "padding-left:1px;width:80px !important;" } })
-                                    <text>
-                                        <input name="btnCOPNO" id="btnCOPNO" class="btnCOPNO" type="button"
-                                               style="        width: 40px;
+												<table>
+													<tr>
+														<th>
+															@Html.EditorFor(modelItem => item.VALUE, new { htmlAttributes = new { @class = "form-control " + text_edit_class + " " + item.RTDT_ID, @style = "padding-left:1px;width:60px !important;height:32px !important;" } })
+														</th>
+														<th><input name="btnCOPNO" id="btnCOPNO" class="btnCOPNO" type="button"
+                                               style="        width: 30px;height:30px;
         position: relative;
         top: 0px;
         background-image: url(/Content/images/138360-200.png);
         background-position: 0px 0px;
         background-repeat: no-repeat;
-        background-size: 35px 30px;border:unset;" onclick="getQr('@text_edit_class')" />
-                                    </text>
-                                        </div>
+        background-size: 30px 30px;border:unset;" onclick="getQr('@text_edit_class')" />
+                                  
+														</th>
+													</tr>
+												</table>
+                                   
+
                                 
                                             }
 
@@ -238,7 +244,7 @@
                                 <td style="white-space:nowrap">
                                     &nbsp;
                                     @Html.DisplayFor(modelItem => item.RTDT_REF_ID)
-
+									
                                     @Html.Hidden("hRTDT_ID", item.RTDT_ID)
                                 </td>
                             </tr>
@@ -762,6 +768,11 @@
                                 }
 
                             }
+							//console.error(singleRow[strText[8]]);
+							//console.error(strText);
+							//console.error(singleRow[strText[15]]);
+							//console.error(singleRow[strText[3]]);
+							//console.error(singleRow[strText[8]]);
                             if (parseInt(singleRow[strText[3]]) == 2) {
                                 var tempValue = singleRow[strText[11]];
 
@@ -769,8 +780,9 @@
                                     strWSI2 = tempValue;
                                 }
                             }
-                            if (singleRow[strText[8]] == "0.8" || singleRow[strText[3]] == "1.30" ) {
+                            if (singleRow[strText[3]] == 0.8 || singleRow[strText[3]] == 1.30 ) {
                                 var tempValue = singleRow[strText[15]];
+
                                 console.log("tempValue: "+ tempValue);
                                 if (tempValue > strWSI8) {
                                     strWSI8 = tempValue;

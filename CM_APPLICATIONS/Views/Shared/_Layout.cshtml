@@ -590,19 +590,32 @@
 
 
     @*</div>*@
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jquery-qrcode")
+    @Scripts.Render("~/bundles/jquery-qrcode2")
     @Scripts.Render("~/bundles/printThis")
     @Scripts.Render("~/bundles/jQuery-print")
     @Scripts.Render("~/bundles/jquery-ui")
-    @*@Scripts.Render("~/bundles/FileSaver")*@
-    <script src="~/Scripts/datatables.min.js"></script>
+    @Scripts.Render("~/bundles/jquery-ui")
+    @Scripts.Render("~/bundles/canvas2blob")
+    @Scripts.Render("~/bundles/DataTables")
+    @Scripts.Render("~/bundles/Moment")
+    @Scripts.Render("~/bundles/Xlsx-Core")
+    @Scripts.Render("~/bundles/TableExport")
+    @Scripts.Render("~/bundles/FileSaver")
+    @Scripts.Render("~/bundles/html2canvas")
+    @Scripts.Render("~/bundles/canvas2pdf")
 
-    <script src="~/Scripts/moment.min.js"></script>
-    <script src="~/Scripts/sheetjs/xlsx.core.min.js"></script>
-                                                
-    <script src="~/Scripts/tableexport.js"></script>
+
+    @*@Scripts.Render("~/bundles/FileSaver")*@
+    @*<script src="~/Scripts/datatables.min.js"></script>*@
+
+    @*<script src="~/Scripts/moment.min.js"></script>*@
+    @*<script src="~/Scripts/sheetjs/xlsx.core.min.js"></script>*@
+
+    @*<script src="~/Scripts/tableexport.js"></script>*@
 
     @RenderSection("scripts", required: false)
 
@@ -829,6 +842,7 @@
         }
 
     </script>
+
     <script>
         var dateFormat = function () {
             var token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g,
@@ -942,9 +956,11 @@
             return dateFormat(this, mask, utc);
         };
     </script>
+
     <div class="container body-content body-area">
         @RenderBody()
     </div>
+
     <div class="container body-content body-area">
         <hr />
         <footer class="body-area">

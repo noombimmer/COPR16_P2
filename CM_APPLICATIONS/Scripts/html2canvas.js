@@ -564,6 +564,8 @@
     var html2canvasCanvasCloneIndex = 0;
     var html2canvasCloneIndex = 0;
     window.html2canvas = function (nodeList, options) {
+        console.log(nodeList);
+        console.log(options);
         var index = html2canvasCloneIndex++;
         options = options || {};
         if (options.logging) {

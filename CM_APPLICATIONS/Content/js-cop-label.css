@@ -104,7 +104,7 @@
 .cop-label-position-text {
     /*font-size: 1rem;*/
     font-size: 16px;
-    font-weight: normal;
+    font-weight: bold;
     width: 60mm;
     white-space:normal;
 }

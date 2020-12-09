@@ -239,6 +239,10 @@
     setDefDate();
 
     $('.refreshBtn').click(function () {
+		if($('.COPNO').val() != "" || $('.COPNO').val().lenght > 0 ){
+			$('#hidden_FROM_DATE').val('1970-Jan-01');
+			$('.from-date').val('1970-Jan-01');
+		}
         $('form').submit();
     });
     $('.DetailsBtn').click(function () {

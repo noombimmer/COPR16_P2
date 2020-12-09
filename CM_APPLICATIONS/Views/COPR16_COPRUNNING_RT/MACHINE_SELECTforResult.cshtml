@@ -451,8 +451,14 @@
     $('.scanBtn').click(function () {
         $('#QR-SCANNER-TEXT').val('');        
         $('#QR-SCANNER-TEXT').val('');
-        enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
-        $('#QRSCANNER').modal('show');
+		$('#QRSCANNER').modal('show');
+		try{
+			enableQrFix('#QR-SCANNER-TEXT', '#QR-SCANNER-TEXT');
+		}catch(err){
+			console.log(err);
+		}
+        
+        
     });
 
     function check_machine_lock(machine_id,scanText) {
