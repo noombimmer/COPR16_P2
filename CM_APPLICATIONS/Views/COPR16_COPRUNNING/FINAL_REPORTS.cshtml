@@ -729,6 +729,8 @@
                     var DUMMYMOVEMENT3 = false;
                     var RELEASEFOCE = false;
 
+                    var DRY24HBKL = false;
+
                     $.each(row, function (index, item) {
                         if (Gudgement == true) {
                             updateGudgement(item, index);
@@ -853,7 +855,11 @@
                         if(RELEASEFOCE == true) {
                             updateRELEASEFORCE(item, index);
                         }
-
+                        /*
+                        if (DRY24HBKL == true) {
+                            updateDRY24HBKL(item, index);
+                        }
+                        */
                         switch(item){
                             case "Gudgement":
                                 Gudgement = true;
@@ -942,8 +948,14 @@
                             case "CHAMBER_TEST-NG":
                                 HEATCOOL = true;
                                 break;
+                            case "Chamber-Test-NG":
+                                HEATCOOL = true;
+                                break;
                             case "Corrosion-Test-BKL-NG":
                                 CORROSION2 = true;
+                                break;
+                            case "Dry-24hr-BKL-NG":
+                                REMOVETONGUE = true;
                                 break;
                             case "DURABILITY_TEST_500-NG":
                                 REMOVETONGUE = true;
@@ -961,7 +973,9 @@
                             case "SLED_TEST-Sample and part":
                                 SAMPLEPART = true;
                                 break;
-
+                            case "Sled-Test-Sample and part":
+                                SAMPLEPART = true;
+                                break;
                             case "Sled-Test-Pelvis displ":
                                 DUMMYMOVEMENT1 = true;
                                 break;
@@ -976,6 +990,10 @@
                             case "Release-Force-Initial-Buckle_Release":
                                 RELEASEFOCE = true;
                                 break;
+                            case "Release-Force-Post-Buckle_Release":
+                                RELEASEFOCE = true;
+                                break;
+
                         }
 
                     });
@@ -1391,14 +1409,14 @@
             if (value != null) {
                 var spValue = value.split(" ");
                 if (spValue.length > 1) {
-                    value = spValue[0];
+                    value = spValue[0] + "&nbsp;N";
                 } else {
                     value = "-";
                 }
             } else {
                 value = "-";
             }
-            var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\">&nbsp;"+ value +"</td>";
+            var col = "<td class=\"no-wrap-th textCol " + colName + "\" style=\"text-align: center !important;\">&nbsp;" + value +"</td>";
             $(row).append(col);
         }
         function updateSAMPLEPART(value,index) {
@@ -1445,7 +1463,17 @@
             var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
             $(row).append(col);
     }
-    
+    function updateDRY24HBKL(value, index) {
+        var row = $('.row_RELEASEFORCE');
+        var colName = "col" + index;
+        if (value == null) {
+            value = "-";
+        } else {
+            value = value.replace(" NEWTON", " N")
+        }
+        var col = "<td class=\"no-wrap-th textCol " + colName + "\" style=\"text-align: center !important;\"> " + value + "</td>";
+        $(row).append(col);
+    }    
     function updateResult() {
         var header1 = "<th class=\"no-wrap - th textCol\" > Result</th>";
         $('.Header1_result').append(header1);
