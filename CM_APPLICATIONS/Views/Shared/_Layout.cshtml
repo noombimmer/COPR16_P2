@@ -445,7 +445,7 @@
 
     <div class="container" style="padding-top:5px;padding-left:0px;padding-right:0px;background-color:#005495;white-space:nowrap !important">
         <div class="nav navbar navbar-header navbar-menu header-background">
-            @Html.ActionLink("COPR16 APPLICATION", "Index", "Home", new { area = "" }, new { @class = "app-title navbar-brand app-name-display" })
+            @Html.ActionLink("COPR16 APPLICATION (P2)", "Index", "Home", new { area = "" }, new { @class = "app-title navbar-brand app-name-display" })
             <img src="~/Content/auoliv_logo.png" class="nav navbar-text navbar-right logo-display" />
             <p class="nav navbar-text navbar-right user-item user-name-display"><a href="#"><i class="fa fa-fw fa-user"> </i>&nbsp;@CM_APPLICATIONS.Models.AppPropModel.username <i class="fa fa-fw fa-caret-down"></i> </a> </p>
 
@@ -454,15 +454,26 @@
     <div class="container navbar-menu">
         <div class="navbar-header navbar-menu menu-background">
             <ul class="nav navbar-nav navbar-menu menu-item">
+                <li class="menu-item menu-desktop">
+                    <div class=" menu-item dropdown menuclick">
+                        <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> COP APPROVAL</a>
+                        <div class="dropdown-content">
+                            @Html.ActionLink("COP RUNNING LIST(ATH)", "Index", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP RUNNING LIST(AID)", "IndexAID", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP RUNNING LIST(NON-EC)", "IndexNONEC", "COPR16_COPRUNNING", null, null)
+                        </div>
 
+                    </div>
+                </li>
                 <li class="menu-item menu-desktop">
                     <div class=" menu-item dropdown menuclick">
                         <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> COP RUNNING</a>
                         <div class="dropdown-content">
-                            @Html.ActionLink("COP RUNNING DASHBOARD ", "DashBoard", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP RUNNING LIST", "Index", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP TRACKING", "Tracking", "COPR16_COPRUNNING", null, null)
-
+                            @Html.ActionLink("COP RUNNING DASHBOARD (ONLY ATH)", "DashBoard", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP RUNNING LIST(ATH)", "Index", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP RUNNING LIST(AID)", "IndexAID", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP RUNNING LIST(NON-EC)", "IndexNONEC", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP TRACKING (ONLY ATH)", "Tracking", "COPR16_COPRUNNING", null, null)
                         </div>
 
                     </div>
@@ -478,7 +489,29 @@
 
                     </div>
                 </li>
+                <li class="menu-item menu-desktop">
+                    <div class=" menu-item dropdown menuclick">
+                        <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> VOLUME MASTER</a>
+                        <div class="dropdown-content">
+                            @*@Html.ActionLink("ITEMS VOLUME DASHBOARD", "Index", "CM_APPLICATIONS_TB", null,null)*@
+                            @*@Html.ActionLink("IMPORT VOLUME FILE", "Index", "CM_APPS_FUNCTIONS", null, null)*@
+                            @Html.ActionLink("ERP VOLUME SYNC.", "Index", "QAD", null, null)
 
+                            @*                            @Html.ActionLink("BRAND MASTER ", "Index", "COPR16_BRAND_MSTR", null, null)
+                    @Html.ActionLink("MODEL MASTER", "Index", "COPR16_MODEL_MSTR", null, null)
+                    @Html.ActionLink("LINE MASTER", "Index", "COPR16_LINE_MSTR", null, null)
+                    @Html.ActionLink("POSITION MASTER", "Index", "COPR16_POSITION_MSTR", null, null)
+                    @Html.ActionLink("FG MASTER ", "Index", "COPR16_FG_MSTR", null, null)
+                    @Html.ActionLink("MATCHING PART NO.", "MatchingParts", "COPR16_ITEMS_MSTR", null, null)*@
+
+                            @Html.ActionLink("FG MASTER ", "Index", "COPR16_FG_MSTR", null, null)
+                            @Html.ActionLink("FG MASTER (AID)", "Index", "COPR16_FG_MSTR", null, null)
+                            @Html.ActionLink("FG VOLUME", "Index", "COPR16_ITEMS_MSTR", null, null)
+
+
+                        </div>
+                    </div>
+                </li>
                 <li class="menu-item menu-desktop">
                     <div class=" menu-item dropdown menuclick">
                         <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> FG MASTER</a>
@@ -490,11 +523,15 @@
                             @Html.ActionLink("MODEL MASTER", "Index", "COPR16_MODEL_MSTR", null, null)
                             @Html.ActionLink("LINE MASTER", "Index", "COPR16_LINE_MSTR", null, null)
                             @Html.ActionLink("POSITION MASTER", "Index", "COPR16_POSITION_MSTR", null, null)
-
                             @Html.ActionLink("FG TYPE MASTER ", "Index", "COPR16_FGTYPE_MSTR", null, null)
-                            @Html.ActionLink("FG MASTER ", "Index", "COPR16_FG_MSTR", null, null)
                             @Html.ActionLink("MATCHING PART NO.", "MatchingParts", "COPR16_ITEMS_MSTR", null, null)
-                            @Html.ActionLink("FG VOLUME", "Index", "COPR16_ITEMS_MSTR", null, null)
+
+                            @*@Html.ActionLink("FG TYPE MASTER ", "Index", "COPR16_FGTYPE_MSTR", null, null)
+        @Html.ActionLink("FG TYPE MASTER (AID)", "Index", "COPR16_FGTYPE_MSTR", null, null)
+
+        @Html.ActionLink("FG VOLUME", "Index", "COPR16_ITEMS_MSTR", null, null)*@
+
+
                         </div>
                     </div>
                 </li>
@@ -539,8 +576,11 @@
                             @* Tracking *@
                             @*@Html.ActionLink("COP VOLUME REPORT", "REPORTS", "COPR16_COPRUNNING", null, null)*@
                             @Html.ActionLink("COP VOLUME REPORT", "Tracking", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP FINAL REPORT", "FINAL_REPORTS", "COPR16_COPRUNNING", null, null)
 
+                            @*COPR16_Running_Report*@
+                            @Html.ActionLink("COP RUNNING REPORT", "COPR16_Running_Report", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP FINAL REPORT", "FINAL_REPORTS", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP TENSILE REPORT", "FINAL_REPORTS", "COPR16_COPRUNNING", null, null)
                         </div>
 
                     </div>
@@ -549,39 +589,40 @@
                     <div class=" menu-item dropdown menuclick">
                         <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> TOOLS</a>
                         <div class="dropdown-content">
+
                             @* Tracking *@
                             @*@Html.ActionLink("COP VOLUME REPORT", "REPORTS", "COPR16_COPRUNNING", null, null)*@
                             @Html.ActionLink("QR-CODE MAKER", "QRMAKER", "MICS", null, null)
                             @Html.ActionLink("QR Reading Test", "qrreading", "MICS", null, null)
                             @Html.ActionLink("Camera Test", "cameratest", "MICS", null, null)
-                            @Html.ActionLink("Test Label", "label_printing", "MICS", null, null)
-                            @Html.ActionLink("QAD SYNC.", "Index", "QAD", null, null)
+                            @* @Html.ActionLink("Test Label", "label_printing", "MICS", null, null)*@
+
 
                         </div>
 
                     </div>
                 </li>
                 @*<li class="menu-item ">
-                        <div class="menu-item dropdown menuclick">
-                            <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> ADMINS</a>
-                            <div class="dropdown-content">
-                                @Html.ActionLink("USER LIST", "Index", "CM_DOMAIN_MSTR", null, null)
-                                @Html.ActionLink("ROLES LIST", "Index", "CM_SITES_MSTR", null, null)
-                                @Html.ActionLink("QR-CODE TRACKING", "Index", "CM_FACILITIES_MSTR", null, null)
-                            </div>
-                        </div>
-                    </li>*@
+            <div class="menu-item dropdown menuclick">
+                <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> ADMINS</a>
+                <div class="dropdown-content">
+                    @Html.ActionLink("USER LIST", "Index", "CM_DOMAIN_MSTR", null, null)
+                    @Html.ActionLink("ROLES LIST", "Index", "CM_SITES_MSTR", null, null)
+                    @Html.ActionLink("QR-CODE TRACKING", "Index", "CM_FACILITIES_MSTR", null, null)
+                </div>
+            </div>
+        </li>*@
 
                 @*<li class="menu-item ">
-                        <div class=" menu-item dropdown menuclick">
-                            <a href="/HOME" class=" main-menu"><i class="fa fa-fw fa-file-o"></i> HELP</a>
-                        </div>
-                    </li>
-                    <li class="menu-item ">
-                        <div class=" menu-item dropdown menuclick">
-                            <a href="/HOME/Contact" class=" main-menu"><i class="fa fa-fw fa-envelope"></i> CONTACT</a>
-                        </div>
-                    </li>*@
+            <div class=" menu-item dropdown menuclick">
+                <a href="/HOME" class=" main-menu"><i class="fa fa-fw fa-file-o"></i> HELP</a>
+            </div>
+        </li>
+        <li class="menu-item ">
+            <div class=" menu-item dropdown menuclick">
+                <a href="/HOME/Contact" class=" main-menu"><i class="fa fa-fw fa-envelope"></i> CONTACT</a>
+            </div>
+        </li>*@
 
             </ul>
 

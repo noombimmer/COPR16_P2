@@ -1450,6 +1450,7 @@
     <Content Include="Views\Mics\QRREADING.cshtml" />
     <Content Include="Scripts\qr\js\jsQR\LICENSE" />
     <Content Include="Scripts\qr\js\jsQR\README.md" />
+    <Content Include="Views\COPR16_COPRUNNING\COPR16_Running_Report.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

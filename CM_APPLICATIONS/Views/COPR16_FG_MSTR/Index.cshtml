@@ -208,7 +208,13 @@
                 getDataFromServer(result);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("error:" + errorThrown);
+                //alert("error:" + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#ModalError').modal('show');
             }
         });
     }

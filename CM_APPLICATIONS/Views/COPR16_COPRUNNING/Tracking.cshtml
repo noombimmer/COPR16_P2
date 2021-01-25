@@ -1245,7 +1245,8 @@
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR);
-                $('#lModalBodyError').html("error:" + errorThrown);
+                //$('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalBodyError').html(jqXHR.responseText);
                 $('#lModalError').modal("show");
                 closeConpleting();
             }

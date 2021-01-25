@@ -1,0 +1,544 @@
+﻿
+@model CM_APPLICATIONS.Models.CopRunningModel
+
+@{
+    ViewBag.Title = "COP R16 Running Report";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var row = 0;
+}
+<style id="style_local">
+    .dataTables_wrapper {
+        float: left !important;
+        width: 100% !important;
+        margin-left: 0px !important;
+    }
+
+    .table_display {
+        overflow: auto !important;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table thead th {
+        background-color: #005495 !important;
+        color: #fff;
+    }
+
+    table td {
+        white-space: nowrap !important;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+        border: thin 0.5px grey !important;
+    }
+
+    div.dataTables_length {
+        display: none !important;
+    }
+
+    div.dataTables_filter {
+        display: none !important;
+    }
+
+    div.dataTables_paginate {
+        display: none !important;
+    }
+
+    .modal-header {
+        background-color: #005495 !important;
+        color: #ffffff !important;
+    }
+
+    td.command {
+        flex-flow: nowrap;
+        flex-wrap: nowrap;
+        white-space: nowrap !important;
+    }
+
+    th.command {
+        flex-flow: nowrap;
+        flex-wrap: nowrap;
+        white-space: nowrap !important;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    .no-wrap-th {
+        white-space: nowrap;
+    }
+
+    .numericCol {
+        text-align: right;
+    }
+
+    .textCol {
+        text-align: center !important;
+        width: 1% !important;
+        white-space: nowrap;
+        border: 1px solid darkgrey;
+    }
+
+    .matrixValue {
+        /*width: 1% !important;*/
+    }
+
+    .hiddenCol {
+        display: none !important;
+    }
+
+    .boldText {
+        font-weight: bold;
+    }
+
+    .boldTextRow {
+        font-weight: bold;
+        background-color: #cae4f3 !important;
+    }
+
+    .boldTextRowAcc {
+        font-weight: bold;
+        background-color: #005495 !important;
+        color: #fff !important;
+    }
+
+    .boldTextRowLast td {
+        font-weight: bold;
+        background-color: #7cbcfa !important;
+        border-bottom: 2px double #005495 !important;
+        color: #fff !important;
+    }
+
+    .boldTextRowWIthoutID td {
+        font-weight: bold;
+        background-color: #7cbcfa !important;
+        color: #fff !important;
+    }
+
+    .boldTextRowWithout td {
+        font-weight: bold;
+        background-color: #ffd800 !important;
+        /*border-bottom:2px double #005495 !important;*/
+    }
+
+    .option-list tbody tr td {
+        border: 1px solid darkgrey;
+    }
+
+    .table_item_totale {
+        vertical-align: middle !important;
+        font-weight: bold !important;
+        text-align: center !important;
+    }
+
+    .table_sub_item {
+        vertical-align: middle !important;
+    }
+
+    ul.ptest {
+        margin-top: 20px;
+        columns: 2;
+        -webkit-columns: 2;
+        -moz-columns: 2;
+    }
+
+    li.ptest {
+        margin-left: 15px;
+    }
+
+    .hideborder {
+        border-top: 5px solid white !important;
+        border-left: 5px solid white !important;
+        width: 20% !important;
+        text-align: left !important;
+        vertical-align: top !important;
+    }
+
+    html {
+        overflow: auto !important;
+    }
+
+    .blueText {
+        color: blue;
+        font-style: italic;
+    }
+
+    .blueText2 {
+        color: blue;
+        font-style: italic;
+        font-weight: normal !important;
+    }
+
+    .headTitleCaption {
+        text-align: right !important;
+        background-color: #DDEBF7;
+        font-weight: bolder
+    }
+
+    .table > thead > tr > th {
+        border-bottom: 1px solid #ddd !important;
+        background-color: #005495 !important;
+    }
+
+    /**** New CSS */
+    .style0
+	    {
+	    text-align:left;
+	    vertical-align:bottom;
+	    white-space:nowrap;
+
+	    color:black;
+	    font-size:11.0pt;
+	    font-weight:400;
+	    font-style:normal;
+	    text-decoration:none;
+	    font-family:Calibri, sans-serif;
+
+	    border:none;}
+    td
+	    {
+	    padding-top:1px;
+	    padding-right:1px;
+	    padding-left:1px;
+	   
+	    color:black;
+	    font-size:11.0pt;
+	    font-weight:400;
+	    font-style:normal;
+	    text-decoration:none;
+	    font-family:Calibri, sans-serif;
+	    
+	    text-align:left;
+	    vertical-align:bottom;
+	    border:none;
+	    
+	    white-space:nowrap;
+	    }
+    .xl65
+	    {
+	    text-align:center;
+	    vertical-align:middle;}
+    .xl66
+	    {
+	    text-align:center;
+	    vertical-align:middle;}
+    .xl67
+	    {
+	    text-align:center;
+	    vertical-align:middle;}
+    .xl68 {
+        text-align: center;
+        vertical-align: middle;
+        background-color: #005495;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: bold;
+        border-right: solid white 1px;
+    }
+
+</style>
+<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <table >
+            <tr style="border:solid white 5px;">
+                <th>@Html.Label("COPR16 DATE FROM: ", htmlAttributes: new { @class = "control-label col-sm-10" })</th>
+                <th style="display:flex;flex-wrap:nowrap">
+                    @Html.Editor("FROM_DATE", new { htmlAttributes = new { @class = "form-control from-date", @readonly = "true", @name = "FROM_DATE", @style = "width:120px;" } })
+                    <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-from-date-picker">
+                    @Html.Hidden("hidden_FROM_DATE", "")
+                </th>
+                <th>@Html.Label("TO : ", htmlAttributes: new { @class = "control-label col-sd-2" })</th>
+                <th style="display:flex;flex-wrap:nowrap">
+                    @Html.Editor("TO_DATE", new { htmlAttributes = new { @class = "form-control to-date", @readonly = "true", @name = "TO_DATE", @style = "width:120px;" } })
+                    @Html.Hidden("hidden_TO_DATE", "")
+                    <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-to-date-picker">
+
+                </th>
+                </tr>
+            <tr style="border:solid white 5px;" >
+                <th colspan="3">
+                    <input type="button" value="EXPORT TO XLS" class="btn btn-primary button exportBtn" />
+                   @* <input type="button" value="EXPORT TO PDF" class="btn btn-primary button exportPDFBtn" />
+                    <input type="button" value="EXPORT TO CSV" class="btn btn-primary button exportCSVBtn" />*@
+                </th>
+                <th  style="text-align:right;">&nbsp;<input type="button" value="REFRESH" class="btn btn-primary button refreshBtn" /></th>
+            </tr>
+        </table>
+@*        <div class="row form-group">
+            @Html.Label("COPR16 DATE FROM: ", htmlAttributes: new { @class = "control-label col-sm-10" })
+            <div class="row form-group" style="display:flex;flex-wrap:nowrap;width:400px;height:35px;overflow:hidden">
+                <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                    @Html.Editor("FROM_DATE", new { htmlAttributes = new { @class = "form-control from-date", @readonly = "true", @name = "FROM_DATE", @style = "width:120px;" } })
+                    @Html.Hidden("hidden_FROM_DATE", "")
+                    <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-from-date-picker">
+                </div>@Html.Label("TO : ", htmlAttributes: new { @class = "control-label col-sd-2" })
+                <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                    @Html.Editor("TO_DATE", new { htmlAttributes = new { @class = "form-control to-date", @readonly = "true", @name = "TO_DATE", @style = "width:120px;" } })
+                    @Html.Hidden("hidden_TO_DATE", "")
+                    <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-to-date-picker">
+                </div>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-offset-1 col-md-4">
+                <input type="button" value="EXPORT TO XLS" class="btn btn-primary button exportBtn  pull-left" />&nbsp;
+                <input type="button" value="REFRESH" class="btn btn-primary button refreshBtn pull-left" />
+
+            </div>
+        </div>*@
+@*        <div class="row form-group">
+            @Html.Label("TOTAL COP No : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("TOTAL_COP", new { htmlAttributes = new { @class = "form-control TOTAL_COP", @readonly = "true", @name = "TOTAL_COP", @style = "width:120px;" } })
+            </div>
+        </div>*@
+
+    </div>
+}
+
+
+<div class="table_dsp">
+    <table border="1" cellpadding="0" cellspacing="0" width="98%" style="border-collapse:collapse; border:1px solid darkgrey;" class="table table-lists stripe">
+        <thead >
+            <tr >
+                <th class="xl68" >
+                    Status
+                </th>
+                <th class="xl68">COP running</th>
+                <th class="xl68" >Sled Shot Number</th>
+                <th class="xl68" >Type of Test</th>
+                <th class="xl68" >Model</th>
+                <th class="xl68" >Locking Mechanism</th>
+                <th class="xl68" >Seat Position</th>
+                <th class="xl68" >Seatbelt Part Number</th>
+                <th class="xl68" >Seatbelt Lot</th>
+                <th class="xl68" >Buckle Part Number</th>
+                <th class="xl68" >Buckle Lot</th>
+                <th class="xl68" >Created</th>
+                <th class="xl68" >Sled Test Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @*<tr >
+                <td class="xl65" >Approved</td>
+                <td class="xl65">200635</td>
+                <td class="xl65">23750</td>
+                <td class="xl65">ATH-01</td>
+                <td class="xl65">2RY</td>
+                <td class="xl65">R27</td>
+                <td class="xl65">S6 (Rear 2nd RH)</td>
+                <td class="xl65">6410666CD</td>
+                <td class="xl66">0222</td>
+                <td class="xl65">641154200</td>
+                <td class="xl66">0221</td>
+                <td class="xl67">06/09/2020 16:39</td>
+                <td class="xl66">11/12/2020</td>
+            </tr>*@
+        </tbody>
+    </table>
+
+
+</div>
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+
+<script>
+    
+    $('.to-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.from-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.edit-from-date-picker').click(function () {
+        $('.from-date').datepicker("setDate", $('.from-date').val());
+        $('.from-date').datepicker('show');
+    });
+    $('.edit-to-date-picker').click(function () {
+        $('.to-date').datepicker("setDate", $('.to-date').val());
+        $('.to-date').datepicker('show');
+    });
+    var tbVar =$('.table-lists').DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": true,
+        "stripe": true,
+        "filter": false,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "language": {
+            "lengthMenu": "Display  _MENU_  Items / Page",
+            "zeroRecords": "<center style='color:blue;'><b>items not found</b></center>",
+            "info": "Showing _START_-_END_ of _TOTAL_ items",
+            "infoEmpty": "",
+            "infoFiltered": "(filtered from _MAX_ total items)"
+        },
+        columnDefs: [
+            { className: 'text-center', targets: [2] }
+        ]
+    });
+    tbVar.clear().draw();
+</script>
+<script>
+    function setDefDate() {
+        var date = new Date();
+        var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+        var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        $('.from-date').val($.datepicker.formatDate("yy-M-dd", firstDay));
+        $('.to-date').val($.datepicker.formatDate("yy-M-dd", lastDay));
+    }
+    setDefDate();
+</script>
+<script>
+    var fromDATE = $('.from-date').val();
+    var toDATE = $('.to-date').val();
+
+    var table_original;
+    $('.refreshBtn').click(function(){
+        //alert("test");
+        getCopData();
+    })
+    function getCopData() {
+        fromDATE = $('.from-date').val();
+        toDATE = $('.to-date').val();
+        //fromDATE = '2020-Jan-01';
+        //toDATE = '2020-Dec-31';
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "fromDate":fromDATE,
+            "toDate":toDATE
+        };
+
+        console.log(jdata);
+        var urlText = "@Url.Action("getRunningReport","COPR16_COPRUNNING")";
+        $.ajax({
+            type: "POST",
+            url: urlText,
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                //updateDataStep1(result.Data);
+                //updateRowWithColCount();
+                tbVar.clear().draw();
+                var rowResult = result.Data;
+                $.each(rowResult, function (i, singleRow) {
+                    var rowdata = [
+                        singleRow.COP_STATUS,
+                        singleRow.COPR_ID,
+                        singleRow.SLED_SHOT,
+                        singleRow.WRK_ID,
+                        singleRow.MODEL_ID,
+                        singleRow.LINE_ID,
+                        singleRow.POSITION_ID,
+                        singleRow.SB_PN,
+                        singleRow.SB_LOT,
+                        singleRow.BKL_PN,
+                        singleRow.BKL_LOT,
+                        singleRow.ADATE,
+                        singleRow.SLED_DATE
+                    ];
+                    var rows = tbVar.row.add(rowdata).draw(false).node();
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                $('#lModalError').find('#lModalBodyError').html(jqXHR.responseText);
+                $('#lModalError').modal("show");
+            }
+        })
+        return false;
+    }
+    var remark1 = $('.Remark_row1');
+    var remark2 = $('.Remark_row2');
+
+    $('.exportBtn').click(function () {
+        //alert("ok");
+        exportToExcel();
+        //fnExcelReport();
+    });
+
+    function exportToExcel() {
+        var style_sheet = $('#style_local').html();
+        var htmls = "";
+        var uri = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8;base64,';
+        var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style>{stylesheet}</style></head><body><table>{table}</table></body></html>';
+        var base64 = function(s) {
+            return window.btoa(unescape(encodeURIComponent(s)))
+        };
+
+        var format = function(s, c) {
+            return s.replace(/{(\w+)}/g, function(m, p) {
+                return c[p];
+            })
+        };
+        console.log(style_sheet);
+        //htmls = $('.table_dsp').html().replace(/1\-1/g, '\u200C' + '1-1');
+        htmls = $('.table-lists').html().replace(/1\-1/g, '\u200C' + '1-1');
+        htmls = htmls.replace(/4\-/g, '\u200C' + '4-');
+        htmls = htmls.replace(/1\-2/g, '\u200C' + '1-2');
+        htmls = htmls.replace(/2\-/g, '\u200C' + '2-');
+        htmls = htmls.replace(/3\-/g, '\u200C' + '3-');
+        var ctx = {
+            worksheet: "COP_" + fromDATE + "_to_" + toDATE ,
+            stylesheet: style_sheet,
+            table: htmls
+        };
+        var link = document.createElement("a");
+        link.download = "COPR16_REPORT_" + fromDATE + "_to_" + toDATE+ ".xls";
+        link.href = uri + base64(format(template, ctx));
+        link.click();
+    }
+
+</script>

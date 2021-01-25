@@ -653,7 +653,13 @@
 
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("error:" + errorThrown);
+                //alert("error:" + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#ModalError').modal('show');
             }
         });
         return false;
@@ -709,7 +715,13 @@
                 bklLabel.setPosttion(positionString.substring(0, 2), positionString.substring(2, positionString.length - 1).replace("(", "").replace(")", ""));
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("error:" + errorThrown);
+                //alert("error:" + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#ModalError').modal('show');
             }
         });
 
@@ -824,7 +836,13 @@
 
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("error:" + errorThrown);
+                //alert("error:" + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#ModalError').modal('show');
             }
         });
     }
@@ -866,7 +884,13 @@
                 updateProc();
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("error:" + errorThrown);
+                //alert("error:" + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#ModalError').modal('show');
             }
         });
         return false;
@@ -895,7 +919,13 @@
                 updateInfo(result);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("error:" + errorThrown);
+                //alert("error:" + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#ModalError').modal('show');
             }
         });
         return false;
@@ -1112,17 +1142,18 @@
 		var MODEL_NO = $('.MODEL_ID').val();
         var options = { "backdrop": "static", keyboard: true };
 
-        if (bklNo == 1 && (sbLabel.getbkl1(LOTNO, PNO) || sbLabel.getbkl1(LOTNO, (res.length > 1 ? res[0] : PNO)))) {
-            $('#SELECT-BKL-DLG').modal('hide');
-            $('#lModalLabelError').html("Select Buckle ");
-            $('#lModalBodyError').html("Cannot duplicate buckle partno  : " + PNO);
-            $('#lModalError').modal(options);
-            $('#lModalError').modal('show');
-            $('#SAVEALL_DLG').modal('hide');
+        if (bklNo == 1 && (sbLabel.getbkl1(LOTNO, PNO) || sbLabel.getbkl1(LOTNO, (res.length > 1 ? res[0] : PNO))) && LOTNO == $('.COPBKLLOTA').val()) {
+                $('#SELECT-BKL-DLG').modal('hide');
+                $('#lModalLabelError').html("Select Buckle ");
+                $('#lModalBodyError').html("Cannot duplicate buckle/lotno (1) partno  : " + PNO);
+                $('#lModalError').modal(options);
+                $('#lModalError').modal('show');
+                $('#SAVEALL_DLG').modal('hide');
+
         } else if (bklNo == 2 && (sbLabel.getbkl2(LOTNO, PNO) || sbLabel.getbkl2(LOTNO, (res.length > 1 ? res[1] : PNO)))) {
             $('#SELECT-BKL-DLG').modal('hide');
             $('#lModalLabelError').html("Select Buckle ");
-            $('#lModalBodyError').html("Cannot duplicate buckle partno  : " + PNO);
+            $('#lModalBodyError').html("Cannot duplicate buckle/lotno (2) partno  : " + PNO);
             $('#lModalError').modal(options);
             $('#lModalError').modal('show');
             $('#SAVEALL_DLG').modal('hide');
@@ -1262,7 +1293,13 @@
 
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("error:" + errorThrown);
+                //alert("error:" + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#ModalError').modal('show');
             }
         });
         return false;
@@ -1354,7 +1391,14 @@
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 $('#lModalLabelError').html("Create New COP RUNNING NUMBER");
-                $('#lModalBodyError').html("Cannot save data : " + errorThrown );
+                //$('#lModalBodyError').html("Cannot save data : " + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+
+                $('#ModalError').modal('show');
                 $('#lModalError').modal(options);
                 $('#lModalError').modal('show');
                 $('#SAVEALL_DLG').modal('hide');

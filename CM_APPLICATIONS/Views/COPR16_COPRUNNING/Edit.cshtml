@@ -884,7 +884,13 @@
 
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("error:" + errorThrown);
+                //alert("error:" + errorThrown);
+                console.log(jqXHR);
+
+
+                $('#lModalLabelError').html("Select SeatBelt ");
+                $('#lModalBodyError').html(jqXHR.responseText);
+                $('#lModalError').modal('show');
             }
         });
         return false;
@@ -1235,6 +1241,7 @@
         $('#text-hSB-PNO').val(SBPNO);
         $('#text-hSB-LOTNO').val(SBLOTNO);
     });
+
     $('.bkl-confirm-select-Btn').click(function () {
 
         var PNO = $('.CONFIRM-BKL-PNO').val();
@@ -1244,14 +1251,14 @@
 
             $('#SELECT-BKL-DLG').modal('hide');
             $('#lModalLabelError').html("Select Buckle ");
-            $('#lModalBodyError').html("Cannot duplicate buckle partno  : " + PNO);
+            $('#lModalBodyError').html("Cannot duplicate buckle(1)  partno  : " + PNO);
             $('#lModalError').modal(options);
             $('#lModalError').modal('show');
             $('#SAVEALL_DLG').modal('hide');
         } else if (bklNo == 2 && (sbLabel.getbkl2(LOTNO, PNO) || sbLabel.getbkl2(LOTNO, (res.length > 1 ? res[1] : PNO))) &&  sbLabel.getBklLot2 == LOTNO) {
             $('#SELECT-BKL-DLG').modal('hide');
             $('#lModalLabelError').html("Select Buckle ");
-            $('#lModalBodyError').html("Cannot duplicate buckle partno  : " + PNO);
+            $('#lModalBodyError').html("Cannot duplicate buckle(2) partno  : " + PNO);
             $('#lModalError').modal(options);
             $('#lModalError').modal('show');
             $('#SAVEALL_DLG').modal('hide');

@@ -440,6 +440,33 @@ namespace CM_APPLICATIONS.Controllers
             return Json(row, JsonRequestBehavior.AllowGet);
         }
 
+        //getRunningReport
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> getRunningReport(string fromDate, string toDate)
+        {
+            JsonResult row = new JsonResult();
+            List<object> dataRst = new List<object>();
+
+            string SQLCMD2 = "exec dbo.COPR16_SP_GET_RUNNING @FROM_DT,@TO_DT";
+            if (db.Database.Connection.State != ConnectionState.Open)
+            {
+                await db.Database.Connection.OpenAsync();
+            }
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                cmd.CommandText = SQLCMD2;
+                cmd.Parameters.Add(new SqlParameter("@FROM_DT", fromDate == null ? "" : fromDate));
+                cmd.Parameters.Add(new SqlParameter("@TO_DT", toDate == null ? "" : toDate));
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    row.Data = model;
+                }
+            }
+            return Json(row, JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -511,6 +538,7 @@ namespace CM_APPLICATIONS.Controllers
             row.Data = dataRst;
             return Json(row, JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
         public async Task<JsonResult> getModelName(string MODEL_ID)
         {
@@ -1161,6 +1189,16 @@ namespace CM_APPLICATIONS.Controllers
             model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
 
             return View(model);
+        }
+        public async Task<ActionResult> COPR16_Running_Report()
+        {
+            //return View(await db.COPR16_COPRUNNING.ToListAsync());
+
+            //CopRunningModel model = new CopRunningModel(db);
+            //model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            //model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
+
+            return View();
         }
     }
 }
