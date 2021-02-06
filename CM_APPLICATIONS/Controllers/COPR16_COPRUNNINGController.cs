@@ -40,6 +40,74 @@ namespace CM_APPLICATIONS.Controllers
 
             return View(model);
         }
+        // GET: COPR16_COPRUNNING
+        public async Task<ActionResult> IndexApproval()
+        {
+            Models.CopRunningModel model = new CopRunningModel(db);
+            DateTime now = DateTime.Now;
+            int dayOfWeek = (int)now.DayOfWeek;
+            dayOfWeek = dayOfWeek == 0 ? 7 : dayOfWeek;
+            DateTime startOfWeek = now.AddDays(0 - (int)now.DayOfWeek);
+            DateTime endOfWeek = now.AddDays(6 - (int)now.DayOfWeek);
+
+
+            string startDate = startOfWeek.ToString("yyyy-MM-dd");
+            string endDate = endOfWeek.ToString("yyyy-MM-dd");
+            string SQLCMD = "SELECT * FROM COPR16_COPRUNNING A WHERE COP_STATUS = 'COMPLETED' AND ADATE between '" + startDate + "' and '" + endDate + "'  ORDER BY ADATE DESC";
+            //model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.Where(l=>l.ADATE.Value.ToString("yyyy-mm-dd") == Models.AppPropModel.today.ToString("yyyy-mm-dd")).OrderBy(l=>l.ADATE).ToListAsync();
+            model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.SqlQuery(SQLCMD).ToListAsync();
+
+            return View(model);
+        }
+        public ActionResult TensileUpload()
+        {
+
+            return View();
+        }
+        public ActionResult PartListTemplateUpload()
+        {
+            CopRunningModel model = new CopRunningModel(db);
+            model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
+
+            return View(model);
+        }
+        public async Task<ActionResult> IndexAID()
+        {
+            Models.CopRunningModel model = new CopRunningModel(db);
+            DateTime now = DateTime.Now;
+            int dayOfWeek = (int)now.DayOfWeek;
+            dayOfWeek = dayOfWeek == 0 ? 7 : dayOfWeek;
+            DateTime startOfWeek = now.AddDays(0 - (int)now.DayOfWeek);
+            DateTime endOfWeek = now.AddDays(6 - (int)now.DayOfWeek);
+
+
+            string startDate = startOfWeek.ToString("yyyy-MM-dd");
+            string endDate = endOfWeek.ToString("yyyy-MM-dd");
+            string SQLCMD = "SELECT * FROM COPR16_COPRUNNING A WHERE ADATE between '" + startDate + "' and '" + endDate + "' ORDER BY ADATE DESC";
+            //model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.Where(l=>l.ADATE.Value.ToString("yyyy-mm-dd") == Models.AppPropModel.today.ToString("yyyy-mm-dd")).OrderBy(l=>l.ADATE).ToListAsync();
+            model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.SqlQuery(SQLCMD).ToListAsync();
+
+            return View(model);
+        }
+        public async Task<ActionResult> IndexNONEC()
+        {
+            Models.CopRunningModel model = new CopRunningModel(db);
+            DateTime now = DateTime.Now;
+            int dayOfWeek = (int)now.DayOfWeek;
+            dayOfWeek = dayOfWeek == 0 ? 7 : dayOfWeek;
+            DateTime startOfWeek = now.AddDays(0 - (int)now.DayOfWeek);
+            DateTime endOfWeek = now.AddDays(6 - (int)now.DayOfWeek);
+
+
+            string startDate = startOfWeek.ToString("yyyy-MM-dd");
+            string endDate = endOfWeek.ToString("yyyy-MM-dd");
+            string SQLCMD = "SELECT * FROM COPR16_COPRUNNING A WHERE ADATE between '" + startDate + "' and '" + endDate + "' ORDER BY ADATE DESC";
+            //model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.Where(l=>l.ADATE.Value.ToString("yyyy-mm-dd") == Models.AppPropModel.today.ToString("yyyy-mm-dd")).OrderBy(l=>l.ADATE).ToListAsync();
+            model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.SqlQuery(SQLCMD).ToListAsync();
+
+            return View(model);
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> FilterIndex(string COPNO, string statusCode, string FROM_DATE, string TO_DATE)
@@ -72,6 +140,119 @@ namespace CM_APPLICATIONS.Controllers
             }
 
             SQLCMD = SQLCMD + " ORDER BY ADATE DESC"; 
+            //model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.Where(l=>l.ADATE.Value.ToString("yyyy-mm-dd") == Models.AppPropModel.today.ToString("yyyy-mm-dd")).OrderBy(l=>l.ADATE).ToListAsync();
+            model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.SqlQuery(SQLCMD).ToListAsync();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> FilterIndexApproval(string COPNO, string statusCode, string FROM_DATE, string TO_DATE)
+        {
+            Models.CopRunningModel model = new CopRunningModel(db);
+
+
+            DateTime now = DateTime.Now;
+            int dayOfWeek = (int)now.DayOfWeek;
+            dayOfWeek = dayOfWeek == 0 ? 7 : dayOfWeek;
+            DateTime startOfWeek = now.AddDays(0 - (int)now.DayOfWeek);
+            DateTime endOfWeek = now.AddDays(6 - (int)now.DayOfWeek);
+
+
+            string startDate = FROM_DATE;
+            string endDate = TO_DATE;
+            model.stDate = startDate;
+            model.enDate = TO_DATE;
+            model.statusCode = statusCode;
+            model.statusCode = "COMPLETED";
+            model.COPNO = COPNO;
+
+            string SQLCMD = "SELECT * FROM COPR16_COPRUNNING A WHERE A.ADATE between '" + startDate + "' and DATEADD(day,1,'" + endDate + "') ";
+            if (COPNO != null && COPNO != "" && COPNO.Length > 0)
+            {
+                SQLCMD = SQLCMD + " AND COPR_ID like '%" + COPNO + "%'";
+            }
+            if (model.statusCode != null && model.statusCode != "" && model.statusCode.Length > 0 && !(model.statusCode.Contains("ALL")))
+            {
+                SQLCMD = SQLCMD + " AND COP_STATUS like '%" + model.statusCode + "%'";
+            }
+
+            SQLCMD = SQLCMD + " ORDER BY ADATE DESC";
+            //model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.Where(l=>l.ADATE.Value.ToString("yyyy-mm-dd") == Models.AppPropModel.today.ToString("yyyy-mm-dd")).OrderBy(l=>l.ADATE).ToListAsync();
+            model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.SqlQuery(SQLCMD).ToListAsync();
+
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> FilterIndexAID(string COPNO, string statusCode, string FROM_DATE, string TO_DATE)
+        {
+            Models.CopRunningModel model = new CopRunningModel(db);
+
+
+            DateTime now = DateTime.Now;
+            int dayOfWeek = (int)now.DayOfWeek;
+            dayOfWeek = dayOfWeek == 0 ? 7 : dayOfWeek;
+            DateTime startOfWeek = now.AddDays(0 - (int)now.DayOfWeek);
+            DateTime endOfWeek = now.AddDays(6 - (int)now.DayOfWeek);
+
+
+            string startDate = FROM_DATE;
+            string endDate = TO_DATE;
+            model.stDate = startDate;
+            model.enDate = TO_DATE;
+            model.statusCode = statusCode;
+            model.COPNO = COPNO;
+
+            string SQLCMD = "SELECT * FROM COPR16_COPRUNNING A WHERE A.ADATE between '" + startDate + "' and DATEADD(day,1,'" + endDate + "') ";
+            if (COPNO != null && COPNO != "" && COPNO.Length > 0)
+            {
+                SQLCMD = SQLCMD + " AND COPR_ID like '%" + COPNO + "%'";
+            }
+            if (statusCode != null && statusCode != "" && statusCode.Length > 0 && !(statusCode.Contains("ALL")))
+            {
+                SQLCMD = SQLCMD + " AND COP_STATUS like '%" + statusCode + "%'";
+            }
+
+            SQLCMD = SQLCMD + " ORDER BY ADATE DESC";
+            //model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.Where(l=>l.ADATE.Value.ToString("yyyy-mm-dd") == Models.AppPropModel.today.ToString("yyyy-mm-dd")).OrderBy(l=>l.ADATE).ToListAsync();
+            model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.SqlQuery(SQLCMD).ToListAsync();
+
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> FilterIndexNONEC(string COPNO, string statusCode, string FROM_DATE, string TO_DATE)
+        {
+            Models.CopRunningModel model = new CopRunningModel(db);
+
+
+            DateTime now = DateTime.Now;
+            int dayOfWeek = (int)now.DayOfWeek;
+            dayOfWeek = dayOfWeek == 0 ? 7 : dayOfWeek;
+            DateTime startOfWeek = now.AddDays(0 - (int)now.DayOfWeek);
+            DateTime endOfWeek = now.AddDays(6 - (int)now.DayOfWeek);
+
+
+            string startDate = FROM_DATE;
+            string endDate = TO_DATE;
+            model.stDate = startDate;
+            model.enDate = TO_DATE;
+            model.statusCode = statusCode;
+            model.COPNO = COPNO;
+
+            string SQLCMD = "SELECT * FROM COPR16_COPRUNNING A WHERE A.ADATE between '" + startDate + "' and DATEADD(day,1,'" + endDate + "') ";
+            if (COPNO != null && COPNO != "" && COPNO.Length > 0)
+            {
+                SQLCMD = SQLCMD + " AND COPR_ID like '%" + COPNO + "%'";
+            }
+            if (statusCode != null && statusCode != "" && statusCode.Length > 0 && !(statusCode.Contains("ALL")))
+            {
+                SQLCMD = SQLCMD + " AND COP_STATUS like '%" + statusCode + "%'";
+            }
+
+            SQLCMD = SQLCMD + " ORDER BY ADATE DESC";
             //model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.Where(l=>l.ADATE.Value.ToString("yyyy-mm-dd") == Models.AppPropModel.today.ToString("yyyy-mm-dd")).OrderBy(l=>l.ADATE).ToListAsync();
             model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.SqlQuery(SQLCMD).ToListAsync();
 
@@ -399,6 +580,25 @@ namespace CM_APPLICATIONS.Controllers
             model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
             model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
             
+            return View(model);
+        }
+
+        // GET: COPR16_COPRUNNING/Create
+        public async Task<ActionResult> CreateAID()
+        {
+            CopRunningModel model = new CopRunningModel(db);
+            model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
+
+            return View(model);
+        }
+        // GET: COPR16_COPRUNNING/Create
+        public async Task<ActionResult> CreateNONEC()
+        {
+            CopRunningModel model = new CopRunningModel(db);
+            model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
+
             return View(model);
         }
 
@@ -1190,6 +1390,37 @@ namespace CM_APPLICATIONS.Controllers
 
             return View(model);
         }
+        public async Task<ActionResult> FINAL_REPORTS_AID()
+        {
+            //return View(await db.COPR16_COPRUNNING.ToListAsync());
+
+            CopRunningModel model = new CopRunningModel(db);
+            model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
+
+            return View(model);
+        }
+        public async Task<ActionResult> FINAL_REPORTS_NONEC()
+        {
+            //return View(await db.COPR16_COPRUNNING.ToListAsync());
+
+            CopRunningModel model = new CopRunningModel(db);
+            model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
+
+            return View(model);
+        }
+        public async Task<ActionResult> FINAL_REPORTS_TENSILE()
+        {
+            //return View(await db.COPR16_COPRUNNING.ToListAsync());
+
+            CopRunningModel model = new CopRunningModel(db);
+            model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
+
+
+            return View(model);
+        }
         public async Task<ActionResult> COPR16_Running_Report()
         {
             //return View(await db.COPR16_COPRUNNING.ToListAsync());
@@ -1199,6 +1430,306 @@ namespace CM_APPLICATIONS.Controllers
             //model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
 
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> getPartListTNS(string ModelID,string YEAR,string USERNAME)
+        {
+            /*
+            string sqlCmd2 = "SELECT ColIdx,F6,F7,F8,F9,F10,F11,F12,F13,F14,F15,F16,F17,F18,F19,F20,F21,F22,F23,F24,F25,F26,F27,F28,F29\n" +
+                "FROM [dbo].[COPR16_TNS_PART_UPLOAD]\n" +
+                "WHERE cast(ColIdx as int) in (4,7,10,13)\n" +
+                "\n" +
+                "ORDER BY cast(ColIdx as int) asc";
+            */
+            string sqlCmd2 = "exec dbo.COPR16_GET_TNS_RPT @YEAR,@MODEL";
+
+            var rowData = new JsonResult();
+            
+            if (db.Database.Connection.State != ConnectionState.Open)
+            {
+                await db.Database.Connection.OpenAsync();
+            }
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                cmd.CommandText = sqlCmd2;
+                cmd.Parameters.Add(new SqlParameter("@YEAR", YEAR));
+                cmd.Parameters.Add(new SqlParameter("@MODEL", ModelID == null ? "" : ModelID));
+                System.Data.Common.DbDataReader reader = await cmd.ExecuteReaderAsync();
+                {
+                    var model = Utils.Serialize((SqlDataReader)reader);
+                    rowData.Data = model;
+                }
+            }
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> getSPCDATA(
+            string ModelID,
+            List<SPCDATA> SEC51,
+            List<SPCDATA> SEC52,
+            List<SPCDATA> SEC6,
+            List<SPCDATA> SEC7,
+            string YEAR
+            )
+        {
+            SPCDATAS listData = new SPCDATAS();
+            string sqlCmd2 = "exec COPR16_GETSPCDATA @part,@month,@year,@sec,@model";
+
+            var rowData = new JsonResult();
+            if (db.Database.Connection.State != ConnectionState.Open)
+            {
+                await db.Database.Connection.OpenAsync();
+            }
+            List<SPCDATA> localSEC51 = new List<SPCDATA>();
+            List<SPCDATA> localSEC52 = new List<SPCDATA>();
+            List<SPCDATA> localSEC6 = new List<SPCDATA>();
+            List<SPCDATA> localSEC7 = new List<SPCDATA>();
+
+            int n = 0;
+            var prevPart = "";
+            foreach (SPCDATA row in SEC51)
+            {
+                
+                using (var cmd = db.Database.Connection.CreateCommand())
+                {
+                    cmd.CommandText = sqlCmd2;
+                    cmd.Parameters.Add(new SqlParameter("@part", row.PART == null ? "" : row.PART));
+                    cmd.Parameters.Add(new SqlParameter("@month", row.MONTH == null ? "" : row.MONTH));
+                    cmd.Parameters.Add(new SqlParameter("@year", YEAR == null ? "" : YEAR));
+                    cmd.Parameters.Add(new SqlParameter("@sec", "51"));
+                    cmd.Parameters.Add(new SqlParameter("@model", ModelID));
+                    using (DbDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        var model = Utils.Serialize((SqlDataReader)reader);
+                        SPCDATA data = new SPCDATA();
+                        data = row;
+                        foreach (var dict in model)
+                        {
+                            foreach(var dt in dict)
+                            {
+                                if (row.POS == "2")
+                                {
+                                    if (prevPart == row.PART)
+                                    {
+                                        if (dt.Key == "TNS_LOT2")
+                                        {
+                                            data.LOT = dt.Value.ToString();
+                                        }
+                                        if (dt.Key == "TNS_VALUE2")
+                                        {
+                                            data.VAL = dt.Value.ToString();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (dt.Key == "TNS_LOT1")
+                                        {
+                                            data.LOT = dt.Value.ToString();
+                                        }
+                                        if (dt.Key == "TNS_VALUE1")
+                                        {
+                                            data.VAL = dt.Value.ToString();
+                                        }
+                                    }
+                                }
+                                else {
+                                    if (dt.Key == "TNS_LOT1")
+                                    {
+                                        data.LOT = dt.Value.ToString();
+                                    }
+                                    if (dt.Key == "TNS_VALUE1")
+                                    {
+                                        data.VAL = dt.Value.ToString();
+                                    }
+                                }
+                            }
+
+                        }
+                            
+                        
+                        localSEC51.Add(data);
+                        
+                        reader.Close();
+                    }
+                }
+                prevPart = row.PART;
+                n++;
+            }
+            listData.SEC51 = localSEC51;
+
+            n = 0;
+            foreach (SPCDATA row in SEC52)
+            {
+                using (var cmd = db.Database.Connection.CreateCommand())
+                {
+                    cmd.CommandText = sqlCmd2;
+                    cmd.Parameters.Add(new SqlParameter("@part", row.PART == null ? "" : row.PART));
+                    cmd.Parameters.Add(new SqlParameter("@month", row.MONTH == null ? "" : row.MONTH));
+                    cmd.Parameters.Add(new SqlParameter("@year", YEAR == null ? "" : YEAR));
+                    cmd.Parameters.Add(new SqlParameter("@sec", "52"));
+                    cmd.Parameters.Add(new SqlParameter("@model", ModelID));
+                    using (DbDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        var model = Utils.Serialize((SqlDataReader)reader);
+                        SPCDATA data = new SPCDATA();
+                        data = row;
+                        foreach (var dict in model)
+                        {
+                            /*
+                            foreach (var dt in dict)
+                            {
+                                if (dt.Key == "TNS_LOT1")
+                                {
+                                    data.LOT = dt.Value.ToString();
+                                }
+                                if (dt.Key == "TNS_VALUE1")
+                                {
+                                    data.VAL = dt.Value.ToString();
+                                }
+
+                            }
+                            */
+                            foreach (var dt in dict)
+                            {
+                                if (row.POS == "2")
+                                {
+                                    if (prevPart == row.PART)
+                                    {
+                                        if (dt.Key == "TNS_LOT2")
+                                        {
+                                            data.LOT = dt.Value.ToString();
+                                        }
+                                        if (dt.Key == "TNS_VALUE2")
+                                        {
+                                            data.VAL = dt.Value.ToString();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (dt.Key == "TNS_LOT1")
+                                        {
+                                            data.LOT = dt.Value.ToString();
+                                        }
+                                        if (dt.Key == "TNS_VALUE1")
+                                        {
+                                            data.VAL = dt.Value.ToString();
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    if (dt.Key == "TNS_LOT1")
+                                    {
+                                        data.LOT = dt.Value.ToString();
+                                    }
+                                    if (dt.Key == "TNS_VALUE1")
+                                    {
+                                        data.VAL = dt.Value.ToString();
+                                    }
+                                }
+                            }
+                        }
+
+
+                        localSEC52.Add(data);
+
+                        reader.Close();
+                    }
+                }
+                n++;
+            }
+            listData.SEC52 = localSEC52;
+
+            n = 0;
+            foreach (SPCDATA row in SEC6)
+            {
+                using (var cmd = db.Database.Connection.CreateCommand())
+                {
+                    cmd.CommandText = sqlCmd2;
+                    cmd.Parameters.Add(new SqlParameter("@part", row.PART == null ? "" : row.PART));
+                    cmd.Parameters.Add(new SqlParameter("@month", row.MONTH == null ? "" : row.MONTH));
+                    cmd.Parameters.Add(new SqlParameter("@year", YEAR == null ? "" : YEAR));
+                    cmd.Parameters.Add(new SqlParameter("@sec", "6"));
+                    cmd.Parameters.Add(new SqlParameter("@model", ModelID));
+                    using (DbDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        var model = Utils.Serialize((SqlDataReader)reader);
+                        SPCDATA data = new SPCDATA();
+                        data = row;
+                        foreach (var dict in model)
+                        {
+                            foreach (var dt in dict)
+                            {
+                                if (dt.Key == "TNS_LOT1")
+                                {
+                                    data.LOT = dt.Value.ToString();
+                                }
+                                if (dt.Key == "TNS_VALUE1")
+                                {
+                                    data.VAL = dt.Value.ToString();
+                                }
+
+                            }
+                        }
+
+
+                        localSEC6.Add(data);
+
+                        reader.Close();
+                    }
+                }
+                n++;
+            }
+            listData.SEC6 = localSEC6;
+
+            n = 0;
+            foreach (SPCDATA row in SEC7)
+            {
+                using (var cmd = db.Database.Connection.CreateCommand())
+                {
+                    cmd.CommandText = sqlCmd2;
+                    cmd.Parameters.Add(new SqlParameter("@part", row.PART == null ? "" : row.PART));
+                    cmd.Parameters.Add(new SqlParameter("@month", row.MONTH == null ? "" : row.MONTH));
+                    cmd.Parameters.Add(new SqlParameter("@year", YEAR == null ? "" : YEAR));
+                    cmd.Parameters.Add(new SqlParameter("@sec", "7"));
+                    cmd.Parameters.Add(new SqlParameter("@model", ModelID));
+                    using (DbDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        var model = Utils.Serialize((SqlDataReader)reader);
+                        SPCDATA data = new SPCDATA();
+                        data = row;
+                        foreach (var dict in model)
+                        {
+                            foreach (var dt in dict)
+                            {
+                                if (dt.Key == "TNS_LOT1")
+                                {
+                                    data.LOT = dt.Value.ToString();
+                                }
+                                if (dt.Key == "TNS_VALUE1")
+                                {
+                                    data.VAL = dt.Value.ToString();
+                                }
+
+                            }
+                        }
+
+
+                        localSEC7.Add(data);
+
+                        reader.Close();
+                    }
+                }
+                n++;
+            }
+            listData.SEC7 = localSEC7;
+
+            rowData.Data = listData;
+            return Json(rowData, JsonRequestBehavior.AllowGet);
         }
     }
 }

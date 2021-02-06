@@ -24,6 +24,42 @@ namespace CM_APPLICATIONS.Controllers
             return View(await db.COPR16_FG_MSTR.Where(l =>l.ADATE == null).ToListAsync());
             //return View();
         }
+        // GET: COPR16_FG_MSTR
+        public async Task<ActionResult> IndexERP()
+        {
+            var rowData = new JsonResult();
+            if (db.Database.Connection.State != ConnectionState.Open)
+            {
+                await db.Database.Connection.OpenAsync();
+            }
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                cmd.CommandText = "EXEC COPR16_SP_GETMODELMON '';";
+
+
+                System.Data.Common.DbDataReader reader = await cmd.ExecuteReaderAsync();
+                {
+                    var model = Utils.Serialize((SqlDataReader)reader);
+                    rowData.Data = model;
+                }
+            }
+            ViewBag.rowData = rowData.Data;
+            //Task<List<COPR16_FG_MSTR>> model = await new Task<List<COPR16_FG_MSTR>>();
+            return View();
+            //return View();
+        }
+        public async Task<ActionResult> IndexFGNO()
+        {
+            //Task<List<COPR16_FG_MSTR>> model = await new Task<List<COPR16_FG_MSTR>>();
+            return View(await db.COPR16_FG_MSTR.Where(l => l.ADATE == null).ToListAsync());
+            //return View();
+        }
+        public async Task<ActionResult> IndexAID()
+        {
+            //Task<List<COPR16_FG_MSTR>> model = await new Task<List<COPR16_FG_MSTR>>();
+            return View(await db.COPR16_FG_MSTR.Where(l => l.ADATE == null).ToListAsync());
+            //return View();
+        }
 
         // GET: COPR16_FG_MSTR/Details/5
         public async Task<ActionResult> Details(string id)
@@ -78,6 +114,31 @@ namespace CM_APPLICATIONS.Controllers
                 cmd.Parameters.Add(new SqlParameter("@fg_name", FGNAME == null ? "" : FGNAME));
                 cmd.Parameters.Add(new SqlParameter("@fg_desc", FGDESC == null ? "" : FGDESC));
                 
+                System.Data.Common.DbDataReader reader = await cmd.ExecuteReaderAsync();
+                {
+                    var model = Utils.Serialize((SqlDataReader)reader);
+                    rowData.Data = model;
+                }
+            }
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> getFGListAID(string FGNO, string FGDESC, string FGNAME)
+        {
+            var rowData = new JsonResult();
+            if (db.Database.Connection.State != ConnectionState.Open)
+            {
+                await db.Database.Connection.OpenAsync();
+            }
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                cmd.CommandText = "exec [dbo].[sp_fg_list_aid] @fg_no,@fg_name,@fg_desc";
+                cmd.Parameters.Add(new SqlParameter("@fg_no", FGNO == null ? "" : FGNO));
+                cmd.Parameters.Add(new SqlParameter("@fg_name", FGNAME == null ? "" : FGNAME));
+                cmd.Parameters.Add(new SqlParameter("@fg_desc", FGDESC == null ? "" : FGDESC));
+
                 System.Data.Common.DbDataReader reader = await cmd.ExecuteReaderAsync();
                 {
                     var model = Utils.Serialize((SqlDataReader)reader);

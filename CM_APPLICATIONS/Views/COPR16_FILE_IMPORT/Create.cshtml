@@ -386,7 +386,14 @@
                 //updateInfo(result);
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("error:" + errorThrown);
+                $('#lModalLabelError').html("COPR16 Error");
+                //$('#lModalBodyError').html("Cannot save data : " + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#lModalError').modal("show");
             }
         });
 
@@ -424,8 +431,17 @@
             //cache: false, //not sure but works for me without this
             error: function (jqXHR, textStatus, errorThrown) {
                 //alert("error:" + errorThrown);
-                $('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalLabelError').html("COPR16 Error");
+                //$('#lModalBodyError').html("Cannot save data : " + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
                 $('#lModalError').modal("show");
+                console.log(jqXHR);
+                closeConpleting();
+
                 console.log(jqXHR);
                 tbVar.clear().draw();
                 closeConpleting();
@@ -545,8 +561,18 @@
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log(jqXHR);
-                $('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalLabelError').html("Upload SPC FILE Error");
+                //$('#lModalBodyError').html("Cannot save data : " + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
                 $('#lModalError').modal("show");
+                console.log(jqXHR);
+                closeConpleting();
+
+                //$('#lModalError').modal("show");
             }
         });
         return false;

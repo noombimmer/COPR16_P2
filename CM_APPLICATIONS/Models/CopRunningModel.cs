@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,6 +17,7 @@ namespace CM_APPLICATIONS.Models
         public List<cop_status> STATUS_LIST { get; set; }
 
         public List<SelectListItem> MODEL_LIST { get; set; }
+        public List<SelectListItem> SPC_MODEL_LIST { get; set; }
         public List<SelectListItem> LINE_LIST { get; set; }
         public List<SelectListItem> POSITION_LIST { get; set; }
 
@@ -33,6 +37,7 @@ namespace CM_APPLICATIONS.Models
         public List<SelectListItem> statusList { get; set; }
 
         public List<SelectListItem> STDREG { get; set; }
+        public List<SelectListItem> SPC_YEAR { get; set; }
 
         public RST_HEADER rST_HEADER { get; set; }
 
@@ -55,7 +60,8 @@ namespace CM_APPLICATIONS.Models
         public CopRunningModel(COPR16Entities dbModel)
         {
             db = dbModel;
-
+            SPC_YEAR = new List<SelectListItem>();
+            SPC_MODEL_LIST = new List<SelectListItem>();
             this.WRK_LIST = new List<SelectListItem>();
             this.MODEL_LIST = new List<SelectListItem>();
             this.LINE_LIST = new List<SelectListItem>();
@@ -104,9 +110,53 @@ namespace CM_APPLICATIONS.Models
             this.STATUS_LIST.Add(new cop_status { text = "FINISHED", value = "FINISHED", step_status = true, job_status = false, color = "#42dc95" });
             this.STATUS_LIST.Add(new cop_status { text = "COMPLETED", value = "COMPLETED", step_status = false, job_status = true, color = "#42dc95" });
             this.STATUS_LIST.Add(new cop_status { text = "CANCELED", value = "CANCELED", step_status = false, job_status = true, color = "#d9534f" });
+            this.STATUS_LIST.Add(new cop_status { text = "APPROVED", value = "APPROVED", step_status = false, job_status = true, color = "#42dc00" });
             foreach (var item in STATUS_LIST)
             {
                 statusList.Add(new SelectListItem { Text = item.text, Value = item.value });
+            }
+
+
+            string SQL_CMD = "SELECT distinct SPCC_YEAR FROM dbo.COPR16_SPCC_DIM_YEAR ORDER BY SPCC_YEAR DESC";
+
+            using (SqlConnection con = new SqlConnection( ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+                if (con.State != System.Data.ConnectionState.Open)
+                {
+                    con.Open();
+                }
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = SQL_CMD;
+                    using (DbDataReader reader = cmd.ExecuteReader())
+                    {
+                        var model = Utils.Serialize((SqlDataReader)reader);
+                        foreach (var row in model)
+                        {
+                            string value1 = row["SPCC_YEAR"].ToString();
+                            SPC_YEAR.Add(new SelectListItem { Text = value1, Value = value1 });
+                        }
+                        reader.Close();
+                    }
+                    
+                }
+
+                using (var cmd2 = con.CreateCommand())
+                {
+                    cmd2.CommandText = "SELECT distinct SPCC_MODEL FROM dbo.COPR16_SPCC_DIM_YEAR ORDER BY SPCC_MODEL";
+                    using (System.Data.Common.DbDataReader reader2 = cmd2.ExecuteReader())
+                    {
+                        var model = Utils.Serialize((SqlDataReader)reader2);
+                        foreach (var row in model)
+                        {
+                            string value1 = row["SPCC_MODEL"].ToString();
+                            SPC_MODEL_LIST.Add(new SelectListItem { Text = value1, Value = value1 });
+                        }
+                        reader2.Close();
+                    }
+                }
+
+                con.Close();
             }
         }
 

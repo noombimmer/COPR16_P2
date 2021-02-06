@@ -1,0 +1,862 @@
+﻿@model CM_APPLICATIONS.Models.CopRunningModel
+
+@{
+    ViewBag.Title = "COP TENSILE REPORT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var row = 0;
+}
+<style id="style_local">
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+</style>
+<h2>ECE R16 TENSILE Report</h2>
+
+<p>
+    @Html.ActionLink("UPLOADING SPC FILE (1)", "TensileUpload", "COPR16_COPRUNNING", new { @class = "btn btn-primary button" })
+
+    @Html.ActionLink("UPLOADING PART LIST TEMPLATE FILE (3)", "PartListTemplateUpload", "COPR16_COPRUNNING", new { @class = "btn btn-primary button" })
+</p>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("MODEL NO : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.DropDownList("SPC_MODEL_LIST", Model.SPC_MODEL_LIST, null, new { @class = "form-control MODEL_ID" })
+                @Html.Hidden("hidden_MODELNO", "")
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("YEAR : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.DropDownList("SPC_YEAR", Model.SPC_YEAR, null, new { @class = "form-control YEAR_SEL" })
+                @Html.Hidden("hidden_YEARSEL", "")
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-10">
+                <input type="button" value="READ PART LIST FROM TEMPLATE (4)" class="btn btn-primary button readTemplateBtn" />
+                <input type="button" value="READ SPC DATA (5)" class="btn btn-primary button refreshBtn" />
+                <input type="button" value="EXPORT TO XLS (2,6)" class="btn btn-primary button exportBtn" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="table_dsp" style="padding-right:25px !important;margin-right:25px !important;">
+    <table class="table" border="0">
+        <thead style="border-bottom:1px solid #000 !important">
+            <tr style="border-bottom:1px solid #000 !important;">
+                <th class="no-wrap-th" colspan="29" style="text-align:left !important;border-bottom:1px solid #000 !important;">
+                    @Html.Label("Static strength", htmlAttributes: new { @class = "", @style = "white-space:nowrap;" })
+                </th>
+            </tr>
+        </thead>
+        <tbody style="border:1px solid #000">
+            <tr style="border:1px solid #000 !important">
+                <td rowspan="7" class="SEC-TITLE" style="white-space: nowrap !important;border: 1px solid #000 !important;vertical-align:middle;">
+                    <div class="text" style="width:120px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">
+                        Ret
+                        2pcs / month
+                    </div>
+                </td>
+                <td style="width: 80px !important; background-color: #DDEBF7; text-align: center; vertical-align: middle; border-right: 1px solid #DDEBF7 !important;" class=" tableexport-string">
+                    <div class="text" style="font-weight:bold;text-align: center;vertical-align:middle;width:80px !important; ">
+                        5
+                    </div>
+                </td>
+                <td colspan="3" style="background-color:#DDEBF7;font-weight:bolder" class="Header_1-1"><b>Reractor static tensile</b></td>
+                <td class="mth mth_01" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Jan</td>
+                <td class="mth mth_02" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Feb</td>
+                <td class="mth mth_03" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Mar</td>
+                <td class="mth mth_04" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Apr</td>
+                <td class="mth mth_05" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">May</td>
+                <td class="mth mth_06" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Jun</td>
+                <td class="mth mth_07" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Jul</td>
+                <td class="mth mth_08" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Aug</td>
+                <td class="mth mth_09" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Sep</td>
+                <td class="mth mth_10" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Oct</td>
+                <td class="mth mth_11" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Nov</td>
+                <td class="mth mth_12" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Dec</td>
+            </tr>
+            @* Section 1 *@
+            <tr>
+                <td rowspan="3" class="table_sub_item" style="border:1px solid #000 !important; font-weight:lighter;text-align: center;vertical-align:middle;width:80px !important;white-space:nowrap !important">
+                    <div class="text" style="text-align: center;vertical-align:middle;width:80px !important; ">
+                        5-1
+                    </div>
+                </td>
+                <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: lighter; text-align: center; vertical-align: middle; width: 450px !important; white-space: nowrap !important">W.O.S. : 450mm or W.O.S. 25%</td>
+                <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: lighter; text-align: center; vertical-align: middle; width: 450px !important; white-space: nowrap !important">≥9.8kN (With D-ring) or ≥14.7kN (Without D-ring)</td>
+                <td rowspan="2" style="color:blue;font-weight:lighter;text-align: center;vertical-align:bottom;border:1px solid #000 !important;">Lot.</td>
+                <td class="sec51 mth-val mth_0101" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val  mth_0102" style="border:1px solid #000 ;">&nbsp;</td>
+                <td class="sec51 mth-val  mth_0201" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val  mth_0202" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val  mth_0301" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val  mth_0302" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_0401" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_0402" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_0501" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_0502" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_0601" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_0602" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_0701" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_0702" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_0801" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_0802" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_0901" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_0902" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_1001" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_1002" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_1101" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_1102" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_1201" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-val mth_1202" style="border:1px solid #000 !important;">&nbsp;</td>
+
+            </tr>
+            <tr>
+                @*<td style="border: 1px solid #000 !important; color: blue; font-weight: lighter; text-align: center; vertical-align: middle; white-space: nowrap !important">Lot.</td>*@
+                <td class="sec51 mth-lot mth_0101" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot  mth_0102" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot  mth_0201" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot  mth_0202" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot  mth_0301" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot  mth_0302" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_0401" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_0402" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_0501" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_0502" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_0601" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_0602" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_0701" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_0702" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_0801" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_0802" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_0901" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_0902" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_1001" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_1002" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_1101" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_1102" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_1201" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec51 mth-lot mth_1202" style="border:1px solid #000 !important;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000 !important; color: blue; font-weight: lighter; text-align: center; vertical-align: middle; white-space: nowrap !important">Part No.</td>
+                <td class="sec51 mth-part mth_0101" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part  mth_0102" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part  mth_0201" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part  mth_0202" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part  mth_0301" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part  mth_0302" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_0401" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_0402" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_0501" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_0502" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_0601" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_0602" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_0701" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_0702" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_0801" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_0802" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_0901" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_0902" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_1001" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_1002" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_1101" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_1102" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_1201" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+                <td class="sec51 mth-part mth_1202" style="border:1px solid #000 !important;"><div class="text" style="width:80px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">&nbsp;</div></td>
+            </tr>
+
+            <tr style="border-top:2px solid #000">
+                <td rowspan="3" class="table_sub_item tableexport-string" style="border: 1px solid #000 !important; font-weight: lighter; text-align: center; vertical-align: middle;">5-2</td>
+                <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: lighter; text-align: center; vertical-align: middle;">W.O.S. : Full</td>
+                <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: lighter; text-align: center; vertical-align: middle;">≥9.8kN (With D-ring) or ≥14.7kN (Without D-ring)</td>
+                <td rowspan="2" style="color:blue;font-weight:lighter;text-align: center;vertical-align:bottom;border:1px solid #000 !important;">Lot.</td>
+                <td class="sec52 mth-val mth_0101" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val  mth_0102" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val  mth_0201" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val  mth_0202" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val  mth_0301" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val  mth_0302" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_0401" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_0402" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_0501" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_0502" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_0601" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_0602" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_0701" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_0702" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_0801" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_0802" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_0901" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_0902" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_1001" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_1002" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_1101" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_1102" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_1201" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-val mth_1202" style="border:1px solid #000 !important;">&nbsp;</td>
+            </tr>
+            <tr>
+                @*<td style="border: 1px solid #000 !important; color: blue; font-weight: lighter; text-align: center; vertical-align: middle;">Lot.</td>*@
+                <td class="sec52 mth-lot mth_0101" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot  mth_0102" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot  mth_0201" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot  mth_0202" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot  mth_0301" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot  mth_0302" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_0401" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_0402" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_0501" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_0502" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_0601" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_0602" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_0701" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_0702" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_0801" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_0802" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_0901" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_0902" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_1001" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_1002" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_1101" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_1102" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_1201" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-lot mth_1202" style="border:1px solid #000 !important;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000 !important; color: blue; font-weight: lighter; text-align: center; vertical-align: middle;">Part No.</td>
+                <td class="sec52 mth-part mth_0101" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part  mth_0102" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part  mth_0201" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part  mth_0202" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part  mth_0301" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part  mth_0302" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_0401" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_0402" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_0501" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_0502" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_0601" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_0602" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_0701" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_0702" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_0801" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_0802" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_0901" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_0902" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_1001" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_1002" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_1101" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_1102" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_1201" style="border:1px solid #000 !important;">&nbsp;</td>
+                <td class="sec52 mth-part mth_1202" style="border:1px solid #000 !important;">&nbsp;</td>
+            </tr>
+            @* Section 2 *@
+            <tr style="border-top:2px solid #000">
+                <td rowspan="3" class="SEC-TITLE" style="white-space: nowrap !important;border: 1px solid #000 !important;vertical-align:middle;">
+                    <div class="text" style="width:120px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">
+                        Buckle assy
+                        1pcs / month
+                    </div>
+                </td>
+                <td rowspan="3" class="table_sub_item tableexport-string" style="border: 1px solid #000 !important; font-weight: bold; text-align: center; vertical-align: middle;">6</td>
+                <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: bold; text-align: center; vertical-align: middle;">
+                    <div class="text" style=" font-weight: bold; width: 320px !important; white-space: pre-line !important; background-color: #fff; text-align: center; vertical-align: middle;">
+                        Buckle static tensile
+                    </div>
+                </td>
+                <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: bold; text-align: center; vertical-align: middle;">
+                    <div class="text" style=" font-weight: bold; width: 380px !important; white-space: pre-line !important; background-color: #fff; text-align: center; vertical-align: middle;">
+                        ≥9.8kN (Webbing buckle) or ≥14.7kN (Steel buckle)
+                    </div>
+                </td>
+                <td rowspan="2" style="color:blue;font-weight:lighter;text-align: center;vertical-align:bottom;border:1px solid #000 !important;">Lot.</td>
+                <td colspan="2" class="sec6 mth-val mth_0101" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val  mth_0102" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-val  mth_0201" style="border:1px solid #000 !important;">&nbsp;</td>
+                @* <td class="sec7 mth-val  mth_0202" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-val  mth_0301" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val  mth_0302" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-val mth_0401" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val mth_0402" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-val mth_0501" style="border:1px solid #000 !important;">&nbsp;</td>
+                @* <td class="sec7 mth-val mth_0502" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-val mth_0601" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val mth_0602" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-val mth_0701" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val mth_0702" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-val mth_0801" style="border:1px solid #000 !important;">&nbsp;</td>
+                @* <td class="sec7 mth-val mth_0802" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-val mth_0901" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val mth_0902" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-val mth_1001" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val mth_1002" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-val mth_1101" style="border:1px solid #000 !important;">&nbsp;</td>
+                @* <td class="sec7 mth-val mth_1102" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-val mth_1201" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec6 mth-val mth_1202" style="border:1px solid #000 !important;">&nbsp;</td>*@
+
+            </tr>
+            <tr class="row_VSILOCKING_90DEG">
+                @*<td style="border: 1px solid #000 !important; color: blue; font-weight: lighter; text-align: center; vertical-align: middle;">Lot.</td>*@
+                <td colspan="2" class="sec6 mth-lot mth_0101" style="border:1px solid #000 !important;">&nbsp;</td>
+                @* <td class="sec7 mth-lot  mth_0102" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-lot  mth_0201" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot  mth_0202" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-lot  mth_0301" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot  mth_0302" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-lot mth_0401" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_0402" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-lot mth_0501" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_0502" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-lot mth_0601" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_0602" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-lot mth_0701" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_0702" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-lot mth_0801" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_0802" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-lot mth_0901" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_0902" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-lot mth_1001" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_1002" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-lot mth_1101" style="border:1px solid #000 !important;">&nbsp;</td>
+                @* <td class="sec7 mth-lot mth_1102" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-lot mth_1201" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_1202" style="border:1px solid #000 !important;">&nbsp;</td>*@
+            </tr>
+            <tr class="row_VSILOCKING_180DEG">
+                <td style="border: 1px solid #000 !important; color: blue; font-weight: lighter; text-align: center; vertical-align: middle;">Part No.</td>
+                <td colspan="2" class="sec6 mth-part mth_0101" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part  mth_0102" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-part  mth_0201" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part  mth_0202" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-part  mth_0301" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part  mth_0302" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-part mth_0401" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_0402" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-part mth_0501" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_0502" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-part mth_0601" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_0602" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-part mth_0701" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_0702" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-part mth_0801" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_0802" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-part mth_0901" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_0902" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-part mth_1001" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_1002" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-part mth_1101" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_1102" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec6 mth-part mth_1201" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_1202" style="border:1px solid #000 !important;">&nbsp;</td>*@
+            </tr>
+            @* Section 3 *@
+            <tr style="border-top:2px solid #000">
+                <td rowspan="3" class="SEC-TITLE" style="white-space: nowrap !important;border: 1px solid #000 !important;vertical-align:middle;">
+                    <div class="text" style="white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">
+                        Anchor sewing
+                        1pcs / month
+                    </div>
+                </td>
+                <td rowspan="3" class="table_sub_item tableexport-string" style="width: 80px !important; border: 1px solid #000 !important; font-weight: bold; text-align: center; vertical-align: middle;">
+                    <div class="text" style="text-align: center;vertical-align:middle;width:80px !important; ">
+                        7
+                    </div>
+                </td>
+                <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: bold; text-align: center; vertical-align: middle;">Anchor sewing tensile</td>
+                <td rowspan="3" class="table_sub_item" style="font-weight:bold;text-align: center;vertical-align:middle;border:1px solid #000 !important;">≥14.7kN (Webbing sewing with anchor plate)</td>
+                <td rowspan="2" style="color:blue;font-weight:lighter;text-align: center;vertical-align:bottom;border:1px solid #000 !important;">Lot.</td>
+                <td colspan="2" class="sec7 mth-val mth_0101" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val  mth_0102" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-val  mth_0201" style="border:1px solid #000 !important;">&nbsp;</td>
+                @* <td class="sec7 mth-val  mth_0202" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-val  mth_0301" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val  mth_0302" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-val mth_0401" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val mth_0402" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-val mth_0501" style="border:1px solid #000 !important;">&nbsp;</td>
+                @* <td class="sec7 mth-val mth_0502" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-val mth_0601" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val mth_0602" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-val mth_0701" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val mth_0702" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-val mth_0801" style="border:1px solid #000 !important;">&nbsp;</td>
+                @* <td class="sec7 mth-val mth_0802" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-val mth_0901" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val mth_0902" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-val mth_1001" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-val mth_1002" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-val mth_1101" style="border:1px solid #000 !important;">&nbsp;</td>
+                @* <td class="sec7 mth-val mth_1102" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-val mth_1201" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec6 mth-val mth_1202" style="border:1px solid #000 !important;">&nbsp;</td>*@
+
+            </tr>
+            <tr class="row_VSILOCKING_90DEG">
+                @*<td style="color:blue;font-weight:lighter;text-align: center;vertical-align:middle;border:1px solid #000 !important;">Lot.</td>*@
+                <td colspan="2" class="sec7 mth-lot mth_0101" style="border:1px solid #000 !important;">&nbsp;</td>
+                @* <td class="sec7 mth-lot  mth_0102" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-lot  mth_0201" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot  mth_0202" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-lot  mth_0301" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot  mth_0302" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-lot mth_0401" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_0402" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-lot mth_0501" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_0502" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-lot mth_0601" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_0602" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-lot mth_0701" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_0702" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-lot mth_0801" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_0802" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-lot mth_0901" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_0902" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-lot mth_1001" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_1002" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-lot mth_1101" style="border:1px solid #000 !important;">&nbsp;</td>
+                @* <td class="sec7 mth-lot mth_1102" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-lot mth_1201" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-lot mth_1202" style="border:1px solid #000 !important;">&nbsp;</td>*@
+            </tr>
+            <tr style="border-bottom:2px solid #000">
+                <td style="color:blue;font-weight:lighter;text-align: center;vertical-align:middle;border:1px solid #000 !important;">Part No.</td>
+                <td colspan="2" class="sec7 mth-part mth_0101" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part  mth_0102" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-part  mth_0201" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part  mth_0202" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-part  mth_0301" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part  mth_0302" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-part mth_0401" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_0402" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-part mth_0501" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_0502" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-part mth_0601" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_0602" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-part mth_0701" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_0702" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-part mth_0801" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_0802" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-part mth_0901" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_0902" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-part mth_1001" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_1002" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-part mth_1101" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_1102" style="border:1px solid #000 !important;">&nbsp;</td>*@
+                <td colspan="2" class="sec7 mth-part mth_1201" style="border:1px solid #000 !important;">&nbsp;</td>
+                @*<td class="sec7 mth-part mth_1202" style="border:1px solid #000 !important;">&nbsp;</td>*@
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+
+<script>
+    var table_original;
+    function updateSPCData(DATA) {
+        var sec51Var = DATA.SEC51;
+        var sec52Var = DATA.SEC52;
+        var sec6Var = DATA.SEC6;
+        var sec7Var = DATA.SEC7;
+
+        $.each(sec51Var, function (i,k) {
+            var LOT_elmt_name = ".sec51.mth-lot.mth_" + k["MONTH"] + pad(k["POS"], 2);
+            var VAL_elmt_name = ".sec51.mth-val.mth_" + k["MONTH"] + pad(k["POS"], 2);
+            //console.log(LOT_elmt_name);
+            $(LOT_elmt_name).html('');
+            $(VAL_elmt_name).html('');
+            var valDigit = Number(k["VAL"]).toFixed(2);
+
+            var textValue = valDigit + ' kN';
+            var textLot = k["LOT"];
+            if (valDigit == 0.00) textValue = '&nbsp;';
+            if (k["LOT"] == "null" || k["LOT"] == null) textLot = '&nbsp;';
+
+            var divLot = '<div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">' + textLot + '</div>';
+            var divVal = '<div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">' + textValue + '</div>';
+            $(LOT_elmt_name).append(divLot);
+            $(VAL_elmt_name).append(divVal);
+        });
+        $.each(sec52Var, function (i, k) {
+            var LOT_elmt_name = ".sec52.mth-lot.mth_" + k["MONTH"] + pad(k["POS"], 2);
+            var VAL_elmt_name = ".sec52.mth-val.mth_" + k["MONTH"] + pad(k["POS"], 2);
+            //console.log(LOT_elmt_name);
+            $(LOT_elmt_name).html('');
+            $(VAL_elmt_name).html('');
+            var valDigit = Number(k["VAL"]).toFixed(2);
+
+            var textValue = valDigit + ' kN';
+            var textLot = k["LOT"];
+            if (valDigit == 0.00) textValue = '&nbsp;';
+            if (k["LOT"] == "null" || k["LOT"] == null) textLot = '&nbsp;';
+            var divLot = '<div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">' + textLot + '</div>';
+            var divVal = '<div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">' + textValue + '</div>';
+            $(LOT_elmt_name).append(divLot);
+            $(VAL_elmt_name).append(divVal);
+        });
+        $.each(sec6Var, function (i, k) {
+            var LOT_elmt_name = ".sec6.mth-lot.mth_" + k["MONTH"] + pad(k["POS"], 2);
+            var VAL_elmt_name = ".sec6.mth-val.mth_" + k["MONTH"] + pad(k["POS"], 2);
+            //console.log(LOT_elmt_name);
+            $(LOT_elmt_name).html('');
+            $(VAL_elmt_name).html('');
+            var valDigit = Number(k["VAL"]).toFixed(2);
+            var textValue = valDigit + ' kN';
+            var textLot = k["LOT"];
+            if (valDigit == 0.00) textValue = '&nbsp;';
+            if (k["LOT"] == "null" || k["LOT"] == null) textLot = '&nbsp;';
+            var divLot = '<div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">' + textLot + '</div>';
+            var divVal = '<div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">' + textValue + '</div>';
+            $(LOT_elmt_name).append(divLot);
+            $(VAL_elmt_name).append(divVal);
+        });
+        $.each(sec7Var, function (i, k) {
+            var LOT_elmt_name = ".sec7.mth-lot.mth_" + k["MONTH"] + pad(k["POS"], 2);
+            var VAL_elmt_name = ".sec7.mth-val.mth_" + k["MONTH"] + pad(k["POS"], 2);
+            //console.log(LOT_elmt_name);
+            $(LOT_elmt_name).html('');
+            $(VAL_elmt_name).html('');
+            var valDigit = Number(k["VAL"]).toFixed(2);
+            var textValue = valDigit + ' kN';
+            var textLot = k["LOT"];
+            if (valDigit == 0.00) textValue = '&nbsp;';
+            if (k["LOT"] == "null" || k["LOT"] == null) textLot = '&nbsp;';
+            var divLot = '<div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">' + textLot + '</div>';
+            var divVal = '<div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">' + textValue + '</div>';
+            $(LOT_elmt_name).append(divLot);
+            $(VAL_elmt_name).append(divVal);
+        });
+    }
+    $('.refreshBtn').click(function(){
+        //alert("test");
+        //getCopData();
+        console.log(sec51Data);
+        console.log(sec52Data);
+        console.log(sec6Data);
+        console.log(sec7Data);
+        var MODEL_ID = $('.MODEL_ID').val();
+
+        var YesrStr = $('.YEAR_SEL').val();
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "ModelID": MODEL_ID,
+            "SEC51": sec51Data,
+            "SEC52": sec52Data,
+            "SEC6": sec6Data,
+            "SEC7": sec7Data,
+            "YEAR": YesrStr
+        };
+
+        console.log(jdata);
+        var urlText = "@Url.Action("getSPCDATA", "COPR16_COPRUNNING")";
+        $.ajax({
+            type: "POST",
+            url: urlText,
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                //updateDataStep1(result.Data);
+                //updateRowWithColCount();
+                console.log(result.Data);
+                //updatePart(result.Data);
+                updateSPCData(result.Data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalLabelError').html("Reading SPC TEMPLATE FILE Error");
+                //$('#lModalBodyError').html("Cannot save data : " + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                var cmmt = obj.filter('font')[0];
+                console.log(title);
+                $('#lModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML + cmmt.innerHTML);
+                $('#lModalError').modal("show");
+            }
+        })
+        return false;
+    })
+    function getCopData() {
+        var MODEL_ID = $('.MODEL_ID').val();
+        var fromDATE = $('.from-date').val();
+        var toDATE = $('.to-date').val();
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "ModelID": MODEL_ID,
+            "fromDate":fromDATE,
+            "toDate":toDATE
+        };
+
+        console.log(jdata);
+        var urlText = "@Url.Action("getFinalReport","COPR16_COPRUNNING")";
+        $.ajax({
+            type: "POST",
+            url: urlText,
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                updateDataStep1(result.Data);
+                updateRowWithColCount();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+            }
+        })
+        return false;
+    }
+    function updateResult() {
+        var header1 = "<th class=\"no-wrap - th textCol\" > Result</th>";
+        $('.Header1_result').append(header1);
+    }
+
+    table_original = $('.data-step').clone();
+    $('.exportBtn').click(function () {
+        //alert("ok");
+        exportToExcel();
+        //fnExcelReport();
+    });
+
+    function fnExcelReport()
+    {
+        var tab_text=$('.table_dsp').html();
+        var textRange;
+        var j = 0;
+
+
+        //tab_text=tab_text+"</table>";
+        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html", "replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus();
+            sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
+        }
+        else {
+            sa = window.open('data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' + encodeURIComponent(tab_text));
+        }
+        return (sa);
+    }
+
+    function exportToExcel() {
+        var style_sheet = $('#style_local').html();
+        var htmls = "";
+                var uri = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8;base64,';
+                var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style>{stylesheet}</style></head><body><table>{table}</table></body></html>';
+                var base64 = function(s) {
+                    return window.btoa(unescape(encodeURIComponent(s)))
+                };
+
+                var format = function(s, c) {
+                    return s.replace(/{(\w+)}/g, function(m, p) {
+                        return c[p];
+                    })
+                };
+        console.log(style_sheet);
+        htmls = $('.table_dsp').html().replace(/1\-1/g,'\u200C' + '1-1');
+        htmls = htmls.replace(/5\-1/g, '\u200C' + '5-1');
+        htmls = htmls.replace(/5\-2/g, '\u200C' + '5-2');
+        var ctx = {
+            worksheet: "TENSILE_REPORT_" + $('.YEAR_SEL').val() + "_" + $('.MODEL_ID').val(),
+                stylesheet: style_sheet,
+                table: htmls
+        }
+        console.log(format(template, ctx));
+        var link = document.createElement("a");
+        link.download = "TENSILE_REPORT_" + $('.YEAR_SEL').val() + "_" + $('.MODEL_ID').val()+ ".xls";
+        link.href = uri + base64(format(template, ctx));
+        link.click();
+    }
+    function pad(str, max) {
+        str = str.toString();
+        return str.length < max ? pad("0" + str, max) : str;
+    }
+    function updateYear() {
+        console.log("TESTSSTSTST");
+        var yearVal = $('.YEAR_SEL').val();
+        console.log(yearVal);
+        if (typeof (yearVal) != undefined) {
+            for(var i = 0; i <= 12; i++) {
+                var objName = 'td.mth_' + pad(i,2);
+                var text1 = $(objName).html();
+                text1 = text1 + "'" + yearVal.substr(2, 2);
+                $(objName).html(text1);
+            }
+        } else {
+            console.log(yearVal);
+        }
+    }
+    var sec51Data = [];
+    var sec52Data = [];
+    var sec6Data = [];
+    var sec7Data = [];
+
+    var tensileData = {
+        "PART": "",
+        "LOT": "",
+        "VAL": "",
+        "POS": ""
+    }
+    function updatePart(Data) {
+        sec51Data = [];
+        sec52Data = [];
+        sec6Data = [];
+        sec7Data = [];
+        $.each(Data, function (i, k) {
+            //console.log(i, k);
+            var row = k;
+
+            var objName1 = row["classNamePart"];
+            var divPart = '<div class="text" style="width: 100%!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">' + row["TRPT_PART"] + '</div>';
+            $(objName1).html('');
+            $(objName1).append(divPart);
+
+
+            if (row["TRPT_SEC"] == "51") {
+                var data1 = {
+                    "PART": row["TRPT_PART"] ,
+                    "LOT": row["TRPT_LOT"],
+                    "VAL": row["TRPT_VALUE"],
+                    "POS": row["TRPT_POS"],
+                    "MONTH": pad(row["TRPT_MONTH"], 2)
+                }
+                sec51Data.push(data1);
+            }
+            if (row["TRPT_SEC"] == "52") {
+                var data1 = {
+                    "PART": row["TRPT_PART"],
+                    "LOT": row["TRPT_LOT"],
+                    "VAL": row["TRPT_VALUE"],
+                    "POS": row["TRPT_POS"],
+                    "MONTH": pad(row["TRPT_MONTH"], 2)
+                }
+                sec52Data.push(data1);
+            }
+            if (row["TRPT_SEC"] == "6") {
+                var data1 = {
+                    "PART": row["TRPT_PART"],
+                    "LOT": row["TRPT_LOT"],
+                    "VAL": row["TRPT_VALUE"],
+                    "POS": row["TRPT_POS"],
+                    "MONTH": pad(row["TRPT_MONTH"], 2)
+                }
+                sec6Data.push(data1);
+            }
+            if (row["TRPT_SEC"] == "7") {
+                var data1 = {
+                    "PART": row["TRPT_PART"],
+                    "LOT": row["TRPT_LOT"],
+                    "VAL": row["TRPT_VALUE"],
+                    "POS": row["TRPT_POS"],
+                    "MONTH": pad(row["TRPT_MONTH"], 2)
+                }
+                sec7Data.push(data1);
+            }
+        });
+        console.log(sec51Data);
+        console.log(sec52Data);
+        console.log(sec7Data);
+        console.log(sec6Data);
+    }
+    $('.readTemplateBtn').click(function () {
+        var MODEL_ID = $('.MODEL_ID').val();
+        var YEAR = $('.YEAR_SEL').val();
+        var USERNAME = $('#UID').val();
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "ModelID": MODEL_ID,
+            "YEAR": YEAR,
+            "USERNAME": USERNAME
+        };
+
+        console.log(jdata);
+        var urlText = "@Url.Action("getPartListTNS", "COPR16_COPRUNNING")";
+        $.ajax({
+            type: "POST",
+            url: urlText,
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                //updateDataStep1(result.Data);
+                //updateRowWithColCount();
+                //console.log(result.Data);
+                updatePart(result.Data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalLabelError').html("Reading SPC TEMPLATE FILE Error");
+                //$('#lModalBodyError').html("Cannot save data : " + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                var cmmt = obj.filter('font')[0];
+                console.log(title);
+                $('#lModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML + cmmt.innerHTML);
+                $('#lModalError').modal("show");
+            }
+        })
+        return false;
+    });
+    updateYear();
+</script>

@@ -1,0 +1,218 @@
+﻿@model IEnumerable<CM_APPLICATIONS.COPR16_FG_MSTR>
+
+@{
+    ViewBag.Title = "FG MASTER";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var dataRow = ViewBag.rowData;
+}
+
+<h2>ERP VOLUME SYNC (ATH)</h2>
+
+@*<p>
+    @Html.ActionLink("VIEW BY MODEL", "IndexERP", "COPR16_FG_MSTR", new { @class = "btn btn-primary button" })
+    @Html.ActionLink("VIEW BY FG NO.", "IndexFGNO", "COPR16_FG_MSTR", new { @class = "btn btn-primary button" })
+</p>*@
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 99% !important;
+        margin-left: 0px !important;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+    .text-center-big {
+        text-align:center;
+        font-size:larger;
+        vertical-align:middle;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-1">MODEL :</label>
+            <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+                @Html.Editor("MODELID", new { htmlAttributes = new { @class = "form-control MODELID", } })
+                @*<input type="button"  class="edit-from-date-picker searchBtn">*@
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-1 col-md-10">
+                <input type="button" value="Search" class="btn btn-primary button refreshBtn" />
+                <input type="button" value="Clear" class="btn btn-secondary button resetBtn" />
+            </div>
+        </div>
+    </div>
+}
+<table class="table table-lists stripe">
+    <thead>
+        <tr>
+            <th>
+                MODEL / LINE
+            </th>
+            <th >
+                VOLUME (QTY)
+            </th>
+            <th >
+                WITHOUT CONDITION (5,000)
+            </th>
+            <th >
+                WITH CONDITION (10,000)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.MOD_BY)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MOD_DATE)
+                </th>*@
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in dataRow)
+        {
+        <tr>
+            <td>
+                <B>@Html.Raw(item["MODEL_ID"])</B><br/>@Html.Raw(item["LINE_ID"])
+            </td>
+            <td width="10%">
+                @Html.Raw(item["TQTY"])
+            </td>
+            <td width="1%">
+                <table border="1">
+                    <tr>
+                        <TH>Please Create COP Without-Condition (01):  </TH>
+                        <th style="text-align:center">@Html.Raw(item["COND1"])</th>
+                    </tr>
+                    <tr>
+                        <TH>Cond. QTY : </TH>
+                        <th>@Html.Raw(item["NEXT1"])</th>
+                    </tr>
+                </table>
+
+            </td>
+            <td width="1%">
+                <table border="1">
+                    <tr>
+                        <TH>Please Create COP With-Condition (02):  </TH>
+                        <th style="text-align:center">@Html.Raw(item["COND2"])</th>
+                    </tr>
+                    <tr>
+                        <TH>Cond. QTY : </TH>
+                        <th>@Html.Raw(item["NEXT2"])</th>
+                    </tr>
+                </table>
+            </td>
+
+            @*<td>
+            @Html.DisplayFor(modelItem => item.MOD_BY)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MOD_DATE)
+        </td>*@
+
+
+        </tr>
+        }
+    </tbody>
+</table>
+<script>
+    
+    var tbVar = $('.table-lists').DataTable({
+        "paging": false,
+        "ordering": false,
+        "info": true,
+        "stripe": true,
+        "filter":false,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "language": {
+            "lengthMenu": "Display  _MENU_  Items / Page",
+            "zeroRecords": "<center style='color:blue;'><b>items not found</b></center>",
+            "info": "Showing _START_-_END_ of _TOTAL_ items",
+            "infoEmpty": "",
+            "infoFiltered": "(filtered from _MAX_ total items)"
+        },
+        columnDefs: [
+            { className: 'text-center', targets: [2,3] },
+            { className: 'text-center-big', targets: [0,1] }
+        ]
+    });
+    //tbVar.clear().draw();
+    function getDataFromServer(result) {
+        tbVar.clear().draw();
+
+        var rowResult = result.Data;
+        $.each(rowResult, function (i, singleRow) {
+            //console.log(singleRow);
+            var strText = Object.keys(singleRow);
+            var date = new Date(parseInt(singleRow.ADATE.substr(6)));
+            var editBtn = "<input type='button' name='edit_" + singleRow.FG_NO + "' id='edit_" + singleRow.FG_NO + "' value='edit' class='btn btn-primary button edit_" + singleRow.FG_NO + "'><input type='hidden' id='hFG_NO' name='hFG_NO' value='" + singleRow.FG_NO+"'>";
+            var rowdata = [singleRow.FG_NO, singleRow.FG_NAME, singleRow.FG_DESC, singleRow.FLGACT, dateFormat(date, 'dd mmm yyyy h:MM:ss tt'), singleRow.CT_BY, editBtn];
+            var rows = tbVar.row.add(rowdata).draw(false).node();
+        });
+
+    }
+    function refreshData() {
+        var FGNO = $('.FG-NO').val() != null ? $('.FG-NO').val() : null;
+        var FGDESC = $('.FG-DESC').val() != null ? $('.FG-DESC').val() : null;
+        var FGNAME = $('.FG-NAME').val() != null ? $('.FG-NAME').val() : null;
+        var keyHidden = $('input[name="__RequestVerificationToken"]').val();
+        var urlText = "@Url.Action("getFGList","COPR16_FG_MSTR")";
+        var dataSumbit = {
+            "__RequestVerificationToken": keyHidden,
+            "FGNO": FGNO,
+            "FGDESC": FGDESC,
+            "FGNAME": FGNAME
+        };
+        console.log(dataSumbit);
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: dataSumbit,
+            success: function (result) {
+                console.log(result);
+                //updateInfo(result);
+                getDataFromServer(result);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                //alert("error:" + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#ModalError').modal('show');
+            }
+        });
+    }
+    $('.resetBtn').click(function () {
+        getDataFromServer();
+    });
+    $('.refreshBtn').click(function () {
+        refreshData();
+    });
+    $("body").on("click", "input[name^=edit]", function () {
+        var fg_no = $(this).parent().find('#hFG_NO').val();
+
+        console.log(fg_no);
+        var url = "@Url.Action("Edit","COPR16_FG_MSTR")/" + fg_no;
+        $(location).attr('href', url);
+    });
+    $(document).on('keypress', function (e) {
+        if (e.which == 13) {
+            refreshData();
+        }
+    });
+</script>

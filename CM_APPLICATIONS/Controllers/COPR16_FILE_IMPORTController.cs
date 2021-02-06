@@ -17,6 +17,8 @@ using System.Text;
 
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.ComponentModel;
+using System.Configuration;
 
 namespace CM_APPLICATIONS.Controllers
 {
@@ -24,6 +26,300 @@ namespace CM_APPLICATIONS.Controllers
     {
         private COPR16Entities db = new COPR16Entities();
         public string UploadFilePath;
+        //PARTLISTUploading
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AsyncTimeout(50000)]
+        public async Task<JsonResult> PARTLISTUploading(HttpPostedFileBase FSIM_NAME, string hidden_cOPR16_FILE_IMPORT_FSIM_SEQDT, string UID,string SPC_MODEL_LIST,string SPC_YEAR)
+        {
+            var rowData = new JsonResult();
+            DataTable dt = new DataTable();
+
+
+            int rowIndex = 0;
+            List<Dictionary<string, object>> ColumnOfRows = new List<Dictionary<string, object>>();
+            List<string> colNameArr = new List<string>();
+            List<string> RowcolNameArr = new List<string>();
+            if (FSIM_NAME.ContentLength > 0)
+            {
+                string rootPath = AppPropModel.rootPath;
+                string subPath = UID + "/" + hidden_cOPR16_FILE_IMPORT_FSIM_SEQDT;
+                bool exists = System.IO.Directory.Exists(Server.MapPath(rootPath + "/" + subPath));
+                if (!exists)
+                    System.IO.Directory.CreateDirectory(Server.MapPath(rootPath + "/" + subPath));
+
+                var fileName = Path.GetFileName(FSIM_NAME.FileName);
+
+                var path = Path.Combine(Server.MapPath(rootPath + "/" + subPath), fileName);
+                /*
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+                */
+                FSIM_NAME.SaveAs(path);
+                string Ext = Path.GetExtension(path);
+                dt = FillGridFromExcelSheetEx(path, Ext, "YES");
+            }
+            Boolean tableCreate = false;
+            Boolean tableDDL = false;
+            string table_name = "COPR16_TNS_PART_UPLOAD";
+            string SQLDDL = "CREATE TABLE " + table_name + " (";
+            string CHECKDDL = "";
+            List<Dictionary<string, object>> rows1 = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row1;
+            foreach (DataRow dr in dt.Rows)
+            {
+                row1 = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row1.Add(col.ColumnName, dr[col]);
+                    if (tableDDL != true) SQLDDL += "[" + col.ColumnName.Replace('(', '_').Replace(')', '_') + "] nvarchar(512), ";
+                }
+
+                if (tableDDL != true)
+                {
+                    SQLDDL = SQLDDL.Substring(0, SQLDDL.Length - 2) + " )";
+                    //SQLDDL += ",UPDATE_BY nvarchar(512), )";
+                    CHECKDDL = "DECLARE @TABLENAME NVARCHAR(50) = '" + table_name + "';\r\n" +
+                                "DECLARE @SQL_CREATE NVARCHAR(max) = '" + SQLDDL + "';\r\n" +
+                                "DECLARE @SQL_TRUCATE NVARCHAR(max) = 'TRUNCATE TABLE ' + @TABLENAME;\r\n" +
+                                "DECLARE @SQL_DROP NVARCHAR(max) = 'DROP TABLE ' + @TABLENAME;\r\n" +
+                                "IF OBJECT_ID('dbo.' + @TABLENAME ) IS NOT NULL\r\n" +
+                                "BEGIN\r\n" +
+                                "EXECUTE sp_executesql @SQL_DROP\r\n" +
+                                "EXECUTE sp_executesql @SQL_CREATE\r\n" +
+                                "END;\r\n" +
+                                 "ELSE\r\n" +
+                                 "BEGIN\r\n" +
+                                 "EXECUTE sp_executesql @SQL_CREATE\r\n" +
+                                "END;\r\n";
+                    //var rtn = await db.Database.ExecuteSqlCommandAsync(CHECKDDL);
+                    if (db.Database.Connection.State != ConnectionState.Open)
+                    {
+                        db.Database.Connection.Open();
+                    }
+                    string SQLCMD2 = CHECKDDL;
+
+                    using (var cmd = db.Database.Connection.CreateCommand())
+                    {
+                        cmd.CommandText = SQLCMD2;
+
+                        //cmd.Parameters.Add(new SqlParameter("@COPR_ID", COPNO == null ? "" : COPNO));
+                        //cmd.Parameters.Add(new SqlParameter("@LINE_ID", LINE_ID == null ? "" : LINE_ID));
+                        cmd.ExecuteNonQuery();
+                    }
+                    tableDDL = true;
+                }
+
+                rows1.Add(row1);
+            }
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+                using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
+                {
+                    //Set the database table name.
+                    sqlBulkCopy.DestinationTableName = "dbo." + table_name;
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        sqlBulkCopy.ColumnMappings.Add(col.ColumnName, col.ColumnName.Replace('(', '_').Replace(')', '_'));
+                        //row1.Add(col.ColumnName, dr[col]);
+                        //if (tableDDL != true) SQLDDL += "[" + col.ColumnName.Replace('(', '_').Replace(')', '_') + "] nvarchar(512), ";
+                    }
+                    //[OPTIONAL]: Map the Excel columns with that of the database table
+                    //sqlBulkCopy.ColumnMappings.Add("Id", "CustomerId");
+                    //sqlBulkCopy.ColumnMappings.Add("Name", "Name");
+                    //sqlBulkCopy.ColumnMappings.Add("Country", "Country");
+                    con.Open();
+                    sqlBulkCopy.WriteToServer(dt);
+                    con.Close();
+                }
+            }
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+
+                await con.OpenAsync();
+                using (var cmd = db.Database.Connection.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_UPDATE_TNS_RPT_TEMPLATE @YEAR,@MODEL,@UID;";
+                    cmd.Parameters.Add(new SqlParameter("@YEAR", SPC_YEAR));
+                    cmd.Parameters.Add(new SqlParameter("@MODEL", SPC_MODEL_LIST));
+                    cmd.Parameters.Add(new SqlParameter("@UID", UID));
+                    //cmd.ExecuteNonQuery();
+
+                    await cmd.ExecuteNonQueryAsync();
+                    //await cmd.ExecuteSqlCommandAsync(sqlCOMMAND_ITEMS, sqlParams.ToArray());
+                }
+                con.Close();
+            }
+            rowData.Data = rows1;
+            //row.Data = new object[] { 1, 2,5 };
+            JsonResult json = Json(rowData, JsonRequestBehavior.AllowGet);
+            json.MaxJsonLength = int.MaxValue;
+            //return Json(rowData, JsonRequestBehavior.AllowGet);
+            return json;
+            //return rowData;
+        }
+
+        //SPCUploading
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AsyncTimeout(50000)]
+        public async Task<JsonResult> SPCUploading(HttpPostedFileBase FSIM_NAME, string hidden_cOPR16_FILE_IMPORT_FSIM_SEQDT, string UID)
+        {
+            var rowData = new JsonResult();
+            DataTable dt = new DataTable();
+
+            int rowIndex = 0;
+            List<Dictionary<string, object>> ColumnOfRows = new List<Dictionary<string, object>>();
+            List<string> colNameArr = new List<string>();
+            List<string> RowcolNameArr = new List<string>();
+            if (FSIM_NAME.ContentLength > 0)
+            {
+                string rootPath = AppPropModel.rootPath;
+                string subPath = UID + "/" + hidden_cOPR16_FILE_IMPORT_FSIM_SEQDT;
+                bool exists = System.IO.Directory.Exists(Server.MapPath(rootPath + "/" + subPath));
+                if (!exists)
+                    System.IO.Directory.CreateDirectory(Server.MapPath(rootPath + "/" + subPath));
+
+                var fileName = Path.GetFileName(FSIM_NAME.FileName);
+
+                var path = Path.Combine(Server.MapPath(rootPath + "/" + subPath), fileName);
+                /*
+                if (System.IO.File.Exists(path))
+                {
+                    System.IO.File.Delete(path);
+                }
+                */
+                FSIM_NAME.SaveAs(path);
+                string Ext = Path.GetExtension(path);
+                dt = FillGridFromExcelSheet(path, Ext, "YES");
+            }
+            Boolean tableCreate = false;
+            Boolean tableDDL= false;
+            string table_name = "COPR16_SPC_UPLOAD";
+            string SQLDDL = "CREATE TABLE "+ table_name + " (";
+            string CHECKDDL = "";
+            List<Dictionary<string, object>> rows1 = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row1;
+            foreach (DataRow dr in dt.Rows)
+            {
+                row1 = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row1.Add(col.ColumnName, dr[col]);
+                    if(tableDDL != true) SQLDDL += "[" + col.ColumnName.Replace('(','_').Replace(')', '_') + "] nvarchar(50), ";
+                }
+                if (tableDDL != true)
+                {
+                    SQLDDL = SQLDDL.Substring(0, SQLDDL.Length - 2) + " )";
+                    //SQLDDL += ",UPDATE_BY nvarchar(512), )";
+                    CHECKDDL = "DECLARE @TABLENAME NVARCHAR(50) = '"+ table_name + "';\r\n" +
+                                "DECLARE @SQL_CREATE NVARCHAR(MAX) = '" + SQLDDL + "';\r\n" +
+                                "DECLARE @SQL_TRUCATE NVARCHAR(MAX) = 'TRUNCATE TABLE ' + @TABLENAME;\r\n" +
+                                "DECLARE @SQL_DROP NVARCHAR(MAX) = 'DROP TABLE ' + @TABLENAME;\r\n" +
+                                "DECLARE @SQL_INDEX NVARCHAR(MAX) = 'DROP TABLE ' + @TABLENAME;\r\n" +
+                                "IF OBJECT_ID('dbo.' + @TABLENAME ) IS NOT NULL\r\n" +
+                                "BEGIN\r\n" +
+                                "EXECUTE sp_executesql @SQL_DROP\r\n" +
+                                "EXECUTE sp_executesql @SQL_CREATE\r\n" +
+                                "END;\r\n" +
+                                 "ELSE\r\n" +
+                                 "BEGIN\r\n" +
+                                 "EXECUTE sp_executesql @SQL_CREATE;\r\n" +
+                                "END;\r\n";
+                    //var rtn = await db.Database.ExecuteSqlCommandAsync(CHECKDDL);
+                    if (db.Database.Connection.State != ConnectionState.Open)
+                    {
+                        db.Database.Connection.Open();
+                    }
+                    string SQLCMD2 = CHECKDDL;
+
+                    using (var cmd = db.Database.Connection.CreateCommand())
+                    {
+                        cmd.CommandText = SQLCMD2;
+
+                        //cmd.Parameters.Add(new SqlParameter("@COPR_ID", COPNO == null ? "" : COPNO));
+                        //cmd.Parameters.Add(new SqlParameter("@LINE_ID", LINE_ID == null ? "" : LINE_ID));
+                        cmd.ExecuteNonQuery();
+                    }
+                    tableDDL = true;
+                }
+
+                rows1.Add(row1);
+            }
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+                
+                using (SqlBulkCopy sqlBulkCopy = new SqlBulkCopy(con))
+                {
+                    //Set the database table name.
+                    sqlBulkCopy.DestinationTableName = "dbo." + table_name;
+                    foreach (DataColumn col in dt.Columns)
+                    {
+                        sqlBulkCopy.ColumnMappings.Add(col.ColumnName, col.ColumnName.Replace('(', '_').Replace(')', '_'));
+
+                    }
+
+                    await con.OpenAsync();
+                    //sqlBulkCopy.WriteToServer(dt);
+                    await sqlBulkCopy.WriteToServerAsync(dt);
+                    con.Close();
+                }
+            }
+            rowData.Data = rows1;
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+                //con.Open();
+                await con.OpenAsync();
+                using (var cmd = db.Database.Connection.CreateCommand())
+                {
+                    cmd.CommandText = "exec dbo.COPR16_UPDATE_CUBE_3";
+                    //cmd.ExecuteNonQuery();
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                con.Close();
+            }
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+                //con.Open();
+                await con.OpenAsync();
+                using (var cmd = db.Database.Connection.CreateCommand())
+                {
+                    cmd.CommandText = "exec dbo.COPR16_UPDATE_CUBE_00";
+                    //cmd.ExecuteNonQuery();
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                con.Close();
+            }
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+                //con.Open();
+                await con.OpenAsync();
+                using (var cmd = db.Database.Connection.CreateCommand())
+                {
+                    cmd.CommandText = "exec dbo.COPR16_SPCC_FACT_GENERATE '" + UID + "';";
+                    //cmd.ExecuteNonQuery();
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                con.Close();
+            }
+            /*
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+                con.Open();
+                using (var cmd = db.Database.Connection.CreateCommand())
+                {
+                    cmd.CommandText = "exec dbo.COPR16_UPDATE_CUBE_99";
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+            }
+            */
+            JsonResult json = Json(rowData, JsonRequestBehavior.AllowGet);
+            json.MaxJsonLength = int.MaxValue;
+            return json;
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -84,22 +380,25 @@ namespace CM_APPLICATIONS.Controllers
             //return Json(rowData, JsonRequestBehavior.AllowGet);
             return json;
         }
+       
         private DataTable FillGridFromExcelSheet(string FilePath, string ext,string HDR)
         {
             bool isCSV = false;
             string connectionString = "";
             if (ext.ToLower() == ".xls")
             {   //For Excel 97-03
-                connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source ='{0}';Extended Properties = 'Excel 8.0;HDR={1}'";
+                connectionString = "Provider=Microsoft.ACE.OLEDB.16.0; Data Source ='{0}';Extended Properties = 'Excel 8.0;HDR={1}'";
             }
             else if (ext.ToLower() == ".xlsx")
             {    //For Excel 07 and greater
-                connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source = '{0}'; Extended Properties = 'Excel 8.0;HDR={1}'";
-            }else if(ext.ToLower() == ".csv")
+                //connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source = '{0}'; Extended Properties = 'Excel 8.0;HDR={1}'";
+                connectionString = "Provider=Microsoft.ACE.OLEDB.16.0;Data Source = '{0}'; Extended Properties = 'Excel 12.0 Xml;HDR={1}'";
+            }
+            else if(ext.ToLower() == ".csv")
             {
                 //For CSV files
                 isCSV = true;
-                connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source='{0}';Extended Properties='TEXT;HDR={1};FMT=Delimited;ImportMixedTypes=Text;IMEX=0;'";
+                connectionString = "Provider=Microsoft.ACE.OLEDB.16.0; Data Source='{0}';Extended Properties='TEXT;HDR={1};FMT=Delimited;ImportMixedTypes=Text;IMEX=0;'";
             }
 
             //Fetch 1st Sheet Name
@@ -107,6 +406,13 @@ namespace CM_APPLICATIONS.Controllers
             //OleDbCommand cmd = new OleDbCommand();
             //OleDbDataAdapter dataAdapter = new OleDbDataAdapter();
             DataTable dt = new DataTable();
+            //DataColumn dc = new DataColumn("ColIdx");
+            //dc.AutoIncrement = true;
+            //dc.AutoIncrementSeed = 1;
+            //dc.DataType = typeof(Int32);
+            //dt.Columns.CollectionChanged += new CollectionChangeEventHandler(Columns_CollectionChanged);
+            //dt.Columns.Add(dc);
+
             if (!isCSV)
             {
 
@@ -220,6 +526,153 @@ namespace CM_APPLICATIONS.Controllers
             }
 
             
+            //Bind Sheet Data to GridView
+            return dt;
+        }
+        private DataTable FillGridFromExcelSheetEx(string FilePath, string ext, string HDR)
+        {
+            bool isCSV = false;
+            string connectionString = "";
+            if (ext.ToLower() == ".xls")
+            {   //For Excel 97-03
+                connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source ='{0}';Extended Properties = 'Excel 8.0;HDR={1}'";
+            }
+            else if (ext.ToLower() == ".xlsx")
+            {    //For Excel 07 and greater
+                connectionString = "Provider=Microsoft.ACE.OLEDB.16.0;Data Source = '{0}'; Extended Properties = 'Excel 12.0 Xml;HDR={1}'";
+            }
+            else if (ext.ToLower() == ".csv")
+            {
+                //For CSV files
+                isCSV = true;
+                connectionString = "Provider=Microsoft.ACE.OLEDB.12.0; Data Source='{0}';Extended Properties='TEXT;HDR={1};FMT=Delimited;ImportMixedTypes=Text;IMEX=0;'";
+            }
+
+            //Fetch 1st Sheet Name
+
+            //OleDbCommand cmd = new OleDbCommand();
+            //OleDbDataAdapter dataAdapter = new OleDbDataAdapter();
+            DataTable dt = new DataTable();
+            DataColumn dc = new DataColumn("ColIdx");
+            dc.AutoIncrement = true;
+            dc.AutoIncrementSeed = 1;
+            dc.DataType = typeof(Int32);
+            dt.Columns.CollectionChanged += new CollectionChangeEventHandler(Columns_CollectionChanged);
+            dt.Columns.Add(dc);
+
+            if (!isCSV)
+            {
+
+                connectionString = String.Format(connectionString, FilePath, HDR);
+                OleDbConnection conn = new OleDbConnection(connectionString);
+
+                //cmd = conn.CreateCommand();
+                //cmd.Connection = conn;
+
+                conn.Open();
+                DataTable dtSchema;
+                dtSchema = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                string ExcelSheetName = dtSchema.Rows[0]["TABLE_NAME"].ToString();
+                //conn.Close();
+                //Read all data of fetched Sheet to a Data Table
+                //conn.Open();
+                //cmd.CommandText = "SELECT * From [" + ExcelSheetName + "]";
+                OleDbDataAdapter dataAdapter = new OleDbDataAdapter("SELECT * From [" + ExcelSheetName + "]", conn);
+                dataAdapter.Fill(dt);
+                dataAdapter.Dispose();
+
+                conn.Close();
+                //conn.Dispose();
+            }
+            else
+            {
+                //connectionString = String.Format(connectionString, Path.GetDirectoryName(FilePath), HDR);
+                connectionString = String.Format(connectionString, Path.GetDirectoryName(FilePath), HDR);
+                OleDbConnection conn = new OleDbConnection(connectionString);
+
+                conn.Open();
+                OleDbDataAdapter dataAdapter = new OleDbDataAdapter("SELECT * From [" + Path.GetFileName(FilePath) + "] ", conn);
+
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT * From [" + Path.GetFileName(FilePath) + "] ";
+                DbDataReader reader = cmd.ExecuteReader();
+                {
+                    //var model = Serialize(reader);
+                    dt.Load(reader);
+                }
+                DataTable dt2 = null;
+                using (GenericParserAdapter gp = new GenericParserAdapter(FilePath))
+                {
+                    //gp.FirstRowSetsExpectedColumnCount = true;
+                    gp.FirstRowHasHeader = true;
+                    dt2 = gp.GetDataTable();
+                }
+                //cmd = conn.CreateCommand();
+                //cmd.Connection = conn;
+
+                //cmd.CommandText = "SELECT * From [" + Path.GetFileName(FilePath) + "] ";
+
+                //dataAdapter.SelectCommand = cmd;
+                //dt = dataAdapter.FillSchema(dt, SchemaType.Source);
+
+                //dt.Columns["Date"].DataType = typeof(String);
+
+                //dt = dataAdapter.FillSchema(dt, SchemaType.Source);
+
+                //dataAdapter.Fill(dt);
+
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    String dateStr = dt2.Rows[i]["Date"].ToString();
+                    String dateStr2 = dt2.Rows[i][1].ToString();
+                    DateTime dtStr;
+                    if (DateTime.TryParse(dateStr, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dtStr))
+                    {
+                        //DateTime dtStr = DateTime.Parse(dateStr, System.Globalization.CultureInfo.CurrentUICulture);
+                        String newStr = dtStr.ToString("dd/MM/yyyy");
+                        CultureInfo cult = new CultureInfo("th-TH");
+                        bool flagTry = DateTime.TryParseExact(newStr, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dtStr);
+                        if (flagTry)
+                        {
+                            //dtStr = DateTime.Parse(newStr, cult);
+                            dt.Rows[i]["Date"] = dtStr;
+                        }
+                    }
+                    else
+                    {
+                        String ID = dt2.Rows[i][0].ToString();
+                        dateStr = dt2.Rows[i]["Date"].ToString();
+                        Console.WriteLine(ID + ":" + dateStr);
+                        bool flagTry = DateTime.TryParseExact(dateStr, "dd/M/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dtStr);
+                        if (flagTry)
+                        {
+                            //dtStr = DateTime.Parse(newStr, cult);
+                            dt.Rows[i]["Date"] = dtStr;
+                        }
+
+                    }
+
+
+                    /*if (DateTime.TryParseExact(dateStr, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dtStr))
+                    {
+                        dt.Rows[i]["Date"] = dtStr.ToString("DD-MMM-yyyy");
+                    }
+                    */
+                }
+
+
+
+                //dataAdapter.Dispose();
+                //conn.Dispose();
+                //cmd.Dispose();
+                //dataAdapter.Dispose();
+                //conn.Dispose();
+                conn.Close();
+
+                //dataAdapter.Dispose();
+            }
+
+
             //Bind Sheet Data to GridView
             return dt;
         }
@@ -714,6 +1167,19 @@ namespace CM_APPLICATIONS.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        void Columns_CollectionChanged(object sender, CollectionChangeEventArgs e)
+        {
+            DataColumn dc = (e.Element as DataColumn);
+            if (dc != null && dc.AutoIncrement)
+            {
+                long i = dc.AutoIncrementSeed;
+                foreach (DataRow drow in dc.Table.Rows)
+                {
+                    drow[dc] = i;
+                    i++;
+                }
+            }
         }
     }
 }

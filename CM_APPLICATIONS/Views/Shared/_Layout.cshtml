@@ -445,7 +445,7 @@
 
     <div class="container" style="padding-top:5px;padding-left:0px;padding-right:0px;background-color:#005495;white-space:nowrap !important">
         <div class="nav navbar navbar-header navbar-menu header-background">
-            @Html.ActionLink("COPR16 APPLICATION (P2)", "Index", "Home", new { area = "" }, new { @class = "app-title navbar-brand app-name-display" })
+            @Html.ActionLink("COPR16 APPLICATION (2021)", "Index", "Home", new { area = "" }, new { @class = "app-title navbar-brand app-name-display" })
             <img src="~/Content/auoliv_logo.png" class="nav navbar-text navbar-right logo-display" />
             <p class="nav navbar-text navbar-right user-item user-name-display"><a href="#"><i class="fa fa-fw fa-user"> </i>&nbsp;@CM_APPLICATIONS.Models.AppPropModel.username <i class="fa fa-fw fa-caret-down"></i> </a> </p>
 
@@ -458,9 +458,9 @@
                     <div class=" menu-item dropdown menuclick">
                         <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> COP APPROVAL</a>
                         <div class="dropdown-content">
-                            @Html.ActionLink("COP RUNNING LIST(ATH)", "Index", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP RUNNING LIST(AID)", "IndexAID", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP RUNNING LIST(NON-EC)", "IndexNONEC", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP RUNNING LIST", "IndexApproval", "COPR16_COPRUNNING", null, null)
+                           @* @Html.ActionLink("COP RUNNING LIST(AID)", "IndexAID", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP RUNNING LIST(NON-EC)", "IndexNONEC", "COPR16_COPRUNNING", null, null)*@
                         </div>
 
                     </div>
@@ -495,18 +495,18 @@
                         <div class="dropdown-content">
                             @*@Html.ActionLink("ITEMS VOLUME DASHBOARD", "Index", "CM_APPLICATIONS_TB", null,null)*@
                             @*@Html.ActionLink("IMPORT VOLUME FILE", "Index", "CM_APPS_FUNCTIONS", null, null)*@
-                            @Html.ActionLink("ERP VOLUME SYNC.", "Index", "QAD", null, null)
-
+                            @Html.ActionLink("ERP VOLUME SYNC.", "IndexERP", "COPR16_FG_MSTR", null, null)
+                            @Html.ActionLink("FG VOLUME", "Index", "COPR16_ITEMS_MSTR", null, null)
                             @*                            @Html.ActionLink("BRAND MASTER ", "Index", "COPR16_BRAND_MSTR", null, null)
-                    @Html.ActionLink("MODEL MASTER", "Index", "COPR16_MODEL_MSTR", null, null)
-                    @Html.ActionLink("LINE MASTER", "Index", "COPR16_LINE_MSTR", null, null)
-                    @Html.ActionLink("POSITION MASTER", "Index", "COPR16_POSITION_MSTR", null, null)
-                    @Html.ActionLink("FG MASTER ", "Index", "COPR16_FG_MSTR", null, null)
-                    @Html.ActionLink("MATCHING PART NO.", "MatchingParts", "COPR16_ITEMS_MSTR", null, null)*@
+        @Html.ActionLink("MODEL MASTER", "Index", "COPR16_MODEL_MSTR", null, null)
+        @Html.ActionLink("LINE MASTER", "Index", "COPR16_LINE_MSTR", null, null)
+        @Html.ActionLink("POSITION MASTER", "Index", "COPR16_POSITION_MSTR", null, null)
+        @Html.ActionLink("FG MASTER ", "Index", "COPR16_FG_MSTR", null, null)
+        @Html.ActionLink("MATCHING PART NO.", "MatchingParts", "COPR16_ITEMS_MSTR", null, null)*@
 
                             @Html.ActionLink("FG MASTER ", "Index", "COPR16_FG_MSTR", null, null)
-                            @Html.ActionLink("FG MASTER (AID)", "Index", "COPR16_FG_MSTR", null, null)
-                            @Html.ActionLink("FG VOLUME", "Index", "COPR16_ITEMS_MSTR", null, null)
+                            @Html.ActionLink("FG MASTER (AID)", "IndexAID", "COPR16_FG_MSTR", null, null)
+
 
 
                         </div>
@@ -579,8 +579,10 @@
 
                             @*COPR16_Running_Report*@
                             @Html.ActionLink("COP RUNNING REPORT", "COPR16_Running_Report", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP FINAL REPORT", "FINAL_REPORTS", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP TENSILE REPORT", "FINAL_REPORTS", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP FINAL REPORT (ATH)", "FINAL_REPORTS", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP FINAL REPORT (AID)", "FINAL_REPORTS_AID", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP FINAL REPORT (NON-EC)", "FINAL_REPORTS_NONEC", "COPR16_COPRUNNING", null, null)
+                            @Html.ActionLink("COP TENSILE REPORT", "FINAL_REPORTS_TENSILE", "COPR16_COPRUNNING", null, null)
                         </div>
 
                     </div>
@@ -597,7 +599,8 @@
                             @Html.ActionLink("Camera Test", "cameratest", "MICS", null, null)
                             @* @Html.ActionLink("Test Label", "label_printing", "MICS", null, null)*@
 
-
+                            <a href="https://localhost:7443/" style="background-color:aquamarine;color:indianred">COPR16 VERSION 2021</a>
+                            <a href="https://localhost/" style="background-color:brown;color:white">COPR16 VERSION 2020</a>
                         </div>
 
                     </div>

@@ -1,0 +1,420 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>TENSILE_REPORT_2019_341B</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style>
+
+   table
+   {
+        border-collapse: collapse;
+        border-spacing: 0;
+   }        
+
+</style></head><body><table>
+    <table class="table" border="0">
+        <thead style="border-bottom:1px solid #000 !important">
+            <tr style="border-bottom:1px solid #000 !important;">
+                <th class="no-wrap-th" colspan="29" style="text-align:left !important;border-bottom:1px solid #000 !important;">
+                    <label class="" for="Static_strength" style="white-space:nowrap;">Static strength</label>
+                </th>
+            </tr>
+        </thead>
+        <tbody style="border:1px solid #000"> 
+            <tr style="border:1px solid #000 !important">
+                <td rowspan="7" class="SEC-TITLE" style="white-space: nowrap !important;border: 1px solid #000 !important;vertical-align:middle;">
+                    <div class="text" style="width:120px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">
+                        Ret
+                        2pcs / month
+                        </div>
+                </td>
+                <td style="width: 80px !important; background-color: #DDEBF7; text-align: center; vertical-align: middle; border-right: 1px solid #DDEBF7 !important;" class=" tableexport-string">
+                    <div class="text" style="font-weight:bold;text-align: center;vertical-align:middle;width:80px !important; ">
+                        5
+                    </div>
+                </td>
+                <td colspan="3" style="background-color:#DDEBF7;font-weight:bolder" class="Header_‌1-1"><b>Reractor static tensile</b></td>
+                <td class="mth mth_01" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Jan'19</td>
+                <td class="mth mth_02" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Feb'19</td>
+                <td class="mth mth_03" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Mar'19</td>
+                <td class="mth mth_04" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Apr'19</td>
+                <td class="mth mth_05" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">May'19</td>
+                <td class="mth mth_06" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Jun'19</td>
+                <td class="mth mth_07" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Jul'19</td>
+                <td class="mth mth_08" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Aug'19</td>
+                <td class="mth mth_09" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Sep'19</td>
+                <td class="mth mth_10" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Oct'19</td>
+                <td class="mth mth_11" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Nov'19</td>
+                <td class="mth mth_12" colspan="2" style="border: 1px solid #000 !important; background-color: #DDEBF7; font-weight: bolder; text-align: center;">Dec'19</td>
+            </tr>
+            
+            <tr>
+                <td rowspan="3" class="table_sub_item" style="border:1px solid #000 !important; font-weight:lighter;text-align: center;vertical-align:middle;width:80px !important;white-space:nowrap !important">
+                    <div class="text" style="text-align: center;vertical-align:middle;width:80px !important; ">
+                        ‌5-1
+                        </div>
+                </td>
+                <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: lighter; text-align: center; vertical-align: middle; width: 450px !important; white-space: nowrap !important">W.O.S. : 450mm or W.O.S. 25%</td>
+                <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: lighter; text-align: center; vertical-align: middle; width: 450px !important; white-space: nowrap !important">≥9.8kN (With D-ring) or ≥14.7kN (Without D-ring)</td>
+                <td rowspan="2" style="color:blue;font-weight:lighter;text-align: center;vertical-align:bottom;border:1px solid #000 !important;">Lot.</td>
+                <td class="sec51 mth-val mth_0101" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.22 kN</div></td>
+                <td class="sec51 mth-val  mth_0102" style="border:1px solid #000 ;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">22.18 kN</div></td>
+                <td class="sec51 mth-val  mth_0201" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.39 kN</div></td>
+                <td class="sec51 mth-val  mth_0202" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">19.46 kN</div></td>
+                <td class="sec51 mth-val  mth_0301" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">22.10 kN</div></td>
+                <td class="sec51 mth-val  mth_0302" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">20.85 kN</div></td>
+                <td class="sec51 mth-val mth_0401" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">25.23 kN</div></td>
+                <td class="sec51 mth-val mth_0402" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">24.18 kN</div></td>
+                <td class="sec51 mth-val mth_0501" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">18.51 kN</div></td>
+                <td class="sec51 mth-val mth_0502" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">17.81 kN</div></td>
+                <td class="sec51 mth-val mth_0601" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">22.12 kN</div></td>
+                <td class="sec51 mth-val mth_0602" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">20.63 kN</div></td>
+                <td class="sec51 mth-val mth_0701" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.31 kN</div></td>
+                <td class="sec51 mth-val mth_0702" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">20.33 kN</div></td>
+                <td class="sec51 mth-val mth_0801" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">18.70 kN</div></td>
+                <td class="sec51 mth-val mth_0802" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">18.07 kN</div></td>
+                <td class="sec51 mth-val mth_0901" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">22.58 kN</div></td>
+                <td class="sec51 mth-val mth_0902" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.86 kN</div></td>
+                <td class="sec51 mth-val mth_1001" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">18.53 kN</div></td>
+                <td class="sec51 mth-val mth_1002" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">18.51 kN</div></td>
+                <td class="sec51 mth-val mth_1101" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">24.32 kN</div></td>
+                <td class="sec51 mth-val mth_1102" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">23.06 kN</div></td>
+                <td class="sec51 mth-val mth_1201" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">18.09 kN</div></td>
+                <td class="sec51 mth-val mth_1202" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">17.92 kN</div></td>
+
+            </tr>
+            <tr>
+                
+                <td class="sec51 mth-lot mth_0101" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9114</div></td>
+                <td class="sec51 mth-lot  mth_0102" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9129</div></td>
+                <td class="sec51 mth-lot  mth_0201" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9224</div></td>
+                <td class="sec51 mth-lot  mth_0202" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9213</div></td>
+                <td class="sec51 mth-lot  mth_0301" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9312</div></td>
+                <td class="sec51 mth-lot  mth_0302" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9314</div></td>
+                <td class="sec51 mth-lot mth_0401" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9421</div></td>
+                <td class="sec51 mth-lot mth_0402" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9424</div></td>
+                <td class="sec51 mth-lot mth_0501" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9511</div></td>
+                <td class="sec51 mth-lot mth_0502" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9508</div></td>
+                <td class="sec51 mth-lot mth_0601" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9606</div></td>
+                <td class="sec51 mth-lot mth_0602" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9611</div></td>
+                <td class="sec51 mth-lot mth_0701" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9702</div></td>
+                <td class="sec51 mth-lot mth_0702" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9715</div></td>
+                <td class="sec51 mth-lot mth_0801" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9821</div></td>
+                <td class="sec51 mth-lot mth_0802" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9813</div></td>
+                <td class="sec51 mth-lot mth_0901" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9907</div></td>
+                <td class="sec51 mth-lot mth_0902" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9913</div></td>
+                <td class="sec51 mth-lot mth_1001" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9930</div></td>
+                <td class="sec51 mth-lot mth_1002" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9X11</div></td>
+                <td class="sec51 mth-lot mth_1101" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9Y19</div></td>
+                <td class="sec51 mth-lot mth_1102" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9Y14</div></td>
+                <td class="sec51 mth-lot mth_1201" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9Z04</div></td>
+                <td class="sec51 mth-lot mth_1202" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9Z03</div></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000 !important; color: blue; font-weight: lighter; text-align: center; vertical-align: middle; white-space: nowrap !important">Part No.</td>
+                <td class="sec51 mth-part mth_0101" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409683</div></td>
+                <td class="sec51 mth-part  mth_0102" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409686</div></td>
+                <td class="sec51 mth-part  mth_0201" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409684</div></td>
+                <td class="sec51 mth-part  mth_0202" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409684</div></td>
+                <td class="sec51 mth-part  mth_0301" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409682</div></td>
+                <td class="sec51 mth-part  mth_0302" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409682</div></td>
+                <td class="sec51 mth-part mth_0401" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409807</div></td>
+                <td class="sec51 mth-part mth_0402" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409807</div></td>
+                <td class="sec51 mth-part mth_0501" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+                <td class="sec51 mth-part mth_0502" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+                <td class="sec51 mth-part mth_0601" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409683</div></td>
+                <td class="sec51 mth-part mth_0602" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409686</div></td>
+                <td class="sec51 mth-part mth_0701" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409684</div></td>
+                <td class="sec51 mth-part mth_0702" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409684</div></td>
+                <td class="sec51 mth-part mth_0801" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409682</div></td>
+                <td class="sec51 mth-part mth_0802" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409682</div></td>
+                <td class="sec51 mth-part mth_0901" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409807</div></td>
+                <td class="sec51 mth-part mth_0902" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409807</div></td>
+                <td class="sec51 mth-part mth_1001" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+                <td class="sec51 mth-part mth_1002" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+                <td class="sec51 mth-part mth_1101" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409807</div></td>
+                <td class="sec51 mth-part mth_1102" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409807</div></td>
+                <td class="sec51 mth-part mth_1201" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+                <td class="sec51 mth-part mth_1202" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+            </tr>
+
+            <tr style="border-top:2px solid #000">
+                <td rowspan="3" class="table_sub_item tableexport-string" style="border: 1px solid #000 !important; font-weight: lighter; text-align: center; vertical-align: middle;">‌5-2</td>
+                <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: lighter; text-align: center; vertical-align: middle;">W.O.S. : Full</td>
+                <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: lighter; text-align: center; vertical-align: middle;">≥9.8kN (With D-ring) or ≥14.7kN (Without D-ring)</td>
+                <td rowspan="2" style="color:blue;font-weight:lighter;text-align: center;vertical-align:bottom;border:1px solid #000 !important;">Lot.</td>
+                <td class="sec52 mth-val mth_0101" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">20.71 kN</div></td>
+                <td class="sec52 mth-val  mth_0102" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">17.70 kN</div></td>
+                <td class="sec52 mth-val  mth_0201" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">20.79 kN</div></td>
+                <td class="sec52 mth-val  mth_0202" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">20.79 kN</div></td>
+                <td class="sec52 mth-val  mth_0301" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.90 kN</div></td>
+                <td class="sec52 mth-val  mth_0302" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.90 kN</div></td>
+                <td class="sec52 mth-val mth_0401" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.50 kN</div></td>
+                <td class="sec52 mth-val mth_0402" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.50 kN</div></td>
+                <td class="sec52 mth-val mth_0501" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">16.72 kN</div></td>
+                <td class="sec52 mth-val mth_0502" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">16.11 kN</div></td>
+                <td class="sec52 mth-val mth_0601" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">20.24 kN</div></td>
+                <td class="sec52 mth-val mth_0602" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">18.07 kN</div></td>
+                <td class="sec52 mth-val mth_0701" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">22.14 kN</div></td>
+                <td class="sec52 mth-val mth_0702" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">22.14 kN</div></td>
+                <td class="sec52 mth-val mth_0801" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.96 kN</div></td>
+                <td class="sec52 mth-val mth_0802" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.96 kN</div></td>
+                <td class="sec52 mth-val mth_0901" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">20.50 kN</div></td>
+                <td class="sec52 mth-val mth_0902" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">20.50 kN</div></td>
+                <td class="sec52 mth-val mth_1001" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">18.17 kN</div></td>
+                <td class="sec52 mth-val mth_1002" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">17.41 kN</div></td>
+                <td class="sec52 mth-val mth_1101" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.10 kN</div></td>
+                <td class="sec52 mth-val mth_1102" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.10 kN</div></td>
+                <td class="sec52 mth-val mth_1201" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">18.37 kN</div></td>
+                <td class="sec52 mth-val mth_1202" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">17.71 kN</div></td>
+            </tr>
+            <tr>
+                
+                <td class="sec52 mth-lot mth_0101" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9110</div></td>
+                <td class="sec52 mth-lot  mth_0102" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9104</div></td>
+                <td class="sec52 mth-lot  mth_0201" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9209</div></td>
+                <td class="sec52 mth-lot  mth_0202" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9209</div></td>
+                <td class="sec52 mth-lot  mth_0301" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9302</div></td>
+                <td class="sec52 mth-lot  mth_0302" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9302</div></td>
+                <td class="sec52 mth-lot mth_0401" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9401</div></td>
+                <td class="sec52 mth-lot mth_0402" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9401</div></td>
+                <td class="sec52 mth-lot mth_0501" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9502</div></td>
+                <td class="sec52 mth-lot mth_0502" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9507</div></td>
+                <td class="sec52 mth-lot mth_0601" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9604</div></td>
+                <td class="sec52 mth-lot mth_0602" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9601</div></td>
+                <td class="sec52 mth-lot mth_0701" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9718</div></td>
+                <td class="sec52 mth-lot mth_0702" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9718</div></td>
+                <td class="sec52 mth-lot mth_0801" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9803</div></td>
+                <td class="sec52 mth-lot mth_0802" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9803</div></td>
+                <td class="sec52 mth-lot mth_0901" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9917</div></td>
+                <td class="sec52 mth-lot mth_0902" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9917</div></td>
+                <td class="sec52 mth-lot mth_1001" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9X24</div></td>
+                <td class="sec52 mth-lot mth_1002" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9X09</div></td>
+                <td class="sec52 mth-lot mth_1101" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9Y13</div></td>
+                <td class="sec52 mth-lot mth_1102" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9Y13</div></td>
+                <td class="sec52 mth-lot mth_1201" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9Z11</div></td>
+                <td class="sec52 mth-lot mth_1202" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9Z15</div></td>
+            </tr>
+            <tr>
+                <td style="border: 1px solid #000 !important; color: blue; font-weight: lighter; text-align: center; vertical-align: middle;">Part No.</td>
+                <td class="sec52 mth-part mth_0101" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409683</div></td>
+                <td class="sec52 mth-part  mth_0102" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409686</div></td>
+                <td class="sec52 mth-part  mth_0201" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409684</div></td>
+                <td class="sec52 mth-part  mth_0202" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409684</div></td>
+                <td class="sec52 mth-part  mth_0301" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409682</div></td>
+                <td class="sec52 mth-part  mth_0302" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409682</div></td>
+                <td class="sec52 mth-part mth_0401" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409807</div></td>
+                <td class="sec52 mth-part mth_0402" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409807</div></td>
+                <td class="sec52 mth-part mth_0501" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+                <td class="sec52 mth-part mth_0502" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+                <td class="sec52 mth-part mth_0601" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409683</div></td>
+                <td class="sec52 mth-part mth_0602" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409686</div></td>
+                <td class="sec52 mth-part mth_0701" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409684</div></td>
+                <td class="sec52 mth-part mth_0702" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409684</div></td>
+                <td class="sec52 mth-part mth_0801" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409682</div></td>
+                <td class="sec52 mth-part mth_0802" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409682</div></td>
+                <td class="sec52 mth-part mth_0901" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409807</div></td>
+                <td class="sec52 mth-part mth_0902" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409807</div></td>
+                <td class="sec52 mth-part mth_1001" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+                <td class="sec52 mth-part mth_1002" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+                <td class="sec52 mth-part mth_1101" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409807</div></td>
+                <td class="sec52 mth-part mth_1102" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409807</div></td>
+                <td class="sec52 mth-part mth_1201" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+                <td class="sec52 mth-part mth_1202" style="border:1px solid #000 !important;"><div class="text" style="width: 80px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+            </tr>
+            
+        <tr style="border-top:2px solid #000">
+            <td rowspan="3" class="SEC-TITLE" style="white-space: nowrap !important;border: 1px solid #000 !important;vertical-align:middle;">
+                <div class="text" style="width:120px !important ;height:100%; white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">
+                    Buckle assy
+                    1pcs / month
+                </div>
+            </td>
+            <td rowspan="3" class="table_sub_item tableexport-string" style="border: 1px solid #000 !important; font-weight: bold; text-align: center; vertical-align: middle;">6</td>
+            <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: bold; text-align: center; vertical-align: middle;">
+                <div class="text" style=" font-weight: bold; width: 320px !important; white-space: pre-line !important; background-color: #fff; text-align: center; vertical-align: middle;">
+                    Buckle static tensile
+                </div>
+            </td>
+            <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: bold; text-align: center; vertical-align: middle;">
+                <div class="text" style=" font-weight: bold; width: 380px !important; white-space: pre-line !important; background-color: #fff; text-align: center; vertical-align: middle;">
+                    ≥9.8kN (Webbing buckle) or ≥14.7kN (Steel buckle)
+                </div>
+            </td>
+            <td rowspan="2" style="color:blue;font-weight:lighter;text-align: center;vertical-align:bottom;border:1px solid #000 !important;">Lot.</td>
+            <td colspan="2" class="sec6 mth-val mth_0101" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">26.58 kN</div></td>
+            
+            <td colspan="2" class="sec6 mth-val  mth_0201" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">26.44 kN</div></td>
+            
+            <td colspan="2" class="sec6 mth-val  mth_0301" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-val mth_0401" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-val mth_0501" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-val mth_0601" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-val mth_0701" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">26.84 kN</div></td>
+            
+            <td colspan="2" class="sec6 mth-val mth_0801" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-val mth_0901" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-val mth_1001" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-val mth_1101" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">27.17 kN</div></td>
+            
+            <td colspan="2" class="sec6 mth-val mth_1201" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+
+        </tr>
+        <tr class="row_VSILOCKING_90DEG">
+            
+            <td colspan="2" class="sec6 mth-lot mth_0101" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9103</div></td>
+            
+            <td colspan="2" class="sec6 mth-lot  mth_0201" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9204</div></td>
+            
+            <td colspan="2" class="sec6 mth-lot  mth_0301" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-lot mth_0401" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-lot mth_0501" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-lot mth_0601" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-lot mth_0701" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9722</div></td>
+            
+            <td colspan="2" class="sec6 mth-lot mth_0801" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-lot mth_0901" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-lot mth_1001" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+            <td colspan="2" class="sec6 mth-lot mth_1101" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9Y09</div></td>
+            
+            <td colspan="2" class="sec6 mth-lot mth_1201" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div></td>
+            
+        </tr>
+            <tr class="row_VSILOCKING_180DEG">
+                <td style="border: 1px solid #000 !important; color: blue; font-weight: lighter; text-align: center; vertical-align: middle;">Part No.</td>
+                <td colspan="2" class="sec6 mth-part mth_0101" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409827</div></td>
+                
+                <td colspan="2" class="sec6 mth-part  mth_0201" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409827</div></td>
+                
+                <td colspan="2" class="sec6 mth-part  mth_0301" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6266988</div></td>
+                
+                <td colspan="2" class="sec6 mth-part mth_0401" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409830</div></td>
+                
+                <td colspan="2" class="sec6 mth-part mth_0501" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409819</div></td>
+                
+                <td colspan="2" class="sec6 mth-part mth_0601" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409829</div></td>
+                
+                <td colspan="2" class="sec6 mth-part mth_0701" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409827</div></td>
+                
+                <td colspan="2" class="sec6 mth-part mth_0801" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6266988</div></td>
+                
+                <td colspan="2" class="sec6 mth-part mth_0901" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409830</div></td>
+                
+                <td colspan="2" class="sec6 mth-part mth_1001" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409819</div></td>
+                
+                <td colspan="2" class="sec6 mth-part mth_1101" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409827</div></td>
+                
+                <td colspan="2" class="sec6 mth-part mth_1201" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409830</div></td>
+                
+            </tr>
+            
+            <tr style="border-top:2px solid #000">
+                <td rowspan="3" class="SEC-TITLE" style="white-space: nowrap !important;border: 1px solid #000 !important;vertical-align:middle;">
+                    <div class="text" style="white-space:pre-line !important;background-color:#fff;font-weight:bold;text-align: center;vertical-align:middle;">
+                        Anchor sewing
+                        1pcs / month
+                    </div>
+                </td>
+                <td rowspan="3" class="table_sub_item tableexport-string" style="width: 80px !important; border: 1px solid #000 !important; font-weight: bold; text-align: center; vertical-align: middle;">
+                    <div class="text" style="text-align: center;vertical-align:middle;width:80px !important; ">
+                        7
+                        </div>
+                </td>
+                <td rowspan="3" class="table_sub_item" style="border: 1px solid #000 !important; font-weight: bold; text-align: center; vertical-align: middle;">Anchor sewing tensile</td>
+                <td rowspan="3" class="table_sub_item" style="font-weight:bold;text-align: center;vertical-align:middle;border:1px solid #000 !important;">≥14.7kN (Webbing sewing with anchor plate)</td>
+                <td rowspan="2" style="color:blue;font-weight:lighter;text-align: center;vertical-align:bottom;border:1px solid #000 !important;">Lot.</td>
+                <td colspan="2" class="sec7 mth-val mth_0101" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">22.57 kN</div></td>
+                
+                <td colspan="2" class="sec7 mth-val  mth_0201" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.93 kN</div></td>
+               
+                <td colspan="2" class="sec7 mth-val  mth_0301" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">22.10 kN</div></td>
+                
+                <td colspan="2" class="sec7 mth-val mth_0401" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">23.76 kN</div></td>
+                
+                <td colspan="2" class="sec7 mth-val mth_0501" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.71 kN</div></td>
+               
+                <td colspan="2" class="sec7 mth-val mth_0601" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">20.75 kN</div></td>
+                
+                <td colspan="2" class="sec7 mth-val mth_0701" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.92 kN</div></td>
+                
+                <td colspan="2" class="sec7 mth-val mth_0801" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">20.52 kN</div></td>
+               
+                <td colspan="2" class="sec7 mth-val mth_0901" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.49 kN</div></td>
+                
+                <td colspan="2" class="sec7 mth-val mth_1001" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">21.63 kN</div></td>
+                
+                <td colspan="2" class="sec7 mth-val mth_1101" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">22.01 kN</div></td>
+               
+                <td colspan="2" class="sec7 mth-val mth_1201" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">23.03 kN</div></td>
+                
+
+            </tr>
+            <tr class="row_VSILOCKING_90DEG">
+                
+                <td colspan="2" class="sec7 mth-lot mth_0101" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9115</div></td>
+               
+                <td colspan="2" class="sec7 mth-lot  mth_0201" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9221</div></td>
+                
+                <td colspan="2" class="sec7 mth-lot  mth_0301" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9304</div></td>
+                
+                <td colspan="2" class="sec7 mth-lot mth_0401" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9402</div></td>
+                
+                <td colspan="2" class="sec7 mth-lot mth_0501" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9515</div></td>
+                
+                <td colspan="2" class="sec7 mth-lot mth_0601" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9626</div></td>
+                
+                <td colspan="2" class="sec7 mth-lot mth_0701" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9719</div></td>
+                
+                <td colspan="2" class="sec7 mth-lot mth_0801" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9829</div></td>
+                
+                <td colspan="2" class="sec7 mth-lot mth_0901" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9902</div></td>
+                
+                <td colspan="2" class="sec7 mth-lot mth_1001" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9X01</div></td>
+                
+                <td colspan="2" class="sec7 mth-lot mth_1101" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9Y20</div></td>
+               
+                <td colspan="2" class="sec7 mth-lot mth_1201" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">9Z17</div></td>
+                
+            </tr>
+            <tr style="border-bottom:2px solid #000">
+                <td style="color:blue;font-weight:lighter;text-align: center;vertical-align:middle;border:1px solid #000 !important;">Part No.</td>
+                <td colspan="2" class="sec7 mth-part mth_0101" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409682</div></td>
+                
+                <td colspan="2" class="sec7 mth-part  mth_0201" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409684</div></td>
+                
+                <td colspan="2" class="sec7 mth-part  mth_0301" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409683</div></td>
+                
+                <td colspan="2" class="sec7 mth-part mth_0401" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409686</div></td>
+                
+                <td colspan="2" class="sec7 mth-part mth_0501" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409682</div></td>
+                
+                <td colspan="2" class="sec7 mth-part mth_0601" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+                
+                <td colspan="2" class="sec7 mth-part mth_0701" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409682</div></td>
+                
+                <td colspan="2" class="sec7 mth-part mth_0801" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409684</div></td>
+                
+                <td colspan="2" class="sec7 mth-part mth_0901" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409683</div></td>
+                
+                <td colspan="2" class="sec7 mth-part mth_1001" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409686</div></td>
+                
+                <td colspan="2" class="sec7 mth-part mth_1101" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409682</div></td>
+                
+                <td colspan="2" class="sec7 mth-part mth_1201" style="border:1px solid #000 !important;"><div class="text" style="width: 160px!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">6409789</div></td>
+                
+            </tr>
+
+        </tbody>
+    </table>
+
+</table></body></html>

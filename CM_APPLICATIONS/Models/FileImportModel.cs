@@ -49,6 +49,22 @@ namespace CM_APPLICATIONS.Models
             db = dataCtx;
         }
     }
+    public class SPCDATAS
+    {
+        public List<SPCDATA> SEC51 { get; set; }
+        public List<SPCDATA> SEC52 { get; set; }
+        public List<SPCDATA> SEC6 { get; set; }
+        public List<SPCDATA> SEC7 { get; set; }
+        public string YEAR { get; set; }
+    }
+    public class SPCDATA
+    {
+        public string PART { get; set; }
+        public string LOT { get; set; }
+        public string VAL { get; set; }
+        public string POS { get; set; }
+        public string MONTH { get; set; }
+    }
     public class UniqCheck
     {
         public string UNIQ_ID { get; set; }
