@@ -193,7 +193,8 @@ namespace CM_APPLICATIONS.Controllers
                 */
                 FSIM_NAME.SaveAs(path);
                 string Ext = Path.GetExtension(path);
-                dt = FillGridFromExcelSheet(path, Ext, "YES");
+                dt = FillGridFromExcelSheetForSPC(path, Ext, "YES");
+
             }
             Boolean tableCreate = false;
             Boolean tableDDL= false;
@@ -208,7 +209,7 @@ namespace CM_APPLICATIONS.Controllers
                 foreach (DataColumn col in dt.Columns)
                 {
                     row1.Add(col.ColumnName, dr[col]);
-                    if(tableDDL != true) SQLDDL += "[" + col.ColumnName.Replace('(','_').Replace(')', '_') + "] nvarchar(50), ";
+                    if(tableDDL != true) SQLDDL += "[" + col.ColumnName.Replace('(','_').Replace(')', '_') + "] nvarchar(100), ";
                 }
                 if (tableDDL != true)
                 {
@@ -263,6 +264,9 @@ namespace CM_APPLICATIONS.Controllers
 
                     await con.OpenAsync();
                     //sqlBulkCopy.WriteToServer(dt);
+                    sqlBulkCopy.BatchSize = 1000;
+                    sqlBulkCopy.BulkCopyTimeout = 5000;
+                    sqlBulkCopy.EnableStreaming = true;
                     await sqlBulkCopy.WriteToServerAsync(dt);
                     con.Close();
                 }
@@ -271,10 +275,12 @@ namespace CM_APPLICATIONS.Controllers
             using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
             {
                 //con.Open();
+                
                 await con.OpenAsync();
                 using (var cmd = db.Database.Connection.CreateCommand())
                 {
                     cmd.CommandText = "exec dbo.COPR16_UPDATE_CUBE_3";
+                    cmd.CommandTimeout = 50000;
                     //cmd.ExecuteNonQuery();
                     await cmd.ExecuteNonQueryAsync();
                 }
@@ -288,6 +294,7 @@ namespace CM_APPLICATIONS.Controllers
                 {
                     cmd.CommandText = "exec dbo.COPR16_UPDATE_CUBE_00";
                     //cmd.ExecuteNonQuery();
+                    cmd.CommandTimeout = 50000;
                     await cmd.ExecuteNonQueryAsync();
                 }
                 con.Close();
@@ -300,6 +307,8 @@ namespace CM_APPLICATIONS.Controllers
                 {
                     cmd.CommandText = "exec dbo.COPR16_SPCC_FACT_GENERATE '" + UID + "';";
                     //cmd.ExecuteNonQuery();
+                    cmd.CommandTimeout = 50000;
+                    
                     await cmd.ExecuteNonQueryAsync();
                 }
                 con.Close();
@@ -380,7 +389,107 @@ namespace CM_APPLICATIONS.Controllers
             //return Json(rowData, JsonRequestBehavior.AllowGet);
             return json;
         }
-       
+        private DataTable FillGridFromExcelSheetForSPC(string FilePath, string ext, string HDR)
+        {
+            bool isCSV = false;
+            string connectionString = "";
+            if (ext.ToLower() == ".xls")
+            {   //For Excel 97-03
+                connectionString = "Provider=Microsoft.ACE.OLEDB.16.0; Data Source ='{0}';Extended Properties = 'Excel 8.0;HDR={1}'";
+            }
+            else if (ext.ToLower() == ".xlsx")
+            {    //For Excel 07 and greater
+                //connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source = '{0}'; Extended Properties = 'Excel 8.0;HDR={1}'";
+                connectionString = "Provider=Microsoft.ACE.OLEDB.16.0;Data Source = '{0}'; Extended Properties = 'Excel 12.0 Xml;HDR={1};IMEX=1;'";
+            }
+            else if (ext.ToLower() == ".csv")
+            {
+                //For CSV files
+                isCSV = true;
+                connectionString = "Provider=Microsoft.ACE.OLEDB.16.0; Data Source='{0}';Extended Properties='TEXT;HDR={1};FMT=Delimited;ImportMixedTypes=Text;IMEX=0;'";
+            }
+
+            //Fetch 1st Sheet Name
+
+            DataTable dt = new DataTable();
+
+            if (!isCSV)
+            {
+
+                connectionString = String.Format(connectionString, FilePath, HDR);
+                OleDbConnection conn = new OleDbConnection(connectionString);
+
+                conn.Open();
+                DataTable dtSchema;
+                dtSchema = conn.GetOleDbSchemaTable(OleDbSchemaGuid.Tables, null);
+                string ExcelSheetName = dtSchema.Rows[0]["TABLE_NAME"].ToString();
+
+                OleDbDataAdapter dataAdapter = new OleDbDataAdapter("SELECT * From [" + ExcelSheetName + "]", conn);
+                dataAdapter.Fill(dt);
+                dataAdapter.Dispose();
+
+                conn.Close();
+            }
+            else
+            {
+                //connectionString = String.Format(connectionString, Path.GetDirectoryName(FilePath), HDR);
+                connectionString = String.Format(connectionString, Path.GetDirectoryName(FilePath), HDR);
+                OleDbConnection conn = new OleDbConnection(connectionString);
+
+                conn.Open();
+                OleDbDataAdapter dataAdapter = new OleDbDataAdapter("SELECT * From [" + Path.GetFileName(FilePath) + "] ", conn);
+
+                var cmd = conn.CreateCommand();
+                cmd.CommandText = "SELECT * From [" + Path.GetFileName(FilePath) + "] ";
+                DbDataReader reader = cmd.ExecuteReader();
+                {
+                    //var model = Serialize(reader);
+                    dt.Load(reader);
+                }
+                DataTable dt2 = null;
+                using (GenericParserAdapter gp = new GenericParserAdapter(FilePath))
+                {
+                    //gp.FirstRowSetsExpectedColumnCount = true;
+                    gp.FirstRowHasHeader = true;
+                    dt2 = gp.GetDataTable();
+                }
+                /*
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    String dateStr = dt2.Rows[i]["Date"].ToString();
+                    String dateStr2 = dt2.Rows[i][1].ToString();
+                    DateTime dtStr;
+                    if (DateTime.TryParse(dateStr, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dtStr))
+                    {
+                        //DateTime dtStr = DateTime.Parse(dateStr, System.Globalization.CultureInfo.CurrentUICulture);
+                        String newStr = dtStr.ToString("dd/MM/yyyy");
+                        CultureInfo cult = new CultureInfo("th-TH");
+                        bool flagTry = DateTime.TryParseExact(newStr, "MM/dd/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dtStr);
+                        if (flagTry)
+                        {
+                            //dtStr = DateTime.Parse(newStr, cult);
+                            dt.Rows[i]["Date"] = dtStr;
+                        }
+                    }
+                    else
+                    {
+                        String ID = dt2.Rows[i][0].ToString();
+                        dateStr = dt2.Rows[i]["Date"].ToString();
+                        Console.WriteLine(ID + ":" + dateStr);
+                        bool flagTry = DateTime.TryParseExact(dateStr, "dd/M/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dtStr);
+                        if (flagTry)
+                        {
+                            //dtStr = DateTime.Parse(newStr, cult);
+                            dt.Rows[i]["Date"] = dtStr;
+                        }
+                    }
+                }
+                */
+                conn.Close();
+            }
+            //Bind Sheet Data to GridView
+            return dt;
+        }
         private DataTable FillGridFromExcelSheet(string FilePath, string ext,string HDR)
         {
             bool isCSV = false;
@@ -392,7 +501,7 @@ namespace CM_APPLICATIONS.Controllers
             else if (ext.ToLower() == ".xlsx")
             {    //For Excel 07 and greater
                 //connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source = '{0}'; Extended Properties = 'Excel 8.0;HDR={1}'";
-                connectionString = "Provider=Microsoft.ACE.OLEDB.16.0;Data Source = '{0}'; Extended Properties = 'Excel 12.0 Xml;HDR={1}'";
+                connectionString = "Provider=Microsoft.ACE.OLEDB.16.0;Data Source = '{0}'; Extended Properties = 'Excel 12.0 Xml;HDR={1};IMEX=1;'";
             }
             else if(ext.ToLower() == ".csv")
             {

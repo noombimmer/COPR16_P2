@@ -6,7 +6,7 @@
     var dataRow = ViewBag.rowData;
 }
 
-<h2>ERP VOLUME SYNC (ATH)</h2>
+<h3>ERP VOLUME SYNC (ATH) : DATABASE AS OF : <label style="color:#005495">@ViewBag.LastUpdate[0]["LASTUPDATE"]</label></h3>
 
 @*<p>
     @Html.ActionLink("VIEW BY MODEL", "IndexERP", "COPR16_FG_MSTR", new { @class = "btn btn-primary button" })
@@ -39,19 +39,19 @@
     @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-        <div class="form-group">
+        <!--<div class="form-group">
             <label class="control-label col-md-1">MODEL :</label>
             <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
-                @Html.Editor("MODELID", new { htmlAttributes = new { @class = "form-control MODELID", } })
+                @Html.Editor("MODELID", new { htmlAttributes = new { @class = "form-control MODELID", } })-->
                 @*<input type="button"  class="edit-from-date-picker searchBtn">*@
-            </div>
+            <!--</div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-1 col-md-10">
                 <input type="button" value="Search" class="btn btn-primary button refreshBtn" />
                 <input type="button" value="Clear" class="btn btn-secondary button resetBtn" />
             </div>
-        </div>
+        </div>-->
     </div>
 }
 <table class="table table-lists stripe">
@@ -83,10 +83,13 @@
         {
         <tr>
             <td>
-                <B>@Html.Raw(item["MODEL_ID"])</B><br/>@Html.Raw(item["LINE_ID"])
+
+                <A href="../COPR16_COPRUNNING/Tracking2/@item["MODEL_ID"]"><B>@Html.Raw(item["MODEL_ID"])</B></A><br />@Html.Raw(item["LINE_ID"])<br />@Html.Raw(item["FRNT_REAR"])
             </td>
             <td width="10%">
                 @Html.Raw(item["TQTY"])
+                <BR>Without: (@Html.Raw(item["QTY_PROC1_TEXT"])/@Html.Raw(item["QTY_COND1_TEXT"]))
+                <BR>With-Cond: (@Html.Raw(item["QTY_PROC2_TEXT"])/@Html.Raw(item["QTY_COND2_TEXT"]))
             </td>
             <td width="1%">
                 <table border="1">

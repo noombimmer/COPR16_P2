@@ -659,11 +659,13 @@
         updateProc();
     }
     function updatePosition() {
+
         var varText = $('#cOPR16_COPRUNNING_POSITION_ID').val();
         var urlText = "@Url.Action("getPositionName","COPR16_COPRUNNING")";
         var options = { "backdrop": "static", keyboard: true };
         var jdata = { posID: varText }
         var positionString = "";
+        /*
         $.ajax({
             type: "POST",
             url: urlText,     //your action
@@ -677,7 +679,7 @@
                 alert("error:" + errorThrown);
             }
         });
-
+        */
     }
 
     function updateModel() {
@@ -771,8 +773,8 @@
     }
 
     getCopRunning();
-    updatePosition();
-    updateModel();
+    //updatePosition();
+    //updateModel();
 
 </script>
 <script>

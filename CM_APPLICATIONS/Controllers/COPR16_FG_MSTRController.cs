@@ -37,10 +37,23 @@ namespace CM_APPLICATIONS.Controllers
                 cmd.CommandText = "EXEC COPR16_SP_GETMODELMON '';";
 
 
-                System.Data.Common.DbDataReader reader = await cmd.ExecuteReaderAsync();
+                using (System.Data.Common.DbDataReader reader = await cmd.ExecuteReaderAsync())
                 {
                     var model = Utils.Serialize((SqlDataReader)reader);
                     rowData.Data = model;
+                    reader.Close();
+                }
+            }
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                cmd.CommandText = "SELECT format(max(ERP_IMPDT),'dd MMMM yyyy hh:mm:ss tt') [LASTUPDATE] FROM COPR16_ERPVOL;";
+
+
+                using (System.Data.Common.DbDataReader reader = await cmd.ExecuteReaderAsync())
+                {
+                    var model = Utils.Serialize((SqlDataReader)reader);
+                    ViewBag.LastUpdate = model;
+                    reader.Close();
                 }
             }
             ViewBag.rowData = rowData.Data;

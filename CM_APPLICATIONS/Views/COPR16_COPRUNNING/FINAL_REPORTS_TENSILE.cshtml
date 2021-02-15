@@ -586,6 +586,12 @@
     $('.refreshBtn').click(function(){
         //alert("test");
         //getCopData();
+        if (isNoPart) {
+            $('#lModalLabelError').html("Reading SPC TEMPLATE FILE Error");
+            $('#lModalBodyError').html("Please loading <b>Part No.</b> from template before load SPC data.");
+            $('#lModalError').modal("show");
+            return;
+        }
         console.log(sec51Data);
         console.log(sec52Data);
         console.log(sec6Data);
@@ -769,9 +775,16 @@
             var row = k;
 
             var objName1 = row["classNamePart"];
+            var objName2 = row["classNameValue"];
+            var objName3 = row["classNameLot"];
             var divPart = '<div class="text" style="width: 100%!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">' + row["TRPT_PART"] + '</div>';
+            var divBlank = '<div class="text" style="width: 100%!important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div>';
             $(objName1).html('');
+            $(objName2).html('');
+            $(objName3).html('');
             $(objName1).append(divPart);
+            $(objName2).append(divBlank);
+            $(objName3).append(divBlank);
 
 
             if (row["TRPT_SEC"] == "51") {
@@ -814,11 +827,14 @@
                 }
                 sec7Data.push(data1);
             }
+            isNoPart = false;
         });
+        /*
         console.log(sec51Data);
         console.log(sec52Data);
         console.log(sec7Data);
         console.log(sec6Data);
+        */
     }
     $('.readTemplateBtn').click(function () {
         var MODEL_ID = $('.MODEL_ID').val();
@@ -830,7 +846,7 @@
             "YEAR": YEAR,
             "USERNAME": USERNAME
         };
-
+        clearScreen();
         console.log(jdata);
         var urlText = "@Url.Action("getPartListTNS", "COPR16_COPRUNNING")";
         $.ajax({
@@ -859,4 +875,60 @@
         return false;
     });
     updateYear();
+    function clearScreen() {
+        isNoPart = true;
+        for (var month = 1; month <= 12; month++) {
+            //sec51 mth-part  mth_0102
+            
+            var ClassName1 = '.sec51.mth-part.mth_' + pad(month, 2) + '01';
+            var ClassName2 = '.sec51.mth-part.mth_' + pad(month, 2) + '02';
+            var ClassName3 = '.sec51.mth-lot.mth_' + pad(month, 2) + '01';
+            var ClassName4 = '.sec51.mth-lot.mth_' + pad(month, 2) + '02';
+            var ClassName5 = '.sec51.mth-val.mth_' + pad(month, 2) + '01';
+            var ClassName6 = '.sec51.mth-val.mth_' + pad(month, 2) + '02';
+            setBlank(ClassName1);
+            setBlank(ClassName2);
+            setBlank(ClassName3);
+            setBlank(ClassName4);
+            setBlank(ClassName5);
+            setBlank(ClassName6);
+
+            var ClassName7 = '.sec52.mth-part.mth_' + pad(month, 2) + '01';
+            var ClassName8 = '.sec52.mth-part.mth_' + pad(month, 2) + '02';
+            var ClassName9 = '.sec52.mth-lot.mth_' + pad(month, 2) + '01';
+            var ClassName10 = '.sec52.mth-lot.mth_' + pad(month, 2) + '02';
+            var ClassName11 = '.sec52.mth-val.mth_' + pad(month, 2) + '01';
+            var ClassName12 = '.sec52.mth-val.mth_' + pad(month, 2) + '02';
+            setBlank(ClassName7);
+            setBlank(ClassName8);
+            setBlank(ClassName9);
+            setBlank(ClassName10);
+            setBlank(ClassName11);
+            setBlank(ClassName12);
+
+            var ClassName13 = '.sec6.mth-part.mth_' + pad(month, 2) + '01';
+            var ClassName14 = '.sec6.mth-lot.mth_' + pad(month, 2) + '01';
+            var ClassName15 = '.sec6.mth-val.mth_' + pad(month, 2) + '01';
+            setBlank(ClassName13);
+            setBlank(ClassName14);
+            setBlank(ClassName15);
+
+            var ClassName16 = '.sec7.mth-part.mth_' + pad(month, 2) + '01';
+            var ClassName17 = '.sec7.mth-lot.mth_' + pad(month, 2) + '01';
+            var ClassName18 = '.sec7.mth-val.mth_' + pad(month, 2) + '01';
+            setBlank(ClassName16);
+            setBlank(ClassName17);
+            setBlank(ClassName18);
+
+        }
+    }
+    var isNoPart= true;
+    function setBlank(objName) {
+        var divBlank = '<div class="text" style="width: 80px !important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div>';
+        $(objName).html('');
+        $(objName).append(divBlank);
+    }
+    $('.MODEL_ID').change(function(){
+        clearScreen();
+    });
 </script>

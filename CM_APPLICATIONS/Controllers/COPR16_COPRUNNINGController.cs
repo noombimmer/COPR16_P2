@@ -264,7 +264,10 @@ namespace CM_APPLICATIONS.Controllers
         public JsonResult GetCOPID()
         {
 
-            List<GetSeqNextValue1_Result> row = db.GetSeqNextValue("COPRUNNING").ToList();
+            //List<GetSeqNextValue1_Result> row = db.GetSeqNextValue("COPRUNNING").ToList();
+            List<GetSeqNextValue1_Result> row = new List<GetSeqNextValue1_Result>();
+            row.Add(new GetSeqNextValue1_Result());
+            row[0].COPRUN = "TBD";
             return Json(row, JsonRequestBehavior.AllowGet);
         }
 
@@ -303,13 +306,67 @@ namespace CM_APPLICATIONS.Controllers
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> getLotDateAVAB(string MODEL,string LINE,string ZONE)
+        {
+            JsonResult rowData = new JsonResult();
+            string SQLCMD2 = "exec dbo.COPR16_GET_LOTDATE_AVAB_BYMODEL @MODEL,@LINE,@ZONE";
+
+            List<SqlParameter> param2 = new List<SqlParameter>();
+            //param2.Add(new SqlParameter("@MODEL_ID", model_id == null ? "" : model_id));
+            //await db.Database.ExecuteSqlCommandAsync(SQLCMD2, param2.ToArray());
+
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                await db.Database.Connection.OpenAsync();
+                cmd.CommandText = SQLCMD2;
+                cmd.Parameters.Add(new SqlParameter("@MODEL", MODEL == null ? "" : MODEL));
+                cmd.Parameters.Add(new SqlParameter("@LINE", LINE == null ? "" : LINE));
+                cmd.Parameters.Add(new SqlParameter("@ZONE", ZONE == null ? "" : ZONE));
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    rowData.Data = model;
+                }
+            }
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> getLotDateAVAB_BYPOSID(string MODEL, string LINE, string POSID,string WRKID)
+        {
+            JsonResult rowData = new JsonResult();
+            string SQLCMD2 = "exec dbo.COPR16_GET_LOTDATE_AVAB_BYMODEL_WITH_POSID @MODEL,@LINE,@POS_ID,@WRKID";
+
+            List<SqlParameter> param2 = new List<SqlParameter>();
+            //param2.Add(new SqlParameter("@MODEL_ID", model_id == null ? "" : model_id));
+            //await db.Database.ExecuteSqlCommandAsync(SQLCMD2, param2.ToArray());
+
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                await db.Database.Connection.OpenAsync();
+                cmd.CommandText = SQLCMD2;
+                cmd.Parameters.Add(new SqlParameter("@MODEL", MODEL == null ? "" : MODEL));
+                cmd.Parameters.Add(new SqlParameter("@LINE", LINE == null ? "" : LINE));
+                cmd.Parameters.Add(new SqlParameter("@POS_ID", POSID == null ? "" : POSID));
+                cmd.Parameters.Add(new SqlParameter("@WRKID", WRKID == null ? "" : WRKID));
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    rowData.Data = model;
+                }
+            }
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> getBuckleListModel(itemParams param1)
         {
             JsonResult rowData = new JsonResult();
-            string SQLCMD2 = "exec dbo.GetBuckleWithParams @item_no,@model_no,@line_no,@position_no";
+            string SQLCMD2 = "exec dbo.COPR16_GetBuckleWithParams @item_no,@model_no,@line_no,@position_no";
 
             List<SqlParameter> param2 = new List<SqlParameter>();
             //param2.Add(new SqlParameter("@MODEL_ID", model_id == null ? "" : model_id));
@@ -331,12 +388,13 @@ namespace CM_APPLICATIONS.Controllers
             }
             return Json(rowData, JsonRequestBehavior.AllowGet);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> getSBListModel(itemParams param1)
         {
             JsonResult rowData = new JsonResult();
-            string SQLCMD2 = "exec dbo.GetSBWithParams @item_no,@model_no,@line_no,@position_no";
+            string SQLCMD2 = "exec dbo.COPR16_GetSBWithParams @item_no,@model_no,@line_no,@position_no";
 
             List<SqlParameter> param2 = new List<SqlParameter>();
             //param2.Add(new SqlParameter("@MODEL_ID", model_id == null ? "" : model_id));
@@ -391,6 +449,21 @@ namespace CM_APPLICATIONS.Controllers
         {
             return View(await db.COPR16_COPRUNNING.ToListAsync());
         }
+        public async Task<ActionResult> Tracking2(string ID)
+        {
+
+            List<SelectListItem> MODEL_LIST= new List<SelectListItem>(); ;
+
+            foreach (var row in await db.COPR16_MODEL_MSTR.Where(l => l.FLGACT == true).ToListAsync())
+            {
+                MODEL_LIST.Add(new SelectListItem { Text = row.MODEL_DESC, Value = row.MODEL_ID });
+            }
+            ViewBag.ModelList = MODEL_LIST;
+            ViewBag.ModelSet = ID;
+            //return View(await db.COPR16_COPRUNNING.ToListAsync());
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> getAllMachine()
@@ -574,37 +647,52 @@ namespace CM_APPLICATIONS.Controllers
         }
 
         // GET: COPR16_COPRUNNING/Create
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
             CopRunningModel model = new CopRunningModel(db);
             model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
             model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
-            
+            model.WRK_LIST = new List<SelectListItem>();
+            foreach (var row in db.COPR16_WORKFLOW.SqlQuery("SELECT * FROM COPR16_WORKFLOW WHERE WRK_ID LIKE 'COP-ATH-%'"))
+            {
+                model.WRK_LIST.Add(new SelectListItem { Text = row.WRK_NAME, Value = row.WRK_ID });
+            }
+
             return View(model);
         }
 
         // GET: COPR16_COPRUNNING/Create
-        public async Task<ActionResult> CreateAID()
+        public ActionResult CreateAID()
         {
             CopRunningModel model = new CopRunningModel(db);
             model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
             model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
+            model.WRK_LIST = new List<SelectListItem>();
+            foreach (var row in db.COPR16_WORKFLOW.SqlQuery("SELECT * FROM COPR16_WORKFLOW WHERE WRK_ID LIKE 'COP-AID-%'"))
+            {
+                model.WRK_LIST.Add(new SelectListItem { Text = row.WRK_NAME, Value = row.WRK_ID });
+            }
 
             return View(model);
         }
         // GET: COPR16_COPRUNNING/Create
-        public async Task<ActionResult> CreateNONEC()
+        public ActionResult CreateNONEC()
         {
             CopRunningModel model = new CopRunningModel(db);
             model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
             model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
+            model.WRK_LIST = new List<SelectListItem>();
+            foreach (var row in db.COPR16_WORKFLOW.SqlQuery("SELECT * FROM COPR16_WORKFLOW WHERE WRK_ID LIKE 'NON-EC-%'"))
+            {
+                model.WRK_LIST.Add(new SelectListItem { Text = row.WRK_NAME, Value = row.WRK_ID });
+            }
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateMacro(string xModel,string xLine,string WRK_ID,string btnDate)
+        public ActionResult CreateMacro(string xModel,string xLine,string WRK_ID,string btnDate,string xPos,string PROC_ID,string xACCTT)
         {
 
 
@@ -612,10 +700,17 @@ namespace CM_APPLICATIONS.Controllers
             model.cOPR16_COPRUNNING_WRK_ID = WRK_ID;
             model.xModel = xModel;
             model.xLine = xLine;
+            model.xPos = xPos;
             model.selectDate = btnDate;
+            model.xProc = PROC_ID;
+            model.xACCTT = xACCTT;
             model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
             model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
-
+            model.POSITION_LIST = new List<SelectListItem>();
+            foreach (var row in db.COPR16_POSITION_MSTR.SqlQuery("SELECT * FROM COPR16_POSITION_MSTR WHERE FRNT_REAR = '"+ xPos + "'"))
+            {
+                model.POSITION_LIST.Add(new SelectListItem { Text = row.POS_DESC, Value = row.POS_ID });
+            }
             return View(model);
         }
 
@@ -789,8 +884,12 @@ namespace CM_APPLICATIONS.Controllers
             string username,
             List<ITEMSROW> jsonString)
         {
+            List<GetSeqNextValue1_Result> row = db.GetSeqNextValue("COPRUNNING").ToList();
+
+            string lCOPR_ID =  row.FirstOrDefault().COPRUN + "-" + PROC_ID + "-00";
+
             COPR16_COPRUNNING cOPR16_COPRUNNING = new COPR16_COPRUNNING();
-            cOPR16_COPRUNNING.COPR_ID = COPR_ID;
+            cOPR16_COPRUNNING.COPR_ID = lCOPR_ID;
             cOPR16_COPRUNNING.WRK_ID = WRK_ID;
             cOPR16_COPRUNNING.PROC_ID = PROC_ID;
             cOPR16_COPRUNNING.MODEL_ID = MODEL_ID;
@@ -808,7 +907,7 @@ namespace CM_APPLICATIONS.Controllers
             {
 
                 COPR16_COPRUNNING_DT dtdt = new COPR16_COPRUNNING_DT();
-                dtdt.COPR_ID = COPR_ID;
+                dtdt.COPR_ID = lCOPR_ID;
                 dtdt.DESC = "";
                 dtdt.FGTYPE_ID = item.FGTYPE_ID;
                 dtdt.LOTNO = item.LOTNO;
@@ -834,7 +933,7 @@ namespace CM_APPLICATIONS.Controllers
                         //COPR16_COPRUNNING_RT dtdt = new COPR16_COPRUNNING_RT();
                         List<SqlParameter> VarParams = new List<SqlParameter>();
 
-                        VarParams.Add(new SqlParameter("@COPR_ID", COPR_ID));
+                        VarParams.Add(new SqlParameter("@COPR_ID", lCOPR_ID));
                         VarParams.Add(new SqlParameter("@PNO", ""));
                         VarParams.Add(new SqlParameter("@FGTYPE_ID", cOPR16_MANCTYPE_MSTR.FGT_ID));
                         VarParams.Add(new SqlParameter("@WRK_ID", WRK_ID));
@@ -886,6 +985,7 @@ namespace CM_APPLICATIONS.Controllers
 
             return RedirectToAction("Index");
         }
+
         public async Task<ActionResult> CreateJsonWithLine(
             string COPR_ID,
             string WRK_ID,
@@ -918,6 +1018,8 @@ namespace CM_APPLICATIONS.Controllers
             }
             */
             /// Create COP Header
+            List<GetSeqNextValue1_Result> row = db.GetSeqNextValue("COPRUNNING").ToList();
+            string lCOPR_ID =  row.FirstOrDefault().COPRUN + "-" + PROC_ID + "-00";
 
             if (db.Database.Connection.State != ConnectionState.Open)
             {
@@ -929,7 +1031,7 @@ namespace CM_APPLICATIONS.Controllers
             {
                 //await db.Database.Connection.OpenAsync();
                 cmd.CommandText = SQLCMD2;
-                cmd.Parameters.Add(new SqlParameter("@COPR_ID", COPR_ID == null ? "" : COPR_ID));
+                cmd.Parameters.Add(new SqlParameter("@COPR_ID", lCOPR_ID == null ? "" : lCOPR_ID));
                 cmd.Parameters.Add(new SqlParameter("@WRK_ID", WRK_ID == null ? "" : WRK_ID));
                 cmd.Parameters.Add(new SqlParameter("@PROC_ID", PROC_ID == null ? "" : PROC_ID));
                 cmd.Parameters.Add(new SqlParameter("@MODEL_ID", MODEL_ID == null ? "" : MODEL_ID));
@@ -947,7 +1049,7 @@ namespace CM_APPLICATIONS.Controllers
             {
 
                 COPR16_COPRUNNING_DT dtdt = new COPR16_COPRUNNING_DT();
-                dtdt.COPR_ID = COPR_ID;
+                dtdt.COPR_ID = lCOPR_ID;
                 dtdt.DESC = "";
                 dtdt.FGTYPE_ID = item.FGTYPE_ID;
                 dtdt.LOTNO = item.LOTNO;
@@ -976,7 +1078,7 @@ namespace CM_APPLICATIONS.Controllers
                         //COPR16_COPRUNNING_RT dtdt = new COPR16_COPRUNNING_RT();
                         List<SqlParameter> VarParams = new List<SqlParameter>();
 
-                        VarParams.Add(new SqlParameter("@COPR_ID", COPR_ID));
+                        VarParams.Add(new SqlParameter("@COPR_ID", lCOPR_ID));
                         VarParams.Add(new SqlParameter("@PNO", ""));
                         VarParams.Add(new SqlParameter("@FGTYPE_ID", cOPR16_MANCTYPE_MSTR.FGT_ID));
                         VarParams.Add(new SqlParameter("@WRK_ID", WRK_ID));
@@ -1035,7 +1137,7 @@ namespace CM_APPLICATIONS.Controllers
             {
 
                 cmd.CommandText = "exec [dbo].[sp_save_selectdate] @COPR_ID,@MODEL_ID,@POSITION_ID,@LINE_ID,@PROC_ID,@SELECT_DATE"; 
-                cmd.Parameters.Add(new SqlParameter("@COPR_ID", COPR_ID == null ? "" : COPR_ID));
+                cmd.Parameters.Add(new SqlParameter("@COPR_ID", lCOPR_ID == null ? "" : lCOPR_ID));
                 cmd.Parameters.Add(new SqlParameter("@MODEL_ID", MODEL_ID == null ? "" : MODEL_ID));
                 cmd.Parameters.Add(new SqlParameter("@POSITION_ID", POSITION_ID == null ? "" : POSITION_ID));
                 cmd.Parameters.Add(new SqlParameter("@LINE_ID", LINE_ID == null ? "" : LINE_ID));
@@ -1047,6 +1149,390 @@ namespace CM_APPLICATIONS.Controllers
 
             return RedirectToAction("Index");
         }
+        public async Task<ActionResult> CreateCopFromMacro(
+            string COPR_ID,
+            string WRK_ID,
+            string PROC_ID,
+            string MODEL_ID,
+            string POSITION_ID,
+            string DESC,
+            string COP_STATUS,
+            string LINE_ID,
+            string SELECT_DATE,
+            string username,
+            List<ITEMSROW> jsonString)
+        {
+            /*
+            COPR16_COPRUNNING cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            cOPR16_COPRUNNING.COPR_ID = COPR_ID;
+            cOPR16_COPRUNNING.WRK_ID = WRK_ID;
+            cOPR16_COPRUNNING.PROC_ID = PROC_ID;
+            cOPR16_COPRUNNING.MODEL_ID = MODEL_ID;
+            cOPR16_COPRUNNING.POSITION_ID = POSITION_ID;
+            cOPR16_COPRUNNING.DESC = DESC;
+            cOPR16_COPRUNNING.COP_STATUS = COP_STATUS;
+            cOPR16_COPRUNNING.LINE_ID = LINE_ID;
+            cOPR16_COPRUNNING.CRE_BY = username;
+            cOPR16_COPRUNNING.ADATE = AppPropModel.today;
+            if (ModelState.IsValid)
+            {
+                db.COPR16_COPRUNNING.Add(cOPR16_COPRUNNING);
+                await db.SaveChangesAsync();
+            }
+            */
+            /// Create COP Header
+
+            if (db.Database.Connection.State != ConnectionState.Open)
+            {
+                await db.Database.Connection.OpenAsync();
+            }
+            
+            List<GetSeqNextValue1_Result> row = db.GetSeqNextValue("COPRUNNING").ToList();
+
+            string lCOPR_ID = row.FirstOrDefault().COPRUN + "-" + PROC_ID + "-00";
+
+            string SQLCMD2 = "exec dbo.sp_CreateNewCop @COPR_ID,@WRK_ID,@PROC_ID,@MODEL_ID,@POSITION_ID,@DESC,@COP_STATUS,@LINE_ID,@CRE_BY";
+
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                //await db.Database.Connection.OpenAsync();
+                cmd.CommandText = SQLCMD2;
+                cmd.Parameters.Add(new SqlParameter("@COPR_ID", lCOPR_ID == null ? "" : lCOPR_ID));
+                cmd.Parameters.Add(new SqlParameter("@WRK_ID", WRK_ID == null ? "" : WRK_ID));
+                cmd.Parameters.Add(new SqlParameter("@PROC_ID", PROC_ID == null ? "" : PROC_ID));
+                cmd.Parameters.Add(new SqlParameter("@MODEL_ID", MODEL_ID == null ? "" : MODEL_ID));
+                cmd.Parameters.Add(new SqlParameter("@POSITION_ID", POSITION_ID == null ? "" : POSITION_ID));
+                cmd.Parameters.Add(new SqlParameter("@DESC", DESC == null ? "" : DESC));
+                cmd.Parameters.Add(new SqlParameter("@COP_STATUS", COP_STATUS == null ? "" : COP_STATUS));
+                cmd.Parameters.Add(new SqlParameter("@LINE_ID", LINE_ID == null ? "" : LINE_ID));
+                cmd.Parameters.Add(new SqlParameter("@CRE_BY", username == null ? "" : username));
+
+                var reader = await cmd.ExecuteNonQueryAsync();
+
+            }
+            string strLOTNO = "";
+            /** Create COP FG PART**/
+            foreach (ITEMSROW item in jsonString)
+            {
+
+                COPR16_COPRUNNING_DT dtdt = new COPR16_COPRUNNING_DT();
+                dtdt.COPR_ID = lCOPR_ID;
+                dtdt.DESC = "";
+                dtdt.FGTYPE_ID = item.FGTYPE_ID;
+                dtdt.LOTNO = item.LOTNO;
+                dtdt.PNO = item.PNO;
+                if (item.FGTYPE_ID.Contains("SEATBELT"))
+                {
+                    strLOTNO = item.LOTNO;
+                }
+                if (ModelState.IsValid)
+                {
+                    db.COPR16_COPRUNNING_DT.Add(dtdt);
+                    await db.SaveChangesAsync();
+                }
+            }
+
+
+            //** Create COP WORKFLOW DETAILS**//
+            List<COPR16_WORKFLOW_DT> cOPR16_WORKFLOW_DT_List = await db.COPR16_WORKFLOW_DT.Where(l => l.WRK_ID.Equals(WRK_ID) && l.WRKD_WITH_ID != l.WRKD_SEQ).ToListAsync();
+
+            foreach (COPR16_WORKFLOW_DT row1 in cOPR16_WORKFLOW_DT_List)
+            {
+                List<COPR16_STEP_MSTR> cOPR16_STEP_MSTR_List = await db.COPR16_STEP_MSTR.Where(l => l.STEP_ID.Equals(row1.STEP_ID)).ToListAsync();
+                foreach (COPR16_STEP_MSTR row2 in cOPR16_STEP_MSTR_List)
+                {
+                    COPR16_MANCTYPE_MSTR cOPR16_MANCTYPE_MSTR = await db.COPR16_MANCTYPE_MSTR.FindAsync(row2.MANC_ID);
+                    List<COPR16_RTDT_MSTR> cOPR16_RTDT_MSTR_List = await db.COPR16_RTDT_MSTR.Where(l => l.RTTYPE_ID.Equals(cOPR16_MANCTYPE_MSTR.RTYPE_ID)).ToListAsync();
+                    foreach (COPR16_RTDT_MSTR row3 in cOPR16_RTDT_MSTR_List)
+                    {
+                        COPR16_MEASURETYPE_MSTR cOPR16_MEASURETYPE_MSTR = await db.COPR16_MEASURETYPE_MSTR.FindAsync(row3.MSTYPE_ID);
+                        //COPR16_COPRUNNING_RT dtdt = new COPR16_COPRUNNING_RT();
+                        List<SqlParameter> VarParams = new List<SqlParameter>();
+
+                        VarParams.Add(new SqlParameter("@COPR_ID", lCOPR_ID));
+                        VarParams.Add(new SqlParameter("@PNO", ""));
+                        VarParams.Add(new SqlParameter("@FGTYPE_ID", cOPR16_MANCTYPE_MSTR.FGT_ID));
+                        VarParams.Add(new SqlParameter("@WRK_ID", WRK_ID));
+                        VarParams.Add(new SqlParameter("@WRKD_ID", row1.WRKD_ID));
+                        VarParams.Add(new SqlParameter("@MACHINETYPE_ID", cOPR16_MANCTYPE_MSTR.MTYPE_ID));
+                        VarParams.Add(new SqlParameter("@RETURNTYPE_ID", row3.RTTYPE_ID));
+                        VarParams.Add(new SqlParameter("@SEQ_NO", row1.WRKD_SEQ));
+                        VarParams.Add(new SqlParameter("@REV", "00"));
+                        VarParams.Add(new SqlParameter("@RTDT_ID", row3.RTDT_ID));
+                        VarParams.Add(new SqlParameter("@RTDT_NAME", row3.RTDT_NAME));
+                        VarParams.Add(new SqlParameter("@RTDT_REF_ID", row3.REF_ID));
+
+
+                        //dtdt.COPR_ID = COPR_ID;
+                        //    dtdt.FGTYPE_ID = cOPR16_MANCTYPE_MSTR.FGT_ID;
+                        //    dtdt.WRK_ID = WRK_ID;
+                        //    dtdt.WRKD_ID = row1.WRKD_ID;
+                        //    dtdt.MACHINETYPE_ID = cOPR16_MANCTYPE_MSTR.MTYPE_ID;
+                        //    dtdt.RETURNTYPE_ID = row3.RTTYPE_ID;
+                        //    dtdt.SEQ_NO = row1.WRKD_SEQ;
+                        //    dtdt.RTDT_ID = row3.RTDT_ID;
+                        //    dtdt.REV = "00";
+                        //    dtdt.RTDT_NAME = row3.RTDT_NAME;
+                        //    dtdt.RTDT_REF_ID = row3.REF_ID;
+
+                        //if (ModelState.IsValid) {
+                        //    db.COPR16_COPRUNNING_RT.Add(dtdt);
+                        //    await db.SaveChangesAsync();
+                        //}
+                        //db.Database.ExecuteSqlCommand("exec GenerateJob @COPR_ID, @PNO, @FGTPE_ID, @WRK_ID, @WRKD_ID, @MACHINETYPE_ID, @RETURNTYPE_ID, @SEQ_NO, @REV, @RTDT_ID, @RTDT_NAME, @RTDT_REF_ID", VarParams.ToList());
+                        await db.Database.ExecuteSqlCommandAsync("exec GenerateJob @COPR_ID, @PNO, @FGTYPE_ID, @WRK_ID, @WRKD_ID, @MACHINETYPE_ID, @RETURNTYPE_ID, @SEQ_NO, @REV, @RTDT_ID, @RTDT_NAME, @RTDT_REF_ID",
+                            VarParams[0]
+                            , VarParams[1]
+                            , VarParams[2]
+                            , VarParams[3]
+                            , VarParams[4]
+                            , VarParams[5]
+                            , VarParams[6]
+                            , VarParams[7]
+                            , VarParams[8]
+                            , VarParams[9]
+                            , VarParams[10]
+                            , VarParams[11]
+                            );
+                    }
+                }
+
+            }
+
+            if (db.Database.Connection.State != ConnectionState.Open)
+            {
+                await db.Database.Connection.OpenAsync();
+            }
+
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+
+                cmd.CommandText = "exec [dbo].[sp_save_selectdate] @COPR_ID,@MODEL_ID,@POSITION_ID,@LINE_ID,@PROC_ID,@SELECT_DATE";
+                cmd.Parameters.Add(new SqlParameter("@COPR_ID", lCOPR_ID == null ? "" : lCOPR_ID));
+                cmd.Parameters.Add(new SqlParameter("@MODEL_ID", MODEL_ID == null ? "" : MODEL_ID));
+                cmd.Parameters.Add(new SqlParameter("@POSITION_ID", POSITION_ID == null ? "" : POSITION_ID));
+                cmd.Parameters.Add(new SqlParameter("@LINE_ID", LINE_ID == null ? "" : LINE_ID));
+                cmd.Parameters.Add(new SqlParameter("@PROC_ID", PROC_ID == null ? "" : PROC_ID));
+                cmd.Parameters.Add(new SqlParameter("@SELECT_DATE", SELECT_DATE == null ? "" : SELECT_DATE));
+                var reader = await cmd.ExecuteNonQueryAsync();
+
+            }
+
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                int ProcID=0;
+                if (PROC_ID.Contains("01")) ProcID = 1;
+                else ProcID = 2;
+
+
+                cmd.CommandText = "exec [dbo].[COPR16_UPDATE_COPNO_TO_TRACKING] @DATE,@MODEL,@LINE,@POS,@COP_TYPE,@COPNO,@COPLOT";
+                cmd.Parameters.Add(new SqlParameter("@DATE", SELECT_DATE == null ? "" : SELECT_DATE));
+                cmd.Parameters.Add(new SqlParameter("@MODEL", MODEL_ID == null ? "" : MODEL_ID));
+                cmd.Parameters.Add(new SqlParameter("@LINE", LINE_ID == null ? "" : LINE_ID));
+                cmd.Parameters.Add(new SqlParameter("@POS", POSITION_ID == null ? "" : POSITION_ID));
+                cmd.Parameters.Add(new SqlParameter("@COP_TYPE", ProcID));
+                cmd.Parameters.Add(new SqlParameter("@COPNO", lCOPR_ID == null ? "" : lCOPR_ID));
+                cmd.Parameters.Add(new SqlParameter("@COPLOT", strLOTNO == null ? "" : strLOTNO));
+                await cmd.ExecuteNonQueryAsync();
+
+            }
+
+            return RedirectToAction("Index");
+        }
+        public async Task<ActionResult> CreateCopFromBeforePrint(
+            string COPR_ID,
+            string WRK_ID,
+            string PROC_ID,
+            string MODEL_ID,
+            string POSITION_ID,
+            string DESC,
+            string COP_STATUS,
+            string LINE_ID,
+            string SELECT_DATE,
+            string username,
+            List<ITEMSROW> jsonString)
+        {
+            /*
+            COPR16_COPRUNNING cOPR16_COPRUNNING = new COPR16_COPRUNNING();
+            cOPR16_COPRUNNING.COPR_ID = COPR_ID;
+            cOPR16_COPRUNNING.WRK_ID = WRK_ID;
+            cOPR16_COPRUNNING.PROC_ID = PROC_ID;
+            cOPR16_COPRUNNING.MODEL_ID = MODEL_ID;
+            cOPR16_COPRUNNING.POSITION_ID = POSITION_ID;
+            cOPR16_COPRUNNING.DESC = DESC;
+            cOPR16_COPRUNNING.COP_STATUS = COP_STATUS;
+            cOPR16_COPRUNNING.LINE_ID = LINE_ID;
+            cOPR16_COPRUNNING.CRE_BY = username;
+            cOPR16_COPRUNNING.ADATE = AppPropModel.today;
+            if (ModelState.IsValid)
+            {
+                db.COPR16_COPRUNNING.Add(cOPR16_COPRUNNING);
+                await db.SaveChangesAsync();
+            }
+            */
+            /// Create COP Header
+            JsonResult rowData = new JsonResult();
+            if (db.Database.Connection.State != ConnectionState.Open)
+            {
+                await db.Database.Connection.OpenAsync();
+            }
+
+            List<GetSeqNextValue1_Result> row = db.GetSeqNextValue("COPRUNNING").ToList();
+
+            string lCOPR_ID = row.FirstOrDefault().COPRUN + "-" + PROC_ID + "-00";
+
+            string SQLCMD2 = "exec dbo.sp_CreateNewCop @COPR_ID,@WRK_ID,@PROC_ID,@MODEL_ID,@POSITION_ID,@DESC,@COP_STATUS,@LINE_ID,@CRE_BY";
+
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                //await db.Database.Connection.OpenAsync();
+                cmd.CommandText = SQLCMD2;
+                cmd.Parameters.Add(new SqlParameter("@COPR_ID", lCOPR_ID == null ? "" : lCOPR_ID));
+                cmd.Parameters.Add(new SqlParameter("@WRK_ID", WRK_ID == null ? "" : WRK_ID));
+                cmd.Parameters.Add(new SqlParameter("@PROC_ID", PROC_ID == null ? "" : PROC_ID));
+                cmd.Parameters.Add(new SqlParameter("@MODEL_ID", MODEL_ID == null ? "" : MODEL_ID));
+                cmd.Parameters.Add(new SqlParameter("@POSITION_ID", POSITION_ID == null ? "" : POSITION_ID));
+                cmd.Parameters.Add(new SqlParameter("@DESC", DESC == null ? "" : DESC));
+                cmd.Parameters.Add(new SqlParameter("@COP_STATUS", COP_STATUS == null ? "" : COP_STATUS));
+                cmd.Parameters.Add(new SqlParameter("@LINE_ID", LINE_ID == null ? "" : LINE_ID));
+                cmd.Parameters.Add(new SqlParameter("@CRE_BY", username == null ? "" : username));
+
+                var reader = await cmd.ExecuteNonQueryAsync();
+
+            }
+            string strLOTNO = "";
+            /** Create COP FG PART**/
+            foreach (ITEMSROW item in jsonString)
+            {
+
+                COPR16_COPRUNNING_DT dtdt = new COPR16_COPRUNNING_DT();
+                dtdt.COPR_ID = lCOPR_ID;
+                dtdt.DESC = "";
+                dtdt.FGTYPE_ID = item.FGTYPE_ID == null ? "": item.FGTYPE_ID;
+                dtdt.LOTNO = item.LOTNO == null ? "" : item.LOTNO;
+                dtdt.PNO = item.PNO == null ? "" : item.PNO;
+                if (item.FGTYPE_ID.Contains("SEATBELT"))
+                {
+                    strLOTNO = item.LOTNO == null ? "" : item.LOTNO;
+                }
+                if (ModelState.IsValid) 
+                {
+                    db.COPR16_COPRUNNING_DT.Add(dtdt);
+                    await db.SaveChangesAsync();
+                }
+            }
+
+
+            //** Create COP WORKFLOW DETAILS**//
+            List<COPR16_WORKFLOW_DT> cOPR16_WORKFLOW_DT_List = await db.COPR16_WORKFLOW_DT.Where(l => l.WRK_ID.Equals(WRK_ID) && l.WRKD_WITH_ID != l.WRKD_SEQ).ToListAsync();
+
+            foreach (COPR16_WORKFLOW_DT row1 in cOPR16_WORKFLOW_DT_List)
+            {
+                List<COPR16_STEP_MSTR> cOPR16_STEP_MSTR_List = await db.COPR16_STEP_MSTR.Where(l => l.STEP_ID.Equals(row1.STEP_ID)).ToListAsync();
+                foreach (COPR16_STEP_MSTR row2 in cOPR16_STEP_MSTR_List)
+                {
+                    COPR16_MANCTYPE_MSTR cOPR16_MANCTYPE_MSTR = await db.COPR16_MANCTYPE_MSTR.FindAsync(row2.MANC_ID);
+                    List<COPR16_RTDT_MSTR> cOPR16_RTDT_MSTR_List = await db.COPR16_RTDT_MSTR.Where(l => l.RTTYPE_ID.Equals(cOPR16_MANCTYPE_MSTR.RTYPE_ID)).ToListAsync();
+                    foreach (COPR16_RTDT_MSTR row3 in cOPR16_RTDT_MSTR_List)
+                    {
+                        COPR16_MEASURETYPE_MSTR cOPR16_MEASURETYPE_MSTR = await db.COPR16_MEASURETYPE_MSTR.FindAsync(row3.MSTYPE_ID);
+                        //COPR16_COPRUNNING_RT dtdt = new COPR16_COPRUNNING_RT();
+                        List<SqlParameter> VarParams = new List<SqlParameter>();
+
+                        VarParams.Add(new SqlParameter("@COPR_ID", lCOPR_ID));
+                        VarParams.Add(new SqlParameter("@PNO", ""));
+                        VarParams.Add(new SqlParameter("@FGTYPE_ID", cOPR16_MANCTYPE_MSTR.FGT_ID));
+                        VarParams.Add(new SqlParameter("@WRK_ID", WRK_ID));
+                        VarParams.Add(new SqlParameter("@WRKD_ID", row1.WRKD_ID));
+                        VarParams.Add(new SqlParameter("@MACHINETYPE_ID", cOPR16_MANCTYPE_MSTR.MTYPE_ID));
+                        VarParams.Add(new SqlParameter("@RETURNTYPE_ID", row3.RTTYPE_ID));
+                        VarParams.Add(new SqlParameter("@SEQ_NO", row1.WRKD_SEQ));
+                        VarParams.Add(new SqlParameter("@REV", "00"));
+                        VarParams.Add(new SqlParameter("@RTDT_ID", row3.RTDT_ID));
+                        VarParams.Add(new SqlParameter("@RTDT_NAME", row3.RTDT_NAME));
+                        VarParams.Add(new SqlParameter("@RTDT_REF_ID", row3.REF_ID));
+
+
+                        //dtdt.COPR_ID = COPR_ID;
+                        //    dtdt.FGTYPE_ID = cOPR16_MANCTYPE_MSTR.FGT_ID;
+                        //    dtdt.WRK_ID = WRK_ID;
+                        //    dtdt.WRKD_ID = row1.WRKD_ID;
+                        //    dtdt.MACHINETYPE_ID = cOPR16_MANCTYPE_MSTR.MTYPE_ID;
+                        //    dtdt.RETURNTYPE_ID = row3.RTTYPE_ID;
+                        //    dtdt.SEQ_NO = row1.WRKD_SEQ;
+                        //    dtdt.RTDT_ID = row3.RTDT_ID;
+                        //    dtdt.REV = "00";
+                        //    dtdt.RTDT_NAME = row3.RTDT_NAME;
+                        //    dtdt.RTDT_REF_ID = row3.REF_ID;
+
+                        //if (ModelState.IsValid) {
+                        //    db.COPR16_COPRUNNING_RT.Add(dtdt);
+                        //    await db.SaveChangesAsync();
+                        //}
+                        //db.Database.ExecuteSqlCommand("exec GenerateJob @COPR_ID, @PNO, @FGTPE_ID, @WRK_ID, @WRKD_ID, @MACHINETYPE_ID, @RETURNTYPE_ID, @SEQ_NO, @REV, @RTDT_ID, @RTDT_NAME, @RTDT_REF_ID", VarParams.ToList());
+                        await db.Database.ExecuteSqlCommandAsync("exec GenerateJob @COPR_ID, @PNO, @FGTYPE_ID, @WRK_ID, @WRKD_ID, @MACHINETYPE_ID, @RETURNTYPE_ID, @SEQ_NO, @REV, @RTDT_ID, @RTDT_NAME, @RTDT_REF_ID",
+                            VarParams[0]
+                            , VarParams[1]
+                            , VarParams[2]
+                            , VarParams[3]
+                            , VarParams[4]
+                            , VarParams[5]
+                            , VarParams[6]
+                            , VarParams[7]
+                            , VarParams[8]
+                            , VarParams[9]
+                            , VarParams[10]
+                            , VarParams[11]
+                            );
+                    }
+                }
+
+            }
+
+            if (db.Database.Connection.State != ConnectionState.Open)
+            {
+                await db.Database.Connection.OpenAsync();
+            }
+
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+
+                cmd.CommandText = "exec [dbo].[sp_save_selectdate] @COPR_ID,@MODEL_ID,@POSITION_ID,@LINE_ID,@PROC_ID,@SELECT_DATE";
+                cmd.Parameters.Add(new SqlParameter("@COPR_ID", lCOPR_ID == null ? "" : lCOPR_ID));
+                cmd.Parameters.Add(new SqlParameter("@MODEL_ID", MODEL_ID == null ? "" : MODEL_ID));
+                cmd.Parameters.Add(new SqlParameter("@POSITION_ID", POSITION_ID == null ? "" : POSITION_ID));
+                cmd.Parameters.Add(new SqlParameter("@LINE_ID", LINE_ID == null ? "" : LINE_ID));
+                cmd.Parameters.Add(new SqlParameter("@PROC_ID", PROC_ID == null ? "" : PROC_ID));
+                cmd.Parameters.Add(new SqlParameter("@SELECT_DATE", SELECT_DATE == null ? "" : SELECT_DATE));
+                var reader = await cmd.ExecuteNonQueryAsync();
+
+            }
+
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                int ProcID = 0;
+                if (PROC_ID.Contains("01")) ProcID = 1;
+                else ProcID = 2;
+
+
+                cmd.CommandText = "exec [dbo].[COPR16_UPDATE_COPNO_TO_TRACKING] @DATE,@MODEL,@LINE,@POS,@COP_TYPE,@COPNO,@COPLOT";
+                cmd.Parameters.Add(new SqlParameter("@DATE", SELECT_DATE == null ? "" : SELECT_DATE));
+                cmd.Parameters.Add(new SqlParameter("@MODEL", MODEL_ID == null ? "" : MODEL_ID));
+                cmd.Parameters.Add(new SqlParameter("@LINE", LINE_ID == null ? "" : LINE_ID));
+                cmd.Parameters.Add(new SqlParameter("@POS", POSITION_ID == null ? "" : POSITION_ID));
+                cmd.Parameters.Add(new SqlParameter("@COP_TYPE", ProcID));
+                cmd.Parameters.Add(new SqlParameter("@COPNO", lCOPR_ID == null ? "" : lCOPR_ID));
+                cmd.Parameters.Add(new SqlParameter("@COPLOT", strLOTNO == null ? "" : strLOTNO));
+                await cmd.ExecuteNonQueryAsync();
+
+            }
+
+            //return RedirectToAction("Index");
+            //return row;
+            rowData.Data = lCOPR_ID;
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<ActionResult> checkCOPNO(string SELECTED_COPNO)
         {
             /*
@@ -1511,7 +1997,7 @@ namespace CM_APPLICATIONS.Controllers
                         {
                             foreach(var dt in dict)
                             {
-                                if (row.POS == "2")
+                                if (int.Parse( row.POS) == 2)
                                 {
                                     if (prevPart == row.PART)
                                     {
@@ -1595,7 +2081,7 @@ namespace CM_APPLICATIONS.Controllers
                             */
                             foreach (var dt in dict)
                             {
-                                if (row.POS == "2")
+                                if (int.Parse(row.POS) == 2)
                                 {
                                     if (prevPart == row.PART)
                                     {

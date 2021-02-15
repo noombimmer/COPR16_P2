@@ -57,6 +57,9 @@ namespace CM_APPLICATIONS.Models
         public string selectDate { get; set; }
 
         public List<COPR16_MACHINE_MSTR> cOPR16_MACHINE_MSTR_List { get; set; }
+        public string xProc { get; set; }
+        public string xACCTT { get;  set; }
+
         public CopRunningModel(COPR16Entities dbModel)
         {
             db = dbModel;

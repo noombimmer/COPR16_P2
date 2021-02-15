@@ -11,6 +11,7 @@ using CM_APPLICATIONS;
 using CM_APPLICATIONS.Models;
 using System.Data.SqlClient;
 using System.Data.Common;
+using System.Configuration;
 
 namespace CM_APPLICATIONS.Controllers
 {
@@ -282,6 +283,7 @@ namespace CM_APPLICATIONS.Controllers
         }
         [HttpPost]
         //public async  Task<JsonResult> GetVolumeMatrix(VolumeMatrixParams parms)
+        
         public async Task<JsonResult> GetVolumeMatrixWithModel(VolumeMatrixParams parms)
         {
             var rowData = new JsonResult();
@@ -618,6 +620,479 @@ namespace CM_APPLICATIONS.Controllers
 
             }
 
+            rowData.Data = rowsReturn;
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
+        public async Task<JsonResult> GetVolTrackingByModel(VolumeMatrixParams parms)
+        {
+            var rowData = new JsonResult();
+            pReturnMatrix rowsReturn = new pReturnMatrix();
+
+            
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+                await con.OpenAsync();
+
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_GET_PART_VOLUM_TRACKING_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID";
+                    cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+//                    cmd.Parameters.Add(new SqlParameter("@ITEM_ID", parms.ITEM_ID == null ? "" : parms.ITEM_ID));
+                    cmd.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        var model = Serialize((SqlDataReader)reader);
+                        //rowData.Data = model;
+                        rowsReturn.QTY = model;
+                    }
+                    reader.Close();
+                }
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_GET_SUM_VOLUM_TRACKING_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID";
+                    cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                    //                    cmd.Parameters.Add(new SqlParameter("@ITEM_ID", parms.ITEM_ID == null ? "" : parms.ITEM_ID));
+                    cmd.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        var model = Serialize((SqlDataReader)reader);
+                        //rowData.Data = model;
+                        rowsReturn.AQTY = model;
+                    }
+                    reader.Close();
+                }
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_GET_ACC_VOLUM_TRACKING_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID";
+                    cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                    //                    cmd.Parameters.Add(new SqlParameter("@ITEM_ID", parms.ITEM_ID == null ? "" : parms.ITEM_ID));
+                    cmd.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        var model = Serialize((SqlDataReader)reader);
+                        //rowData.Data = model;
+                        rowsReturn.ACCQTY = model;
+                    }
+                    reader.Close();
+                }
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_GET_CONDITION_TRIGGER_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID,@COP_TYPE";
+                    cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                    //                    cmd.Parameters.Add(new SqlParameter("@ITEM_ID", parms.ITEM_ID == null ? "" : parms.ITEM_ID));
+                    cmd.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                    cmd.Parameters.Add(new SqlParameter("@COP_TYPE", 1));
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        var model = Serialize((SqlDataReader)reader);
+                        //rowData.Data = model;
+                        rowsReturn.COPQTY_SUGGESTION1 = model;
+                    }
+                    reader.Close();
+                }
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_GET_CONDITION_TRIGGER_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID,@COP_TYPE";
+                    cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                    cmd.Parameters.Add(new SqlParameter("@COP_TYPE", 2));
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        var model = Serialize((SqlDataReader)reader);
+                        //rowData.Data = model;
+                        rowsReturn.COPQTY_SUGGESTION2 = model;
+                    }
+                    reader.Close();
+                }
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_GET_COPNO_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID,@COP_TYPE";
+                    cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                    cmd.Parameters.Add(new SqlParameter("@COP_TYPE", 1));
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        var model = Serialize((SqlDataReader)reader);
+                        //rowData.Data = model;
+                        rowsReturn.COPNO = model;
+                    }
+                    reader.Close();
+                }
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_GET_COPNO_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID,@COP_TYPE";
+                    cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                    cmd.Parameters.Add(new SqlParameter("@COP_TYPE", 2));
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        var model = Serialize((SqlDataReader)reader);
+                        //rowData.Data = model;
+                        rowsReturn.COPNOEX = model;
+                    }
+                    reader.Close();
+                }
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_GET_COPLOT_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID,@COP_TYPE";
+                    cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                    cmd.Parameters.Add(new SqlParameter("@COP_TYPE", 1));
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        var model = Serialize((SqlDataReader)reader);
+                        //rowData.Data = model;
+                        rowsReturn.COPQTY_SUMMARY1 = model;
+                    }
+                    reader.Close();
+                }
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_GET_COPLOT_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID,@COP_TYPE";
+                    cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                    cmd.Parameters.Add(new SqlParameter("@COP_TYPE", 2));
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        var model = Serialize((SqlDataReader)reader);
+                        //rowData.Data = model;
+                        rowsReturn.COPQTY_SUMMARY2 = model;
+                    }
+                    reader.Close();
+                }
+                using (SqlCommand cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_GET_LAST_VOL_BY_MODEL @FROM_DT,@MODEL_ID";
+                    cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                    cmd.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        var model = Serialize((SqlDataReader)reader);
+                        //rowData.Data = model;
+                        rowsReturn.MODEL_REM1 = model;
+                    }
+                    reader.Close();
+                }
+                con.Close();
+            }
+
+            /*
+            //Daily Sum BY Model
+            //Show with date and Model
+            using (var cmd2 = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    if (db.Database.Connection.State == ConnectionState.Closed)
+                    {
+                        await db.Database.Connection.OpenAsync();
+                    }
+                }
+
+                //cmd.CommandText = "exec [dbo].[sp_list_items_volume_with_model_aqty] @FROM_DT,@TO_DT,@ITEM_ID,@MODEL_ID";
+                cmd2.CommandText = "exec [dbo].[sp_list_items_volume_with_model_sumqty] @FROM_DT,@TO_DT,@MODEL_ID,@ITEM_ID";
+
+                cmd2.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                cmd2.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                cmd2.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                cmd2.Parameters.Add(new SqlParameter("@ITEM_ID", parms.ITEM_ID == null ? "" : parms.ITEM_ID));
+                DbDataReader reader2 = await cmd2.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader2);
+                    //rowData.Data = model;
+                    rowsReturn.AQTY = model;
+                }
+                reader2.Close();
+
+            }
+
+
+            //Daily Commulative Sum BY Model 
+            //roup by Model                 
+            using (var cmd3 = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+
+                //cmd.CommandText = "exec [dbo].[sp_list_items_volume_with_model_aqty] @FROM_DT,@TO_DT,@ITEM_ID,@MODEL_ID";
+                cmd3.CommandText = "exec [dbo].[sp_list_items_volume_with_model_sumacc] @FROM_DT,@TO_DT,@MODEL_ID,@ITEM_ID";
+
+                cmd3.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                cmd3.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                cmd3.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                cmd3.Parameters.Add(new SqlParameter("@ITEM_ID", parms.ITEM_ID == null ? "" : parms.ITEM_ID));
+                DbDataReader reader = await cmd3.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    //rowData.Data = model;
+                    rowsReturn.ACCQTY = model;
+                }
+                reader.Close();
+
+            }
+            using (var cmd4 = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+
+                //cmd.CommandText = "exec [dbo].[sp_list_items_volume_with_model_aqty] @FROM_DT,@TO_DT,@ITEM_ID,@MODEL_ID";
+                cmd4.CommandText = "exec [dbo].[sp_list_items_volume_with_model_copno] @FROM_DT,@TO_DT,@MODEL_ID,@ITEM_ID";
+
+                cmd4.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                cmd4.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                cmd4.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                cmd4.Parameters.Add(new SqlParameter("@ITEM_ID", parms.ITEM_ID == null ? "" : parms.ITEM_ID));
+                DbDataReader reader = await cmd4.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    //rowData.Data = model;
+                    rowsReturn.COPNO = model;
+                }
+                reader.Close();
+
+            }
+            using (var cmd4 = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+
+                //cmd.CommandText = "exec [dbo].[sp_list_items_volume_with_model_aqty] @FROM_DT,@TO_DT,@ITEM_ID,@MODEL_ID";
+                cmd4.CommandText = "exec [dbo].[sp_list_items_volume_with_model_copno_ex] @FROM_DT,@TO_DT,@MODEL_ID,@ITEM_ID";
+
+                cmd4.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                cmd4.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                cmd4.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                cmd4.Parameters.Add(new SqlParameter("@ITEM_ID", parms.ITEM_ID == null ? "" : parms.ITEM_ID));
+                DbDataReader reader = await cmd4.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    //rowData.Data = model;
+                    rowsReturn.COPNOEX = model;
+                }
+                reader.Close();
+
+            }
+            using (var cmd5 = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+
+                //cmd.CommandText = "exec [dbo].[sp_list_items_volume_with_model_aqty] @FROM_DT,@TO_DT,@ITEM_ID,@MODEL_ID";
+                cmd5.CommandText = "exec [dbo].[sp_list_items_volume_with_model_copqty] @FROM_DT,@TO_DT,@MODEL_ID,@ITEM_ID";
+
+                cmd5.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                cmd5.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                cmd5.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                cmd5.Parameters.Add(new SqlParameter("@ITEM_ID", parms.ITEM_ID == null ? "" : parms.ITEM_ID));
+                DbDataReader reader = await cmd5.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    //rowData.Data = model;
+                    rowsReturn.COPQTY = model;
+                }
+                reader.Close();
+
+            }
+
+            using (var cmd6 = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+
+                //cmd.CommandText = "exec [dbo].[sp_list_items_volume_with_model_aqty] @FROM_DT,@TO_DT,@ITEM_ID,@MODEL_ID";
+                cmd6.CommandText = "exec [dbo].[sp_list_items_volume_with_model_copqty_ex] @FROM_DT,@TO_DT,@MODEL_ID,@ITEM_ID";
+
+                cmd6.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                cmd6.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                cmd6.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                cmd6.Parameters.Add(new SqlParameter("@ITEM_ID", parms.ITEM_ID == null ? "" : parms.ITEM_ID));
+                DbDataReader reader = await cmd6.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    //rowData.Data = model;
+                    rowsReturn.COPQTYEX = model;
+                }
+                reader.Close();
+
+            }
+
+            using (var cmd6 = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+
+                //cmd.CommandText = "exec [dbo].[sp_list_items_volume_with_model_aqty] @FROM_DT,@TO_DT,@ITEM_ID,@MODEL_ID";
+                cmd6.CommandText = "EXEC SP_SUMMARY_MODEL_TRACKING @VALUE_QTY,@PROC_VALUE_VAR,@MODEL_VALUE,@PARTNO_VALUE ";
+
+                cmd6.Parameters.Add(new SqlParameter("@VALUE_QTY", 5000));
+                cmd6.Parameters.Add(new SqlParameter("@PROC_VALUE_VAR", "01"));
+                cmd6.Parameters.Add(new SqlParameter("@MODEL_VALUE", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                cmd6.Parameters.Add(new SqlParameter("@PARTNO_VALUE ", parms.ITEM_ID == null ? "" : parms.ITEM_ID));
+                DbDataReader reader = await cmd6.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    //rowData.Data = model;
+                    rowsReturn.COPQTY_SUMMARY1 = model;
+                }
+                reader.Close();
+
+            }
+
+            using (var cmd6 = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+
+                //cmd.CommandText = "exec [dbo].[sp_list_items_volume_with_model_aqty] @FROM_DT,@TO_DT,@ITEM_ID,@MODEL_ID";
+                cmd6.CommandText = "EXEC SP_SUMMARY_MODEL_TRACKING @VALUE_QTY,@PROC_VALUE_VAR,@MODEL_VALUE,@PARTNO_VALUE ";
+
+                cmd6.Parameters.Add(new SqlParameter("@VALUE_QTY", 10000));
+                cmd6.Parameters.Add(new SqlParameter("@PROC_VALUE_VAR", "02"));
+                cmd6.Parameters.Add(new SqlParameter("@MODEL_VALUE", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                cmd6.Parameters.Add(new SqlParameter("@PARTNO_VALUE ", parms.ITEM_ID == null ? "" : parms.ITEM_ID));
+
+                DbDataReader reader = await cmd6.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    //rowData.Data = model;
+                    rowsReturn.COPQTY_SUMMARY2 = model;
+                }
+                reader.Close();
+
+            }
+            using (var cmd6 = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+                //cmd.CommandText = "exec [dbo].[sp_list_items_volume_with_model_aqty] @FROM_DT,@TO_DT,@ITEM_ID,@MODEL_ID";
+                cmd6.CommandText = "EXEC SP_GET_MODEL_TRACKING @QTY,@MODEL_ID,@FROM_DT,@TO_DT";
+                cmd6.Parameters.Add(new SqlParameter("@QTY", 5000));
+                cmd6.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                cmd6.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                cmd6.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+
+                DbDataReader reader = await cmd6.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    //rowData.Data = model;
+                    rowsReturn.COPQTY_SUGGESTION1 = model;
+                }
+                reader.Close();
+
+            }
+            using (var cmd6 = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+                //cmd.CommandText = "exec [dbo].[sp_list_items_volume_with_model_aqty] @FROM_DT,@TO_DT,@ITEM_ID,@MODEL_ID";
+                cmd6.CommandText = "EXEC SP_GET_MODEL_TRACKING @QTY,@MODEL_ID,@FROM_DT,@TO_DT";
+                cmd6.Parameters.Add(new SqlParameter("@QTY", 10000));
+                cmd6.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                cmd6.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                cmd6.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+
+                DbDataReader reader = await cmd6.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    //rowData.Data = model;
+                    rowsReturn.COPQTY_SUGGESTION2 = model;
+                }
+                reader.Close();
+
+            }
+            using (var cmd6 = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+
+                //cmd.CommandText = "exec [dbo].[sp_list_items_volume_with_model_aqty] @FROM_DT,@TO_DT,@ITEM_ID,@MODEL_ID";
+                cmd6.CommandText = "exec [dbo].[SP_GET_DIMDATE] @FROM_DT,@TO_DT ";
+
+                cmd6.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                cmd6.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+                DbDataReader reader = await cmd6.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    //rowData.Data = model;
+                    rowsReturn.DIM_DATE = model;
+                }
+                reader.Close();
+
+            }
+            using (var cmd6 = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+                //cmd.CommandText = "exec [dbo].[sp_list_items_volume_with_model_aqty] @FROM_DT,@TO_DT,@ITEM_ID,@MODEL_ID";
+                cmd6.CommandText = "EXEC SP_GET_MODEL_REM @QTY,@MODEL_ID,@FROM_DT,@TO_DT";
+                cmd6.Parameters.Add(new SqlParameter("@QTY", 5000));
+                cmd6.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                cmd6.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                cmd6.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+
+                DbDataReader reader = await cmd6.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    //rowData.Data = model;
+                    rowsReturn.MODEL_REM1 = model;
+                }
+                reader.Close();
+
+            }
+            using (var cmd6 = db.Database.Connection.CreateCommand())
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+                //cmd.CommandText = "exec [dbo].[sp_list_items_volume_with_model_aqty] @FROM_DT,@TO_DT,@ITEM_ID,@MODEL_ID";
+                cmd6.CommandText = "EXEC SP_GET_MODEL_REM @QTY,@MODEL_ID,@FROM_DT,@TO_DT";
+                cmd6.Parameters.Add(new SqlParameter("@QTY", 10000));
+                cmd6.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));
+                cmd6.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
+                cmd6.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
+
+                DbDataReader reader = await cmd6.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    //rowData.Data = model;
+                    rowsReturn.MODEL_REM2 = model;
+                }
+                reader.Close();
+
+            }
+            */
             rowData.Data = rowsReturn;
             return Json(rowData, JsonRequestBehavior.AllowGet);
         }
