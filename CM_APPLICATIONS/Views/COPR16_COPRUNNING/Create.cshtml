@@ -1579,6 +1579,11 @@
         var COPR_ID = $('#cOPR16_COPRUNNING_COPR_ID').val();
         var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
         var PROC_ID = $('#cOPR16_COPRUNNING_PROC_ID').val().substring(0, 2);
+        if (WRK_ID.indexOf("01") >= 0) {
+            PROC_ID = "01";
+        } else {
+            PROC_ID = "02";
+        }
         var MODEL_ID = $('#cOPR16_COPRUNNING_MODEL_ID').val();
         var LINE_ID = $('#cOPR16_COPRUNNING_LINE_ID').val();
         var POSITION_ID = $('#cOPR16_COPRUNNING_POSITION_ID').val();
@@ -1705,7 +1710,13 @@
     $('.YesSavedAllBtn').click(function () {
         var COPR_ID = $('#cOPR16_COPRUNNING_COPR_ID').val();
         var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
-        var PROC_ID = $('#cOPR16_COPRUNNING_MODEL_ID').val();
+
+        var PROC_ID = $('#cOPR16_COPRUNNING_PROC_ID').val();
+        if (WRK_ID.indexOf("01") >= 0) {
+            PROC_ID = "01";
+        } else {
+            PROC_ID = "02";
+        }
         var MODEL_ID = $('#cOPR16_COPRUNNING_MODEL_ID').val();
         var POSITION_ID = $('#cOPR16_COPRUNNING_POSITION_ID').val();
         var LINE_ID = $('#cOPR16_COPRUNNING_LINE_ID').val();

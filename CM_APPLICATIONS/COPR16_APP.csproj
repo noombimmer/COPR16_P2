@@ -1468,6 +1468,9 @@
     <Content Include="Views\COPR16_COPRUNNING\TensileUpload.cshtml" />
     <Content Include="Views\COPR16_COPRUNNING\PartListTemplateUpload.cshtml" />
     <Content Include="Views\COPR16_COPRUNNING\Tracking2.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\EditAID.cshtml" />
+    <Content Include="Views\COPR16_COPRUNNING\EditNONEC.cshtml" />
+    <Content Include="Views\COPR16_FILE_IMPORT\importModel.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

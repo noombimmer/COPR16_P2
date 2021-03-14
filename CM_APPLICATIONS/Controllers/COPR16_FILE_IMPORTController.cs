@@ -389,6 +389,49 @@ namespace CM_APPLICATIONS.Controllers
             //return Json(rowData, JsonRequestBehavior.AllowGet);
             return json;
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [AsyncTimeout(50000)]
+        public JsonResult UploadingModel(HttpPostedFileBase FSIM_NAME, string hidden_cOPR16_FILE_IMPORT_FSIM_SEQDT, string UID)
+        {
+            var rowData = new JsonResult();
+            DataTable dt = new DataTable();
+
+            if (FSIM_NAME.ContentLength > 0)
+            {
+                string rootPath = AppPropModel.rootPath;
+                string subPath = UID + "/" + hidden_cOPR16_FILE_IMPORT_FSIM_SEQDT;
+                bool exists = System.IO.Directory.Exists(Server.MapPath(rootPath + "/" + subPath));
+                if (!exists)
+                    System.IO.Directory.CreateDirectory(Server.MapPath(rootPath + "/" + subPath));
+
+                var fileName = Path.GetFileName(FSIM_NAME.FileName);
+
+                var path = Path.Combine(Server.MapPath(rootPath + "/" + subPath), fileName);
+                FSIM_NAME.SaveAs(path);
+                string Ext = Path.GetExtension(path);
+                dt = FillGridFromExcelSheet(path, Ext, "YES");
+            }
+
+            List<Dictionary<string, object>> rows1 = new List<Dictionary<string, object>>();
+            Dictionary<string, object> row1;
+            foreach (DataRow dr in dt.Rows)
+            {
+                row1 = new Dictionary<string, object>();
+                foreach (DataColumn col in dt.Columns)
+                {
+                    row1.Add(col.ColumnName, dr[col]);
+                }
+                rows1.Add(row1);
+            }
+            rowData.Data = rows1;
+
+            JsonResult json = Json(rowData, JsonRequestBehavior.AllowGet);
+            json.MaxJsonLength = int.MaxValue;
+            return json;
+            //return Json(json, JsonRequestBehavior.AllowGet);
+        }
         private DataTable FillGridFromExcelSheetForSPC(string FilePath, string ext, string HDR)
         {
             bool isCSV = false;
@@ -494,6 +537,7 @@ namespace CM_APPLICATIONS.Controllers
         {
             bool isCSV = false;
             string connectionString = "";
+            /*
             if (ext.ToLower() == ".xls")
             {   //For Excel 97-03
                 connectionString = "Provider=Microsoft.ACE.OLEDB.16.0; Data Source ='{0}';Extended Properties = 'Excel 8.0;HDR={1}'";
@@ -509,9 +553,24 @@ namespace CM_APPLICATIONS.Controllers
                 isCSV = true;
                 connectionString = "Provider=Microsoft.ACE.OLEDB.16.0; Data Source='{0}';Extended Properties='TEXT;HDR={1};FMT=Delimited;ImportMixedTypes=Text;IMEX=0;'";
             }
-
+            */
+            if (ext.ToLower() == ".xls")
+            {   //For Excel 97-03
+                connectionString = "Provider=Microsoft.ACE.OLEDB.16.0; Data Source ='{0}';Extended Properties = 'Excel 8.0;HDR={1}'";
+            }
+            else if (ext.ToLower() == ".xlsx")
+            {    //For Excel 07 and greater
+                //connectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source = '{0}'; Extended Properties = 'Excel 8.0;HDR={1}'";
+                connectionString = "Provider=Microsoft.ACE.OLEDB.16.0;Data Source = '{0}'; Extended Properties = 'Excel 12.0 Xml;HDR={1};IMEX=1;'";
+            }
+            else if (ext.ToLower() == ".csv")
+            {
+                //For CSV files
+                isCSV = true;
+                connectionString = "Provider=Microsoft.ACE.OLEDB.16.0; Data Source='{0}';Extended Properties='TEXT;HDR={1};FMT=Delimited;ImportMixedTypes=Text;IMEX=0;'";
+            }
             //Fetch 1st Sheet Name
-            
+
             //OleDbCommand cmd = new OleDbCommand();
             //OleDbDataAdapter dataAdapter = new OleDbDataAdapter();
             DataTable dt = new DataTable();
@@ -927,6 +986,129 @@ namespace CM_APPLICATIONS.Controllers
             //var row = db.Database.ExecuteSqlCommand("dbo.sp_getUniqID @UNIQ_ID", parameter);
             return Json(row, JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<JsonResult> ConfirmUploadModel(List<newModelData> ModelsData)
+        //public JsonResult ConfirmUpload(FileUploadHeader fsHeader)
+        {
+            var rowData = new JsonResult();
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+                if (con.State != ConnectionState.Open)
+                {
+                    await con.OpenAsync();
+                }
+
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_CHECKING_MODEL_STG_TABLES;";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                foreach (var item in ModelsData)
+                {
+                    using (var cmd = con.CreateCommand())
+                    {
+                        cmd.CommandText = "exec COPR16_INSERT_STG_MODEL_IMPORT @MODEL,@LINE,@POSI,@SB,@BCK1,@BCK2";
+                        cmd.Parameters.Add(new SqlParameter("@MODEL", item.ModelName == null ? "" : item.ModelName));
+                        cmd.Parameters.Add(new SqlParameter("@LINE", item.LineName == null ? "" : item.LineName));
+                        cmd.Parameters.Add(new SqlParameter("@POSI", item.PositionName == null ? "" : item.PositionName));
+                        cmd.Parameters.Add(new SqlParameter("@SB", item.SBPart == null ? "" : item.SBPart));
+                        cmd.Parameters.Add(new SqlParameter("@BCK1", item.Bck1Part == null ? "" : item.Bck1Part));
+                        cmd.Parameters.Add(new SqlParameter("@BCK2", item.Bck2Part == null ? "" : item.Bck2Part));
+                        await cmd.ExecuteNonQueryAsync();
+
+                    }
+                }
+
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_UPDATE_MODELS_IMP;";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_UPDATE_LINE_IMP;";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "exec COPR16_UPDATE_MATCHING_PARTS_IMP;";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "EXECUTE [dbo].[COPR16_SP_UPDATE_MODELMON_STEP02] ;";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "EXECUTE [dbo].[COPR16_SP_UPDATE_COND1]  ;";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "EXECUTE [dbo].[COPR16_SP_UPDATE_COND2] ;";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "EXECUTE [dbo].[COPR16_UPDATE_PART_VOL_TRACK_STEP04]  ;";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "EXECUTE [dbo].[COPR16_UPADTE_MODEL_VOL_TRACK_STEP03]   ;";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "EXECUTE [dbo].[COPR16_UPDATE_ALL_TRIGGER_MODEL_STEP05] 1, 4500;";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "EXECUTE [dbo].[COPR16_UPDATE_ALL_TRIGGER_MODEL_STEP05] 1, 9500;";
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
+            /*
+            var rtn = await db.Database.ExecuteSqlCommandAsync(sqlCOMMAND, parameters.ToArray());
+            fsHeader.FSIM_UNIQ_ID = p6.Value.ToString();
+            List<SqlParameter> sqlParams = new List<SqlParameter>();
+            string sqlCOMMAND_ITEMS = "exec [dbo].[sp_insert_import_contents] @FSIM_UNIQ_ID,@ITEM_ID,@BUSI_DATE,@QTY,@CRE_BY ";
+            foreach (var item in fgVolumes)
+            {
+                sqlParams.Clear();
+                item.FSIM_UNIQ_ID = fsHeader.FSIM_UNIQ_ID;
+                //item.BUSI_DATE = fsHeader.FSIM_SEQID;
+                sqlParams.Add(new SqlParameter("@FSIM_UNIQ_ID", item.FSIM_UNIQ_ID));
+                sqlParams.Add(new SqlParameter("@ITEM_ID", item.ITEM_ID));
+                sqlParams.Add(new SqlParameter("@BUSI_DATE", item.BUSI_DATE));
+                sqlParams.Add(new SqlParameter("@QTY", item.QTY ?? "0"));
+                sqlParams.Add(new SqlParameter("@CRE_BY", fsHeader.CRE_BY));
+                await db.Database.ExecuteSqlCommandAsync(sqlCOMMAND_ITEMS, sqlParams.ToArray());
+            }
+            fgVolumes[0].FSIM_UNIQ_ID = fsHeader.FSIM_UNIQ_ID;
+
+            List<SqlParameter> PostsqlParams = new List<SqlParameter>();
+            string sqlCOMMAND_POST = "exec [dbo].[sp_update_acc_volume] @FSIM_UNIQ_ID ";
+            PostsqlParams.Add(new SqlParameter("@FSIM_UNIQ_ID", fsHeader.FSIM_UNIQ_ID));
+            await db.Database.ExecuteSqlCommandAsync(sqlCOMMAND_POST, PostsqlParams.ToArray());
+
+            List<SqlParameter> UpdateTrackingWithOutParams = new List<SqlParameter>();
+            string sqlCOMMAND_UpdateTrackingWithOut = "EXEC SP_UPDATE_MODEL_TRACKING @VALUE_QTY";
+            UpdateTrackingWithOutParams.Add(new SqlParameter("@VALUE_QTY", 4500));
+            await db.Database.ExecuteSqlCommandAsync(sqlCOMMAND_UpdateTrackingWithOut, UpdateTrackingWithOutParams.ToArray());
+
+            List<SqlParameter> UpdateTrackingWithConParams = new List<SqlParameter>();
+            string sqlCOMMAND_UpdateTrackingWithCon = "EXEC SP_UPDATE_MODEL_TRACKING @VALUE_QTY";
+            UpdateTrackingWithConParams.Add(new SqlParameter("@VALUE_QTY", 9500));
+            await db.Database.ExecuteSqlCommandAsync(sqlCOMMAND_UpdateTrackingWithCon, UpdateTrackingWithConParams.ToArray());
+            */
+            rowData.Data = ModelsData;
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
@@ -1008,12 +1190,12 @@ namespace CM_APPLICATIONS.Controllers
 
             List<SqlParameter> UpdateTrackingWithOutParams = new List<SqlParameter>();
             string sqlCOMMAND_UpdateTrackingWithOut = "EXEC SP_UPDATE_MODEL_TRACKING @VALUE_QTY";
-            UpdateTrackingWithOutParams.Add(new SqlParameter("@VALUE_QTY", 5000));
+            UpdateTrackingWithOutParams.Add(new SqlParameter("@VALUE_QTY", 4500));
             await db.Database.ExecuteSqlCommandAsync(sqlCOMMAND_UpdateTrackingWithOut, UpdateTrackingWithOutParams.ToArray());
 
             List<SqlParameter> UpdateTrackingWithConParams = new List<SqlParameter>();
             string sqlCOMMAND_UpdateTrackingWithCon = "EXEC SP_UPDATE_MODEL_TRACKING @VALUE_QTY";
-            UpdateTrackingWithConParams.Add(new SqlParameter("@VALUE_QTY", 10000));
+            UpdateTrackingWithConParams.Add(new SqlParameter("@VALUE_QTY", 9500));
             await db.Database.ExecuteSqlCommandAsync(sqlCOMMAND_UpdateTrackingWithCon, UpdateTrackingWithConParams.ToArray());
 
             rowData.Data = fgVolumes;
@@ -1047,7 +1229,11 @@ namespace CM_APPLICATIONS.Controllers
             FileImportModel model = new FileImportModel(db);
             return View(model);
         }
-
+        public ActionResult importModel()
+        {
+            ImportModels model = new ImportModels(db);
+            return View(model);
+        }
         public ActionResult gLockUpload()
         {
             FileImportGlock model = new FileImportGlock(db);

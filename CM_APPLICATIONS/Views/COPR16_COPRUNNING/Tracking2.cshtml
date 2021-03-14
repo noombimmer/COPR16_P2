@@ -38,23 +38,6 @@
         </div>
     </div>
     
-    @*<div class="form-group">
-        @Html.Label("SELECT MODELS : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
-        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
-            @Html.Editor("FMODELS", new { htmlAttributes = new { @class = "form-control model-id", @name = "FITEMS" } })
-            @Html.Hidden("hidden_MODELS", "")
-        </div>
-
-    </div>*@
-
-    @*<div class="form-group">
-        @Html.Label("FILTER ITEMS : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
-        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
-            @Html.Editor("FITEMS", new { htmlAttributes = new { @class = "form-control item-id", @name = "FITEMS" } })
-            @Html.Hidden("hidden_FITEMS", "")
-        </div>
-
-    </div>*@
     <div class="form-group">
         <div class="col-md-offset-1 col-md-10">
             <input type="button" value="REFRESH" class="btn btn-primary button refreshBtn" />
@@ -69,22 +52,18 @@
         width: 100% !important;
         margin-left: 0px !important;
     }
-
     table.dataTable thead tr {
         background-color: #005495;
         color: #fff;
     }
-
     table td {
         white-space: nowrap !important;
     }
-
     table.dataTable {
         margin-left: 0px !important;
         /*width: 100% !important;*/
         border: thin 0.5px grey !important;
     }
-
     div.dataTables_length {
         display: none !important;
     }
@@ -130,10 +109,6 @@
         text-align: left;
         width: 1% !important;
         white-space: nowrap;
-    }
-
-    .matrixValue {
-        /*width: 1% !important;*/
     }
 
     .hiddenCol {
@@ -193,11 +168,6 @@
                 <th class="no-wrap-th textCol" style="border-left: 1px solid white !important;">MODEL No.(S/B)</th>
             </tr>
         </thead>
-        @*<tbody>
-                <tr>
-                    <td></td>
-                </tr>
-            </tbody>*@
     </table>
 </div>
 <div class="modal fade" id="lModalSuccess" role="dialog">
@@ -253,23 +223,6 @@
 <script>
     var tbVar;
 
-    //var tbVar = $('.data-step').DataTable({
-    //    "paging": true,
-    //    "ordering": false,
-    //    "info": true,
-    //    "stripe": true,
-    //    "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-    //    "language": {
-    //        "lengthMenu": "Display _MENU_ items per page",
-    //        "zeroRecords": "No items view",
-    //        "info": "Showing _START_-_END_ of _TOTAL_ items",
-    //        "infoEmpty": "No Items to view",
-    //        "infoFiltered": "(filtered from _MAX_ total items)"
-    //    }
-
-    //});
-
-    //tbVar.clear().draw();
     $('.to-date').datepicker({
         dateFormat: 'yy-M-dd',
         buttonImage: "/Content/images/calendar.png"
@@ -299,6 +252,26 @@
 </script>
 <script>
     var headerRows = [];
+    var ADATA = null;
+    var ACCDATA = null;
+    var COPNODATA = null;
+    var COPQTYDATA = null;
+    var COPQTYEXDATA = null;
+    var allAcc = 0;
+    var row_index_summary = 0;
+    var COPQTY_SUMMARY1 = null;
+    var COPQTY_SUMMARY2 = null;
+    var COPQTY_SUGGESTION1 = null;
+    var COPQTY_SUGGESTION2 = null;
+    var MODEL_REM1 = null;
+    var MODEL_REM2 = null;
+    var xModel = "";
+    var xLine = "";
+    var xPos = "";
+    var xDate = "";
+    var xAcctt = "";
+    var COP1_QTY = 0;
+    var COP2_QTY = 0;
 
     function getTableHeader(singleRow) {
         //tbVar.rows().clear();
@@ -376,7 +349,6 @@
         //}
         //console.log(headerRows);
     }
-
     function getMatched(strVar,MatchVar) {
         var matched = false;
         if (strVar.search(MatchVar) >= 0) {
@@ -419,25 +391,6 @@
         console.log(str);
         //console.log("Show--Log-----END");
     }
-    var ADATA = null;
-    var ACCDATA = null;
-    var COPNODATA = null;
-    var COPQTYDATA = null;
-    var COPQTYEXDATA = null;
-    var allAcc = 0;
-    var row_index_summary = 0;
-    var COPQTY_SUMMARY1 = null;
-    var COPQTY_SUMMARY2 = null;
-    var COPQTY_SUGGESTION1 = null;
-    var COPQTY_SUGGESTION2 = null;
-    var MODEL_REM1 = null;
-    var MODEL_REM2 = null;
-    var xModel = "";
-    var xLine = "";
-    var xPos = "";
-    var xDate = "";
-    var xAcctt = "";
-
     function getTT(indexRow, rrValue, idx) {
         var lastIndex = 0;
         //allAcc = ACCDATA[indexRow].QTY;
@@ -460,28 +413,64 @@
         });
     }
 
-    var COP1_QTY = 0;
-    var COP2_QTY = 0;
     function getCOPNO(indexRow, rrValue, idx) {
         var lastIndex = 0;
 
-        $.each(COPNODATA[indexRow], function (i, k) {
+        $.each(COPNODATA[indexRow], function (col_Date, keyValue) {
+
             if (lastIndex >= idx) {
-                var textValue = (k == null ? "&nbsp;" : k);
+                var xName2 = ".ROWOF_WITHOUT__" + replace(xLine) + "_" + replace(xPos) + " td._x" + col_Date;
+                //console.log("xName2:", xName2);
+                var COPQTY = $(xName2).text().replace(' ','');
+                var textValue = (keyValue == null ? "" : keyValue);
+
                 if (textValue == "-") {
                     var hModel = "<input type='hidden' id='xModel' name='xModel' value='" + xModel + "'>";
                     var hLine = "<input type='hidden' id='xLine' name='xLine' value='" + xLine + "'>";
                     var hPos = "<input type='hidden' id='xPos' name='xPos' value='" + xPos + "'>";
-                    var hDate = "<input type='hidden' id='xDate' name='xDate' value='" + i + "'>";
-                    var xName = ".ROWOF_COMLT__" + replace(xLine) + "_" + replace(xPos) + " td._x" + i;
+                    var hDate = "<input type='hidden' id='xDate' name='xDate' value='" + col_Date + "'>";
+                    var xName = ".ROWOF_COMLT__" + replace(xLine) + "_" + replace(xPos) + " td._x" + col_Date;
                     var xAcctt = $(xName).html();
-                    //console.log("xAcctt", xName, xAcctt, $(xName));
                     var hxAcctt = "<input type='hidden' id='xAcctt' name='xAcctt' value='" + xAcctt + "'>";
 
                     var strBtn = '<input type="button" value="Create" class="btn btn-primary button CreateCopWO">';
-                    rrValue[idx++] = '<center>' + hxAcctt + hDate + hPos + hLine + hModel +  strBtn + '</center>';
-                } else {
-                    rrValue[idx++] = '<center>' + '\u200C' + textValue + '</center>';
+                    rrValue[idx++] = '<center>' + hxAcctt + hDate + hPos + hLine + hModel + strBtn + '</center>';
+
+                } else if (COPQTY != "1" && COPQTY != "" && typeof (COPQTY) != "undefined" && COPQTY.length > 1 && keyValue != null) {
+                    
+                    var hModel = "<input type='hidden' id='xModel' name='xModel' value='" + xModel + "'>";
+                    var hLine = "<input type='hidden' id='xLine' name='xLine' value='" + xLine + "'>";
+                    var hPos = "<input type='hidden' id='xPos' name='xPos' value='" + xPos + "'>";
+                    var hDate = "<input type='hidden' id='xDate' name='xDate' value='" + col_Date + "'>";
+                    var xName = ".ROWOF_COMLT__" + replace(xLine) + "_" + replace(xPos) + " td._x" + col_Date;
+                    var xAcctt = $(xName).html();
+                    var hxAcctt = "<input type='hidden' id='xAcctt' name='xAcctt' value='" + xAcctt + "'>";
+                    var strBtn = '<input type="button" value="Create" class="btn btn-primary button CreateCopWO">';
+                    var intCOPQTY = parseInt(COPQTY.replace(/[^\x20-\x7E]/g, ''));
+                    var textCop = textValue.split(',');
+                    var textCount = textCop.length;
+
+                    if (textCount < intCOPQTY) {
+                        if (textValue.length > 1) {
+                            rrValue[idx++] = '<center>' + '\u200C' + textValue.replace(',', ',<br/>') + hxAcctt + hDate + hPos + hLine + hModel + "<br/>" + strBtn + '</center>';
+                        } else {
+                            rrValue[idx++] = '<center>' + hxAcctt + hDate + hPos + hLine + hModel + strBtn + '</center>';
+                        }
+                    } else {
+                        if (textCount == intCOPQTY) {
+                            if (textValue.length == 0) {
+
+
+                                rrValue[idx++] = '<center>' + hxAcctt + hDate + hPos + hLine + hModel + strBtn + '</center>';
+                            } else {
+                                rrValue[idx++] = '<center>' + '\u200C' + textValue.replace(',', ',<br/>') + '</center>';
+                            }
+                            
+                        }
+                    }
+                }
+                else {
+                    rrValue[idx++] = '<center>' + '\u200C' + textValue.replace(',', ',<br/>')  + '</center>';
                 }
 
                 //allAcc = (k == null ? 0 : parseInt(k)) + allAcc;
@@ -496,23 +485,48 @@
         var lastIndex = 0;
         $.each(COPQTY_SUMMARY1[indexRow], function (i, k) {
             if (lastIndex >= idx) {
-                var textValue = (k == null ? "&nbsp;" : k);
+                var textValue =(k == null ? "" : k);
                 var textSplit = [];
-                textSplit = textValue.split('#');
+                var textShow = null;
+                textSplit = textValue.split(',');
                 if (textSplit.length > 1) {
-                    textValue = textSplit[0];
-                    if (typeof (textSplit[1] != undefined && textSplit[1] != null && textSplit[1] != "")) {
+                    $.each(textSplit, function (idx, kval) {
+                        textValue = kval;
+                        var textSplitV2 = textValue.split('#');
+
+                        if (typeof (textSplitV2[1] != undefined && textSplitV2[1] != null && textSplitV2[1] != "")) {
+                            var cell_name = "td._x" + i;
+                            var row_name = "." + textSplitV2[1];
+                            if (row_name != ".") {
+                                $(row_name + " " + cell_name).attr("style", "background-color: #fed810  !important;");
+                            }
+                        }
+                        if (textShow == null) {
+                            textShow = textSplitV2[0] + ',' ;
+                        } else {
+                            textShow = textShow + textSplitV2[0];
+                        }
+                        
+                    });
+                    textValue = textShow;
+                } else {
+                    textValue = textValue;
+                    textSplitV2 = textValue.split('#');
+
+                    if (typeof (textSplitV2[1] != undefined && textSplitV2[1] != null && textSplitV2[1] != "")) {
                         var cell_name = "td._x" + i;
-                        var row_name = "." + textSplit[1];
+                        var row_name = "." + textSplitV2[1];
                         if (row_name != ".") {
                             $(row_name + " " + cell_name).attr("style", "background-color: #fed810  !important;");
                         }
+
                     }
+                    textValue = textSplitV2[0];
                 }
                 if (textValue == "-") {
                     rrValue[idx++] = '<center>'+'\u200C' +textValue +'</center>';
                 } else {
-                    rrValue[idx++] = '<center>' + '\u200C' + textValue + '</center>';
+                    rrValue[idx++] = '<center>' + '\u200C' + textValue.replace(',', ',<br/>') + '</center>';
                 }
             } else {
                 rrValue[lastIndex] = "&nbsp;";
@@ -522,19 +536,23 @@
         });
         //console.log(rrValue);
     }
-
     function getCOPNOEX(indexRow, rrValue, idx) {
         var lastIndex = 0;
         $.each(COPNOEXDATA[indexRow], function (i, k) {
             if (lastIndex >= idx) {
-                var textValue = (k == null ? "&nbsp;" : k);
+                var textValue = (k == null ? "" : k);
+                var xName2 = ".ROWOF_COPWITH__" + replace(xLine) + "_" + replace(xPos) + " td._x" + i;
+                //console.log("xName2:", xName2);
+                var COPQTY = $(xName2).text().replace(' ', '');
+
 
                 if (textValue == "-") {
                     var hModel = "<input type='hidden' id='xModel' name='xModel' value='" + xModel + "'>";
                     var hLine = "<input type='hidden' id='xLine' name='xLine' value='" + xLine + "'>";
                     var hPos = "<input type='hidden' id='xPos' name='xPos' value='" + xPos + "'>";
                     var hDate = "<input type='hidden' id='xDate' name='xDate' value='" + i + "'>";
-                    
+
+
                     //xAcctt
                     
                     var xName = ".ROWOF_COMLT__" + replace(xLine) + "_" + replace(xPos) + " td._x" + i;
@@ -542,9 +560,49 @@
                     var hxAcctt = "<input type='hidden' id='xAcctt' name='xAcctt' value='" + xAcctt + "'>";
 
                     var strBtn = '<input type="button" value="Create" class="btn btn-primary button CreateCopWC">';
-                    rrValue[idx++] = '<center>' + hxAcctt + hDate + hPos + hLine + hModel +  strBtn + '</center>';
-                } else {
-                    rrValue[idx++] = '<center>' + '\u200C' + textValue + '</center>'; //textValue;
+                    rrValue[idx++] = '<center>' + hxAcctt + hDate + hPos + hLine + hModel + strBtn + '</center>';
+
+                } else if (COPQTY != "1" && COPQTY != "" && typeof (COPQTY) != "undefined" && COPQTY.length > 1 && k != null) {
+
+                    var hModel = "<input type='hidden' id='xModel' name='xModel' value='" + xModel + "'>";
+                    var hLine = "<input type='hidden' id='xLine' name='xLine' value='" + xLine + "'>";
+                    var hPos = "<input type='hidden' id='xPos' name='xPos' value='" + xPos + "'>";
+                    var hDate = "<input type='hidden' id='xDate' name='xDate' value='" + i + "'>";
+
+
+                    //xAcctt
+
+                    var xName = ".ROWOF_COMLT__" + replace(xLine) + "_" + replace(xPos) + " td._x" + i;
+                    var xAcctt = $(xName).html();
+                    var hxAcctt = "<input type='hidden' id='xAcctt' name='xAcctt' value='" + xAcctt + "'>";
+
+                    var strBtn = '<input type="button" value="Create" class="btn btn-primary button CreateCopWC">';
+
+                    var intCOPQTY = parseInt(COPQTY.replace(/[^\x20-\x7E]/g, ''));
+                    var textCop = textValue.split(',');
+                    var textCount = textCop.length;
+
+
+                    if (textCount < intCOPQTY) {
+                        if (textValue.length > 1) {
+                            rrValue[idx++] = '<center>' + '\u200C' + textValue.replace(',', ',<br/>') + hxAcctt + hDate + hPos + hLine + hModel + "<br/>" + strBtn + '</center>';
+                        } else {
+                            rrValue[idx++] = '<center>' + hxAcctt + hDate + hPos + hLine + hModel + strBtn + '</center>';
+                        }
+                    } else {
+                        if (textCount == intCOPQTY) {
+                            if (textValue.length == 0) {
+                                rrValue[idx++] = '<center>' + hxAcctt + hDate + hPos + hLine + hModel + strBtn + '</center>';
+                            } else {
+                                rrValue[idx++] = '<center>' + '\u200C' + textValue.replace(',', ',<br/>') + '</center>';
+                            }
+
+                        }
+                    }
+
+                }
+                else {
+                    rrValue[idx++] = '<center>' + '\u200C' + textValue.replace(',',',<br/>') + '</center>'; //textValue;
                 }
                 //allAcc = (k == null ? 0 : parseInt(k)) + allAcc;
             } else {
@@ -559,26 +617,49 @@
 
         $.each(COPQTY_SUMMARY2[indexRow], function (i, k) {
             if (lastIndex >= idx) {
-                var textValue = (k == null ? "&nbsp;" : k);
+                var textValue = (k == null ? "" : k);
                 var textSplit = [];
-                textSplit = textValue.split('#');
+                var textShow = null;
+                textSplit = textValue.split(',');
                 if (textSplit.length > 0) {
-                    textValue = textSplit[0];
-                    if (typeof (textSplit[1] != undefined && textSplit[1] != null && textSplit[1] != "")) {
-                        var cell_name = "td._x" + i;
-                        var row_name = "." + textSplit[1];
-                        if (row_name != ".") {
-                            //console.log(row_name);
-                            $(row_name + " " + cell_name).attr("style", "background-color: #fed810  !important;");
-                            //TextClass.attr("style","backgrond-color: blue !important;");
-                            //console.log("X-Test", row_name + cell_name, $(row_name + " " + cell_name));
+                    $.each(textSplit, function (idx, kval) {
+                        textValue = kval;
+                        var textSplitV2 = textValue.split('#');
+                        if (typeof (textSplitV2[1] != undefined && textSplit[1] != null && textSplitV2[1] != "")) {
+                            var cell_name = "td._x" + i;
+                            var row_name = "." + textSplitV2[1];
+                            if (row_name != ".") {
+                                //console.log(row_name);
+                                $(row_name + " " + cell_name).attr("style", "background-color: #fed810  !important;");
+                                //TextClass.attr("style","backgrond-color: blue !important;");
+                                //console.log("X-Test", row_name + cell_name, $(row_name + " " + cell_name));
+                            }
                         }
+                        if (textShow == null) {
+                            textShow = textSplitV2[0];
+                        } else {
+                            textShow = textShow + textSplitV2[0];
+                        }
+                        textValue = textShow;
+                    });
+                } else {
+                    textValue = textValue;
+                    var textSplitV2 = textValue.split('#');
+
+                    if (typeof (textSplitV2[1] != undefined && textSplitV2[1] != null && textSplitV2[1] != "")) {
+                        var cell_name = "td._x" + i;
+                        var row_name = "." + textSplitV2[1];
+                        if (row_name != ".") {
+                            $(row_name + " " + cell_name).attr("style", "background-color: #fed810  !important;");
+                        }
+
                     }
+                    textValue = textSplitV2[0];
                 }
                 if (textValue == "-") {
-                    rrValue[idx++] = '<center>' + '\u200C' + textValue + '</center>';
+                    rrValue[idx++] = '<center>' + '\u200C' + textValue+ '</center>';
                 } else {
-                    rrValue[idx++] = '<center>' + '\u200C' + textValue + '</center>';
+                    rrValue[idx++] = '<center>' + '\u200C' + textValue.replace(' ', ',<br/>') + '</center>';
                 }
 
                 //allAcc = (k == null ? 0 : parseInt(k)) + allAcc;
@@ -590,7 +671,6 @@
         });
         //console.log(rrValue);
     }
-
     function getCOPQTY(indexRow, triggerValue, accValue) {
         var lastIndex = 0;
         COP1_QTY = 0;
@@ -662,7 +742,6 @@
         //console.log("valueReturn : " + valueReturn + ",accValue = " + accValue);
         return valueReturn;
     }
-
     function getACCTT(indexRow, rrValue, idx) {
         var lastIndex = 0;
         var deptQty = MODEL_REM1[indexRow].VT_ACQTY;
@@ -678,7 +757,6 @@
             lastIndex++;
         });
     }
-
     function getTrigger(intVale, triggerValue) {
         var t = intVale / triggerValue;
         //showLogE(t,"getTrigger.t");
@@ -696,91 +774,49 @@
         var btnStr = "<input type='hidden' id='xDATE' name='xDATE' value='"+ dateShow +"'><input type='hidden' id='xMODEL' name='xMODEL' value='"+ model +"'><input type='hidden' id='xLINE' name='xLINE' value='"+ line +"'><A class='btn btn-primary button CreateCOP2' >" + strCaption + "'</A>";
         return btnStr;
     }
- 
     function get5000_EX(indexRow, rrValue, idx,model,line,pos) {
         var lastIndex = 0;
-        var deptQty = allAcc;
-        var baseIdx = idx;
-        var lastAcc = allAcc;
-        var intLimit = 5000;
-        var remainValue = 0;
-        console.log("X2", indexRow, rrValue, idx);
-
         var lastIndex = 0;
         var deptQty = 0;//ACCDATA[indexRow].PREV_QTY;
 
         $.each(COPQTYDATA[indexRow], function (i, k) {
-
-             
             if (lastIndex >= idx) {
                 var value = numberWithCommas((k == null ? "" : parseInt(k)));
-                //console.log(i, k, value);
-                //'<center>' + '\u200C' + textValue + '</center>';
-                //rrValue[(idx++)] = value;
                 rrValue[(idx++)] = '<center>' + '\u200C' + value + '</center>';
-
-                //deptQty = (deptQty + (k == null ? 0 : parseInt(k)));
             } else {
                 rrValue[(lastIndex)] = "";
             }
             lastIndex++;
         });
-        //console.log("X2 ",rrValue);
-
     }
-
     function get10000(indexRow, rrValue, idx, model, line) {
          var lastIndex = 0;
-         var deptQty = allAcc;
-         var baseIdx = idx;
-         var lastAcc = allAcc;
-         var intLimit = 5000;
-         var remainValue = 0;
-         //console.log("X2", indexRow, rrValue, idx);
-
-         var lastIndex = 0;
-         var deptQty = 0;//ACCDATA[indexRow].PREV_QTY;
 
          $.each(COPQTYEXDATA[indexRow], function (i, k) {
-
-
              if (lastIndex >= idx) {
                  var value = numberWithCommas((k == null ? "" : parseInt(k)));
-                 //console.log(i, k, value);
-                 //rrValue[(idx++)] = value;
                  rrValue[(idx++)] = '<center>' + '\u200C' + value + '</center>';
-                 //deptQty = (deptQty + (k == null ? 0 : parseInt(k)));
              } else {
                  rrValue[(lastIndex)] = "";
              }
              lastIndex++;
          });
-        //console.log("X2 ",rrValue);
-
     }
-
     function getDateValuePack(colIndex) {
         if (headerRows) {
             var newIndex = parseInt(colIndex) + 2;
             var dateStr = headerRows[newIndex];
-            //console.log("headerRows : " + headerRows.length + ",newIndex: " + newIndex + ", Date is : " + dateStr);
             return (dateStr);
         } else {
             return null;
         }
     }
-
     function getTableRows(rowsData, rowADATA, rowACCDATA, rowCOPNO, rowCOPQTY, rowCOPQTYEX, rowCOPNOEX, rowCOPSUM1,rowCOPSUM2,rowCOPPrev) {
         xModel = "";
         xLine = "";
         xPos = "";
         xDate = "";
         xAcctt = "";
-        /*
-         * rowACCDATA comulative qty by model
-         * rowADATA Daily qty sum by Date and Model
-         *
-         */
 
         var skipFirst = true;
         var modelID = "";
@@ -854,55 +890,66 @@
                     posTT[5] = "Total: ";
                     var rowNode = tbVar.row.add(posTT).draw(false).node();
                     setBoldRow(rowNode);
-                    $(rowNode).addClass('ROWOF_TOTAL_' + modelID + "_" + replace(lineID) + "_" + posID);
-                    
+                    $(rowNode).addClass('ROWOF_TOTAL_' + modelID + "_" + replace(xLine) + "_" + xPos);
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
+
                     getACCTT(printTT - 1, AccTT, 6);
                     //console.log(AccTT);
                     AccTT[5] = "Accumulative Total: ";
                     var rowNode = tbVar.row.add(AccTT).draw(false).node();
                     setBoldRowAcc(rowNode);
-                    $(rowNode).addClass('ROWOF_COMLT_' + replace(modelID) + "_" + replace(lineID) + "_" + posID);
-                    $.each(headerRows, function (i, k) {
-                        //console.log()
-                        $(rowNode).find('td').eq(i).addClass("_x" + k);
-                    });
+                    $(rowNode).addClass('ROWOF_COMLT_' + replace(modelID) + "_" + replace(xLine) + "_" + xPos);
+                    addHintsWithClass(xModel, xLine, xPos, rowNode);
 
                     get5000_EX(printTT - 1, Sampling1, 6, modelID, lineID, lastPos);
                     Sampling1[5] = "Calculate sample require for (1/5000):";
                     var rowNode = tbVar.row.add(Sampling1).draw(false).node();
                     setBoldLastRowWithout(rowNode);
-                    $(rowNode).addClass('ROWOF_WITHOUT_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    $(rowNode).addClass('ROWOF_WITHOUT_' + modelID + "_" + replace(xLine) + "_" + xPos);
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
+                    $.each(headerRows, function (i, k) {
+                        $(rowNode).find('td').eq(i).addClass("_x" + k);
+                        //$(rowNode).find('td').eq(i).attr('title', text);
+                    });
 
                     getCOPNO(printTT - 1, CopProc1, 6);
                     CopProc1[5] = "01-Without :";
                     var rowNode = tbVar.row.add(CopProc1).draw(false).node();
                     setBoldLastRowWithoutID(rowNode);
-                    $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(xLine) + "_" + xPos);
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
                     getCOPLOT(printTT - 1, CopLot1, 6);
                     CopLot1[5] = "";
                     var rowNode = tbVar.row.add(CopLot1).draw(false).node();
                     setBoldLastRowWithoutID(rowNode);
-                    $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(xLine) + "_" + xPos);
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
                     get10000(printTT - 1, Sampling2, 5, modelID, lineID);
                     Sampling2[5] = "Calculate sample require for (1/10000):";
                     var rowNode = tbVar.row.add(Sampling2).draw(false).node();
                     setBoldLastRowWithout(rowNode);
-                    $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(xLine) + "_" + xPos);
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
+                    $.each(headerRows, function (i, k) {
+                        $(rowNode).find('td').eq(i).addClass("_x" + k);
+                        //$(rowNode).find('td').eq(i).attr('title', text);
+                    });
 
                     getCOPNOEX(printTT - 1, CopProc2, 6);
                     CopProc2[5] = "02-With Con :";
                     var rowNode = tbVar.row.add(CopProc2).draw(false).node();
                     setBoldLastRow(rowNode);
-                    $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(xLine) + "_" + xPos);
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
                     getCOPLOT2(printTT - 1, CopLot2, 6);
                     CopLot2[5] = "";
                     var rowNode = tbVar.row.add(CopLot2).draw(false).node();
                     setBoldLastRowWithoutID(rowNode);
-                    $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + posID);
-
+                    $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(xLine) + "_" + xPos);
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
                     xLine = rowData[1];
                     xPos = rowData[3];
@@ -919,12 +966,11 @@
                     //console.log("lIdx -x", lIdx);
                     //console.log("lIdx-y", lIdx);
                     getTT(printTT++, posTT, 6);
-                   
-
                     posTT[5] = "Total: ";
                     var rowNode = tbVar.row.add(posTT).draw(false).node();
                     setBoldRow(rowNode);
                     $(rowNode).addClass('ROWOF_TOTAL_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
                     getACCTT(printTT - 1, AccTT, 6);
                     //console.log(AccTT);
@@ -932,48 +978,57 @@
                     var rowNode = tbVar.row.add(AccTT).draw(false).node();
                     setBoldRowAcc(rowNode);
                     $(rowNode).addClass('ROWOF_COMLT_' + replace( modelID) + "_" + replace(lineID) + "_" + posID);
-                    $.each(headerRows, function (i, k) {
-                        //console.log()
-                        $(rowNode).find('td').eq(i).addClass("_x" + k);
-                    });
+                    addHintsWithClass(xModel, xLine, xPos, rowNode);
 
                     get5000_EX(printTT - 1, Sampling1, 6, modelID, lineID, lastPos);
                     Sampling1[5] = "Calculate sample require for (1/5000):";
                     var rowNode = tbVar.row.add(Sampling1).draw(false).node();
                     setBoldLastRowWithout(rowNode);
                     $(rowNode).addClass('ROWOF_WITHOUT_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
+                    $.each(headerRows, function (i, k) {
+                        $(rowNode).find('td').eq(i).addClass("_x" + k);
+                        //$(rowNode).find('td').eq(i).attr('title', text);
+                    });
 
                     getCOPNO(printTT - 1, CopProc1, 6);
                     CopProc1[5] = "01-Without :";
                     var rowNode = tbVar.row.add(CopProc1).draw(false).node();
                     setBoldLastRowWithoutID(rowNode);
                     $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
                     getCOPLOT(printTT - 1, CopLot1, 6);
                     CopLot1[5] = "";
                     var rowNode = tbVar.row.add(CopLot1).draw(false).node();
                     setBoldLastRowWithoutID(rowNode);
                     $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
                     get10000(printTT - 1, Sampling2, 5, modelID, lineID);
                     Sampling2[5] = "Calculate sample require for (1/10000):";
                     var rowNode = tbVar.row.add(Sampling2).draw(false).node();
                     setBoldLastRowWithout(rowNode);
                     $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
+                    $.each(headerRows, function (i, k) {
+                        $(rowNode).find('td').eq(i).addClass("_x" + k);
+                        //$(rowNode).find('td').eq(i).attr('title', text);
+                    });
 
                     getCOPNOEX(printTT - 1, CopProc2, 6);
                     CopProc2[5] = "02-With Con :";
                     var rowNode = tbVar.row.add(CopProc2).draw(false).node();
                     setBoldLastRow(rowNode);
                     $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + posID);
-
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
                     getCOPLOT2(printTT - 1, CopLot2, 6);
                     CopLot2[5] = "";
                     var rowNode = tbVar.row.add(CopLot2).draw(false).node();
                     setBoldLastRowWithoutID(rowNode);
                     $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + xPos);
-
+                    addHintsWithoutClass(xModel, xLine, xPos, rowNode);
                     xPos = rowData[3];
                 } else {
                     rowData[0] = "";
@@ -995,7 +1050,14 @@
             $(rowNode).addClass(rowData[4]);
             $.each(headerRows, function (i,k) {
                 //console.log()
+                var text = 'DATE: ' + k + '\n';
+                text = text + 'MODEL: ' + xModel + '\n';
+                text = text + 'LINE: ' + xLine + "\n";
+                text = text + 'POSITION: ' + rowData[2] + "\n";
+                text = text + 'PARTNO: ' + rowData[4] + "\n";
+                
                 $(rowNode).find('td').eq(i).addClass("_x" + k);
+                $(rowNode).find('td').eq(i).attr('title', text );
             });
             $(rowNode).find('td').eq(0).removeClass("numericCol");
             $(rowNode).find('td').eq(0).addClass("textCol");
@@ -1033,6 +1095,7 @@
         var rowNode = tbVar.row.add(posTT).draw(false).node();
         setBoldRow(rowNode);
         $(rowNode).addClass('ROWOF_TOTAL_' + modelID + "_" + replace(lineID) + "_" + xPos);
+        addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
         getACCTT(printTT - 1, AccTT, 6);
        // console.log(AccTT);
@@ -1040,22 +1103,25 @@
         var rowNode = tbVar.row.add(AccTT).draw(false).node();
         setBoldRowAcc(rowNode);
         $(rowNode).addClass('ROWOF_COMLT_' + replace(modelID) + "_" + replace(lineID) + "_" + xPos);
-        $.each(headerRows, function (i, k) {
-            //console.log()
-            $(rowNode).find('td').eq(i).addClass("_x" + k);
-        });
+        addHintsWithClass(xModel, xLine, xPos, rowNode);
 
         get5000_EX(printTT - 1, Sampling1, 6, modelID, lineID, lastPos);
         Sampling1[5] = "Calculate sample require for (1/5000):";
         var rowNode = tbVar.row.add(Sampling1).draw(false).node();
         setBoldLastRowWithout(rowNode);
         $(rowNode).addClass('ROWOF_WITHOUT_' + modelID + "_" + replace(lineID) + "_" + xPos);
+        addHintsWithoutClass(xModel, xLine, xPos, rowNode);
+        $.each(headerRows, function (i, k) {
+            $(rowNode).find('td').eq(i).addClass("_x" + k);
+            //$(rowNode).find('td').eq(i).attr('title', text);
+        });
 
         getCOPNO(printTT - 1, CopProc1, 6);
         CopProc1[5] = "01-Without :";
         var rowNode = tbVar.row.add(CopProc1).draw(false).node();
         setBoldLastRowWithoutID(rowNode);
         $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + xPos);
+        addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
 
         getCOPLOT(printTT - 1, CopLot1, 6);
@@ -1063,32 +1129,75 @@
         var rowNode = tbVar.row.add(CopLot1).draw(false).node();
         setBoldLastRowWithoutID(rowNode);
         $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + xPos);
+        addHintsWithoutClass(xModel, xLine, xPos, rowNode);
+
 
         get10000(printTT - 1, Sampling2, 5, modelID, lineID);
         Sampling2[5] = "Calculate sample require for (1/10000):";
         var rowNode = tbVar.row.add(Sampling2).draw(false).node();
         setBoldLastRowWithout(rowNode);
         $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + xPos);
+        addHintsWithoutClass(xModel, xLine, xPos, rowNode);
+        $.each(headerRows, function (i, k) {
+            $(rowNode).find('td').eq(i).addClass("_x" + k);
+            //$(rowNode).find('td').eq(i).attr('title', text);
+        });
 
         getCOPNOEX(printTT - 1, CopProc2, 6);
         CopProc2[5] = "02-With Con :";
         var rowNode = tbVar.row.add(CopProc2).draw(false).node();
         setBoldLastRow(rowNode);
         $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + xPos);
-
+        addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
         getCOPLOT2(printTT - 1, CopLot2, 6);
         CopLot2[5] = "";
         var rowNode = tbVar.row.add(CopLot2).draw(false).node();
         setBoldLastRowWithoutID(rowNode);
         $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + xPos);
+        /*
+        $.each(headerRows, function (i, k) {
+            //console.log()
+            var text = 'DATE: ' + k + '\n';
+            text = text + 'MODEL: ' + xModel + '\n';
+            text = text + 'LINE: ' + xLine + "\n";
+            text = text + 'POSITION: ' + xPos + "\n";
 
+            $(rowNode).find('td').eq(i).attr("title", text);
+            //$(rowNode).find('td').eq(i).addClass("_x" + k);
+        });
+        */
+        addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
         if (sumTT.Count > 0) {
             sumTT.splice(5, 1);
             var rowNode = tbVar.row.add(sumTT).draw(false).node();
             sumTT = [];
         }
+    }
+    function addHintsWithoutClass(lxModel,lxLine,lxPos,rowNode) {
+        $.each(headerRows, function (i, k) {
+            //console.log()
+            var text = 'DATE: ' + k + '\n';
+            text = text + 'MODEL: ' + lxModel + '\n';
+            text = text + 'LINE: ' + lxLine + "\n";
+            text = text + 'POSITION: ' + lxPos + "\n";
+
+            $(rowNode).find('td').eq(i).attr("title", text);
+            //$(rowNode).find('td').eq(i).addClass("_x" + k);
+        });
+    }
+    function addHintsWithClass(lxModel, lxLine, lxPos, rowNode) {
+        $.each(headerRows, function (i, k) {
+            //console.log()
+            var text = 'DATE: ' + k + '\n';
+            text = text + 'MODEL: ' + lxModel + '\n';
+            text = text + 'LINE: ' + lxLine + "\n";
+            text = text + 'POSITION: ' + lxPos + "\n";
+
+            $(rowNode).find('td').eq(i).attr("title", text);
+            $(rowNode).find('td').eq(i).addClass("_x" + k);
+        });
     }
     function digits(text) {
         return this.each(function () {
@@ -1119,6 +1228,11 @@
         console.log(jdata);
         //console.log(".---.");
         autoCloseCompleted = false;
+        
+        if (typeof (tbVar) != "undefined" && tbVar != null) {
+            
+            tbVar.rows().clear();
+        }
         $.ajax({
             type: "POST",
             url: urlText,     //your action
@@ -1251,9 +1365,7 @@
     $('.refreshBtn').click(function () {
         refreshData();
     });
-
     $("body").on("click", ".CreateCopWO", function (ev) {
-        showLog(".CreateCOP");
         var p = $(this).parent();
         var model = $(p).find("#xModel").val();
         var line = $(p).find("#xLine").val();
@@ -1269,8 +1381,9 @@
         var xAccttHtml = "<input type='hidden' name='xACCTT' id='xACCTT' value='Accumulative Total: " + accQty+"'>";
         var btnDateHtml = "<input type='hidden' name='btnDate' id='btnDate' value='" + indexDate+"'>";
 
-
-        showLogE(URLSTR, "URLSTR");
+        var xName = ".ROWOF_COMLT__" + line + "_" + pos + " td._x" + indexDate;
+        var qty = $(xName).html();
+        //showLogE(URLSTR, "URLSTR");
         $("#frmMain").attr("action", URLSTR);
         $("#frmMain").append(modelHtml);
         $("#frmMain").append(lineHtml);
@@ -1281,13 +1394,13 @@
         $("#frmMain").append(xAccttHtml);
         //$(".644194000 td._x03-Feb-2021").attr("style","background-color:black !important;");
         console.log($("#frmMain"));
+        console.log("xName", xName);
+        console.log("qty", qty);
         $("#frmMain").submit();
 
         //window.location.href = URLSTR;
     });
-
     $("body").on("click", ".CreateCopWC", function (ev) {
-        showLog(".CreateCOP2");
         var p = $(this).parent();
         var p = $(this).parent();
         var model = $(p).find("#xModel").val();
@@ -1323,9 +1436,7 @@
 
     });
     $('.exportBtn').click(function () {
-        //alert("ok");
         exportToExcel();
-        //fnExcelReport();
     });
     function exportToExcel() {
         var style_sheet = $('#style_local').html();
@@ -1359,7 +1470,6 @@
                 link.href = uri + base64(format(template, ctx));
                 link.click();
     }
-
     function RefreshModel() {
         var ModelSet = "@ViewBag.ModelSet";
         console.log("ModelSet",ModelSet);
@@ -1369,4 +1479,5 @@
         }
     }
     RefreshModel();
+
 </script>

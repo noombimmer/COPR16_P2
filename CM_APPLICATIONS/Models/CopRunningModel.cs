@@ -32,6 +32,7 @@ namespace CM_APPLICATIONS.Models
 
         public COPR16_COPRUNNING_DT cOPR16_COPRUNNING_DT_SB { get; set; }
         public COPR16_COPRUNNING_DT cOPR16_COPRUNNING_DT_BKL { get; set; }
+        public COPR16_COPRUNNING_DT cOPR16_COPRUNNING_DT_BKL2 { get; set; }
         public COPR16_FG_MSTR cOPR16_FG_MSTR { get; set; }
         public COPR16_ITEMS_MSTR cOPR16_ITEMS_MSTR { get; set; }
         public List<SelectListItem> statusList { get; set; }
@@ -120,47 +121,7 @@ namespace CM_APPLICATIONS.Models
             }
 
 
-            string SQL_CMD = "SELECT distinct SPCC_YEAR FROM dbo.COPR16_SPCC_DIM_YEAR ORDER BY SPCC_YEAR DESC";
 
-            using (SqlConnection con = new SqlConnection( ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
-            {
-                if (con.State != System.Data.ConnectionState.Open)
-                {
-                    con.Open();
-                }
-                using (var cmd = con.CreateCommand())
-                {
-                    cmd.CommandText = SQL_CMD;
-                    using (DbDataReader reader = cmd.ExecuteReader())
-                    {
-                        var model = Utils.Serialize((SqlDataReader)reader);
-                        foreach (var row in model)
-                        {
-                            string value1 = row["SPCC_YEAR"].ToString();
-                            SPC_YEAR.Add(new SelectListItem { Text = value1, Value = value1 });
-                        }
-                        reader.Close();
-                    }
-                    
-                }
-
-                using (var cmd2 = con.CreateCommand())
-                {
-                    cmd2.CommandText = "SELECT distinct SPCC_MODEL FROM dbo.COPR16_SPCC_DIM_YEAR ORDER BY SPCC_MODEL";
-                    using (System.Data.Common.DbDataReader reader2 = cmd2.ExecuteReader())
-                    {
-                        var model = Utils.Serialize((SqlDataReader)reader2);
-                        foreach (var row in model)
-                        {
-                            string value1 = row["SPCC_MODEL"].ToString();
-                            SPC_MODEL_LIST.Add(new SelectListItem { Text = value1, Value = value1 });
-                        }
-                        reader2.Close();
-                    }
-                }
-
-                con.Close();
-            }
         }
 
     }

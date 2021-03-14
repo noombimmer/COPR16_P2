@@ -27,6 +27,7 @@ namespace CM_APPLICATIONS.Models
         public COPR16_WORKFLOW_DT cOPR16_WORKFLOW_DT { get; set; }
         public COPR16_COPRUNNING_DT cOPR16_COPRUNNING_DT_SB { get; set; }
         public COPR16_COPRUNNING_DT cOPR16_COPRUNNING_DT_BKL { get; set; }
+        public COPR16_COPRUNNING_DT cOPR16_COPRUNNING_DT_BKL2 { get; set; }
         public COPR16_FG_MSTR cOPR16_FG_MSTR { get; set; }
         public COPR16_ITEMS_MSTR cOPR16_ITEMS_MSTR { get; set; }
         public string FG_DETAILS { get; set; }

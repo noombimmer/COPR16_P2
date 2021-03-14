@@ -49,27 +49,25 @@
                 </div>
             </div>*@
 
-        <div class="form-group">
+@*        <div class="form-group">
             @Html.LabelFor(model => model.cOPR16_MODEL_MSTR.BRAND_ID, htmlAttributes: new { @class = "control-label col-md-1" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.cOPR16_MODEL_MSTR.BRAND_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
                 @Html.ValidationMessageFor(model => model.cOPR16_MODEL_MSTR.BRAND_ID, "", new { @class = "text-danger" })
             </div>
-        </div>
+        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.cOPR16_MODEL_MSTR.MODEL_ID, htmlAttributes: new { @class = "control-label col-md-1" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.cOPR16_MODEL_MSTR.MODEL_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
-                @Html.ValidationMessageFor(model => model.cOPR16_MODEL_MSTR.MODEL_ID, "", new { @class = "text-danger" })
-
+                @Html.EditorFor(model => model.xModel, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.LINE_ID, htmlAttributes: new { @class = "control-label col-md-1" })
             <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
-                @Html.EditorFor(model => model.cOPR16_ITEMS_MSTR.LINE_ID, new { htmlAttributes = new { @class = "form-control textLINE_ID", @readonly = "true" } })
+                @Html.EditorFor(model => model.xLine, new { htmlAttributes = new { @class = "form-control textLINE_ID", @readonly = "true" } })
                 <input type="button" class="edit-LineID searchBtn">
             </div>
         </div>
@@ -215,7 +213,7 @@
                     {
                         var strrow = "class=row-id-" + rowIndex + "";
                         <tr @strrow>
-                            <td>@Html.DisplayFor(modelItem => item.POS_ID)</td>
+                            <td>@Html.DisplayFor(modelItem => item.POS_ID) </td>
                             <td>@Html.DisplayFor(modelItem => item.FG_NO)</td>
                             <td>
                                 @{
@@ -1003,8 +1001,8 @@
             "FG_MAPPED": []
         };
         var BRAND_ID = $("#cOPR16_MODEL_MSTR_BRAND_ID").val();
-        var MODEL_ID = $("#cOPR16_MODEL_MSTR_MODEL_ID").val();
-        var LINE_ID = $("#cOPR16_ITEMS_MSTR_LINE_ID").val();
+        var MODEL_ID = $("#xModel").val();
+        var LINE_ID = $("#xLine").val();
         var FLGACT = $("#cOPR16_ITEMS_MSTR_FLGACT").val();
 
         if (LINE_ID == null || LINE_ID == undefined || LINE_ID == '') {
@@ -1068,7 +1066,7 @@
 
         var urlText = "@Url.Action("SaveJson","COPR16_ITEMS_MSTR")";
         var options = { "backdrop": "static", keyboard: true };
-        console.log();
+        //console.log();
 
         $.ajax({
             type: "POST",
@@ -1094,6 +1092,7 @@
         });
         return false;
     });
+
     $('.clear-ITEM2').click(function () {
         $('.pFGTYPE_ID').val('');
     });

@@ -12,6 +12,7 @@ using CM_APPLICATIONS.Models;
 using System.Data.SqlClient;
 using System.Data.Common;
 using System.Configuration;
+using System.Text.RegularExpressions;
 
 namespace CM_APPLICATIONS.Controllers
 {
@@ -39,7 +40,7 @@ namespace CM_APPLICATIONS.Controllers
             await db.Database.Connection.OpenAsync();
             using (var cmd = db.Database.Connection.CreateCommand())
             {
-                cmd.CommandText = "exec [dbo].[sp_list_model_mapping] @MODEL_ID,@LINE_ID,@FG_NO,@ITEM_ID";
+                cmd.CommandText = "exec [dbo].[COPR16_SP_LIST_MODEL_MAPPING] @MODEL_ID,@LINE_ID,@FG_NO,@ITEM_ID";
                 cmd.Parameters.Add(new SqlParameter("@MODEL_ID", searchParams.MODEL_ID == null ? "" : searchParams.MODEL_ID));
                 cmd.Parameters.Add(new SqlParameter("@LINE_ID", searchParams.LINE_ID == null ? "" : searchParams.LINE_ID));
                 cmd.Parameters.Add(new SqlParameter("@FG_NO", searchParams.FG_NO == null ? "" : searchParams.FG_NO));
@@ -52,6 +53,14 @@ namespace CM_APPLICATIONS.Controllers
             }
             return Json(rowData, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult getXls()
+        {
+            CBExcel excel = new CBExcel();
+            excel.open("");
+            excel.close();
+            return View();
+        }
+
         // GET: COPR16_ITEMS_MSTR/Details/5
         public async Task<ActionResult> Details(string id)
         {
@@ -208,56 +217,100 @@ namespace CM_APPLICATIONS.Controllers
             model.cOPR16_ITEMS_MSTR = cOPR16_ITEMS_MSTR;
             return View(model);
         }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         // GET: COPR16_ITEMS_MSTR/Edit/5
-        public async Task<ActionResult> EditModel(string MODEL_ID,string LINE_ID)
+        public async Task<ActionResult> EditModel(string MODEL_ID,string LINE_ID, string UID)
         {
-            string usr = System.Web.HttpContext.Current.User.Identity.Name.Substring(System.Web.HttpContext.Current.User.Identity.Name.IndexOf(@"\") + 1);
+            COPR16_MODEL_MSTR cOPR16_MODEL_MSTR = null;
+            string db_MODELID = "";
+            string db_LINEID = "";
+            string usr = UID;
+            string strModelID = "";
+            string strLineID = "";
+            COPR16_ITEMS_MSTR cOPR16_ITEMS_MSTR;
+            List<COPR16_ITEMS_MSTR> cOPR16_ITEMS_MSTR_LIST;
             if (MODEL_ID == null || LINE_ID == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             }
+            else
+            {
+                strModelID = Regex.Replace(MODEL_ID, @"\p{C}+", string.Empty);
+                strLineID = Regex.Replace(LINE_ID, @"\p{C}+", string.Empty);
+            }
+
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+                if (con.State != ConnectionState.Open)
+                {
+                    await con.OpenAsync();
+                }
+                
+                using (var cmd = con.CreateCommand())
+                {
+                    //cmd.CommandText = "SELECT * FROM COPR16_MODEL_MSTR WHERE MODEL_ID = @MODELID;";
+                    cmd.CommandText = "SELECT * FROM COPR16_MODEL_MSTR WHERE MODEL_ID = '"+ strModelID + "';";
+                    cmd.Parameters.Add(new SqlParameter("@MODELID", MODEL_ID == null ? "" : MODEL_ID));
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        db_MODELID = Utils.getValueFromReader(reader,"MODEL_ID");
+                    }
+                    reader.Close();
+                }
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = "SELECT TOP 1 * FROM COPR16_LINE_MSTR WHERE LINE_ID = '" + strLineID + "'";
+
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        db_LINEID = Utils.getValueFromReader(reader, "LINE_ID");
+                    }
+                    reader.Close();
+                }
+
+                try
+                {
+                    cOPR16_ITEMS_MSTR = await db.COPR16_ITEMS_MSTR.Where(l => l.MODLE_ID.Equals(db_MODELID) && l.LINE_ID.Equals(db_LINEID)).FirstOrDefaultAsync();
+                }
+                catch (Exception e)
+                {
+                    cOPR16_ITEMS_MSTR = new COPR16_ITEMS_MSTR();
+                    cOPR16_ITEMS_MSTR.ADATE = AppPropModel.today;
+                    cOPR16_ITEMS_MSTR.MOD_DATE = AppPropModel.today;
+                    cOPR16_ITEMS_MSTR.CRE_BY = usr;
+                    cOPR16_ITEMS_MSTR.MOD_BY = usr;
+                }
+                try
+                {
+                    string SQL_CMD = string.Format("SELECT * FROM COPR16_ITEMS_MSTR WHERE MODLE_ID = '{0}' AND LINE_ID = '{1}' ORDER BY POS_ID;", db_MODELID, db_LINEID);
+                    cOPR16_ITEMS_MSTR_LIST = await db.Database.SqlQuery<COPR16_ITEMS_MSTR>(SQL_CMD).ToListAsync();// ToList();
+                }
+                catch (Exception e)
+                {
+                    cOPR16_ITEMS_MSTR_LIST = new List<COPR16_ITEMS_MSTR>();
+                }
+
+                if (db_MODELID == "")
+                {
+                    return HttpNotFound();
+                }
+            }
+
+            //string usr = System.Web.HttpContext.Current.User.Identity.Name.Substring(System.Web.HttpContext.Current.User.Identity.Name.IndexOf(@"\") + 1);
+
+
+
+
             ItemMatchModel model = new ItemMatchModel(db);
-            COPR16_MODEL_MSTR cOPR16_MODEL_MSTR = await db.COPR16_MODEL_MSTR.Where(l => l.MODEL_ID.Equals(MODEL_ID)).FirstAsync();
-            COPR16_ITEMS_MSTR cOPR16_ITEMS_MSTR;
-            List<COPR16_ITEMS_MSTR> cOPR16_ITEMS_MSTR_LIST;
 
-
-
-            try
-            {
-                cOPR16_ITEMS_MSTR = await db.COPR16_ITEMS_MSTR.Where(l => l.MODLE_ID.Equals(MODEL_ID) && l.LINE_ID.Equals(LINE_ID)).FirstAsync();
-            }
-            catch (Exception e)
-            {
-                cOPR16_ITEMS_MSTR = new COPR16_ITEMS_MSTR();
-                cOPR16_ITEMS_MSTR.ADATE = AppPropModel.today;
-                cOPR16_ITEMS_MSTR.MOD_DATE = AppPropModel.today;
-                cOPR16_ITEMS_MSTR.CRE_BY = usr;
-                cOPR16_ITEMS_MSTR.MOD_BY = usr;
-            }
-
-            try
-            {
-                //cOPR16_ITEMS_MSTR_LIST = await db.COPR16_ITEMS_MSTR.Where(l => l.MODLE_ID.Equals(MODEL_ID) && l.LINE_ID.Equals(LINE_ID)).OrderBy(l =>l.POS_ID).ToListAsync();
-                string SQL_CMD = string.Format("SELECT * FROM COPR16_ITEMS_MSTR WHERE MODLE_ID = '{0}' AND LINE_ID = '{1}' ORDER BY POS_ID;", MODEL_ID, LINE_ID);
-                //cOPR16_ITEMS_MSTR_LIST = await db.COPR16_ITEMS_MSTR.Where(l => l.MODLE_ID.Equals(MODEL_ID) && l.LINE_ID.Equals(LINE_ID)).ToListAsync();
-                //cOPR16_ITEMS_MSTR_LIST = await db.COPR16_ITEMS_MSTR.SqlQuery(SQL_CMD).ToListAsync();
-                cOPR16_ITEMS_MSTR_LIST = db.Database.SqlQuery<COPR16_ITEMS_MSTR>(SQL_CMD).ToList();
-            }
-            catch (Exception e)
-            {
-                cOPR16_ITEMS_MSTR_LIST = new List<COPR16_ITEMS_MSTR>();
-            }
-
-            if (cOPR16_MODEL_MSTR == null)
-            {
-                return HttpNotFound();
-            }
             model.cOPR16_MODEL_MSTR = cOPR16_MODEL_MSTR;
             model.cOPR16_ITEMS_MSTR_LIST = cOPR16_ITEMS_MSTR_LIST;
             model.cOPR16_ITEMS_MSTR = cOPR16_ITEMS_MSTR;
+            model.xModel = db_MODELID;
+            model.xLine = db_LINEID;
             return View(model);
         }
 
@@ -269,7 +322,7 @@ namespace CM_APPLICATIONS.Controllers
             using (var cmd = db.Database.Connection.CreateCommand())
             {
                 await db.Database.Connection.OpenAsync();
-                cmd.CommandText ="exec [dbo].[sp_list_items_volume] @FROM_DT,@TO_DT,@ITEM_ID";
+                cmd.CommandText = "exec [dbo].[COPR16_LIST_ITEMS_VOLUME] @FROM_DT,@TO_DT,@ITEM_ID";
                 cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
                 cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
                 cmd.Parameters.Add(new SqlParameter("@ITEM_ID", parms.ITEM_ID == null ? "" : parms.ITEM_ID));

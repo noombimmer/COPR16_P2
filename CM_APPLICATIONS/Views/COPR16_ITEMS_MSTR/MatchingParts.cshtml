@@ -23,6 +23,136 @@
         padding-right: 15px !important;
     }
 </style>
+<style id="style_local">
+    .dataTables_wrapper {
+        float: left !important;
+        width: 100% !important;
+        margin-left: 0px !important;
+    }
+    /**style="background-color:#1b5597;"*/
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table td {
+        white-space: nowrap !important;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        /*width: 100% !important;*/
+        border: thin 0.5px grey !important;
+    }
+
+    div.dataTables_length {
+        display: none !important;
+    }
+
+    div.dataTables_filter {
+        display: none !important;
+    }
+
+    div.dataTables_paginate {
+        display: none !important;
+    }
+
+    .modal-header {
+        background-color: #005495 !important;
+        color: #ffffff !important;
+    }
+
+    td.command {
+        flex-flow: nowrap;
+        flex-wrap: nowrap;
+        white-space: nowrap !important;
+    }
+
+    th.command {
+        flex-flow: nowrap;
+        flex-wrap: nowrap;
+        white-space: nowrap !important;
+        background-color: #1b5597;
+        color:#fff;
+    }
+    th {
+        background-color: #1b5597;
+        color: #fff;
+    }
+    .text-center {
+        text-align: center;
+    }
+
+    .no-wrap-th {
+        white-space: nowrap;
+    }
+
+    .numericCol {
+        text-align: right;
+    }
+
+    .textCol {
+        text-align: left;
+        width: 1% !important;
+        white-space: nowrap;
+    }
+
+    .matrixValue {
+        /*width: 1% !important;*/
+    }
+
+    .hiddenCol {
+        display: none !important;
+    }
+
+    .boldText {
+        font-weight: bold;
+    }
+
+    .boldTextRow {
+        font-weight: bold;
+        background-color: #cae4f3 !important;
+    }
+
+    .boldTextRowAcc {
+        font-weight: bold;
+        background-color: #005495 !important;
+        color: #fff !important;
+    }
+
+    .boldTextRowLast td {
+        font-weight: bold;
+        background-color: #7cbcfa !important;
+        border-bottom: 2px double #005495 !important;
+        color: #fff !important;
+    }
+
+    .boldTextRowWIthoutID td {
+        font-weight: bold;
+        background-color: #7cbcfa !important;
+        color: #fff !important;
+    }
+
+    .boldTextRowWithout td {
+        font-weight: bold;
+        background-color: #ffd800 !important;
+        /*border-bottom:2px double #005495 !important;*/
+    }
+
+    .row_header {
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+    }
+
+    .textBucle {
+        text-align: left;
+        white-space: pre-wrap !important;
+        text-wrap: normal !important;
+        border-right: 1px solid #808080 !important;
+    }
+
+
+</style>
 <hr>
 <p>
     @*@Html.ActionLink("ADD NEW ITEM", "Create", "COPR16_ITEMS_MSTR", new { @class = "btn btn-primary button" })*@
@@ -63,7 +193,9 @@
     <div class="form-group">
         <div class="col-md-offset-1 col-md-10">
             <input type="button" value="REFRESH" class="btn btn-primary button refreshBtn" />
-            <input type="button" value="CLEAR" class="btn btn-secondary button resetBtn" />
+            <input type="button" value="CLEAR" class="btn btn-default button resetBtn" />&nbsp;&nbsp;&nbsp;
+            <input type="button" value="IMPORT FROM XLS" class="btn btn-primary button importBtn" />
+            <input type="button" value="EXPORT TO XLS" class="btn btn-primary button exportBtn" />
         </div>
     </div>
 </div>
@@ -138,13 +270,13 @@
 
 <table class="table stripe option-list data-step">
     <thead>
-        <tr>
-            <th class="no-wrap-th textCol">@Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.MODLE_ID, htmlAttributes: new { @class = "control-label col-md-1" })</th>
-            <th class="no-wrap-th textCol">@Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.LINE_ID, htmlAttributes: new { @class = "control-label col-md-1" })</th>
-            <th class="no-wrap-th textCol">@Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.POS_ID, htmlAttributes: new { @class = "control-label col-md-1" })</th>
-            <th class="no-wrap-th textCol">@Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.FG_NO, htmlAttributes: new { @class = "control-label col-md-1" })</th>
-            <th class="no-wrap-th textCol">@Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.ITEM_ID, htmlAttributes: new { @class = "control-label col-md-1" })</th>
-            <th class="command">ACTION</th>
+        <tr sstyle="background-color:#1b5597;color:#fff;">
+            <th class="no-wrap-th textCol modelIDHeader">@Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.MODLE_ID, htmlAttributes: new { @class = "control-label col-md-1" })</th>
+            <th class="no-wrap-th textCol lineIDHeader">@Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.LINE_ID, htmlAttributes: new { @class = "control-label col-md-1" })</th>
+            <th class="no-wrap-th textCol positionIDHeader">@Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.POS_ID, htmlAttributes: new { @class = "control-label col-md-1" })</th>
+            <th class="no-wrap-th textCol fgnoHeader">@Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.FG_NO, htmlAttributes: new { @class = "control-label col-md-1" })</th>
+            <th class="no-wrap-th textCol buckleHeader">@Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.ITEM_ID, htmlAttributes: new { @class = "control-label col-md-1" })</th>
+            <th class="command actionHeader">ACTION</th>
         </tr>
     </thead>
     <tbody>
@@ -242,7 +374,7 @@
                             <div>
                                 <table class="table stripe table-line-list">
                                     <thead>
-                                        <tr>
+                                        <tr >
                                             <th>
                                                 @Html.LabelFor(model => model.cOPR16_LINE_MSTR.LINE_ID)
                                             </th>
@@ -355,7 +487,7 @@
         $('.FG-NO').val('');
         $('.ITEM-ID').val('');
     });
-    $("body").on("click", "a.editModelBtn", function (ev) {
+    $("body").on("click", "input.editModelBtn", function (ev) {
         var p = $(this).parent();
         var model_no = $(p).find(".hModelId").val();
         var line_no = $(p).find(".hLineId").val();
@@ -387,17 +519,34 @@
     }
     function getTableRows(rowsData) {
         var skipFirst = false;
-
+        var buffer = null;
         $.each(rowsData, function (key, value) {
             if (skipFirst == false) {
                 var rowData = [];
+                buffer = null;
                 $.each(value, function (ikey, ivalue) {
                     if (ivalue != null) {
                         ivalue = ivalue.replace(/\,/g, '<br/> ');
                         //ivalue = ivalue.replace(",", "<br/>");
                         ivalue = ivalue.replace(/#/g, ',');
                     }
-                    rowData.push(ivalue == null ? "" : ivalue);
+                    rowData.push(ivalue == null ? "" : '\u200c' + ivalue);
+                    /*
+                    if (ikey == "ITEM_ID") {
+                        buffer = ivalue == null ? "" : '\u200c' + ivalue;
+                    } else {
+                        if (ikey == "FGTYPE_ID") {
+                            var fgtype_id = ivalue == null ? "" : '\u200c' + ", " + ivalue;
+
+                            buffer = buffer + fgtype_id;
+                            rowData.push(buffer == null ? "" : '\u200c' + buffer);
+                            buffer = null;
+                        } else {
+                            rowData.push(ivalue == null ? "" : '\u200c' + ivalue);
+                        }
+                        
+                    }
+                    */
                 });
                 rowData.push("");
                 rowData.push("");
@@ -407,9 +556,14 @@
                 var rowNode = tbVar.row.add(rowData).draw(false).node();
                 $(rowNode).find('td').eq(0).removeClass("numericCol");
                 $(rowNode).find('td').eq(0).addClass("textCol");
+                $(rowNode).find('td').eq(4).attr("style", "text-align:left;");
+                $(rowNode).find('td').eq(3).attr("style", "text-align:left;");
+                $(rowNode).find('td').eq(2).attr("style", "text-align:center;");
+                $(rowNode).find('td').eq(0).attr("style", "vertical-align:top;");
+                $(rowNode).find('td').eq(1).attr("style", "vertical-align:top;");
                 var modelHidden = "<input type='hidden' value='" + rowData[0] + "' class='hModelId' />";
                 var lineHidden = "<input type='hidden' value='" + rowData[1] + "' class='hLineId' />";
-                var btnEdit = "<a class='btn btn-primary button editModelBtn' >Edit</a>";
+                var btnEdit = "<input type='button' class='btn btn-primary button editModelBtn' value=' Edit ' />";
                 $(rowNode).find('td').eq(5).append(btnEdit);
                 $(rowNode).find('td').eq(5).append(modelHidden);
                 $(rowNode).find('td').eq(5).append(lineHidden);
@@ -444,7 +598,6 @@
             data: jdata,
             success: function (result) {
                 console.log(result);
-
                 getTableHeader(result.Data[0]);
                 getTableRows(result.Data);
                 //$.each(result.Data, function (key, value) {
@@ -510,5 +663,44 @@
         if (e.which == 13) {
             refreshData();
         }
+    });
+    $(".exportBtn").click(function () {
+        exportToExcel();
+    });
+    function exportToExcel() {
+        var style_sheet = $('#style_local').html();
+        var htmls = "";
+        var uri = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8;base64,';
+        var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style>{stylesheet}</style></head><body><table>{table}</table></body></html>';
+        var base64 = function (s) {
+            return window.btoa(unescape(encodeURIComponent(s)))
+        };
+
+        var format = function (s, c) {
+            return s.replace(/{(\w+)}/g, function (m, p) {
+                return c[p];
+            })
+        };
+        //console.log(style_sheet);
+        $('.dataTables_filter').remove();
+        htmls = $('.dataTables_wrapper').html().replace(/Create\ COP\(/g, '');
+        htmls = htmls.replace(/\)\'/g, '');
+        htmls = htmls.replace(/\[+ (?:(?!\d+ \d+ obj)[\s\S])*?[\s\S]*?\]/g, '');
+
+        console.log(htmls);
+        var ctx = {
+            worksheet: "COPR16_REPORT_" + $('#FMODELS').val(),
+            stylesheet: style_sheet,
+            table: htmls
+
+        }
+        var link = document.createElement("a");
+        link.download = "COPR16_REPORT_" + $('#FMODELS').val() + ".xls";
+        link.href = uri + base64(format(template, ctx));
+        link.click();
+    }
+    //importModel
+    $(".importBtn").click(function () {
+        window.location.href = "@Url.Action("importModel", "COPR16_FILE_IMPORT")";
     });
 </script>

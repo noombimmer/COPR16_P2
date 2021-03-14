@@ -195,8 +195,8 @@ namespace CM_APPLICATIONS.Controllers
 
             foreach (var rows in model.cOPR16_COPRUNNING_List)
             {
-                COPR16_POSITION_MSTR posName = await db.COPR16_POSITION_MSTR.Where(l => l.POS_ID == rows.POSITION_ID).FirstAsync();
-                COPR16_MODEL_MSTR modelName = await db.COPR16_MODEL_MSTR.Where(l => l.MODEL_ID == rows.MODEL_ID).FirstAsync();
+                COPR16_POSITION_MSTR posName = await db.COPR16_POSITION_MSTR.Where(l => l.POS_DESC == rows.POSITION_ID).FirstOrDefaultAsync();
+                COPR16_MODEL_MSTR modelName = await db.COPR16_MODEL_MSTR.Where(l => l.MODEL_ID == rows.MODEL_ID).FirstOrDefaultAsync();
 
                 rows.POSITION_ID = posName.POS_DESC;
                 rows.MODEL_ID = modelName.MODEL_DESC;
@@ -216,8 +216,8 @@ namespace CM_APPLICATIONS.Controllers
             model.cOPR16_COPRUNNING_List = await db.COPR16_COPRUNNING.SqlQuery(SQLCMD).ToListAsync();
             foreach (var rows in model.cOPR16_COPRUNNING_List)
             {
-                COPR16_POSITION_MSTR posName = await db.COPR16_POSITION_MSTR.Where(l => l.POS_ID == rows.POSITION_ID).FirstAsync();
-                COPR16_MODEL_MSTR modelName = await db.COPR16_MODEL_MSTR.Where(l => l.MODEL_ID == rows.MODEL_ID).FirstAsync();
+                COPR16_POSITION_MSTR posName = await db.COPR16_POSITION_MSTR.Where(l => l.POS_DESC == rows.POSITION_ID).FirstOrDefaultAsync();
+                COPR16_MODEL_MSTR modelName = await db.COPR16_MODEL_MSTR.Where(l => l.MODEL_ID == rows.MODEL_ID).FirstOrDefaultAsync();
 
                 rows.POSITION_ID = posName.POS_DESC;
                 rows.MODEL_ID = modelName.MODEL_DESC;
@@ -299,7 +299,7 @@ namespace CM_APPLICATIONS.Controllers
             model.WorkProcess_List = await db.Database.SqlQuery<WorkProcess>(SQLCMD).ToListAsync();
             //return View(await db.COPR16_COPRUNNING_RT.ToListAsync());
             model.workProcess = new WorkProcess();
-            COPR16_POSITION_MSTR posName = await db.COPR16_POSITION_MSTR.Where(l => l.POS_ID == model.cOPR16_COPRUNNING.POSITION_ID).FirstAsync();
+            COPR16_POSITION_MSTR posName = await db.COPR16_POSITION_MSTR.Where(l => l.POS_DESC == model.cOPR16_COPRUNNING.POSITION_ID).FirstAsync();
             COPR16_MODEL_MSTR modelName = await db.COPR16_MODEL_MSTR.Where(l => l.MODEL_ID == model.cOPR16_COPRUNNING.MODEL_ID).FirstAsync();
 
             model.cOPR16_COPRUNNING.POSITION_ID = posName.POS_DESC;
@@ -380,7 +380,7 @@ namespace CM_APPLICATIONS.Controllers
             model.WorkProcess_List = await db.Database.SqlQuery<WorkProcess>(SQLCMD).ToListAsync();
             //return View(await db.COPR16_COPRUNNING_RT.ToListAsync());
             model.workProcess = new WorkProcess();
-            COPR16_POSITION_MSTR posName = await db.COPR16_POSITION_MSTR.Where(l => l.POS_ID == model.cOPR16_COPRUNNING.POSITION_ID).FirstAsync();
+            COPR16_POSITION_MSTR posName = await db.COPR16_POSITION_MSTR.Where(l => l.POS_DESC == model.cOPR16_COPRUNNING.POSITION_ID).FirstAsync();
             COPR16_MODEL_MSTR modelName = await db.COPR16_MODEL_MSTR.Where(l => l.MODEL_ID == model.cOPR16_COPRUNNING.MODEL_ID).FirstAsync();
 
             model.cOPR16_COPRUNNING.POSITION_ID = posName.POS_DESC;
@@ -606,7 +606,8 @@ namespace CM_APPLICATIONS.Controllers
             }
 
             model.cOPR16_COPRUNNING_DT_List = await db.COPR16_COPRUNNING_DT.Where(l => l.COPR_ID.Equals(id)).ToListAsync();// QR-CODE
-            model.cOPR16_COPRUNNING_DT_BKL = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("BUNKLE"));// QR-CODE
+            model.cOPR16_COPRUNNING_DT_BKL = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("BUNKLE") || l.FGTYPE_ID.Equals("BUCKLE"));// QR-CODE
+            model.cOPR16_COPRUNNING_DT_BKL2 = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("BUNKLE2") || l.FGTYPE_ID.Equals("BUCKLE2"));// QR-CODE
             model.cOPR16_COPRUNNING_DT_SB = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("SEATBELT"));// QR-CODE
             model.cOPR16_COPRUNNING_RT_List = await db.COPR16_COPRUNNING_RT.Where(l => l.COPR_ID.Equals(id)).ToListAsync(); // test details
             model.cOPR16_WORKFLOW_DT_List = await db.COPR16_WORKFLOW_DT.Where(l => l.WRK_ID.Equals(model.cOPR16_COPRUNNING.WRK_ID)).OrderBy(l => l.WRKD_SEQ).ToListAsync();
@@ -635,7 +636,7 @@ namespace CM_APPLICATIONS.Controllers
             
             //return View(await db.COPR16_COPRUNNING_RT.ToListAsync());
 
-            COPR16_POSITION_MSTR posName = await db.COPR16_POSITION_MSTR.Where(l => l.POS_ID == model.cOPR16_COPRUNNING.POSITION_ID).FirstAsync();
+            COPR16_POSITION_MSTR posName = await db.COPR16_POSITION_MSTR.Where(l => l.POS_DESC == model.cOPR16_COPRUNNING.POSITION_ID).FirstAsync();
             COPR16_MODEL_MSTR modelName = await db.COPR16_MODEL_MSTR.Where(l => l.MODEL_ID == model.cOPR16_COPRUNNING.MODEL_ID).FirstAsync();
 
             model.cOPR16_COPRUNNING.POSITION_ID =  posName.POS_DESC;

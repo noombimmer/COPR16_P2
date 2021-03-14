@@ -28,7 +28,7 @@
         width: 100% !important;
     }
 </style>
-@using (Html.BeginForm("FilterIndex", "COPR16_COPRUNNING"))
+@using (Html.BeginForm("FilterIndexAID", "COPR16_COPRUNNING"))
 {
     @Html.AntiForgeryToken()
     @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
@@ -249,7 +249,7 @@
         var cop_no = $(this).parent().find('#hCOPNO').eq(0).val();
         //alert(cop_no);
         $('#SELECTED_COPNO').val(cop_no);
-        $('form').attr('action','@Url.Action("Edit","COPR16_COPRUNNING")');
+        $('form').attr('action','@Url.Action("EditAID","COPR16_COPRUNNING")');
         $('form').submit();
     });
     //$('.btnCOPNO').click(function () {

@@ -635,7 +635,7 @@
             };
 
             console.log(jdata);
-            var urlText = "@Url.Action("getFinalReport","COPR16_COPRUNNING")";
+            var urlText = "@Url.Action("getFinalReportAID","COPR16_COPRUNNING")";
             $.ajax({
                 type: "POST",
                 url: urlText,
@@ -646,7 +646,14 @@
                     updateRowWithColCount();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR);
+                    $('#lModalLabelError').html("GET FINAL REPORT ERROR!!!!");
+                    var obj = $(jqXHR.responseText);
+                    var title = obj.filter('title')[0];
+                    var details = obj.filter('span')[0];
+                    console.log(title);
+                    $('#lModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML + "<br>" + urlText);
+                    //$('#lModalError').modal(options);
+                    $('#lModalError').modal('show');
                 }
             })
             return false;
@@ -690,7 +697,7 @@
                     var CONDITION = false;
                     var SUMMARY = false;
                     var APPROVE = false;
-
+                    var varLot = false;
 
                     var VSILOCKING_0DEG = false;
                     var VSILOCKING_90DEG = false;
@@ -752,7 +759,9 @@
                         if (SUMMARY == true) {
                             updateSummary(item, index);
                         }
-
+                        if (varLot == true) {
+                            updateLot(item, index);
+                        }
                         if (VSILOCKING_0DEG ==true) {
                             updateVSILOCKING_0DEG(item, index);
                         }
@@ -880,6 +889,9 @@
                                 break;
                             case "Summary":
                                 SUMMARY = true;
+                                break;
+                            case "Lot":
+                                varLot = true;
                                 break;
                             case "G-Lock-Initial-8GLOCK_VSI0DEG":
                                 VSILOCKING_0DEG = true;
@@ -1045,7 +1057,16 @@
             $(row).append(col);
             //var cell = $(row).find(colName);
             //$(cell).val(value);
-        }
+    }
+    function updateLot(value, index) {
+        var row = $('.Header1_result');
+        var colName = "col" + index;
+        var col = "<th class=\"no-wrap-th textCol blueText2 " + colName + "\" style=\"color: blue;font-style: italic;font-weight: normal !important;\" > " + value + "</th>";
+        //console.log(".col" + index)
+        $(row).append(col);
+        //var cell = $(row).find(colName);
+        //$(cell).val(value);
+    }
         function updateCondition(value,index) {
             var row = $('.rowhead_Condition');
             var colName = "col" + index;
@@ -1483,6 +1504,10 @@
         var header1 = "<th class=\"no-wrap - th textCol\" > Result</th>";
         $('.Header1_result').append(header1);
     }
+    function updateResultLotNo(LotNO) {
+        var header1 = "<th class=\"no-wrap - th textCol\" > " + LotNO+"</th>";
+        $('.Header1_result').append(header1);
+    }
 
     function updateRowWithColCount() {
         var rows = $('[class*=row_]');
@@ -1533,9 +1558,12 @@
             var totalCop = parseInt($('.TOTAL_COP').val());
             //console.log($(k) + ":0");
             var i;
+            /*
             for (i = 0; i < totalCop; i++) {
-                updateResult();
+                //updateResult();
+                updateResultLotNo();
             }
+            */
             $('.Header_1-1').attr("colspan", totalCop + 3);
             $('.Header_2-1').attr("colspan", totalCop + 3);
             $('.Header_2-2').attr("colspan", totalCop + 3);

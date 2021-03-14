@@ -23,6 +23,20 @@ namespace CM_APPLICATIONS.Models
             db = dataCtx;
         }
     }
+    public class ImportModels
+    {
+        private COPR16Entities db;
+
+        public COPR16_MODEL_MSTR cOPR16_MODEL_MSTR { get; set; }
+        public COPR16_LINE_MSTR cOPR16_LINEL_MSTR { get; set; }
+        public COPR16_POSITION_MSTR cOPR16_POSITION_MSTR { get; set; }
+        public COPR16_FGTYPE_MSTR cOPR16_FGTYPE_MSTR { get; set; }
+
+        public ImportModels(COPR16Entities dataCtx)
+        {
+            db = dataCtx;
+        }
+    }
     public class FileImportGlock
     {
         private COPR16Entities db;
@@ -93,6 +107,17 @@ namespace CM_APPLICATIONS.Models
         public string ITEM_ID { get; set; }
         public string BUSI_DATE { get; set; }
         public string QTY { get; set; }
+
+    }
+    public class newModelData
+    {
+        public string ModelName { get; set; }
+        public string LineName { get; set; }
+        public string PositionName { get; set; }
+        public string SBPart { get; set; }
+        public string Bck1Part { get; set; }
+        public string Bck2Part { get; set; }
+
 
     }
     public class RST_HEADER

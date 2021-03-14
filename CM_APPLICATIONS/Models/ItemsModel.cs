@@ -86,6 +86,9 @@ namespace CM_APPLICATIONS.Models
         {
             db = dbModel;
         }
+        public string xModel { get; set; }
+        public string xLine { get; set; }
+
         public COPR16_ITEMS_MSTR cOPR16_ITEMS_MSTR { get; set; }
         public COPR16_LINE_MSTR cOPR16_LINE_MSTR { get; set; }
         public COPR16_MODEL_MSTR cOPR16_MODEL_MSTR { get; set; }
