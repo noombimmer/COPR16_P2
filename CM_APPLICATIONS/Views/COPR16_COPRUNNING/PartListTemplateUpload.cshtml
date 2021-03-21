@@ -324,52 +324,6 @@
         $('.form-uniq').datepicker('show');
     });
 
-    function verifyUniqDT() {
-        var uniq_id = $('.form-uniq').val();
-        var urlText = "@Url.Action("getUniqID","COPR16_FILE_IMPORT")";
-        var options = { "backdrop": "static", keyboard: true };
-        var jdata = {id : uniq_id}
-        //console.log(jdata);
-        //console.log(".---.");
-
-        $.ajax({
-            type: "POST",
-            url: urlText,     //your action
-            //data: $('form').serialize(),   //your form name.it takes all the values of model
-            //dataType: 'json',
-            data: jdata,
-            success: function (result) {
-                console.log(result);
-                console.log(result[0].GUID);
-                if (result[0].GUID == undefined || result[0].GUID == null) {
-                    //alert("YES-UNIQ_ID: " + result[0].UNIQ_ID);
-                    //alert("SQLCMD: " + result[0].SQLCMD);
-                    //alert("result[0]: " + result[0].de);
-
-                    upload_files();
-                } else {
-                    //alert("NO-UNIQ_ID: " + result[0].UNIQ_ID);
-                    $('#CONFIRMED_ASK2').html("Selected date \""+uniq_id+"\"are exiting uploaded <br>Please confirmed to continue?");
-                    $('#CONFIRMED_DLG2').modal("show");
-
-                }
-                //updateInfo(result);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                $('#lModalLabelError').html("Upload SPC FILE Error");
-                //$('#lModalBodyError').html("Cannot save data : " + errorThrown);
-                var obj = $(jqXHR.responseText);
-                var title = obj.filter('title')[0];
-                var details = obj.filter('span')[0];
-                console.log(title);
-                $('#lModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
-                $('#lModalError').modal("show");
-                console.log(jqXHR);
-                closeConpleting();
-            }
-        });
-
-    }
     function checkField(row,colName){
         if (row.hasOwnProperty(colName)) {
             return row[colName];

@@ -65,12 +65,52 @@ namespace CM_APPLICATIONS.Controllers
 
             return View();
         }
-        public ActionResult PartListTemplateUpload()
+        public async Task<ActionResult> PartListTemplateUpload()
         {
             CopRunningModel model = new CopRunningModel(db);
             model.cOPR16_COPRUNNING = new COPR16_COPRUNNING();
             model.cOPR16_COPRUNNING_DT = new COPR16_COPRUNNING_DT();
+            string SQL_CMD = "SELECT distinct SPCC_YEAR FROM dbo.COPR16_SPCC_DIM_YEAR ORDER BY SPCC_YEAR DESC";
 
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+                if (con.State != System.Data.ConnectionState.Open)
+                {
+                    await con.OpenAsync();
+                }
+                using (var cmd = con.CreateCommand())
+                {
+                    cmd.CommandText = SQL_CMD;
+                    using (DbDataReader reader = await cmd.ExecuteReaderAsync())
+                    {
+                        var lmodel = Utils.Serialize((SqlDataReader)reader);
+                        foreach (var row in lmodel)
+                        {
+                            string value1 = row["SPCC_YEAR"].ToString();
+                            model.SPC_YEAR.Add(new SelectListItem { Text = value1, Value = value1 });
+                        }
+                        reader.Close();
+                    }
+
+                }
+
+                using (var cmd2 = con.CreateCommand())
+                {
+                    cmd2.CommandText = "SELECT distinct SPCC_MODEL FROM dbo.COPR16_SPCC_DIM_YEAR ORDER BY SPCC_MODEL";
+                    using (System.Data.Common.DbDataReader reader2 = await cmd2.ExecuteReaderAsync())
+                    {
+                        var lmodel = Utils.Serialize((SqlDataReader)reader2);
+                        foreach (var row in lmodel)
+                        {
+                            string value1 = row["SPCC_MODEL"].ToString();
+                            model.SPC_MODEL_LIST.Add(new SelectListItem { Text = value1, Value = value1 });
+                        }
+                        reader2.Close();
+                    }
+                }
+
+                con.Close();
+            }
             return View(model);
         }
         public async Task<ActionResult> IndexAID()

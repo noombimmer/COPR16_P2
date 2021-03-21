@@ -667,12 +667,23 @@
             if (parts.length > 0) {
                 console.log(parts.length);
                 $('.part-list').html('');
+                var intNum = 0;
                  $.each(parts, function (i, k) {
                     //console.log(k);
-                    var strVar = k.APNO + ' / ' + k.BPNO + '';
+                     
+                     var strVar = k.APNO + ' / ' + k.BPNO + '';
+                     if (k.BPNO.length > 10) {
+                         strVar = k.APNO + ' / (' + k.BPNO + ')';
+                     }
                     //$('.PARTS_COP').append(strVar);
-                    var part_item = strVar + ",";
-                    $('.part-list').append("\n<Label >" + part_item + "</label>");
+                     var part_item = strVar + ",";
+                     if (intNum == 2) {
+                         $('.part-list').append("\n<Label >" + part_item + "</label><br>");
+                         intNum = 0;
+                     } else {
+                         $('.part-list').append("\n<Label >" + part_item + "</label>");
+                     }
+                     intNum++;
 
                 });
                 var firstRow = true;
@@ -1462,13 +1473,13 @@
     function updateDUMMYMOVEMENT3(value,index) {
         var row = $('.row_DUMMYMOVEMENT3');
         var colName = "col" + index;
-        if (value.invludes('-')) {
+        if (value.includes('-')) {
             value = "-";
         }
-        if (value.invludes('_')) {
+        if (value.includes('_')) {
             value = "-";
         }
-        if (value.invludes(' 0 ')) {
+        if (value.includes(' 0 ')) {
             value = "-";
         }
         if (value == null) {
