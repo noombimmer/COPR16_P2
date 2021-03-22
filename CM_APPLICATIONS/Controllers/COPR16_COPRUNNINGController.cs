@@ -2517,6 +2517,42 @@ namespace CM_APPLICATIONS.Controllers
             //}
             //return View(cOPR16_COPRUNNING);
         }
+        [HttpPost]
+        public async Task<ActionResult> saveLot(string copno,string sbLot,string bkl1Lot, string bkl2Lot)
+        {
+            /*
+            "copno": copno,
+            "sbLot": sbLot,
+            "bkl1Lot": bkl1Lot,
+            "bkl2Lot": bkl2Lot
+             */
+            JsonResult rowData = new JsonResult();
+            string SQLCMD2 = "exec dbo.COPR16_SAVE_LOT @COPNO,@SBLOT,@BKL1LOT,@BKL2LOT";
+            try
+            {
+                if (db.Database.Connection.State != ConnectionState.Open)
+                {
+                    await db.Database.Connection.OpenAsync();
+                }
+                using (var cmd = db.Database.Connection.CreateCommand())
+                {
+
+                    cmd.CommandText = SQLCMD2;
+                    cmd.Parameters.Add(new SqlParameter("@COPNO", copno == null ? "" : copno));
+                    cmd.Parameters.Add(new SqlParameter("@SBLOT", sbLot == null ? "" : sbLot));
+                    cmd.Parameters.Add(new SqlParameter("@BKL1LOT", bkl1Lot == null ? "" : bkl1Lot));
+                    cmd.Parameters.Add(new SqlParameter("@BKL2LOT", bkl2Lot == null ? "" : bkl2Lot));
+                    await cmd.ExecuteNonQueryAsync();
+                }
+                rowData.Data = "0";
+            }
+            catch (Exception e)
+            {
+                rowData.Data = e.Message;
+            }
+
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]

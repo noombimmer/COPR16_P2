@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="~/Content/w3.css">
     @Scripts.Render("~/bundles/modernizr")
     @{
+        //var username = CM_APPLICATIONS.Models.AppPropModel.username;
+
         System.Web.HttpContext.Current.Session["APP-UID"] = CM_APPLICATIONS.Models.AppPropModel.username;
     }
     <style>
@@ -440,6 +442,7 @@
         }
     </style>
 </head>
+
 <body>
     @*<div class="navbar navbar-inverse navbar-fixed-top">*@
 
@@ -451,188 +454,215 @@
 
         </div>
     </div>
-    <div class="container navbar-menu">
-        <div class="navbar-header navbar-menu menu-background">
-            <ul class="nav navbar-nav navbar-menu menu-item">
-                <li class="menu-item menu-desktop">
-                    <div class=" menu-item dropdown menuclick">
-                        <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> COP APPROVAL</a>
-                        <div class="dropdown-content">
-                            @Html.ActionLink("COP RUNNING LIST", "IndexApproval", "COPR16_COPRUNNING", null, null)
-                           @* @Html.ActionLink("COP RUNNING LIST(AID)", "IndexAID", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP RUNNING LIST(NON-EC)", "IndexNONEC", "COPR16_COPRUNNING", null, null)*@
-                        </div>
-
-                    </div>
-                </li>
-                <li class="menu-item menu-desktop">
-                    <div class=" menu-item dropdown menuclick">
-                        <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> COP RUNNING</a>
-                        <div class="dropdown-content">
-                            @Html.ActionLink("COP RUNNING DASHBOARD (ONLY ATH)", "DashBoard", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP RUNNING LIST(ATH)", "Index", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP RUNNING LIST(AID)", "IndexAID", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP RUNNING LIST(NON-EC)", "IndexNONEC", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP TRACKING (ONLY ATH)", "Tracking2", "COPR16_COPRUNNING", null, null)
-                        </div>
-
-                    </div>
-                </li>
-                <li class="menu-item menu-handheld">
-                    <div class=" menu-item dropdown menuclick">
-                        <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> COP MONITORING</a>
-                        <div class="dropdown-content">
-                            @Html.ActionLink("COP TESTING DASHBOARD ", "Index", "COPR16_COPRUNNING_RT", null, null)
-                            @Html.ActionLink("COP TESTING HANDHELD", "HANDHELD", "COPR16_COPRUNNING_RT", null, null)
+    @{
+        var rolesName = CM_APPLICATIONS.Models.AppPropModel.GerRoles();
+    }
+    @if (rolesName == "ADMIN")
+    {
+        <div class="container navbar-menu">
+            <div class="navbar-header navbar-menu menu-background">
+                <ul class="nav navbar-nav navbar-menu menu-item">
+                    <li class="menu-item menu-desktop">
+                        <div class=" menu-item dropdown menuclick">
+                            <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> COP APPROVAL</a>
+                            <div class="dropdown-content">
+                                @Html.ActionLink("COP RUNNING LIST", "IndexApproval", "COPR16_COPRUNNING", null, null)
+                                @* @Html.ActionLink("COP RUNNING LIST(AID)", "IndexAID", "COPR16_COPRUNNING", null, null)
+                                    @Html.ActionLink("COP RUNNING LIST(NON-EC)", "IndexNONEC", "COPR16_COPRUNNING", null, null)*@
+                            </div>
 
                         </div>
-
-                    </div>
-                </li>
-                <li class="menu-item menu-desktop">
-                    <div class=" menu-item dropdown menuclick">
-                        <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> VOLUME MASTER</a>
-                        <div class="dropdown-content">
-                            @*@Html.ActionLink("ITEMS VOLUME DASHBOARD", "Index", "CM_APPLICATIONS_TB", null,null)*@
-                            @*@Html.ActionLink("IMPORT VOLUME FILE", "Index", "CM_APPS_FUNCTIONS", null, null)*@
-                            @Html.ActionLink("ERP VOLUME SYNC.", "IndexERP", "COPR16_FG_MSTR", null, null)
-                            @Html.ActionLink("FG VOLUME", "Index", "COPR16_ITEMS_MSTR", null, null)
-                            @*                            @Html.ActionLink("BRAND MASTER ", "Index", "COPR16_BRAND_MSTR", null, null)
-        @Html.ActionLink("MODEL MASTER", "Index", "COPR16_MODEL_MSTR", null, null)
-        @Html.ActionLink("LINE MASTER", "Index", "COPR16_LINE_MSTR", null, null)
-        @Html.ActionLink("POSITION MASTER", "Index", "COPR16_POSITION_MSTR", null, null)
-        @Html.ActionLink("FG MASTER ", "Index", "COPR16_FG_MSTR", null, null)
-        @Html.ActionLink("MATCHING PART NO.", "MatchingParts", "COPR16_ITEMS_MSTR", null, null)*@
-
-                            @Html.ActionLink("FG MASTER ", "Index", "COPR16_FG_MSTR", null, null)
-                            @Html.ActionLink("FG MASTER (AID)", "IndexAID", "COPR16_FG_MSTR", null, null)
-
-
+                    </li>
+                    <li class="menu-item menu-desktop">
+                        <div class=" menu-item dropdown menuclick">
+                            <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> COP RUNNING</a>
+                            <div class="dropdown-content">
+                                @Html.ActionLink("COP RUNNING DASHBOARD (ONLY ATH)", "DashBoard", "COPR16_COPRUNNING", null, null)
+                                @Html.ActionLink("COP RUNNING LIST(ATH)", "Index", "COPR16_COPRUNNING", null, null)
+                                @Html.ActionLink("COP RUNNING LIST(AID)", "IndexAID", "COPR16_COPRUNNING", null, null)
+                                @Html.ActionLink("COP RUNNING LIST(NON-EC)", "IndexNONEC", "COPR16_COPRUNNING", null, null)
+                                @Html.ActionLink("COP TRACKING (ONLY ATH)", "Tracking2", "COPR16_COPRUNNING", null, null)
+                            </div>
 
                         </div>
-                    </div>
-                </li>
-                <li class="menu-item menu-desktop">
-                    <div class=" menu-item dropdown menuclick">
-                        <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> FG MASTER</a>
-                        <div class="dropdown-content">
-                            @*@Html.ActionLink("ITEMS VOLUME DASHBOARD", "Index", "CM_APPLICATIONS_TB", null,null)*@
-                            @*@Html.ActionLink("IMPORT VOLUME FILE", "Index", "CM_APPS_FUNCTIONS", null, null)*@
+                    </li>
+                    <li class="menu-item menu-handheld">
+                        <div class=" menu-item dropdown menuclick">
+                            <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> COP MONITORING</a>
+                            <div class="dropdown-content">
+                                @Html.ActionLink("COP TESTING DASHBOARD ", "Index", "COPR16_COPRUNNING_RT", null, null)
+                                @Html.ActionLink("COP TESTING HANDHELD", "HANDHELD", "COPR16_COPRUNNING_RT", null, null)
 
-                            @Html.ActionLink("BRAND MASTER ", "Index", "COPR16_BRAND_MSTR", null, null)
-                            @Html.ActionLink("MODEL MASTER", "Index", "COPR16_MODEL_MSTR", null, null)
-                            @Html.ActionLink("LINE MASTER", "Index", "COPR16_LINE_MSTR", null, null)
-                            @Html.ActionLink("POSITION MASTER", "Index", "COPR16_POSITION_MSTR", null, null)
-                            @Html.ActionLink("FG TYPE MASTER ", "Index", "COPR16_FGTYPE_MSTR", null, null)
-                            @Html.ActionLink("MATCHING PART NO.", "MatchingParts", "COPR16_ITEMS_MSTR", null, null)
-
-                            @*@Html.ActionLink("FG TYPE MASTER ", "Index", "COPR16_FGTYPE_MSTR", null, null)
-        @Html.ActionLink("FG TYPE MASTER (AID)", "Index", "COPR16_FGTYPE_MSTR", null, null)
-
-        @Html.ActionLink("FG VOLUME", "Index", "COPR16_ITEMS_MSTR", null, null)*@
-
+                            </div>
 
                         </div>
-                    </div>
-                </li>
+                    </li>
+                    <li class="menu-item menu-desktop">
+                        <div class=" menu-item dropdown menuclick">
+                            <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> VOLUME MASTER</a>
+                            <div class="dropdown-content">
+                                @*@Html.ActionLink("ITEMS VOLUME DASHBOARD", "Index", "CM_APPLICATIONS_TB", null,null)*@
+                                @*@Html.ActionLink("IMPORT VOLUME FILE", "Index", "CM_APPS_FUNCTIONS", null, null)*@
+                                @Html.ActionLink("ERP VOLUME SYNC.", "IndexERP", "COPR16_FG_MSTR", null, null)
+                                @Html.ActionLink("FG VOLUME", "Index", "COPR16_ITEMS_MSTR", null, null)
+                                @*                            @Html.ActionLink("BRAND MASTER ", "Index", "COPR16_BRAND_MSTR", null, null)
+                                    @Html.ActionLink("MODEL MASTER", "Index", "COPR16_MODEL_MSTR", null, null)
+                                    @Html.ActionLink("LINE MASTER", "Index", "COPR16_LINE_MSTR", null, null)
+                                    @Html.ActionLink("POSITION MASTER", "Index", "COPR16_POSITION_MSTR", null, null)
+                                    @Html.ActionLink("FG MASTER ", "Index", "COPR16_FG_MSTR", null, null)
+                                    @Html.ActionLink("MATCHING PART NO.", "MatchingParts", "COPR16_ITEMS_MSTR", null, null)*@
 
-                <li class="menu-item menu-desktop">
-                    <div class="menu-item dropdown menuclick">
-                        <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> MACHINE MASTER</a>
-                        <div class="dropdown-content">
+                                @Html.ActionLink("FG MASTER ", "Index", "COPR16_FG_MSTR", null, null)
+                                @Html.ActionLink("FG MASTER (AID)", "IndexAID", "COPR16_FG_MSTR", null, null)
 
-                            @Html.ActionLink("UNITS MASTER", "Index", "COPR16_UNITS_MSTR", null, null)
-                            @Html.ActionLink("OPTIONS MASTER", "Index", "COPR16_OPTIONVAL_MSTR", null, null)
-                            @Html.ActionLink("FILE TYPE MASTER", "Index", "COPR16_FTYPE_MSTR", null, null)
-                            @Html.ActionLink("FILE LIST", "Index", "COPR16_FILES_MSTR", null, null)
-                            @Html.ActionLink("MEASUREMENT TYPE MASTER", "Index", "COPR16_MEASURETYPE_MSTR", null, null)
-                            @Html.ActionLink("RETURN TYPE MASTER", "Index", "COPR16_RETURNTYPE_MSTR", null, null)
 
-                            @Html.ActionLink("MANCHINE TYPE MASTER", "Index", "COPR16_MANCTYPE_MSTR", null, null)
-                            @Html.ActionLink("MANCHINE LIST", "Index", "COPR16_MACHINE_MSTR", null, null)
+
+                            </div>
+                        </div>
+                    </li>
+                    <li class="menu-item menu-desktop">
+                        <div class=" menu-item dropdown menuclick">
+                            <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> FG MASTER</a>
+                            <div class="dropdown-content">
+                                @*@Html.ActionLink("ITEMS VOLUME DASHBOARD", "Index", "CM_APPLICATIONS_TB", null,null)*@
+                                @*@Html.ActionLink("IMPORT VOLUME FILE", "Index", "CM_APPS_FUNCTIONS", null, null)*@
+
+                                @Html.ActionLink("BRAND MASTER ", "Index", "COPR16_BRAND_MSTR", null, null)
+                                @Html.ActionLink("MODEL MASTER", "Index", "COPR16_MODEL_MSTR", null, null)
+                                @Html.ActionLink("LINE MASTER", "Index", "COPR16_LINE_MSTR", null, null)
+                                @Html.ActionLink("POSITION MASTER", "Index", "COPR16_POSITION_MSTR", null, null)
+                                @Html.ActionLink("FG TYPE MASTER ", "Index", "COPR16_FGTYPE_MSTR", null, null)
+                                @Html.ActionLink("MATCHING PART NO.", "MatchingParts", "COPR16_ITEMS_MSTR", null, null)
+
+                                @*@Html.ActionLink("FG TYPE MASTER ", "Index", "COPR16_FGTYPE_MSTR", null, null)
+                                    @Html.ActionLink("FG TYPE MASTER (AID)", "Index", "COPR16_FGTYPE_MSTR", null, null)
+
+                                    @Html.ActionLink("FG VOLUME", "Index", "COPR16_ITEMS_MSTR", null, null)*@
+
+
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="menu-item menu-desktop">
+                        <div class="menu-item dropdown menuclick">
+                            <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> MACHINE MASTER</a>
+                            <div class="dropdown-content">
+
+                                @Html.ActionLink("UNITS MASTER", "Index", "COPR16_UNITS_MSTR", null, null)
+                                @Html.ActionLink("OPTIONS MASTER", "Index", "COPR16_OPTIONVAL_MSTR", null, null)
+                                @Html.ActionLink("FILE TYPE MASTER", "Index", "COPR16_FTYPE_MSTR", null, null)
+                                @Html.ActionLink("FILE LIST", "Index", "COPR16_FILES_MSTR", null, null)
+                                @Html.ActionLink("MEASUREMENT TYPE MASTER", "Index", "COPR16_MEASURETYPE_MSTR", null, null)
+                                @Html.ActionLink("RETURN TYPE MASTER", "Index", "COPR16_RETURNTYPE_MSTR", null, null)
+
+                                @Html.ActionLink("MANCHINE TYPE MASTER", "Index", "COPR16_MANCTYPE_MSTR", null, null)
+                                @Html.ActionLink("MANCHINE LIST", "Index", "COPR16_MACHINE_MSTR", null, null)
+
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="menu-item menu-desktop">
+                        <div class="menu-item dropdown menuclick">
+                            <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> WORKFLOW MASTER</a>
+                            <div class="dropdown-content">
+                                @Html.ActionLink("REGULATORY MASTER", "Index", "COPR16_STDREG_MSTR", null, null)
+                                @Html.ActionLink("STANDARD PROCESS MASTER", "Index", "COPR16_STD_MSTR", null, null)
+                                @Html.ActionLink("PROCESS TEST MASTER", "Index", "COPR16_PROC_MSTR", null, null)
+                                @Html.ActionLink("STEP TEST MASTER", "Index", "COPR16_STEP_MSTR", null, null)
+                                @Html.ActionLink("WORKFLOW MASTER", "Index", "COPR16_WORKFLOW", null, null)
+
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="menu-item menu-desktop">
+                        <div class=" menu-item dropdown menuclick">
+                            <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> REPORTS</a>
+                            <div class="dropdown-content">
+                                @* Tracking *@
+                                @*@Html.ActionLink("COP VOLUME REPORT", "REPORTS", "COPR16_COPRUNNING", null, null)*@
+                                @Html.ActionLink("COP VOLUME REPORT", "Tracking", "COPR16_COPRUNNING", null, null)
+
+                                @*COPR16_Running_Report*@
+                                @Html.ActionLink("COP RUNNING REPORT", "COPR16_Running_Report", "COPR16_COPRUNNING", null, null)
+                                @Html.ActionLink("COP FINAL REPORT (ATH)", "FINAL_REPORTS", "COPR16_COPRUNNING", null, null)
+                                @Html.ActionLink("COP FINAL REPORT (AID)", "FINAL_REPORTS_AID", "COPR16_COPRUNNING", null, null)
+                                @Html.ActionLink("COP FINAL REPORT (NON-EC)", "FINAL_REPORTS_NONEC", "COPR16_COPRUNNING", null, null)
+                                @Html.ActionLink("COP TENSILE REPORT", "FINAL_REPORTS_TENSILE", "COPR16_COPRUNNING", null, null)
+                            </div>
 
                         </div>
-                    </div>
-                </li>
+                    </li>
+                    <li class="menu-item menu-desktop">
+                        <div class=" menu-item dropdown menuclick">
+                            <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> TOOLS</a>
+                            <div class="dropdown-content">
 
-                <li class="menu-item menu-desktop">
-                    <div class="menu-item dropdown menuclick">
-                        <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> WORKFLOW MASTER</a>
-                        <div class="dropdown-content">
-                            @Html.ActionLink("REGULATORY MASTER", "Index", "COPR16_STDREG_MSTR", null, null)
-                            @Html.ActionLink("STANDARD PROCESS MASTER", "Index", "COPR16_STD_MSTR", null, null)
-                            @Html.ActionLink("PROCESS TEST MASTER", "Index", "COPR16_PROC_MSTR", null, null)
-                            @Html.ActionLink("STEP TEST MASTER", "Index", "COPR16_STEP_MSTR", null, null)
-                            @Html.ActionLink("WORKFLOW MASTER", "Index", "COPR16_WORKFLOW", null, null)
+                                @* Tracking *@
+                                @*@Html.ActionLink("COP VOLUME REPORT", "REPORTS", "COPR16_COPRUNNING", null, null)*@
+                                @Html.ActionLink("QR-CODE MAKER", "QRMAKER", "MICS", null, null)
+                                @Html.ActionLink("QR Reading Test", "qrreading", "MICS", null, null)
+                                @Html.ActionLink("Camera Test", "cameratest", "MICS", null, null)
+                                @* @Html.ActionLink("Test Label", "label_printing", "MICS", null, null)*@
+
+                                <a href="https://ath-copapp01:7443/" style="background-color:aquamarine;color:indianred">COPR16 VERSION 2021</a>
+                                <a href="https://ath-copapp01/" style="background-color:brown;color:white">COPR16 VERSION 2020</a>
+                            </div>
 
                         </div>
-                    </div>
-                </li>
+                    </li>
+                    @*<li class="menu-item ">
+                            <div class="menu-item dropdown menuclick">
+                                <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> ADMINS</a>
+                                <div class="dropdown-content">
+                                    @Html.ActionLink("USER LIST", "Index", "CM_DOMAIN_MSTR", null, null)
+                                    @Html.ActionLink("ROLES LIST", "Index", "CM_SITES_MSTR", null, null)
+                                    @Html.ActionLink("QR-CODE TRACKING", "Index", "CM_FACILITIES_MSTR", null, null)
+                                </div>
+                            </div>
+                        </li>*@
 
-                <li class="menu-item menu-desktop">
-                    <div class=" menu-item dropdown menuclick">
-                        <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> REPORTS</a>
-                        <div class="dropdown-content">
-                            @* Tracking *@
-                            @*@Html.ActionLink("COP VOLUME REPORT", "REPORTS", "COPR16_COPRUNNING", null, null)*@
-                            @Html.ActionLink("COP VOLUME REPORT", "Tracking", "COPR16_COPRUNNING", null, null)
+                    @*<li class="menu-item ">
+                            <div class=" menu-item dropdown menuclick">
+                                <a href="/HOME" class=" main-menu"><i class="fa fa-fw fa-file-o"></i> HELP</a>
+                            </div>
+                        </li>
+                        <li class="menu-item ">
+                            <div class=" menu-item dropdown menuclick">
+                                <a href="/HOME/Contact" class=" main-menu"><i class="fa fa-fw fa-envelope"></i> CONTACT</a>
+                            </div>
+                        </li>*@
 
-                            @*COPR16_Running_Report*@
-                            @Html.ActionLink("COP RUNNING REPORT", "COPR16_Running_Report", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP FINAL REPORT (ATH)", "FINAL_REPORTS", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP FINAL REPORT (AID)", "FINAL_REPORTS_AID", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP FINAL REPORT (NON-EC)", "FINAL_REPORTS_NONEC", "COPR16_COPRUNNING", null, null)
-                            @Html.ActionLink("COP TENSILE REPORT", "FINAL_REPORTS_TENSILE", "COPR16_COPRUNNING", null, null)
-                        </div>
+                </ul>
 
-                    </div>
-                </li>
-                <li class="menu-item menu-desktop">
-                    <div class=" menu-item dropdown menuclick">
-                        <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> TOOLS</a>
-                        <div class="dropdown-content">
-
-                            @* Tracking *@
-                            @*@Html.ActionLink("COP VOLUME REPORT", "REPORTS", "COPR16_COPRUNNING", null, null)*@
-                            @Html.ActionLink("QR-CODE MAKER", "QRMAKER", "MICS", null, null)
-                            @Html.ActionLink("QR Reading Test", "qrreading", "MICS", null, null)
-                            @Html.ActionLink("Camera Test", "cameratest", "MICS", null, null)
-                            @* @Html.ActionLink("Test Label", "label_printing", "MICS", null, null)*@
-
-                            <a href="https://localhost:7443/" style="background-color:aquamarine;color:indianred">COPR16 VERSION 2021</a>
-                            <a href="https://localhost/" style="background-color:brown;color:white">COPR16 VERSION 2020</a>
-                        </div>
-
-                    </div>
-                </li>
-                @*<li class="menu-item ">
-            <div class="menu-item dropdown menuclick">
-                <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> ADMINS</a>
-                <div class="dropdown-content">
-                    @Html.ActionLink("USER LIST", "Index", "CM_DOMAIN_MSTR", null, null)
-                    @Html.ActionLink("ROLES LIST", "Index", "CM_SITES_MSTR", null, null)
-                    @Html.ActionLink("QR-CODE TRACKING", "Index", "CM_FACILITIES_MSTR", null, null)
-                </div>
             </div>
-        </li>*@
-
-                @*<li class="menu-item ">
-            <div class=" menu-item dropdown menuclick">
-                <a href="/HOME" class=" main-menu"><i class="fa fa-fw fa-file-o"></i> HELP</a>
-            </div>
-        </li>
-        <li class="menu-item ">
-            <div class=" menu-item dropdown menuclick">
-                <a href="/HOME/Contact" class=" main-menu"><i class="fa fa-fw fa-envelope"></i> CONTACT</a>
-            </div>
-        </li>*@
-
-            </ul>
-
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="container navbar-menu">
+            <div class="navbar-header navbar-menu menu-background">
+                <ul class="nav navbar-nav navbar-menu menu-item">
+                    <li class="menu-item menu-handheld">
+                        <div class=" menu-item dropdown menuclick">
+                            <a href="#" class=" main-menu"><i class="fa fa-fw fa-caret-down"></i> COP MONITORING</a>
+                            <div class="dropdown-content">
+                                @Html.ActionLink("COP TESTING DASHBOARD ", "Index", "COPR16_COPRUNNING_RT", null, null)
+                                @Html.ActionLink("COP TESTING HANDHELD", "HANDHELD", "COPR16_COPRUNNING_RT", null, null)
+                                <a href="https://ath-copapp01/" style="background-color:brown;color:white">COPR16 VERSION 2020</a>
+                            </div>
+
+                        </div>
+                    </li>
 
 
+                </ul>
+
+            </div>
+        </div>
+    }
     @*</div>*@
 
     @Scripts.Render("~/bundles/jquery")

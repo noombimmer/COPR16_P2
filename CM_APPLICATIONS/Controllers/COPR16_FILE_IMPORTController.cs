@@ -139,7 +139,7 @@ namespace CM_APPLICATIONS.Controllers
             {
 
                 await con.OpenAsync();
-                using (var cmd = db.Database.Connection.CreateCommand())
+                using (var cmd = con.CreateCommand())
                 {
                     cmd.CommandText = "exec COPR16_UPDATE_TNS_RPT_TEMPLATE @YEAR,@MODEL,@UID;";
                     cmd.Parameters.Add(new SqlParameter("@YEAR", SPC_YEAR));
