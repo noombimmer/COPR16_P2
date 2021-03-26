@@ -66,10 +66,6 @@
     .PROC_ID {
         display: none !important;
     }
-
-    .lot_number {
-        cursor: zoom-out;
-    }
 </style>
 @using (Html.BeginForm())
 {
@@ -195,7 +191,6 @@
                                 <input type="button" value="Save" class="btn btn-primary button createBtn" />
                             }
                             @*<input type="button" value="Generate Job" class="btn btn-warning button genJobBtn" />*@
-                            <input type="button" value="Edit Lot" class="btn btn-primary editFormBtn" />
                             <input type="reset" value="Close" class="btn btn-secondary closeFormBtn" />
                         </div>
                     </div>
@@ -281,7 +276,6 @@
                     <input type="button" value="Select Buckle" class="btn btn-primary button bklBtn" />
 
                     <input type="button" value="Print Buckle Sticker" class="btn btn-primary button bkl-print-Btn" />
-
                 </div>
             </th>
         </tr>
@@ -787,81 +781,6 @@
         </div>
     </div>
 </div><!-- / Modal CONFIRM SELECT BUNKLE -->
-
-<div class="modal fade" id="SELECT-LOT-DLG" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="ModalTitle" style="text-align: left">EDIT ITEM LOT </h4>
-            </div>
-            <div class="modal-body col-md-12" id="SELECT_BODY">
-
-                <center>
-                    <table border="0" style="width:400px;" cellpadding="10px">
-                        <tr style="        background-color: #005495;">
-                            <th style="color:white;">Lot No.</th>
-                            <th style="color:white;">Seatbelt Part No. </th>
-                        </tr>
-                        <tr>
-
-                            <th style="width:25%;">
-                                <input type="text" name="SEATBELT-LOT" id="SEATBELT-LOT" class="form-control text-box single-line" style="width:75px;" />
-                            </th>
-                            <th class="SEATBELT-PART-NO"></th>
-
-                        </tr>
-                        <tr style="        background-color: #005495;">
-                            <th style="width:25%;color:white;">Lot No.</th>
-                            <th style="color:white;">Buckle Part No. </th>
-                        </tr>
-                        <tr>
-
-                            <th style="        width: 25%;">
-                                <input type="text" name="BUCKLE1-LOT" id="BUCKLE1-LOT" class="form-control text-box single-line" style="width:75px;" />
-                            </th>
-                            <th class="BUCKLE1-PART-NO"></th>
-
-                        </tr>
-                        <tr>
-
-                            <th>
-                                <input type="text" name="BUCKLE2-LOT" id="BUCKLE2-LOT" class="form-control text-box single-line" style="width:75px;" />
-                            </th>
-                            <th class="BUCKLE2-PART-NO"></th>
-
-                        </tr>
-                    </table>
-                </center>
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-primary button save-Lot-Btn">Save</a>
-                <a class="btn btn-secondary button close-select-Btn" data-dismiss="modal">Close</a>
-            </div>
-
-        </div>
-    </div>
-</div><!-- / Modal CONFIRM SELECT BUNKLE -->
-<div class="modal fade" id="LOT-SAVE-DLG" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="ModalTitle" style="text-align: left">SELECT ITEM </h4>
-            </div>
-            <div class="modal-body col-md-12" id="SELECT_BODY">
-                <h4 style="text-align: left;">
-                    Please confirm to save change ?
-                </h4>
-                
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-primary button confirm-lot-Btn">YES</a>
-                <a class="btn btn-secondary button close-select-Btn" data-dismiss="modal">NO</a>
-            </div>
-
-        </div>
-    </div>
-</div><!-- / Modal CONFIRM SELECT SEAT BELT -->
-
 <script>
     var tbVar = $('.workflow-step').DataTable({
         "orderable": false,
@@ -1072,7 +991,6 @@
     function updateLineList(strMODEL_ID) {
         var varText = strMODEL_ID;
         var urlText = "@Url.Action("getLineListByModel","COPR16_COPRUNNING")";
-
         var options = { "backdrop": "static", keyboard: true };
         var jdata = {
             "__RequestVerificationToken": $('input[name="__RequestVerificationToken"').val(),
@@ -1786,81 +1704,7 @@
         }
 
     }
-    $('.editFormBtn').click(function () {
-        var part1 = $('.SB .SB-PARTNO').text();
-        var partLot = $('.SB .SBLOT').text();
-        var buckle1 = sbLabel.bkl1_partno;
-        var buckle1Lot = sbLabel.getBklLot1();
-        var buckle2 = sbLabel.bkl2_partno;
-        var buckle2Lot = sbLabel.getBklLot2();
 
-        console.log(sbLabel);
-        $('.SEATBELT-PART-NO').text(part1);
-        $('#SEATBELT-LOT').val(partLot);
-        $('#BUCKLE1-LOT').val(buckle1Lot);
-        $('#BUCKLE2-LOT').val(buckle2Lot);
-        $('.BUCKLE1-PART-NO').text(buckle1);
-        $('.BUCKLE2-PART-NO').text(buckle2);
-        $("#SELECT-LOT-DLG").modal("show");
-    });
-    $('.save-Lot-Btn').click(function () {
-        $("#SELECT-LOT-DLG").modal("hide");
-        $("#LOT-SAVE-DLG").modal("show");
-    });
-    $('.confirm-lot-Btn').click(function(){
-        var sbLot = $('#SEATBELT-LOT').val();
-        var bkl1Lot = $('#BUCKLE1-LOT').val();
-        var bkl2Lot = $('#BUCKLE2-LOT').val();
-        var copno = "@Model.COPNO";
-
-        var urlText = "@Url.Action("saveLot","COPR16_COPRUNNING")";
-        var options = { "backdrop": "static", keyboard: true };
-        var jdata = {
-            "copno": copno,
-            "sbLot": sbLot,
-            "bkl1Lot": bkl1Lot,
-            "bkl2Lot": bkl2Lot
-        }
-        console.log(jdata);
-        //console.log(".---.");
-        $.ajax({
-            type: "POST",
-            url: urlText,     //your action
-            //data: $('form').serialize(),   //your form name.it takes all the values of model
-            //dataType: 'json',
-            data: jdata,
-            success: function (result) {
-                console.log(result);
-                //alert(result);
-                //updateInfo(result);
-
-                $('.SB td.SBLOT').text(sbLot);
-                $('.SB td.BKL1LOT').text(bkl1Lot);
-                $('.SB td.BKL2LOT').text(bkl2Lot);
-
-                $('.BKL td.SBLOT').text(sbLot);
-                $('.BKL td.BKL1LOT').text(bkl1Lot);
-                $('.BKL td.BKL2LOT').text(bkl2Lot);
-                $("#LOT-SAVE-DLG").modal("hide");
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                //alert("error:" + errorThrown);
-                $('#lModalLabelError').html("Create New COP RUNNING NUMBER");
-                var obj = $(jqXHR.responseText);
-                var title = obj.filter('title')[0];
-                var details = obj.filter('span')[0];
-                console.log(title);
-                $('#lModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
-                $('#lModalError').modal(options);
-                $('#lModalError').modal('show');
-                $("#LOT-SAVE-DLG").modal("hide");
-            }
-        });
-        return false;
-
-
-        
-    });
     var bklNo = 0;
     var sbLabel = $('.machine-sticker-a').COPR16newLabel({
         nameObjectLabel: "SB",
@@ -1892,7 +1736,6 @@
         bkl2PartText: "",
 
     });
-
     updateEditInfo($('#cOPR16_COPRUNNING_COPR_ID').val(), $('.hPROC_ID').val());
     updatePosition();
     updateModel();

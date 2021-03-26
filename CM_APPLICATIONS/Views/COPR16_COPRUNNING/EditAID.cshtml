@@ -86,10 +86,17 @@
 
                     @Html.Hidden("text-hSB-PNO", Model.cOPR16_COPRUNNING_DT_SB.PNO)
                     @Html.Hidden("text-hBKL-PNO", Model.cOPR16_COPRUNNING_DT_BKL.PNO)
-                    @Html.Hidden("text-hBKL-PNO2", Model.cOPR16_COPRUNNING_DT_BKL2.PNO)
+                    @if (Model.cOPR16_COPRUNNING_DT_BKL2 != null)
+                    {
+                        @Html.Hidden("text-hBKL-PNO2", Model.cOPR16_COPRUNNING_DT_BKL2.PNO)
+                    }
+
                     @Html.Hidden("text-hSB-LOTNO", Model.cOPR16_COPRUNNING_DT_SB.LOTNO)
                     @Html.Hidden("text-hBKL-LOTNO", Model.cOPR16_COPRUNNING_DT_BKL.LOTNO)
-                    @Html.Hidden("text-hBKL-LOTNO2", Model.cOPR16_COPRUNNING_DT_BKL2.LOTNO)
+                    @if (Model.cOPR16_COPRUNNING_DT_BKL2 != null)
+                    {
+                        @Html.Hidden("text-hBKL-PNO2", Model.cOPR16_COPRUNNING_DT_BKL2.LOTNO)
+                    }
                     <div class="form-group">
                         @Html.LabelFor(model => model.cOPR16_COPRUNNING.COPR_ID, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-8">

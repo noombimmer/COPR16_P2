@@ -2288,6 +2288,7 @@ namespace CM_APPLICATIONS.Controllers
             model.cOPR16_COPRUNNING_DT_SB = model.cOPR16_COPRUNNING_DT_List.Where(l => l.FGTYPE_ID.Equals("SEATBELT")).FirstOrDefault();
             model.cOPR16_COPRUNNING_DT_BKL = model.cOPR16_COPRUNNING_DT_List.Where(l => l.FGTYPE_ID.Equals("BUCKLE")).FirstOrDefault();
             model.cOPR16_COPRUNNING_DT_BKL2 = model.cOPR16_COPRUNNING_DT_List.Where(l => l.FGTYPE_ID.Equals("BUCKLE2")).FirstOrDefault();
+
             string SQLCMD = "select * from ( SELECT A.COPR_ID, A.PNO, A.FGTYPE_ID, A.WRK_ID,A.WRKD_ID," +
             "CONCAT(A.MACHINETYPE_ID, ': ', C.MTYPE_NAME) MACHINETYPE_ID, " +
             "A.RETURNTYPE_ID, A.[VALUE], A.STATUS_ID,  A.TEST_START,  A.TEST_FINISH, " +
