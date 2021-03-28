@@ -2123,7 +2123,40 @@ namespace CM_APPLICATIONS.Controllers
             rowData.Data = cOPR16_COPRUNNING;
             return Json(rowData, JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        public async Task<ActionResult> SPC_PARTS_LIST(string MODEL, string YEAR, string MONTH, string SEC)
+        {
+            //-- exec COPR16_SPC_GET_PARTS_28MAR2021 '2GM',11,2020,'51'
+            JsonResult rowData = new JsonResult();
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+                if (con.State != ConnectionState.Open)
+                {
+                    await con.OpenAsync();
+                }
+                
+                string SQLCMD = "exec dbo.COPR16_SPC_GET_PARTS_28MAR2021 @MODEL,@MONTH,@YEAR,@SEC";
 
+                using (var cmd = con.CreateCommand())
+                {
+
+                    cmd.CommandText = SQLCMD;
+                    cmd.Parameters.Add(new SqlParameter("@MODEL", MODEL ));
+                    cmd.Parameters.Add(new SqlParameter("@MONTH", Convert.ToInt16(MONTH ?? "")));
+                    cmd.Parameters.Add(new SqlParameter("@YEAR", Convert.ToInt16( YEAR ??"")));
+                    cmd.Parameters.Add(new SqlParameter("@SEC", SEC));
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        var model = Serialize((SqlDataReader)reader);
+                        rowData.Data = model;
+                    }
+                    reader.Close();
+                }
+                con.Close();
+            }
+            //rowData.Data = cOPR16_COPRUNNING;
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         // GET: COPR16_COPRUNNING/Edit/5
@@ -2944,7 +2977,7 @@ namespace CM_APPLICATIONS.Controllers
 
                 using (var cmd2 = con.CreateCommand())
                 {
-                    cmd2.CommandText = "SELECT distinct SPCC_MODEL FROM dbo.COPR16_SPCC_DIM_YEAR ORDER BY SPCC_MODEL";
+                    cmd2.CommandText = "SELECT distinct MODLE_ID AS SPCC_MODEL FROM dbo.COPR16_ITEMS_MSTR ORDER BY MODLE_ID";
                     using (System.Data.Common.DbDataReader reader2 = await cmd2.ExecuteReaderAsync())
                     {
                         var lmodel = Utils.Serialize((SqlDataReader)reader2);

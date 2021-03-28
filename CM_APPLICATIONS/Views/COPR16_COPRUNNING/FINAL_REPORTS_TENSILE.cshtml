@@ -12,6 +12,26 @@
         border-spacing: 0;
     }
 </style>
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 99% !important;
+        margin-left: 0px !important;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+    .nowrap-td {
+        white-space: nowrap;
+    }
+</style>
 <h2>ECE R16 TENSILE Report</h2>
 
 <p>
@@ -40,6 +60,8 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-1 col-md-10">
+                <input type="button" value="ENABLE EDIT PARTS" class="btn btn-warning btnEditPart" />
+                @*<input type="button" value="SAVE PARTS" class="btn btn-warning btnSavePart" />*@
                 <input type="button" value="READ PART LIST FROM TEMPLATE (4)" class="btn btn-primary button readTemplateBtn" />
                 <input type="button" value="READ SPC DATA (5)" class="btn btn-primary button refreshBtn" />
                 <input type="button" value="EXPORT TO XLS (2,6)" class="btn btn-primary button exportBtn" />
@@ -507,6 +529,57 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal Error -->
 
+<div class="modal fade" id="lModalPartsList" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">SPC Result Parts List....</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lb1" class="lb1" style="text-align:left;"> </h4>
+                <table>
+                    <tr>
+                        <th>Year:</th>
+                        <th><input type="text" class="popupYearVal" value="" disabled readonly></th>
+                    </tr>
+                    <tr>
+                        <th>Month:</th>
+                        <th><input type="text" class="popupMonthVal" value="" disabled readonly></th>
+                    </tr>
+                    <tr>
+                        <th>Model:</th>
+                        <th><input type="text" class="popupModelVal" value="" disabled readonly></th>
+                    </tr>
+
+                </table>
+
+                <br />
+                <table width="100%" class="table w3-striped part-list">
+                    <thead >
+                        <tr>
+                            <th>PART NO.</th>
+                            <th>DATE</th>
+                            <th>LOT</th>
+                            <th>VALUE</th>
+                            <th>SELECT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
 <script>
     var table_original;
     function updateSPCData(DATA) {
@@ -879,7 +952,7 @@
         isNoPart = true;
         for (var month = 1; month <= 12; month++) {
             //sec51 mth-part  mth_0102
-            
+
             var ClassName1 = '.sec51.mth-part.mth_' + pad(month, 2) + '01';
             var ClassName2 = '.sec51.mth-part.mth_' + pad(month, 2) + '02';
             var ClassName3 = '.sec51.mth-lot.mth_' + pad(month, 2) + '01';
@@ -921,7 +994,12 @@
             setBlank(ClassName18);
 
         }
+        $('.btnClickToList').remove();
+        $('.btnEditPart').val('ENABLE EDIT PARTS');
+        editFlag = false;
+        showBtn();
     }
+    var editFlag = false;
     var isNoPart= true;
     function setBlank(objName) {
         var divBlank = '<div class="text" style="width: 80px !important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div>';
@@ -931,4 +1009,200 @@
     $('.MODEL_ID').change(function(){
         clearScreen();
     });
+
+    $('.btnEditPart').click(function () {
+        if (editFlag) {
+            $('.btnClickToList').remove();
+            $('.btnEditPart').val('ENABLE EDIT PARTS');
+            editFlag = false;
+            showBtn();
+        } else {
+            var btnEdit = "<input type='button' name='editBtn' id='editBtn' class='btn btn-primary btnClickToList' value='...' style='width:10px;height:10px;'>";
+            $('.mth-part').append(btnEdit);
+            $('.btnEditPart').val('DISABLE EDIT PARTS');
+            hideBtn();
+            editFlag = true;
+        }
+
+    });
+    $('.btnSavePart').click(function () {
+        if (editFlag) {
+            $('.btnClickToList').remove();
+            $('.btnEditPart').val('ENABLE EDIT PARTS');
+            editFlag = false;
+        }
+    });
+    $('.btnClickToList').click(function () {
+        $('#lModalPartsList').modal('show');
+    });
+    function getOldStyle(obj) {
+        return $(obj).attr("style");
+    }
+    //itemSelect
+    var origHtml = '<div class="text" style="width: 80px !important; height: 100 %; white-space: pre-line!important; background-color:#fff;  text-align: center; vertical-align: middle;">&nbsp;</div><input type="button" name="editBtn" id="editBtn" class="btn btn-primary btnClickToList" value="..." style="width:10px;height:10px;">';
+    var callObject = null;
+    $("body").on("click", '.itemSelect', function (env) {
+        var parentObject = $(this).parent().parent();
+        //console.log(parentObject);
+        var tdData = parentObject.find('td');
+        console.log(tdData);
+        var valPart = $(tdData[0]).text(); 
+        var valData= $(tdData[1]).text();
+        var valLot = $(tdData[2]).text();
+        var valVal= $(tdData[3]).text();
+        var html = $(callObject).html();
+        var classes = $(callObject).attr("class").split(/\s+/);
+        $(callObject).html(origHtml);
+        var divDummy = $(callObject).find('div');
+        if (typeof (divDummy) != "undefined") {
+            $(divDummy).remove();
+        }
+        var strClasslot = '.' + classes[0] + '.mth-lot' + '.' + classes[2];
+        var strClassValue= '.' + classes[0] + '.mth-val' + '.' + classes[2];
+
+        $(strClasslot).html('\u200C' + valLot);
+        $(strClasslot).attr("style", getOldStyle(strClasslot) + ";text-align:center");
+
+        $(strClassValue).html(parseFloat( valVal).toFixed(2) + ' kN');
+        $(strClassValue).attr("style", getOldStyle(strClassValue) + ";text-align:center;");
+        $(strClassValue).attr('nowrap','nowrap');
+
+       
+        $(callObject).append(valPart);
+        $(callObject).attr("style", getOldStyle(callObject) + ";text-align:center");
+
+        console.log(html);
+        $('#lModalPartsList').modal('hide');
+    });
+
+    $("body").on("click", '.btnClickToList', function (env) {
+        var parentObj = $(this).parent();
+        callObject = parentObj;
+        var classList = $(parentObj).attr("class");
+        //.split(/\s+/);
+        var classLists = $(parentObj).attr("class").split(/\s+/);
+        var modelValue = $('.MODEL_ID').val();
+        var yearValue = $('.YEAR_SEL').val();
+        var monthValue = classLists[2];
+        var realMonth = GetMonthName(parseInt(monthValue.replace('mth_', '').substr(0,2)));
+        console.log("modelValue: ", modelValue);
+        var sectionString = '';
+        switch (classLists[0]) {
+            case 'sec51':
+                sectionString = '5-1 W.O.S. : 450mm or W.O.S. 25% <br> ≥9.8kN (With D-ring) or ≥14.7kN (Without D-ring)';
+                break;
+            case 'sec52':
+                sectionString = '5-2 W.O.S. : Full <br> ≥9.8kN (With D-ring) or ≥14.7kN (Without D-ring)';
+                break;
+            case 'sec6':
+                sectionString = '6 Buckle static tensile<br>  ≥9.8kN (Webbing buckle) or ≥14.7kN (Steel buckle)';
+                break;
+            case 'sec7':
+                sectionString = '7 Anchor sewing tensile <br> ≥14.7kN (Webbing sewing with anchor plate)';
+                break;
+        }
+
+        if (modelValue.replace(' ', '') == '') {
+            $('#lModalBodyError').html('Please selecting model first!!!! ');
+            $('#lModalError').modal('show');
+            return;
+        }
+        GetSPC_PARTS(modelValue, yearValue, monthValue.replace('mth_', '').substr(0, 2), classLists[0].replace('sec',''));
+        $('.popupYearVal').val(yearValue);
+        $('.popupMonthVal').val(realMonth);
+        $('.popupModelVal').val(modelValue);
+
+        $('.lb1').html(sectionString);
+        $('#lModalPartsList').modal('show');
+    });
+    function GetMonthName(monthNumber) {
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        return months[monthNumber - 1];
+    }
+
+    function GetSPC_PARTS(modelVal, yearVal, monthVal, secVal) {
+        var urlText = "@Url.Action("SPC_PARTS_LIST", "COPR16_COPRUNNING")";
+        var jdata = {
+            "MODEL": modelVal,
+            "YEAR": yearVal,
+            "MONTH": monthVal,
+            "SEC": secVal
+        }
+        console.log(jdata);
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+
+            dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                var arrayData = new Array();
+                $.each(result.Data, function (iKey,iVal) {
+                    //console.log('iKey', iKey);
+                    //console.log('iVal', iVal);
+                    /**
+                     * SPCC_PART,
+                        SPCC_DATE,
+                        SPCC_LOT,
+                        SPCC_VALUE1,
+                        MODLE_ID
+                     * */
+                    var row = new Array();
+                    row.push(iVal['SPCC_PART'].substr(0,7));
+                    row.push(iVal['SPCC_DATE']);
+                    row.push(iVal['SPCC_LOT']);
+                    row.push(iVal['SPCC_VALUE1']);
+                    row.push('<input type="button" name="selecting" id="selecting" class="itemSelect" value="SELECT">');
+                    arrayData.push(row);
+                });
+                console.log(arrayData);
+                console.log(partTb);
+                if (partTb != null) {
+                    var dt1 = $.fn.dataTable.tables()[0];
+                    $(dt1).DataTable().destroy();
+                   
+                }
+                //nowrap-td
+                partTb = $('.part-list').dataTable({
+                    data: arrayData,
+                    destroy: true,
+                    columnDefs: [{ targets: [1], class: "nowrap-td" }]
+                });
+                /*
+                 * console.log(partTb);
+                if (partTb != null) {
+                    partTb.destroy();
+                    $('.part-list').empty();
+                }
+                partTb = $('.part-list').dataTable({
+                    data:arrayData
+                });
+                */
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalLabelError').html("GET PART FROM SPC DATA");
+                //$('#lModalBodyError').html("Cannot save data : " + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+
+                $('#ModalError').modal('show');
+                $('#lModalError').modal(options);
+                $('#lModalError').modal('show');
+            }
+        });
+    }
+    var partTb = $('.part-list').dataTable({ destroy: true });
+    function hideBtn() {
+        $('.readTemplateBtn').hide();
+        $('.refreshBtn').hide();
+    }
+    function showBtn() {
+        $('.readTemplateBtn').show();
+        $('.refreshBtn').show();
+    }
+
 </script>
