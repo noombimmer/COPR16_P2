@@ -5,175 +5,180 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     var row = 0;
 }
-     <style id="style_local">
-        .dataTables_wrapper {
-            float: left !important;
-            width: 100% !important;
-            margin-left: 0px !important;
-        }
+<style id="style_local">
+    .dataTables_wrapper {
+        float: left !important;
+        width: 100% !important;
+        margin-left: 0px !important;
+    }
 
-        .table_display {
-            overflow: auto !important;
-        }
+    .table_display {
+        overflow: auto !important;
+    }
 
-        table.dataTable thead tr {
-            background-color: #005495;
-            color: #fff;
-        }
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
 
-        table td {
-            white-space: nowrap !important;
-        }
+    table td {
+        white-space: nowrap !important;
+    }
 
-        table.dataTable {
-            margin-left: 0px !important;
-            width: 100% !important;
-            border: thin 0.5px grey !important;
-        }
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+        border: thin 0.5px grey !important;
+    }
 
-        div.dataTables_length {
-            display: none !important;
-        }
+    div.dataTables_length {
+        display: none !important;
+    }
 
-        div.dataTables_filter {
-            display: none !important;
-        }
+    div.dataTables_filter {
+        display: none !important;
+    }
 
-        div.dataTables_paginate {
-            display: none !important;
-        }
+    div.dataTables_paginate {
+        display: none !important;
+    }
 
-        .modal-header {
-            background-color: #005495 !important;
-            color: #ffffff !important;
-        }
+    .modal-header {
+        background-color: #005495 !important;
+        color: #ffffff !important;
+    }
 
-        td.command {
-            flex-flow: nowrap;
-            flex-wrap: nowrap;
-            white-space: nowrap !important;
-        }
+    td.command {
+        flex-flow: nowrap;
+        flex-wrap: nowrap;
+        white-space: nowrap !important;
+    }
 
-        th.command {
-            flex-flow: nowrap;
-            flex-wrap: nowrap;
-            white-space: nowrap !important;
-        }
+    th.command {
+        flex-flow: nowrap;
+        flex-wrap: nowrap;
+        white-space: nowrap !important;
+    }
 
-        .text-center {
-            text-align: center;
-        }
+    .text-center {
+        text-align: center;
+    }
 
-        .no-wrap-th {
-            white-space: nowrap;
-        }
+    .no-wrap-th {
+        white-space: nowrap;
+    }
 
-        .numericCol {
-            text-align: right;
-        }
+    .numericCol {
+        text-align: right;
+    }
 
-        .textCol {
-            text-align: center !important;
-            width: 1% !important;
-            white-space: nowrap;
-            border: 1px solid darkgrey;
-        }
+    .textCol {
+        text-align: center !important;
+        width: 1% !important;
+        white-space: nowrap;
+        border: 1px solid darkgrey;
+    }
 
-        .matrixValue {
-            /*width: 1% !important;*/
-        }
+    .matrixValue {
+        /*width: 1% !important;*/
+    }
 
-        .hiddenCol {
-            display: none !important;
-        }
+    .hiddenCol {
+        display: none !important;
+    }
 
-        .boldText {
-            font-weight: bold;
-        }
+    .boldText {
+        font-weight: bold;
+    }
 
-        .boldTextRow {
-            font-weight: bold;
-            background-color: #cae4f3 !important;
-        }
+    .boldTextRow {
+        font-weight: bold;
+        background-color: #cae4f3 !important;
+    }
 
-        .boldTextRowAcc {
-            font-weight: bold;
-            background-color: #005495 !important;
-            color: #fff !important;
-        }
+    .boldTextRowAcc {
+        font-weight: bold;
+        background-color: #005495 !important;
+        color: #fff !important;
+    }
 
-        .boldTextRowLast td {
-            font-weight: bold;
-            background-color: #7cbcfa !important;
-            border-bottom: 2px double #005495 !important;
-            color: #fff !important;
-        }
+    .boldTextRowLast td {
+        font-weight: bold;
+        background-color: #7cbcfa !important;
+        border-bottom: 2px double #005495 !important;
+        color: #fff !important;
+    }
 
-        .boldTextRowWIthoutID td {
-            font-weight: bold;
-            background-color: #7cbcfa !important;
-            color: #fff !important;
-        }
+    .boldTextRowWIthoutID td {
+        font-weight: bold;
+        background-color: #7cbcfa !important;
+        color: #fff !important;
+    }
 
-        .boldTextRowWithout td {
-            font-weight: bold;
-            background-color: #ffd800 !important;
-            /*border-bottom:2px double #005495 !important;*/
-        }
+    .boldTextRowWithout td {
+        font-weight: bold;
+        background-color: #ffd800 !important;
+        /*border-bottom:2px double #005495 !important;*/
+    }
 
-        .option-list tbody tr td {
-            border: 1px solid darkgrey;
-        }
+    .option-list tbody tr td {
+        border: 1px solid darkgrey;
+    }
 
-        .table_item_totale {
-            vertical-align: middle !important;
-            font-weight: bold !important;
-            text-align: center !important;
-        }
+    .table_item_totale {
+        vertical-align: middle !important;
+        font-weight: bold !important;
+        text-align: center !important;
+    }
 
-        .table_sub_item {
-            vertical-align: middle !important;
-        }
+    .table_sub_item {
+        vertical-align: middle !important;
+    }
 
-        ul.ptest {
-            margin-top: 20px;
-            columns: 2;
-            -webkit-columns: 2;
-            -moz-columns: 2;
-        }
+    ul.ptest {
+        margin-top: 20px;
+        columns: 2;
+        -webkit-columns: 2;
+        -moz-columns: 2;
+    }
 
-        li.ptest {
-            margin-left: 15px;
-        }
+    li.ptest {
+        margin-left: 15px;
+    }
 
-        .hideborder {
-            border-top: 5px solid white !important;
-            border-left: 5px solid white !important;
-            width: 20% !important;
-            text-align: left !important;
-            vertical-align: top !important;
-        }
-        html{
-            overflow:auto !important;
-        }
-        .blueText{
-            color:blue;
-            font-style:italic;
-        }
-        .blueText2{
-            color:blue;
-            font-style:italic;
-            font-weight:normal !important;
-        }
-        .headTitleCaption {
-            text-align:right !important;
-            background-color:#DDEBF7;
-            font-weight:bolder
-        }
-        .table > thead > tr > th{
-            border-bottom: 1px solid #ddd !important;
-        }
-    </style>
+    .hideborder {
+        border-top: 5px solid white !important;
+        border-left: 5px solid white !important;
+        width: 20% !important;
+        text-align: left !important;
+        vertical-align: top !important;
+    }
+
+    html {
+        overflow: auto !important;
+    }
+
+    .blueText {
+        color: blue;
+        font-style: italic;
+    }
+
+    .blueText2 {
+        color: blue;
+        font-style: italic;
+        font-weight: normal !important;
+    }
+
+    .headTitleCaption {
+        text-align: right !important;
+        background-color: #DDEBF7;
+        font-weight: bolder
+    }
+
+    .table > thead > tr > th {
+        border-bottom: 1px solid #ddd !important;
+    }
+</style>
 <h2>ECE R16 Test Result</h2>
 @using (Html.BeginForm())
 {
@@ -215,6 +220,7 @@
             <div class="col-md-offset-1 col-md-10">
                 <input type="button" value="REFRESH" class="btn btn-primary button refreshBtn" />
                 <input type="button" value="EXPORT TO XLS" class="btn btn-primary button exportBtn" />
+                <input type="button" value="SAVE FOR CUSTOMERS" class="btn btn-warning button saveForCustomerBtn" />
             </div>
         </div>
         <div class="form-group">
@@ -241,24 +247,24 @@
                 <th class="no-wrap-th textCol headTitleCaption" style="background-color:#DDEBF7;">Gudgement</th>
 
             </tr>
-            <tr class="rowhead_COPNO" >
+            <tr class="rowhead_COPNO">
 
-                <th class="no-wrap-th textCol headTitleCaption"  style="background-color:#DDEBF7;">COP No.</th>
-                
+                <th class="no-wrap-th textCol headTitleCaption" style="background-color:#DDEBF7;">COP No.</th>
+
             </tr>
-            <tr class="rowhead_Condition" >
+            <tr class="rowhead_Condition">
 
-                <th class="no-wrap-th textCol headTitleCaption"  style="background-color:#DDEBF7;">Condition</th>
-                
+                <th class="no-wrap-th textCol headTitleCaption" style="background-color:#DDEBF7;">Condition</th>
+
             </tr>
             <tr class="rowhead_SummaryBy">
 
-                <th class="no-wrap-th textCol headTitleCaption"  style="background-color:#DDEBF7;">Summary By</th>
+                <th class="no-wrap-th textCol headTitleCaption" style="background-color:#DDEBF7;">Summary By</th>
 
             </tr>
             <tr class="rowhead_ArooveBy">
 
-                <th class="no-wrap-th textCol headTitleCaption"  style="background-color:#DDEBF7;">Approve By</th>
+                <th class="no-wrap-th textCol headTitleCaption" style="background-color:#DDEBF7;">Approve By</th>
 
             </tr>
             <tr style="background-color:#DDEBF7;" class="Header1_result rowhead_Lot">
@@ -267,7 +273,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr >
+            <tr>
                 <td rowspan="12" class="table_item_totale">
                     <b>
                         Initial
@@ -285,36 +291,36 @@
                 <td rowspan="4" class="table_sub_item">VSI Locking</td>
                 <td rowspan="4" class="table_sub_item">4.41m/s2 within 50mm</td>
                 <td>direction 0°</td>
-                
+
 
             </tr>
             <tr class="row_VSILOCKING_90DEG">
 
                 <td>direction 90°</td>
-                
+
             </tr>
             <tr class="row_VSILOCKING_180DEG">
 
                 <td>direction 180°</td>
-                
+
             </tr>
             <tr class="row_VSILOCKING_270DEG">
 
                 <td>direction 270°</td>
-                
+
 
             </tr>
             <tr class="row_WSIUNLOCKING">
                 <td class=" tableexport-string">1-1-2</td>
                 <td>Wsi Unlock</td>
                 <td colspan="2">7.85m/s2  within 50mm</td>
-                
+
             </tr>
             <tr class="row_WSILOCKING">
                 <td class=" tableexport-string">1-1-3</td>
                 <td>Wsi Locking</td>
                 <td colspan="2">29.42m/s2  within 50mm</td>
-                
+
 
             </tr>
             <tr class="row_TILLANGLELOCK_0DEG">
@@ -322,30 +328,30 @@
                 <td rowspan="4" class="table_sub_item">Tilt angle Lock</td>
                 <td rowspan="4" class="table_sub_item">Lock between 12°-27°</td>
                 <td>direction 0°</td>
-                
+
 
             </tr>
             <tr class="row_TILLANGLELOCK_90DEG">
 
                 <td>direction 90°</td>
-                
+
 
             </tr>
             <tr class="row_TILLANGLELOCK_180DEG">
 
                 <td>direction 180°</td>
-                
+
             </tr>
             <tr class="row_TILLANGLELOCK_270DEG">
 
                 <td>direction 270°</td>
-                
+
             </tr>
             <tr class="row_RETRACTIONFORCE">
                 <td class=" tableexport-string">1-2</td>
                 <td>Retraction force</td>
                 <td colspan="2">0.1～0.7daN (1～7N)</td>
-               
+
 
             </tr>
 
@@ -362,7 +368,7 @@
                 <td class=" tableexport-string">2-1-1</td>
                 <td>Durability 40,000 cycles</td>
                 <td colspan="2">No anomaly at sample and part </td>
-                
+
 
 
             </tr>
@@ -370,14 +376,14 @@
                 <td class=" tableexport-string">2-1-2</td>
                 <td>Corrosion</td>
                 <td colspan="2">No anomaly at sample and part</td>
-                
+
 
             </tr>
             <tr class="row_DUSTTEST">
                 <td class=" tableexport-string">2-1-3</td>
                 <td>Dust test</td>
                 <td colspan="2">No anomaly at sample and part</td>
-               
+
 
             </tr>
             <tr class="row_DURABILITY5000">
@@ -385,7 +391,7 @@
                 <td>Durability 5,000 cycles</td>
                 <td colspan="2">No anomaly at sample and part</td>
 
-              
+
 
             </tr>
             <tr>
@@ -396,7 +402,7 @@
                 <td class=" tableexport-string">2-2-1</td>
                 <td>Heat･Cold resistance </td>
                 <td colspan="2">Shall operate normally after condition</td>
-               
+
 
             </tr>
             <tr>
@@ -407,21 +413,21 @@
                 <td class=" tableexport-string">2-3-1</td>
                 <td>Corrosion</td>
                 <td colspan="2">No anomaly at sample and part</td>
-                
+
 
             </tr>
             <tr class="row_REMOVETONGUE">
                 <td class=" tableexport-string">2-3-2</td>
                 <td>Remove tongue durability</td>
                 <td colspan="2">No anomaly at sample and part</td>
-                
+
             </tr>
 
             @* Section 3 *@
             <tr>
                 <td rowspan="12" class="table_item_totale"><b>Post durability performance</b></td>
                 <td style="background-color:#DDEBF7;font-weight:bolder" class=" tableexport-string"><b>3-1</b></td>
-                <td colspan="3" style="background-color:#DDEBF7;font-weight:bolder"  class="Header_3-1"><b>Locking performance post</b></td>
+                <td colspan="3" style="background-color:#DDEBF7;font-weight:bolder" class="Header_3-1"><b>Locking performance post</b></td>
             </tr>
 
             <tr class="row_P_VSILOCKING_0DEG">
@@ -429,32 +435,32 @@
                 <td rowspan="4" class="table_sub_item">VSI Locking</td>
                 <td rowspan="4" class="table_sub_item">4.41m/s2 within 50mm</td>
                 <td>direction 0°</td>
-                
+
 
             </tr>
             <tr class="row_P_VSILOCKING_90DEG">
                 <td>direction 90°</td>
-                
+
             </tr>
             <tr class="row_P_VSILOCKING_180DEG">
                 <td>direction 180°</td>
-                
+
             </tr>
             <tr class="row_P_VSILOCKING_270DEG">
                 <td>direction 270°</td>
-               
+
             </tr>
             <tr class="row_P_WSIUNLOCK">
                 <td class="table_sub_item tableexport-string">3-1-2</td>
                 <td>Wsi Unlock</td>
                 <td colspan="2">7.85m/s2  within 50mm</td>
-                
+
             </tr>
             <tr class="row_P_WSILOCKING">
                 <td class="table_sub_item tableexport-string">3-1-3</td>
                 <td>Wsi Locking</td>
                 <td colspan="2">29.42m/s2  within 50mm</td>
-                
+
 
             </tr>
             <tr class="row_P_TILLANGLELOCK_0DEG">
@@ -462,34 +468,34 @@
                 <td rowspan="4" class="table_sub_item">Tilt angle Lock</td>
                 <td rowspan="4" class="table_sub_item">Lock between 12°-27°</td>
                 <td>direction 0°</td>
-                
+
 
             </tr>
             <tr class="row_P_TILLANGLELOCK_90DEG">
                 <td>direction 90°</td>
-                
+
             </tr>
             <tr class="row_P_TILLANGLELOCK_180DEG">
                 <td>direction 180°</td>
-               
+
             </tr>
             <tr class="row_P_TILLANGLELOCK_270DEG">
                 <td>direction 270°</td>
-                
+
             </tr>
             <tr class="row_P_RETRACTIONFORCE">
                 <td class="table_sub_item tableexport-string">3-2</td>
                 <td>Retraction force</td>
                 <td colspan="2">0.1～0.7daN (1～7N)</td>
-                
+
 
             </tr>
 
             @* Section 4 *@
             <tr>
                 <td rowspan="7" class="table_item_totale"><b> Dynamic Sled test </b></td>
-                <td style="background-color:#DDEBF7;font-weight:bolder" class="table_sub_item tableexport-string" >&nbsp;4</td>
-                <td colspan="3" style="background-color:#DDEBF7;font-weight:bolder"  class="Header_4"><b>Dynamic Sled after condition</b></td>
+                <td style="background-color:#DDEBF7;font-weight:bolder" class="table_sub_item tableexport-string">&nbsp;4</td>
+                <td colspan="3" style="background-color:#DDEBF7;font-weight:bolder" class="Header_4"><b>Dynamic Sled after condition</b></td>
 
 
             </tr>
@@ -498,42 +504,42 @@
                 <td class="table_sub_item tableexport-string">4-1</td>
                 <td>Sample and part</td>
                 <td colspan="2">No separate</td>
-                
+
             </tr>
             <tr class="row_DUMMYMOVEMENT1">
                 <td class="table_sub_item tableexport-string">4-2</td>
                 <td>Dummy movement</td>
                 <td colspan="2">Plevis ：80(40) * ～200mm</td>
-               
+
             </tr>
             <tr class="row_DUMMYMOVEMENT2">
                 <td class="table_sub_item tableexport-string">4-3</td>
                 <td>Dummy movement</td>
                 <td colspan="2">Chest ：100(50)* ～300mm</td>
-               
+
             </tr>
             <tr class="row_DUMMYMOVEMENT3">
                 <td class="table_sub_item tableexport-string">4-4</td>
                 <td>Dummy movement</td>
                 <td colspan="2">** Chest speed：24km/h Max</td>
-                
+
             </tr>
             <tr class="row_RELEASEFORCE">
                 <td class="table_sub_item tableexport-string">4-5</td>
                 <td>Release force with load</td>
                 <td colspan="2">60N Max</td>
-                
+
             </tr>
             <tr class="row_Remark">
-                <td colspan="4" ><b>Remark</b></td>
-                
+                <td colspan="4"><b>Remark</b></td>
+
             </tr>
         </tbody>
     </table>
     <p style="margin-left:80px;" class="Remark_row1">
         <b>* With pretensioner</b>
     </p>
-    <p style="margin-left:80px;"  class="Remark_row2">
+    <p style="margin-left:80px;" class="Remark_row2">
         <b>** In case chest movement more than 300 mm, chest speed at 300mm = 24km/h max and for "Z type" Chest speed can more than 24km/h</b>
     </p>
 </div>
@@ -582,6 +588,48 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal Error -->
+
+
+<div class="modal fade" id="SAVE_FOR_CUST" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">SAVE REPORT FOR CUSTOMERS</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <table style="padding: 15px 15px 15px 15px;">
+                        <tr>
+                            <th style="padding: 15px 15px ;">Model</th>
+                            <th class="modelNameStr" style="padding: 15px 15px ;"></th>
+                        </tr>
+                        <tr>
+                            <th style="padding: 15px 15px;">Year</th>
+                            <th class="yearNameStr" style="padding: 15px 15px;"></th>
+                        </tr>
+                        <tr style="display:none;">
+                            <th style="padding: 15px 15px;">Month</th>
+                            <th class="monthNameStr" style="padding: 15px 15px;"></th>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <button type="button" class="btn btn-primary lSaveBtn">Save</button>
+                        <button type="button" class="btn btn-info lCLosedBtn" data-dismiss="modal">Close</button>&nbsp;
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
 
 <script>
     var tbVar;
@@ -670,7 +718,7 @@
                 var intNum = 0;
                  $.each(parts, function (i, k) {
                     //console.log(k);
-                     
+
                      var strVar = k.APNO + ' / ' + k.BPNO + '';
                      if (k.BPNO.length > 10) {
                          strVar = k.APNO + ' / (' + k.BPNO + ')';
@@ -689,7 +737,7 @@
                 var firstRow = true;
                 $.each(result, function (i, k) {
                     //console.log(k);
-                   
+
                     var row = k;
                     var Gudgement = false;
                     var LotFlag = false;
@@ -1017,7 +1065,7 @@
                     });
                     //updateGudgement()
                     firstRow = false;
-                    
+
                 });
             }
         }
@@ -1509,12 +1557,12 @@
         }
         var col = "<td class=\"no-wrap-th textCol " + colName + "\" style=\"text-align: center !important;\"> " + value + "</td>";
         //$(row).append(col);
-    }    
+    }
     function updateResult() {
         var header1 = "<th class=\"no-wrap - th textCol\" > Result</th>";
         //$('.Header1_result').append(header1);
     }
-    
+
     function updateRowWithColCount() {
         var rows = $('[class*=row_]');
         //console.log(rows);
@@ -1531,7 +1579,7 @@
                         var colName = "col" + i;
                         var objectTD = "<td class=\"no-wrap-th textCol " + colName + "\" style=\"text-align: center !important;\"> -</td>";
                         $(k).append(objectTD);
-                       
+
                     }
                 }
             } else {
@@ -1542,20 +1590,20 @@
                     var colName = "col" + i;
                     var objectTD = "<td class=\"no-wrap-th textCol " + colName + "\" style=\"text-align: center !important;\"> -</td>";
                     $(k).append(objectTD);
-                    
+
                 }
-                
+
             }
 
         });
-        
+
         if (parseInt($('.TOTAL_COP').val()) > 0) {
             $('.exportBtn').removeAttr("disabled");
             /*
             $('.data-step').tableExport({
                 filename: "COPR16_REPORT_" +  $('.MODEL_ID').val(),
                 sheetname: "COPR16_REPORT_" +  $('.MODEL_ID').val() ,
-                position: "top", 
+                position: "top",
                 formats: ["xlsx","xls", "csv", "txt"],
                 bootstrap: true,
                 ignoreRows: "5"
@@ -1597,18 +1645,18 @@
         tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
         var ua = window.navigator.userAgent;
-        var msie = ua.indexOf("MSIE "); 
+        var msie = ua.indexOf("MSIE ");
 
         if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
         {
             txtArea1.document.open("txt/html","replace");
             txtArea1.document.write(tab_text);
             txtArea1.document.close();
-            txtArea1.focus(); 
+            txtArea1.focus();
             sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
-        }  
+        }
         else                 //other browser not tested on IE 11
-            sa = window.open('data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' + encodeURIComponent(tab_text));  
+            sa = window.open('data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' + encodeURIComponent(tab_text));
 
         return (sa);
     }
@@ -1617,7 +1665,7 @@
         var style_sheet = $('#style_local').html();
         var htmls = "";
                 var uri = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8;base64,';
-                var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style>{stylesheet}</style></head><body><table>{table}</table></body></html>'; 
+                var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style>{stylesheet}</style></head><body><table>{table}</table></body></html>';
                 var base64 = function(s) {
                     return window.btoa(unescape(encodeURIComponent(s)))
                 };
@@ -1637,12 +1685,82 @@
                     worksheet: "COPR16_REPORT_" + $('.MODEL_ID').val(),
                     stylesheet: style_sheet,
                     table: htmls
-                    
+
                 }
                 var link = document.createElement("a");
                 link.download = "COPR16_REPORT_" +  $('.MODEL_ID').val() + ".xls";
                 link.href = uri + base64(format(template, ctx));
                 link.click();
     }
+
+    $('.saveForCustomerBtn').click(function () {
+        var modelName = $('.MODEL_ID').val();
+
+        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var monthSel = (new Date()).getMonth();
+        var yearSel = (new Date()).getFullYear();
+        var option = "<select class='form-control' id='monthSel' name='monthSel' ></select>";
+        var input1 = "<input type='text' class='form-control' id='yearSel' name='yearSel' value='" + yearSel + "'/>";
+
+        $('.monthNameStr').html('');
+        $('.monthNameStr').append(option);
+        $('.yearNameStr').html('');
+        $('.yearNameStr').append(input1);
+        $('.modelNameStr').html(modelName);
+
+        for (month = 0; month < monthNames.length; month++) {
+
+            $('#monthSel').append('<option value="' + (parseInt( month) + 1 ) + '"  ' + (monthSel == month ? "Selected" : "") + '>' + monthNames[month] + '</option>');
+        }
+        $("#SAVE_FOR_CUST").modal("show");
+    });
+
+    $('.lSaveBtn').click(function () {
+        var bodyData = $('.table_dsp').html();
+        bodyData = "<div class='table_dsp'>" + bodyData + "</div>";
+
+        var MODEL_ID = $('.MODEL_ID').val();
+        var YEAR = $('#yearSel').val();
+        var USERNAME = $('#UID').val();
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "ModelStr": MODEL_ID,
+            "YearStr": YEAR,
+            "MonthStr": 1,
+            "UserName": USERNAME,
+            "ReportType": 1,
+            "ReportBody": bodyData
+        };
+
+        console.log(jdata);
+
+        var urlText = "@Url.Action("SaveCustReport", "COPR16_RESULT_REPORT")";
+        
+        $.ajax({
+            type: "POST",
+            url: urlText,
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                $('#lModalLabelSuccess').html("SAVE VOLUME REPORT IS SUCCESSED");
+                $('#lModalBodySuccess').html("Save Report Customer's Report Successed");
+                $('#lModalSuccess').modal('show');
+                $('#SAVE_FOR_CUST').modal('hide');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalLabelError').html("Reading SPC TEMPLATE FILE Error");
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                var cmmt = obj.filter('font')[0];
+                console.log(title);
+                $('#lModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML + cmmt.innerHTML);
+                $('#lModalError').modal("show");
+                $('#SAVE_FOR_CUST').modal('hide');
+            }
+        });
+        
+        return false;
+    });
 
 </script>

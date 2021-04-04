@@ -1,0 +1,492 @@
+﻿@model IEnumerable<CM_APPLICATIONS.Models.userRoles>
+
+@{
+    ViewBag.Title = "USER/ROLES";
+}
+
+<h2>USER/ROLES MANAGEMENT</h2>
+
+
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 99% !important;
+        margin-left: 0px !important;
+        ;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+
+    .data-info {
+        background-color: lightgrey;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .full-table {
+        width: 80%;
+    }
+
+    .caption-text {
+        text-align: right;
+        padding-right: 15px;
+    }
+</style>
+@Html.Hidden("hiddenUID", CM_APPLICATIONS.Models.AppPropModel.username)
+@Html.Hidden("hiddenSELECTED_UID", "")
+@Html.AntiForgeryToken()
+<a class="btn btn-primary button btnAddNew" href="#">ADD NEW USER</a>
+<table class="table table-lists stripe">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserRoles)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NeverExpire)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpireDateTime)
+            </th>
+            <th class="username">
+                @Html.DisplayNameFor(model => model.CreateBy)
+            </th>
+            <th class="username">
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+            <th class="command">ACTION</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserRoles)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NeverExpire)
+                </td>
+                <td class="username">
+                    @Html.DisplayFor(modelItem => item.ExpireDateTime)
+                </td>
+                <td class="username">
+                    @Html.DisplayFor(modelItem => item.CreateBy)
+                </td>
+                <td class="username">
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td class="command">
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.MODEL_ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.MODEL_ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.MODEL_ID })*@
+                    @Html.Hidden("hiddenUserName", item.UserName)
+                    @Html.Hidden("hiddenRoles", item.UserRoles)
+                    @Html.Hidden("hiddenNeverExpire", item.NeverExpire)
+                    @Html.Hidden("hiddenExpire", item.ExpireDateTime)
+                    @Html.Hidden("hiddenCreateBy", item.CreateBy)
+                    @Html.Hidden("hiddenCreateDate", item.CreateDate)
+                    @Html.Hidden("hiddenUpdateBy", item.UpdateBy)
+                    @Html.Hidden("hiddenUpdateDate", item.UpdateDate)
+
+                    <a class="btn btn-primary button btnEdit" href="#">Edit</a> |
+                    <a class="btn btn-primary button btnRemove" href="#">Remove</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="modal fade" id="EDITUSER" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">USER</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <table style="padding: 15px 15px 15px 15px;" class="stripe  full-table">
+                        <tr>
+                            <th style="padding: 15px 15px ;" class="caption-text">Name: </th>
+                            <th class="userNameStr data-info"></th>
+                        </tr>
+                        <tr>
+                            <th style="padding: 15px 15px;" class="caption-text">Roles: </th>
+                            <th class="rolesNameStr data-info"></th>
+                        </tr>
+                        <tr>
+                            <th style="padding: 15px 15px;" class="caption-text">Never Expire: </th>
+                            <th class="neverExpireStr data-info"></th>
+                        </tr>
+                        <tr>
+                            <th style="padding: 15px 15px;" class="caption-text">Expire: </th>
+                            <th class="expireStr data-info"></th>
+                        </tr>
+                        <tr>
+                            <th style="padding: 15px 15px;" class="caption-text">Create By: </th>
+                            <th class="createByStr data-info"></th>
+                        </tr>
+                        <tr>
+                            <th style="padding: 15px 15px;" class="caption-text">Create Date: </th>
+                            <th class="createDateStr data-info"></th>
+                        </tr>
+                        <tr>
+                            <th style="padding: 15px 15px;" class="caption-text">Update By: </th>
+                            <th class="updateByStr data-info"></th>
+                        </tr>
+                        <tr>
+                            <th style="padding: 15px 15px;" class="caption-text">Update Date: </th>
+                            <th class="updateDateStr data-info"></th>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <button type="button" class="btn btn-primary lSaveBtn">Save</button>
+                        <button type="button" class="btn btn-info lCLosedBtn" data-dismiss="modal">Close</button>&nbsp;
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+
+<div class="modal fade" id="CONFIRMDELETE" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">DELETING USER</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <H3 class="question1">PLEASE CONFIRM TO DELETE USER : </H3>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <button type="button" class="btn btn-danger lYesBtn">Yes</button>
+                        <button type="button" class="btn btn-info lCLosedBtn" data-dismiss="modal">No</button>&nbsp;
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<script>
+
+    var tbVar = $('.table-lists').DataTable({
+        "paging": true,
+        "ordering": false,
+        "info": true,
+        "stripe": true,
+        "filter": false,
+        "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        "language": {
+            "lengthMenu": "Display  _MENU_  Items / Page",
+            "zeroRecords": "<center style='color:blue;'><b>items not found</b></center>",
+            "info": "Showing _START_-_END_ of _TOTAL_ items",
+            "infoEmpty": "",
+            "infoFiltered": "(filtered from _MAX_ total items)"
+        },
+        columnDefs: [
+            { className: 'text-center', targets: [2] }
+        ]
+    });
+    $('.btnEdit').click(function () {
+        var userNameStr = $(this).parent().find('#hiddenUserName').val();
+        var roleValue = $(this).parent().find('#hiddenRoles').val();
+        var neverExpireValue = $(this).parent().find('#hiddenNeverExpire').val();
+        var expireValue = $(this).parent().find('#hiddenExpire').val();
+        var createbyValue = $(this).parent().find('#hiddenCreateBy').val();
+        var updatebyValue = $(this).parent().find('#hiddenUpdateBy').val();
+        var createDateValue = $(this).parent().find('#hiddenCreateDate').val();
+        var updateDateValue = $(this).parent().find('#hiddenUpdateDate').val();
+
+        console.log(roleValue);
+
+        var userObj = "<input type='text' id='userSel' name='userSel' class='userSel form-control' readonly value='" + userNameStr+"'/>";
+        $('.userSel').remove();
+        $('.userNameStr').append(userObj);
+        //$('.userNameStr').html(userNameStr);
+
+        var RoleObj = "<select id='rolesSel' name='rolesSel' class='rolesSel form-control'></select>";
+        $('.rolesSel').remove();
+        $('.rolesNameStr').append(RoleObj);
+        $('.rolesSel').append("<option " + roleValue.replace("ADMIN", "selected") + " >ADMIN</option>");
+        $('.rolesSel').append("<option " + roleValue.replace("CUSTOMERS", "selected") + " >CUSTOMERS</option>");
+        $('.rolesSel').append("<option " + roleValue.replace("TESTERS", "selected") + " >TESTERS</option>");
+        $('.rolesSel').append("<option " + roleValue.replace("ENGINEERS", "selected") + " >ENGINEERS</option>");
+
+        console.log(neverExpireValue);
+        var neverExpireObj = "<input type='checkbox' id='neverExpireSel' name='neverExpireSel' class='neverExpireSel form-control' " + (neverExpireValue == "True" ? "checked='true'" : "") + ">";
+        $('.neverExpireSel').remove();
+        $('.neverExpireStr').append(neverExpireObj);
+
+        console.log(expireValue);
+        var expireValueObj = "<input type='text' id='expireSel' name='expireSel' class='expireSel form-control' " + (neverExpireValue == "True" ? "disabled='true'" : "") + ">";
+        $('.expireSel').remove();
+        $('.expireStr').append(expireValueObj);
+        if (neverExpireValue != "True") $('.expireSel').datepicker({
+            dateFormat: 'yy-M-dd',
+            buttonImage: "/Content/images/calendar.png"
+        });
+        $('.createByStr').html(createbyValue);
+        $('.updateByStr').html(updatebyValue);
+        $('.createDateStr').html(createDateValue);
+        $('.updateDateStr').html(updateDateValue);
+
+        $('#EDITUSER').modal("show");
+    });
+    $('body').on('change', '.neverExpireSel', function () {
+        var object = $(this).attr("checked");
+        var objectVal = $(this).val();
+        console.log("checked: ", object);
+        console.log("objectVal: ", objectVal);
+        console.log("$(this).is(':checked'): ", $(this).is(':checked'));
+        if ($(this).is(':checked') == true) {
+            $('.expireSel').val('');
+            $('.expireSel').attr("disabled", "disabled");
+        } else {
+            var date = new Date();
+            var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+            $('.expireSel').removeAttr("disabled");
+            $('.expireSel').datepicker({
+                dateFormat: 'yy-M-dd',
+                buttonImage: "/Content/images/calendar.png"
+            });
+            $('.expireSel').val($.datepicker.formatDate("yy-M-dd", lastDay));
+        }
+    });
+    $('.btnRemove').click(function () {
+        var userNameStr = $(this).parent().find('#hiddenUserName').val();
+        $('.question1').html("PLEASE CONFIRM TO DELETE USER : <Label >" + userNameStr + "</Label> ?");
+        $('#hiddenSELECTED_UID').val(userNameStr);
+        $('#CONFIRMDELETE').modal('show');
+    });
+    $('.btnAddNew').click(function () {
+        var userNameStr = $(this).parent().find('#hiddenUserName').val();
+        var roleValue = $(this).parent().find('#hiddenRoles').val();
+        var neverExpireValue = $(this).parent().find('#hiddenNeverExpire').val();
+        var expireValue = $(this).parent().find('#hiddenExpire').val();
+        var createbyValue = $(this).parent().find('#hiddenCreateBy').val();
+        var updatebyValue = $(this).parent().find('#hiddenUpdateBy').val();
+        var createDateValue = $(this).parent().find('#hiddenCreateDate').val();
+        var updateDateValue = $(this).parent().find('#hiddenUpdateDate').val();
+
+        console.log(roleValue);
+
+        var userObj = "<input type='text' id='userSel' name='userSel' class='userSel form-control' />";
+        $('.userSel').remove();
+        $('.userNameStr').append(userObj);
+
+        var RoleObj = "<select id='rolesSel' name='rolesSel' class='rolesSel form-control'></select>";
+        $('.rolesSel').remove();
+        $('.rolesNameStr').append(RoleObj);
+        $('.rolesSel').append("<option " + roleValue.replace("ADMIN", "selected") + " >ADMIN</option>");
+        $('.rolesSel').append("<option " + roleValue.replace("CUSTOMERS", "selected") + " >CUSTOMERS</option>");
+        $('.rolesSel').append("<option " + roleValue.replace("TESTERS", "selected") + " >TESTERS</option>");
+        $('.rolesSel').append("<option " + roleValue.replace("ENGINEERS", "selected") + " >ENGINEERS</option>");
+
+        console.log(neverExpireValue);
+        var neverExpireObj = "<input type='checkbox' id='neverExpireSel' name='neverExpireSel' class='neverExpireSel form-control' " + (neverExpireValue == "True" ? "checked='true'" : "") + ">";
+        $('.neverExpireSel').remove();
+        $('.neverExpireStr').append(neverExpireObj);
+
+        console.log(expireValue);
+        var expireValueObj = "<input type='text' id='expireSel' name='expireSel' class='expireSel form-control' " + (neverExpireValue == "True" ? "disabled='true'" : "") + ">";
+        $('.expireSel').remove();
+        $('.expireStr').append(expireValueObj);
+        if (neverExpireValue != "True") $('.expireSel').datepicker({
+            dateFormat: 'yy-M-dd',
+            buttonImage: "/Content/images/calendar.png"
+        });
+        /*
+        $('.createByStr').html(createbyValue);
+        $('.updateByStr').html(updatebyValue);
+        $('.createDateStr').html(createDateValue);
+        $('.updateDateStr').html(updateDateValue);
+        */
+
+        $('#EDITUSER').modal("show");
+        $('.userSel').focus();
+    });
+
+    function saveUser() {
+        var urlText = "@Url.Action("UserAdd", "MICS")";
+        var options = { "backdrop": "static", keyboard: true };
+        var checkNever = $('.neverExpireSel').is(':checked') ? "1" : "0";
+        var jdata = {
+            "__RequestVerificationToken": $('input[name="__RequestVerificationToken"').val(),
+            uid: $('.userSel').val(),
+            role: $('.rolesSel').val(),
+            expire: $('.expireSel').val(),
+            neverExpire: checkNever,
+            uname: $('#hiddenUID').val()
+        }
+        console.log(jdata);
+        console.log(".---.");
+
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                console.log("result.Data.includes(\"ERROR\"): ", result.Data.includes("ERROR"));
+                if (result.Data.includes("ERROR") > 0) {
+                    $('#lModalLabelError').html("SERVER ERROR");
+                    $('#lModalBodyError').html(result.Data);
+                    $('#lModalError').modal("show");
+                    $('#EDITUSER').modal('hide');
+                } else {
+                    $('#lModalLabelSuccess').html("SAVE SUCCESSED");
+                    $('#lModalBodySuccess').html("Save User Successed");
+                    $('#lModalSuccess').modal('show');
+                    $('#EDITUSER').modal('hide');
+                }
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalLabelError').html("SERVER ERROR");
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                var cmmt = obj.filter('font')[0];
+                console.log(title);
+                $('#lModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML + cmmt.innerHTML);
+                $('#lModalError').modal("show");
+                $('#EDITUSER').modal('hide');
+            }
+        });
+        return false;
+    }
+    function removeUser(userID) {
+        var urlText = "@Url.Action("UserRemove", "MICS")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {
+            "__RequestVerificationToken": $('input[name="__RequestVerificationToken"').val(),
+            uid: userID
+
+        }
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                if (result.Data.includes("ERROR") > 0) {
+                    $('#lModalLabelError').html("SERVER ERROR");
+                    $('#lModalBodyError').html(result.Data);
+                    $('#lModalError').modal("show");
+                    $('#EDITUSER').modal('hide');
+                } else {
+                    $('#lModalLabelSuccess').html("REMOVE SUCCESSED");
+                    $('#lModalBodySuccess').html("Remove User Successed");
+                    $('#lModalSuccess').modal('show');
+                    $('#CONFIRMDELETE').modal('hide');
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalLabelError').html("SERVER ERROR");
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                var cmmt = obj.filter('font')[0];
+                console.log(title);
+                $('#lModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML + cmmt.innerHTML);
+                $('#lModalError').modal("show");
+                $('#CONFIRMDELETE').modal('hide');
+            }
+        });
+        return false;
+    }
+    $('.lYesBtn').click(function(){
+        var tUid = $('#hiddenSELECTED_UID').val();
+        removeUser(tUid);
+    });
+    $('.lSaveBtn').click(function () {
+        saveUser();
+    });
+    $('#lModalSuccess').on('hidden.bs.modal', function (e) {
+        var urlLink = "@Url.Action("USERACCESS","MICS")";
+        var formMenu = "<form id='formMenu' name='formMenu' action='" + urlLink + "' method='POST'></form>";
+        $('body').append(formMenu);
+        $('#formMenu').submit();
+    });
+</script>

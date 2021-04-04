@@ -1536,7 +1536,7 @@ namespace CM_APPLICATIONS.Controllers
                     await db.Database.Connection.OpenAsync();
                 }
 
-                List<GetSeqNextValue1_Result> row = db.GetSeqNextValue("COPRUNNING").ToList();
+                //List<GetSeqNextValue1_Result> row = db.GetSeqNextValue("COPRUNNING").ToList();
 
                 //string lCOPR_ID = row.FirstOrDefault().COPRUN + "-" + PROC_ID + "-00";
                 string lCOPR_ID = COPR_ID;

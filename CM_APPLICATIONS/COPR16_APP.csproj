@@ -335,6 +335,7 @@
     <Compile Include="Controllers\COPR16_WORKFLOWController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MicsController.cs" />
+    <Compile Include="Controllers\COPR16_RESULT_REPORTController.cs" />
     <Compile Include="COPR16_BRAND_MSTR.cs">
       <DependentUpon>COPR16_DBI.tt</DependentUpon>
     </Compile>
@@ -497,7 +498,10 @@
     <Compile Include="Models\ParsingException.cs" />
     <Compile Include="Models\ProcessModel.cs" />
     <Compile Include="Models\ProcessStepsModel.cs" />
+    <Compile Include="Models\ReportTab.cs" />
     <Compile Include="Models\ReturnTypeModel.cs" />
+    <Compile Include="Models\rptModels.cs" />
+    <Compile Include="Models\userRoles.cs" />
     <Compile Include="Models\Utils.cs" />
     <Compile Include="Models\WrkFlwModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -557,8 +561,10 @@
     <Content Include="Content\images\xls.svg" />
     <Content Include="Content\images\xlsx.svg" />
     <Content Include="Content\jquery.dataTables.min.css" />
+    <Content Include="Content\jquery.gridly.css" />
     <Content Include="Content\jquery.qrcode.min.js" />
     <Content Include="Content\js-cop-label.css" />
+    <Content Include="Content\models.css" />
     <Content Include="Content\sort_asc.png" />
     <Content Include="Content\sort_asc_disabled.png" />
     <Content Include="Content\sort_both.png" />
@@ -1026,6 +1032,7 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.gridly.js" />
     <Content Include="Scripts\jQuery.print.js" />
     <Content Include="Scripts\jquery.qrcode2.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -1147,6 +1154,7 @@
     <Content Include="Scripts\qr\js\qrcode-reader.js" />
     <Content Include="Scripts\qr\js\qrcode-reader.min.js" />
     <Content Include="Scripts\README.md" />
+    <Content Include="Scripts\models.js" />
     <Content Include="Scripts\sheetjs\cpexcel.js" />
     <Content Include="Scripts\sheetjs\jszip.js" />
     <Content Include="Scripts\sheetjs\LICENSE" />
@@ -1264,6 +1272,8 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\jquery.gridly.sass" />
+    <Content Include="Content\models.sass" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\COPR16_ITEMS_MSTR\Create.cshtml" />
@@ -1437,6 +1447,7 @@
     <Content Include="Scripts\bootstrap.js.map" />
     <Content Include="Scripts\bootstrap.min.js.map" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery.gridly.coffee" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\sheetjs\xlsx.core.min.map" />
     <Content Include="Scripts\sheetjs\xlsx.full.min.map" />
@@ -1471,6 +1482,13 @@
     <Content Include="Views\COPR16_COPRUNNING\EditAID.cshtml" />
     <Content Include="Views\COPR16_COPRUNNING\EditNONEC.cshtml" />
     <Content Include="Views\COPR16_FILE_IMPORT\importModel.cshtml" />
+    <Content Include="Views\ResultReport\Index.cshtml" />
+    <Content Include="Views\COPR16_RESULT_REPORT\ViewReport.cshtml" />
+    <Content Include="Views\COPR16_RESULT_REPORT\ViewReportModel.cshtml" />
+    <Content Include="Scripts\models.coffee" />
+    <Content Include="Views\COPR16_RESULT_REPORT\ViewReportYears.cshtml" />
+    <Content Include="Views\COPR16_RESULT_REPORT\ViewReportMonths.cshtml" />
+    <Content Include="Views\Mics\USERACCESS.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

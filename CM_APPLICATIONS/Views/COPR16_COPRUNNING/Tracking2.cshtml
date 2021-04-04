@@ -1,9 +1,6 @@
-﻿@model IEnumerable<CM_APPLICATIONS.COPR16_COPRUNNING>
-
-@{
+﻿@{
     ViewBag.Title = "COP RUNNING TRACKING";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var row = 0;
     var ModelList = (List<SelectListItem>)ViewBag.ModelList;
 }
 
@@ -37,11 +34,13 @@
             @Html.Hidden("hidden_MODELS", "")
         </div>
     </div>
-    
+
     <div class="form-group">
         <div class="col-md-offset-1 col-md-10">
             <input type="button" value="REFRESH" class="btn btn-primary button refreshBtn" />
             <input type="button" value="EXPORT TO XLS" class="btn btn-primary button exportBtn" />
+
+            
         </div>
     </div>
 </div>
@@ -52,18 +51,22 @@
         width: 100% !important;
         margin-left: 0px !important;
     }
+
     table.dataTable thead tr {
         background-color: #005495;
         color: #fff;
     }
+
     table td {
         white-space: nowrap !important;
     }
+
     table.dataTable {
         margin-left: 0px !important;
         /*width: 100% !important;*/
         border: thin 0.5px grey !important;
     }
+
     div.dataTables_length {
         display: none !important;
     }
@@ -153,11 +156,12 @@
         margin-top: 0px !important;
         margin-bottom: 0px !important;
     }
-    .textBucle{
+
+    .textBucle {
         text-align: left;
-        white-space:pre-wrap !important;
-        text-wrap:normal !important;
-        border-right:1px solid #808080 !important;
+        white-space: pre-wrap !important;
+        text-wrap: normal !important;
+        border-right: 1px solid #808080 !important;
     }
 </style>
 
@@ -215,6 +219,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal Error -->
+
 <form id="frmMain" name="frmMain" class="frmMain" method="post">
     @Html.AntiForgeryToken()
     @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
@@ -437,7 +442,7 @@
                     rrValue[idx++] = '<center>' + hxAcctt + hDate + hPos + hLine + hModel + strBtn + '</center>';
 
                 } else if (COPQTY != "1" && COPQTY != "" && typeof (COPQTY) != "undefined" && COPQTY.length > 1 && keyValue != null) {
-                    
+
                     var hModel = "<input type='hidden' id='xModel' name='xModel' value='" + xModel + "'>";
                     var hLine = "<input type='hidden' id='xLine' name='xLine' value='" + xLine + "'>";
                     var hPos = "<input type='hidden' id='xPos' name='xPos' value='" + xPos + "'>";
@@ -465,7 +470,7 @@
                             } else {
                                 rrValue[idx++] = '<center>' + '\u200C' + textValue.replace(',', ',<br/>') + '</center>';
                             }
-                            
+
                         }
                     }
                 }
@@ -506,7 +511,7 @@
                         } else {
                             textShow = textShow + textSplitV2[0];
                         }
-                        
+
                     });
                     textValue = textShow;
                 } else {
@@ -554,7 +559,7 @@
 
 
                     //xAcctt
-                    
+
                     var xName = ".ROWOF_COMLT__" + replace(xLine) + "_" + replace(xPos) + " td._x" + i;
                     var xAcctt = $(xName).html();
                     var hxAcctt = "<input type='hidden' id='xAcctt' name='xAcctt' value='" + xAcctt + "'>";
@@ -867,7 +872,7 @@
     var MODEL_REM2 = null;
     */
         $.each(rowsData, function (key, value) {
-            
+
             var rowData = [];
             var i = 0;
             $.each(value, function (ikey, ivalue) {
@@ -881,7 +886,7 @@
             xModel = rowData[0];
             if (xLine == "" ) xLine = rowData[1];
             if (xPos == "") xPos = rowData[3];
-            
+
             if (rowData[1] != lineID) {
                 lineID = rowData[1];
                 posID = rowData[3];
@@ -957,12 +962,12 @@
             } else {
                 //rowData[0] = "";
                 //rowData[1] = "";
-                
+
                 if (rowData[3] != posID) {
                     posID = rowData[3];
                     //xModel = rowData[0];
                     //xLine = rowData[1];
-                    
+
                     //console.log("lIdx -x", lIdx);
                     //console.log("lIdx-y", lIdx);
                     getTT(printTT++, posTT, 6);
@@ -1034,7 +1039,7 @@
                     rowData[0] = "";
                     rowData[1] = "";
                 }
-               
+
             }
             /*
             if (rowData[3] != posID) {
@@ -1055,7 +1060,7 @@
                 text = text + 'LINE: ' + xLine + "\n";
                 text = text + 'POSITION: ' + rowData[2] + "\n";
                 text = text + 'PARTNO: ' + rowData[4] + "\n";
-                
+
                 $(rowNode).find('td').eq(i).addClass("_x" + k);
                 $(rowNode).find('td').eq(i).attr('title', text );
             });
@@ -1084,7 +1089,7 @@
 
             skipFirst = false;
             lIdx++;
- 
+
         });
 
         //** LAST ROW*/
@@ -1228,9 +1233,9 @@
         console.log(jdata);
         //console.log(".---.");
         autoCloseCompleted = false;
-        
+
         if (typeof (tbVar) != "undefined" && tbVar != null) {
-            
+
             tbVar.rows().clear();
         }
         $.ajax({

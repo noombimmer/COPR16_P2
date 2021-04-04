@@ -815,7 +815,10 @@
         $('.qr-code-dsp-a').html("");
         $('.qr-code-dsp-b').html("");
         var varText = $('#cOPR16_COPRUNNING_PROC_ID').val().substring(0, 2);
-        var COP_FULL_DIGIT = "AID" + COPRUNING_NO + "-"+ varText+"-00";
+        var varWRK_ID = $('.WRK_ID').val().replace('COP-AID-','');
+        console.log('updateProc', pText);
+        if (pText.length > 0) varText = pText;
+        var COP_FULL_DIGIT = "AID-" + varText + "-" + varWRK_ID;
         var COP_FULL_DIGIT_A = COP_FULL_DIGIT + "A";
         var COP_FULL_DIGIT_B = COP_FULL_DIGIT + "B";
         if (typeof (sbLabel) != 'undefined') {
@@ -829,11 +832,18 @@
         $('.COPNOB').html(COP_FULL_DIGIT + "<u>B</u>");
 
     }
+    $('.WRK_ID').change(function () {
+        updateProc();
+    });
+    var pText = "";
     //cOPR16_COPRUNNING_COPR_ID
     $("#cOPR16_COPRUNNING_COPR_ID").change(function () {
-        var copid = "AID" + $(this).val();
+        pText = $(this).val().replace('AID-', '');
+        var copid = "AID-" + pText;
         console.log("$(this).val(); ", copid);
-
+        var varWRK_ID = $('.WRK_ID').val().replace('COP-AID-', '');
+        copid = copid + '-' + varWRK_ID;
+        console.log('("#cOPR16_COPRUNNING_COPR_ID").change', varWRK_ID);
         var COP_FULL_DIGIT = copid;
         COPRUNING_NO = copid;
 
@@ -1257,7 +1267,7 @@
         jdata["jsonString"][0] = opdt;
         opdt = {
                 "COPR_ID": COPR_ID,
-                "FGTYPE_ID": "BUNKLE",
+                "FGTYPE_ID": "BUCKLE",
                 "PNO": $('#text-hBKL-PNO').val(),
                 "LOTNO": $('#text-hBKL-LOTNO').val(),
                 "DESC": ""

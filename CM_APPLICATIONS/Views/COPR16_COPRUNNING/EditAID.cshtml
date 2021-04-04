@@ -490,7 +490,7 @@
             </div>
             <div class="modal-body" id="OPTIONS_BODY">
                 <H4>Are you confirm to cancel COPR16 No : <b>@Model.COPNO </b> ?</H4>
-                
+
                 <center>and please type this "@Model.COPNO" in the box : @Html.Editor("cfrmCOPR16NO", new { htmlAttributes = new { @class = "form-control" } }) </center>
             </div>
             <div class="modal-footer">
@@ -509,7 +509,7 @@
             </div>
             <div class="modal-body" id="OPTIONS_BODY">
                 <H4>Please confirm to save COPR16 No : <b>@Model.COPNO </b> ?</H4>
-               
+
             </div>
             <div class="modal-footer">
                 <a class="btn btn-primary button YesSavedAllBtn">YES</a>
@@ -747,6 +747,8 @@
     function updatePosition() {
         //var varText = $('#cOPR16_COPRUNNING_POSITION_ID').val();
         var selObj = document.getElementById("cOPR16_COPRUNNING_POSITION_ID");
+		var SelectPos = ("@Model.cOPR16_COPRUNNING.POSITION_ID").substr(0,2);
+		$('#cOPR16_COPRUNNING_POSITION_ID').val(SelectPos);
         var varCaption = selObj.options[selObj.selectedIndex].text;
         //$('.COPPOSB').html(varCaption);
         //$('.COPPOSA').html(varCaption);
@@ -1122,7 +1124,7 @@
         jdata["jsonString"][0] = opdt;
         opdt = {
                 "COPR_ID": COPR_ID,
-                "FGTYPE_ID": "BUNKLE",
+                "FGTYPE_ID": "BUCKLE",
                 "PNO": $('#text-hBKL-PNO').val(),
                 "LOTNO": $('#text-hBKL-LOTNO').val(),
                 "DESC": ""

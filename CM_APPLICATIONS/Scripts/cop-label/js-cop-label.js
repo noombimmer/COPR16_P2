@@ -218,8 +218,8 @@ $.getScript("/Scripts/jquery.qrcode.min.js", function (data, textStatus, jqxhr) 
         },
         setSB: function (lotText,PartNo) {
             //this.COP_Tr3_TD1.text(textValue.substring(0, 12));
-            this.COP_Tr5_TD1.text(lotText.substring(0, 4));
-            this.COP_Tr5_TD4.text(PartNo.substring(0, 9));
+            this.COP_Tr5_TD1.text(lotText);
+            this.COP_Tr5_TD4.text(PartNo.substring(0, 15));
         },
         setBKL1: function (lotText, PartNo) {
             this.bkl1_partno = PartNo;

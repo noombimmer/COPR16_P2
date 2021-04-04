@@ -1,10 +1,15 @@
 ﻿using CM_APPLICATIONS.Models;
 using CrystalDecisions.CrystalReports.Engine;
 using CrystalDecisions.Shared;
+using Microsoft.Ajax.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -27,7 +32,110 @@ namespace CM_APPLICATIONS.Controllers
             return View();
         }
 
+        [HttpPost]
+        public async Task<ActionResult> USERACCESS()
+        {
+            List<userRoles> userRolesList = new List<userRoles>();
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+            {
+                if(con.State == System.Data.ConnectionState.Closed || con.State == System.Data.ConnectionState.Broken)
+                {
+                    await con.OpenAsync();
+                }
+                string SQLCMD = "exec dbo.COPR16_CUST_REPORT_USELIST";
+                using (var cmd = con.CreateCommand())
+                {
 
+                    cmd.CommandText = SQLCMD;
+                    DbDataReader reader = await cmd.ExecuteReaderAsync();
+                    {
+                        //var model = Utils.Serialize((SqlDataReader)reader);
+                        while (reader.Read())
+                        {
+                            userRoles data = new userRoles();
+                            data.UserName = reader["UID"].ToString();
+                            data.UserRoles = reader["ROLES"].ToString();
+                            data.ExpireDateTime = reader["EXPIRE"] != DBNull.Value ? Convert.ToDateTime(reader["EXPIRE"]) : default(DateTime);                           
+                            data.NeverExpire = reader["NEVER_EXPIRE"] != DBNull.Value ? Convert.ToBoolean(reader["NEVER_EXPIRE"]) : default(bool);
+                            data.CreateDate = reader["CREATEDATE"] != DBNull.Value ? Convert.ToDateTime(reader["CREATEDATE"]): default(DateTime);
+                            data.CreateBy = reader["CREATEBY"].ToString();
+                            data.UpdateDate = reader["UPDATEDATE"] != DBNull.Value ? Convert.ToDateTime(reader["UPDATEDATE"]) : default(DateTime);
+                            data.UpdateBy = reader["UPDATEBY"].ToString();
+
+                            userRolesList.Add(data);
+                        }
+                       
+                    }
+                }
+
+
+            }
+            return View(userRolesList);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> UserRemove(string uid)
+        {
+            JsonResult rowData = new JsonResult();
+            List<userRoles> userRolesList = new List<userRoles>();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+                {
+                    if (con.State == System.Data.ConnectionState.Closed || con.State == System.Data.ConnectionState.Broken)
+                    {
+                        await con.OpenAsync();
+                    }
+                    string SQLCMD = "exec dbo.COPR16_CUST_REPORT_USEREMOVE @UID";
+                    using (var cmd = con.CreateCommand())
+                    {
+                        cmd.CommandText = SQLCMD;
+                        cmd.Parameters.Add(new SqlParameter("@UID", uid));
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+                rowData.Data = "OK";
+            }
+            catch (Exception ex)
+            {
+                rowData.Data = "ERROR: " + ex.Message;
+            }
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> UserAdd(string uid,string role,string expire,string neverExpire,string uname)
+        {
+            JsonResult rowData = new JsonResult();
+            List<userRoles> userRolesList = new List<userRoles>();
+            try
+            {
+                using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
+                {
+                    if (con.State == System.Data.ConnectionState.Closed || con.State == System.Data.ConnectionState.Broken)
+                    {
+                        await con.OpenAsync();
+                    }
+                    string SQLCMD = "exec [dbo].[COPR16_CUST_REPORT_USERADD] @UID, @ROLES, @EXPIRE, @NEVER_EXPIRE, @UNAME ";
+                    using (var cmd = con.CreateCommand())
+                    {
+                        cmd.CommandText = SQLCMD;
+                        cmd.Parameters.Add(new SqlParameter("@UID", uid));
+                        cmd.Parameters.Add(new SqlParameter("@ROLES", role));
+                        cmd.Parameters.Add(new SqlParameter("@EXPIRE", expire == null || expire == "" ? Convert.ToDateTime("2049-Dec-31") : Convert.ToDateTime(expire)));
+                        cmd.Parameters.Add(new SqlParameter("@NEVER_EXPIRE", neverExpire == "0"? 0:1));
+                        cmd.Parameters.Add(new SqlParameter("@UNAME", uname));
+                        await cmd.ExecuteNonQueryAsync();
+                    }
+                }
+                rowData.Data = "OK";
+            }
+            catch (Exception ex)
+            {
+                rowData.Data = "ERROR: " + ex.Message;
+            }
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
         //public JsonResult LABEL_PRINTING()
         public ActionResult LABEL_PRINTING()
         {

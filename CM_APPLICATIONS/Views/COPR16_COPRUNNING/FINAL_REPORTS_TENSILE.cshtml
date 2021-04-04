@@ -28,6 +28,7 @@
         margin-left: 0px !important;
         width: 100% !important;
     }
+
     .nowrap-td {
         white-space: nowrap;
     }
@@ -65,6 +66,7 @@
                 <input type="button" value="READ PART LIST FROM TEMPLATE (4)" class="btn btn-primary button readTemplateBtn" />
                 <input type="button" value="READ SPC DATA (5)" class="btn btn-primary button refreshBtn" />
                 <input type="button" value="EXPORT TO XLS (2,6)" class="btn btn-primary button exportBtn" />
+                <input type="button" value="SAVE FOR CUSTOMERS" class="btn btn-warning button saveForCustomerBtn" />
             </div>
         </div>
     </div>
@@ -558,7 +560,7 @@
 
                 <br />
                 <table width="100%" class="table w3-striped part-list">
-                    <thead >
+                    <thead>
                         <tr>
                             <th>PART NO.</th>
                             <th>DATE</th>
@@ -573,6 +575,43 @@
                 <div class="row">
                     <div class="col-md-12">
                         <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="SAVE_FOR_CUST" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">SAVE REPORT FOR CUSTOMERS</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <table style="padding: 15px 15px 15px 15px;">
+                        <tr>
+                            <th style="padding: 15px 15px ;">Model</th>
+                            <th class="modelNameStr" style="padding: 15px 15px ;"></th>
+                        </tr>
+                        <tr>
+                            <th style="padding: 15px 15px;">Year</th>
+                            <th class="yearNameStr" style="padding: 15px 15px;"></th>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <button type="button" class="btn btn-primary lSaveBtn">Save</button>
+                        <button type="button" class="btn btn-info lCLosedBtn" data-dismiss="modal">Close</button>&nbsp;
+
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -1046,7 +1085,7 @@
         //console.log(parentObject);
         var tdData = parentObject.find('td');
         console.log(tdData);
-        var valPart = $(tdData[0]).text(); 
+        var valPart = $(tdData[0]).text();
         var valData= $(tdData[1]).text();
         var valLot = $(tdData[2]).text();
         var valVal= $(tdData[3]).text();
@@ -1067,7 +1106,7 @@
         $(strClassValue).attr("style", getOldStyle(strClassValue) + ";text-align:center;");
         $(strClassValue).attr('nowrap','nowrap');
 
-       
+
         $(callObject).append(valPart);
         $(callObject).attr("style", getOldStyle(callObject) + ";text-align:center");
 
@@ -1161,7 +1200,7 @@
                 if (partTb != null) {
                     var dt1 = $.fn.dataTable.tables()[0];
                     $(dt1).DataTable().destroy();
-                   
+
                 }
                 //nowrap-td
                 partTb = $('.part-list').dataTable({
@@ -1204,5 +1243,70 @@
         $('.readTemplateBtn').show();
         $('.refreshBtn').show();
     }
+
+    $('.saveForCustomerBtn').click(function () {
+        var modelName = $('.MODEL_ID').val();
+
+        var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        var monthSel = (new Date()).getMonth();
+        var yearSel = $('.YEAR_SEL').val();
+        var option = "<select class='form-control' id='monthSel' name='monthSel' ></select>";
+        var input1 = "<input type='text' class='form-control' id='yearSel' name='yearSel' value='" + yearSel+"'/>";
+        $('.monthNameStr').html('');
+        $('.monthNameStr').append(option);
+        $('.yearNameStr').html('');
+        $('.yearNameStr').append(input1);
+        $('.modelNameStr').html(modelName);
+
+        for (month = 0; month < monthNames.length; month++) {
+            $('#monthSel').append('<option value="' + (parseInt( month) + 1 ) + '"  ' + (monthSel == month ? "Selected" : "") + '>' + monthNames[month] + '</option>');
+        }
+        $("#SAVE_FOR_CUST").modal("show");
+    });
+    $('.lSaveBtn').click(function () {
+        var bodyData = $('.table_dsp').html();
+        bodyData = "<div class='table_dsp'>" + bodyData + "</div>";
+
+        var MODEL_ID = $('.MODEL_ID').val();
+        var YEAR = $('#yearSel').val();
+        var MONTH = $('#monthSel').val();
+        var USERNAME = $('#UID').val();
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "ModelStr": MODEL_ID,
+            "YearStr": YEAR,
+            "MonthStr": 1,
+            "UserName": USERNAME,
+            "ReportType": 2,
+            "ReportBody": bodyData
+        };
+
+        console.log(jdata);
+        var urlText = "@Url.Action("SaveCustReport", "COPR16_RESULT_REPORT")";
+        $.ajax({
+            type: "POST",
+            url: urlText,
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                $('#lModalLabelSuccess').html("SAVE VOLUME REPORT IS SUCCESSED");
+                $('#lModalBodySuccess').html("Save Report Customer's Report Successed");
+                $('#lModalSuccess').modal('show');
+                $('#SAVE_FOR_CUST').modal('hide');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalLabelError').html("SAVE REPORT Error");
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                var cmmt = obj.filter('font')[0];
+                console.log(title);
+                $('#lModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML + cmmt.innerHTML);
+                $('#lModalError').modal("show");
+                $('#SAVE_FOR_CUST').modal('hide');
+            }
+        })
+        return false;
+    });
 
 </script>
