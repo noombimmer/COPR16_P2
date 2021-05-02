@@ -79,6 +79,7 @@
                     @Html.Hidden("text-hBKL-PNO", "")
                     @Html.Hidden("text-hSB-LOTNO", "")
                     @Html.Hidden("text-hBKL-LOTNO", "")
+                    @Html.Hidden("text-hxPos", Model.xPos)
                     <div class="form-group">
                         @Html.LabelFor(model => model.cOPR16_COPRUNNING.COPR_ID, htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-8">
@@ -628,15 +629,16 @@
         var line_no = $('.list_LINE_ID').val();
         var model_no = $('.list_MODEL_ID').val();
         var pos_no = $('.list_POSITION_ID').val();
-
-        var urlText = "@Url.Action("getSBListModel","COPR16_COPRUNNING")";
+        var xpos_str = $('#text-hxPos').val();
+        var urlText = "@Url.Action("getSBListModelwithXPOS","COPR16_COPRUNNING")";
         var options = { "backdrop": "static", keyboard: true };
         var jdata = {
             "__RequestVerificationToken": $('input[name="__RequestVerificationToken"').val(),
             "fg_no": fg_no,
             "model_no": model_no,
             "line_no": line_no,
-            "pos_no": pos_no
+            "pos_no": pos_no,
+            "xpos": xpos_str
         }
         console.log(jdata);
         //console.log(".---.");
@@ -675,7 +677,20 @@
 
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                alert("error:" + errorThrown);
+                //alert("error:" + errorThrown);
+                $('.modal').modal('hide');
+                $('#lModalLabelError').html("List SB PartNo Error");
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(jqXHR);
+                console.log($(obj));
+                console.log(title);
+                console.log(textStatus);
+                console.log(errorThrown);
+                $('#lModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML + jqXHR.responseText);
+                $('#lModalError').modal(options);
+                $('#lModalError').modal('show');
             }
         });
         return false;
@@ -1536,10 +1551,11 @@
                         var selectBtn2 = "<a class='btn btn-primary button bkl_select_btn2' style='margin-top:5px'>SELECT 2nd BLK </a>";
                         var blkArr = result.Data[i].fgtype_id.split(',');
                         var row = tbVarBKL.row.add([
+                            result.Data[i].POS_DESC,
                             result.Data[i].ITEM_ID,
                             result.Data[i].MODLE_ID,
                             result.Data[i].LINE_ID,
-                            result.Data[i].POS_DESC,
+                            
                             ""]).draw(false).node();
                         var hPNO = $("<input type='hidden' value='" + result.Data[i].ITEM_ID + "' id='hBKL-PNO' class='hBKL-PNO'/>");
 
@@ -1561,10 +1577,11 @@
                                 console.log("keyString: ",keyString);
 
                                 var row = tbVarBKL.row.add([
+                                    result.Data[i].POS_DESC,
                                     keyString,
                                     result.Data[i].MODLE_ID,
                                     result.Data[i].LINE_ID,
-                                    result.Data[i].POS_DESC,
+                                    
                                     ""]).draw(false).node();
                                 var hPNO = $("<input type='hidden' value='" + keyString + "' id='hBKL-PNO' class='hBKL-PNO'/>");
 

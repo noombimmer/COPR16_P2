@@ -457,7 +457,33 @@ namespace CM_APPLICATIONS.Controllers
             }
             return Json(rowData, JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> getSBListModelwithXPOS(itemParamsXPOS param1)
+        {
+            JsonResult rowData = new JsonResult();
+            string SQLCMD2 = "exec dbo.COPR16_GetSBWithParamsWithXPOS @item_no,@model_no,@line_no,@xpos";
 
+            List<SqlParameter> param2 = new List<SqlParameter>();
+            //param2.Add(new SqlParameter("@MODEL_ID", model_id == null ? "" : model_id));
+            //await db.Database.ExecuteSqlCommandAsync(SQLCMD2, param2.ToArray());
+
+            using (var cmd = db.Database.Connection.CreateCommand())
+            {
+                await db.Database.Connection.OpenAsync();
+                cmd.CommandText = SQLCMD2;
+                cmd.Parameters.Add(new SqlParameter("@item_no", param1.fg_no == null ? "" : param1.fg_no));
+                cmd.Parameters.Add(new SqlParameter("@model_no", param1.model_no == null ? "" : param1.model_no));
+                cmd.Parameters.Add(new SqlParameter("@line_no", param1.line_no == null ? "" : param1.line_no));
+                cmd.Parameters.Add(new SqlParameter("@xpos", param1.xpos == null ? "" : param1.xpos));
+                DbDataReader reader = await cmd.ExecuteReaderAsync();
+                {
+                    var model = Serialize((SqlDataReader)reader);
+                    rowData.Data = model;
+                }
+            }
+            return Json(rowData, JsonRequestBehavior.AllowGet);
+        }
         // POST: COPR16_COPRUNNING/GetAllItems
         [HttpPost]
         public async Task<JsonResult> GetAllItems(itemParams param1)
@@ -2319,8 +2345,8 @@ namespace CM_APPLICATIONS.Controllers
             model.cOPR16_COPRUNNING = cOPR16_COPRUNNING;
             model.cOPR16_COPRUNNING_DT_List = await db.COPR16_COPRUNNING_DT.Where(l => l.COPR_ID.Equals(SELECTED_COPNO)).ToListAsync();
             model.cOPR16_COPRUNNING_DT_SB = model.cOPR16_COPRUNNING_DT_List.Where(l => l.FGTYPE_ID.Equals("SEATBELT")).FirstOrDefault();
-            model.cOPR16_COPRUNNING_DT_BKL = model.cOPR16_COPRUNNING_DT_List.Where(l => l.FGTYPE_ID.Equals("BUCKLE")).FirstOrDefault();
-            model.cOPR16_COPRUNNING_DT_BKL2 = model.cOPR16_COPRUNNING_DT_List.Where(l => l.FGTYPE_ID.Equals("BUCKLE2")).FirstOrDefault();
+            model.cOPR16_COPRUNNING_DT_BKL = model.cOPR16_COPRUNNING_DT_List.Where(l => l.FGTYPE_ID.Equals("BUNKLE")).FirstOrDefault();
+            model.cOPR16_COPRUNNING_DT_BKL2 = model.cOPR16_COPRUNNING_DT_List.Where(l => l.FGTYPE_ID.Equals("BUNKLE2")).FirstOrDefault();
 
             string SQLCMD = "select * from ( SELECT A.COPR_ID, A.PNO, A.FGTYPE_ID, A.WRK_ID,A.WRKD_ID," +
             "CONCAT(A.MACHINETYPE_ID, ': ', C.MTYPE_NAME) MACHINETYPE_ID, " +

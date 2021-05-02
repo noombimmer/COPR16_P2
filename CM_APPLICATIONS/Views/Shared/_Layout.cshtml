@@ -592,6 +592,8 @@
                                 @Html.ActionLink("COP FINAL REPORT (NON-EC)", "FINAL_REPORTS_NONEC", "COPR16_COPRUNNING", null, null)
                                 @Html.ActionLink("COP TENSILE REPORT", "FINAL_REPORTS_TENSILE", "COPR16_COPRUNNING", null, null)
                                 @Html.ActionLink("COP CUSTOMER REPORTS", "ViewReportModel", "COPR16_RESULT_REPORT", null, null)
+                                //
+                                @Html.ActionLink("TENSILE DATA TOOLS", "Index", "COPR16_TS_TOOLS", null, null)
                             </div>
 
                         </div>
@@ -707,8 +709,8 @@
     @Scripts.Render("~/bundles/FileSaver")
     @Scripts.Render("~/bundles/html2canvas")
     @Scripts.Render("~/bundles/canvas2pdf")
-
-
+    @Scripts.Render("~/bundles/canvas")
+    @Scripts.Render("~/bundles/fixHeader")
     @*@Scripts.Render("~/bundles/FileSaver")*@
     @*<script src="~/Scripts/datatables.min.js"></script>*@
 
@@ -842,6 +844,21 @@
             console.log("%cLast Result Processed in " + globalElapsedTime + " Seconds.", "color:green");
             autoCloseCompleted = true;
         }
+        function enableConpleting() {
+            globalElapsedTime = window.performance.now();
+            DarkenPageWithLoading();
+
+            //console.log(event);
+            //console.log(jqXHR);
+            if (globalVerboseAjax) {
+                console.log("url ajax - " + ajaxOptions.url);
+                if (ajaxOptions.data) {
+                    console.log("Ajax Data:");
+                    console.log(ajaxOptions.data);
+                }
+            }
+        }
+
         function ExcelDateToJSDate(serial) {
             var utc_days = Math.floor(serial - 25569);
             var utc_value = utc_days * 86400;

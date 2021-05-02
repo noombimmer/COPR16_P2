@@ -61,13 +61,21 @@ namespace CM_APPLICATIONS
             
             bundles.Add(new ScriptBundle("~/bundles/canvas2pdf").Include(
                       "~/Scripts/canvas2pdf/canvas2pdf.js"));
+            bundles.Add(new ScriptBundle("~/bundles/canvas").Include(
+                      "~/Scripts/canvasjs.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/fixHeader").Include(
+                      "~/Scripts/dataTables.fixedHeader.min.js"));
+            bundles.Add(new ScriptBundle("~/bundles/responsive").Include(
+                      "~/Scripts/dataTables.responsive.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/themes/jquery-ui.css",
                       "~/Content/themes/jquery-ui.theme.css",
-                      "~/Content/themes/jquery-ui.structure.css"));
+                      "~/Content/themes/jquery-ui.structure.css",
+                      "~/Content/fixedHeader.dataTables.min.css",
+                      "~/Content/responsive.dataTables.min.css"));
             
         }
     }

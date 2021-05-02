@@ -134,7 +134,14 @@ namespace CM_APPLICATIONS.Models
         public string pos_no { get; set; }
 
     }
-
+    public class itemParamsXPOS
+    {
+        public string fg_no { get; set; }
+        public string model_no { get; set; }
+        public string line_no { get; set; }
+        public string pos_no { get; set; }
+        public string xpos { get; set; }
+    }
     public class cop_status
     {
         public string text { get; set; }

@@ -1004,9 +1004,11 @@
                             case "Sled-Test-Chest Speed":
                                 DUMMYMOVEMENT3 = true;
                                 break;
+                            /*
                             case "Release-Force-Initial-Buckle_Release":
                                 RELEASEFOCE = true;
                                 break;
+                            */
                             case "Release-Force-Post-Buckle_Release":
                                 RELEASEFOCE = true;
                                 break;
@@ -1489,17 +1491,17 @@
             var col = "<td class=\"no-wrap-th textCol "+colName+"\" style=\"text-align: center !important;\"> "+ value +"</td>";
             $(row).append(col);
     }
-    function updateDRY24HBKL(value, index) {
-        var row = $('.row_RELEASEFORCE');
-        var colName = "col" + index;
-        if (value == null) {
-            value = "-";
-        } else {
-            value = value.replace(" NEWTON", " N")
-        }
-        var col = "<td class=\"no-wrap-th textCol " + colName + "\" style=\"text-align: center !important;\"> " + value + "</td>";
-        $(row).append(col);
-    }
+    //function updateDRY24HBKL(value, index) {
+    //    var row = $('.row_RELEASEFORCE');
+    //    var colName = "col" + index;
+    //    if (value == null) {
+    //        value = "-";
+    //    } else {
+    //        value = value.replace(" NEWTON", " N")
+    //    }
+    //    var col = "<td class=\"no-wrap-th textCol " + colName + "\" style=\"text-align: center !important;\"> " + value + "</td>";
+    //    $(row).append(col);
+    //}
     function updateResult() {
         var header1 = "<th class=\"no-wrap - th textCol\" > Result</th>";
         $('.Header1_result').append(header1);

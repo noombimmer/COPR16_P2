@@ -72,6 +72,7 @@ namespace CM_APPLICATIONS.Controllers
             }
             return View(userRolesList);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> UserRemove(string uid)

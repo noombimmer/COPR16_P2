@@ -606,8 +606,8 @@ namespace CM_APPLICATIONS.Controllers
             }
 
             model.cOPR16_COPRUNNING_DT_List = await db.COPR16_COPRUNNING_DT.Where(l => l.COPR_ID.Equals(id)).ToListAsync();// QR-CODE
-            model.cOPR16_COPRUNNING_DT_BKL = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("BUNKLE") || l.FGTYPE_ID.Equals("BUCKLE"));// QR-CODE
-            model.cOPR16_COPRUNNING_DT_BKL2 = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("BUNKLE2") || l.FGTYPE_ID.Equals("BUCKLE2"));// QR-CODE
+            model.cOPR16_COPRUNNING_DT_BKL = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("BUNKLE") || l.FGTYPE_ID.Equals("BUNKLE"));// QR-CODE
+            model.cOPR16_COPRUNNING_DT_BKL2 = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("BUNKLE2") || l.FGTYPE_ID.Equals("BUNKLE2"));// QR-CODE
             model.cOPR16_COPRUNNING_DT_SB = model.cOPR16_COPRUNNING_DT_List.Find(l => l.FGTYPE_ID.Equals("SEATBELT"));// QR-CODE
             model.cOPR16_COPRUNNING_RT_List = await db.COPR16_COPRUNNING_RT.Where(l => l.COPR_ID.Equals(id)).ToListAsync(); // test details
             model.cOPR16_WORKFLOW_DT_List = await db.COPR16_WORKFLOW_DT.Where(l => l.WRK_ID.Equals(model.cOPR16_COPRUNNING.WRK_ID)).OrderBy(l => l.WRKD_SEQ).ToListAsync();

@@ -163,13 +163,16 @@
         text-wrap: normal !important;
         border-right: 1px solid #808080 !important;
     }
+    .table .fixedHeader-floating thead tr th .firstCol {
+        width: 155px !important;
+    }
 </style>
 
 <div class="table_dsp">
     <table class="table stripe option-list data-step">
         <thead>
             <tr style="background-color: #005495;color:#fff;border-left:1px solid white !important;">
-                <th class="no-wrap-th textCol" style="border-left: 1px solid white !important;">MODEL No.(S/B)</th>
+                <th class="no-wrap-th textCol firstCol" style="border-left: 1px solid white !important;width:155px;">MODEL No.(S/B)</th>
             </tr>
         </thead>
     </table>
@@ -336,6 +339,7 @@
             "ordering": false,
             "info": false,
             "stripe": true,
+            "fixedHeader": true,
             "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
             "language": {
                 "lengthMenu": "Display _MENU_ items per page",
@@ -947,6 +951,7 @@
                     var rowNode = tbVar.row.add(CopProc2).draw(false).node();
                     setBoldLastRow(rowNode);
                     $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(xLine) + "_" + xPos);
+                    $(rowNode).addClass('LINE-2-ROWOF_COPWITH_' + modelID + "_" + replace(xLine) + "_" + xPos);
                     addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
                     getCOPLOT2(printTT - 1, CopLot2, 6);
@@ -974,7 +979,7 @@
                     posTT[5] = "Total: ";
                     var rowNode = tbVar.row.add(posTT).draw(false).node();
                     setBoldRow(rowNode);
-                    $(rowNode).addClass('ROWOF_TOTAL_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    $(rowNode).addClass('ROWOF_TOTAL_' + modelID + "_" + replace(lineID) + "_" + xPos);
                     addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
                     getACCTT(printTT - 1, AccTT, 6);
@@ -982,14 +987,14 @@
                     AccTT[5] = "Accumulative Total: ";
                     var rowNode = tbVar.row.add(AccTT).draw(false).node();
                     setBoldRowAcc(rowNode);
-                    $(rowNode).addClass('ROWOF_COMLT_' + replace( modelID) + "_" + replace(lineID) + "_" + posID);
+                    $(rowNode).addClass('ROWOF_COMLT_' + replace(modelID) + "_" + replace(lineID) + "_" + xPos);
                     addHintsWithClass(xModel, xLine, xPos, rowNode);
 
                     get5000_EX(printTT - 1, Sampling1, 6, modelID, lineID, lastPos);
                     Sampling1[5] = "Calculate sample require for (1/5000):";
                     var rowNode = tbVar.row.add(Sampling1).draw(false).node();
                     setBoldLastRowWithout(rowNode);
-                    $(rowNode).addClass('ROWOF_WITHOUT_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    $(rowNode).addClass('ROWOF_WITHOUT_' + modelID + "_" + replace(lineID) + "_" + xPos);
                     addHintsWithoutClass(xModel, xLine, xPos, rowNode);
                     $.each(headerRows, function (i, k) {
                         $(rowNode).find('td').eq(i).addClass("_x" + k);
@@ -1000,21 +1005,21 @@
                     CopProc1[5] = "01-Without :";
                     var rowNode = tbVar.row.add(CopProc1).draw(false).node();
                     setBoldLastRowWithoutID(rowNode);
-                    $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + xPos);
                     addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
                     getCOPLOT(printTT - 1, CopLot1, 6);
                     CopLot1[5] = "";
                     var rowNode = tbVar.row.add(CopLot1).draw(false).node();
                     setBoldLastRowWithoutID(rowNode);
-                    $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + xPos);
                     addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
                     get10000(printTT - 1, Sampling2, 5, modelID, lineID);
                     Sampling2[5] = "Calculate sample require for (1/10000):";
                     var rowNode = tbVar.row.add(Sampling2).draw(false).node();
                     setBoldLastRowWithout(rowNode);
-                    $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + xPos);
                     addHintsWithoutClass(xModel, xLine, xPos, rowNode);
                     $.each(headerRows, function (i, k) {
                         $(rowNode).find('td').eq(i).addClass("_x" + k);
@@ -1025,14 +1030,15 @@
                     CopProc2[5] = "02-With Con :";
                     var rowNode = tbVar.row.add(CopProc2).draw(false).node();
                     setBoldLastRow(rowNode);
-                    $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + posID);
+                    $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + xPos);
+                    $(rowNode).addClass('POS-3-ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + xPos);
                     addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
                     getCOPLOT2(printTT - 1, CopLot2, 6);
                     CopLot2[5] = "";
                     var rowNode = tbVar.row.add(CopLot2).draw(false).node();
                     setBoldLastRowWithoutID(rowNode);
-                    $(rowNode).addClass('ROWOF_COPWITHOUT_' + modelID + "_" + replace(lineID) + "_" + xPos);
+                    $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + xPos);
                     addHintsWithoutClass(xModel, xLine, xPos, rowNode);
                     xPos = rowData[3];
                 } else {
@@ -1153,6 +1159,7 @@
         var rowNode = tbVar.row.add(CopProc2).draw(false).node();
         setBoldLastRow(rowNode);
         $(rowNode).addClass('ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + xPos);
+        $(rowNode).addClass('LAST-ROWOF_COPWITH_' + modelID + "_" + replace(lineID) + "_" + xPos);
         addHintsWithoutClass(xModel, xLine, xPos, rowNode);
 
         getCOPLOT2(printTT - 1, CopLot2, 6);
@@ -1386,7 +1393,7 @@
         var xAccttHtml = "<input type='hidden' name='xACCTT' id='xACCTT' value='Accumulative Total: " + accQty+"'>";
         var btnDateHtml = "<input type='hidden' name='btnDate' id='btnDate' value='" + indexDate+"'>";
 
-        var xName = ".ROWOF_COMLT__" + line + "_" + pos + " td._x" + indexDate;
+        var xName = ".ROWOF_COMLT__" + line.replace('.','_') + "_" + pos + " td._x" + indexDate;
         var qty = $(xName).html();
         //showLogE(URLSTR, "URLSTR");
         $("#frmMain").attr("action", URLSTR);
@@ -1399,7 +1406,9 @@
         $("#frmMain").append(xAccttHtml);
         //$(".644194000 td._x03-Feb-2021").attr("style","background-color:black !important;");
         console.log($("#frmMain"));
+
         console.log("xName", xName);
+        console.log("xName Object:", $(".ROWOF_COMLT__" + line.replace('.', '_')  + "_" + pos));
         console.log("qty", qty);
         $("#frmMain").submit();
 
@@ -1446,17 +1455,17 @@
     function exportToExcel() {
         var style_sheet = $('#style_local').html();
         var htmls = "";
-                var uri = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8;base64,';
-                var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style>{stylesheet}</style></head><body><table>{table}</table></body></html>';
-                var base64 = function(s) {
-                    return window.btoa(unescape(encodeURIComponent(s)))
-                };
+        var uri = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8;base64,';
+        var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style>{stylesheet}</style></head><body><table>{table}</table></body></html>';
+        var base64 = function(s) {
+            return window.btoa(unescape(encodeURIComponent(s)))
+        };
 
-                var format = function(s, c) {
-                    return s.replace(/{(\w+)}/g, function(m, p) {
-                        return c[p];
-                    })
-                };
+        var format = function(s, c) {
+            return s.replace(/{(\w+)}/g, function(m, p) {
+                return c[p];
+            })
+        };
         //console.log(style_sheet);
         $('.dataTables_filter').remove();
         htmls = $('.dataTables_wrapper').html().replace(/Create\ COP\(/g, '');
@@ -1464,16 +1473,16 @@
         htmls = htmls.replace(/\[+ (?:(?!\d+ \d+ obj)[\s\S])*?[\s\S]*?\]/g, '');
 
         //console.log(htmls);
-           var ctx = {
-                    worksheet: "COPR16_REPORT_" + $('#FMODELS').val(),
-                    stylesheet: style_sheet,
-                    table: htmls
+        var ctx = {
+                worksheet: "COPR16_REPORT_" + $('#FMODELS').val(),
+                stylesheet: style_sheet,
+                table: htmls
 
-                }
-                var link = document.createElement("a");
-                link.download = "COPR16_REPORT_" +  $('#FMODELS').val() + ".xls";
-                link.href = uri + base64(format(template, ctx));
-                link.click();
+            }
+        var link = document.createElement("a");
+        link.download = "COPR16_REPORT_" +  $('#FMODELS').val() + ".xls";
+        link.href = uri + base64(format(template, ctx));
+        link.click();
     }
     function RefreshModel() {
         var ModelSet = "@ViewBag.ModelSet";

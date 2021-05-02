@@ -1,0 +1,724 @@
+﻿@{
+    ViewBag.Title = "COP TESILE DATA TOOLS ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>COP TESILE DATA TOOLS (Limit maximum rows is 1000)</h2>
+
+<div class="form-horizontal">
+    <div class="form-group">
+        @Html.Label("FROM DATE : ", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.Editor("FROM_DATE", new { htmlAttributes = new { @class = "form-control from-date", @readonly = "true", @name = "FROM_DATE", @style = "width:120px;" } })
+            @Html.Hidden("hidden_FROM_DATE", "")
+            <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-from-date-picker">
+        </div>
+
+    </div>
+    <div class="form-group">
+        @Html.Label("TO DATE : ", htmlAttributes: new { @class = "control-label col-md-1" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.Editor("TO_DATE", new { htmlAttributes = new { @class = "form-control to-date", @readonly = "true", @name = "TO_DATE", @style = "width:120px;" } })
+            @Html.Hidden("hidden_TO_DATE", "")
+            <input type="button" style="width: 40px;position:relative;top:0px;background-image: url(/Content/images/calendar.png);background-position: 0px 0px;background-repeat: no-repeat;background-size: 35px 30px;" class="edit-to-date-picker">
+        </div>
+
+    </div>
+    <div class="form-group">
+        @Html.Label("PART NO : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.Editor("PARTNO", new { htmlAttributes = new { @class = "form-control cpartno", @name = "cPARTNO" } })
+            @Html.Hidden("hidden_PARTNO", "")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("LOT NO : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.Editor("LOTNO", new { htmlAttributes = new { @class = "form-control clotno", @name = "cLOTNO" } })
+            @Html.Hidden("hidden_LOTNO", "")
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Label("FILE NO : ", htmlAttributes: new { @class = "control-label col-md-1", @style = "white-space:nowrap;" })
+        <div class="col-md-10" style="display:flex;flex-wrap:nowrap">
+            @Html.Editor("FILENO", new { htmlAttributes = new { @class = "form-control cfileno", @name = "cFILENO" } })
+            @Html.Hidden("hidden_FILENO", "")
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-1 col-md-10">
+            <input type="button" value="REFRESH" class="btn btn-primary button refreshBtn" />
+            <input type="button" value="EXPORT TO XLS" class="btn btn-primary button exportBtn" />
+
+
+        </div>
+    </div>
+</div>
+
+<style id="style_local">
+        .dataTables_wrapper {
+            float: left !important;
+            width: 100% !important;
+            margin-left: 0px !important;
+        }
+
+        table.dataTable thead tr {
+            background-color: #005495;
+            color: #fff;
+        }
+
+        table td {
+            white-space: nowrap !important;
+        }
+
+        table.dataTable {
+            margin-left: 0px !important;
+            /*width: 100% !important;*/
+            border: thin 0.5px grey !important;
+        }
+
+        /*    div.dataTables_length {
+            display: none !important;
+        }
+
+        div.dataTables_filter {
+            display: none !important;
+        }
+
+        div.dataTables_paginate {
+            display: none !important;
+        }
+    */
+        .modal-header {
+            background-color: #005495 !important;
+            color: #ffffff !important;
+        }
+
+        td.command {
+            flex-flow: nowrap;
+            flex-wrap: nowrap;
+            white-space: nowrap !important;
+        }
+
+        th.command {
+            flex-flow: nowrap;
+            flex-wrap: nowrap;
+            white-space: nowrap !important;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .no-wrap-th {
+            white-space: nowrap;
+        }
+
+        /*    .numericCol {
+            text-align: right;
+        }*/
+
+        .textCol {
+            text-align: left;
+            width: 1% !important;
+            white-space: nowrap;
+        }
+
+        .hiddenCol {
+            display: none !important;
+        }
+
+        .boldText {
+            font-weight: bold;
+        }
+
+        .boldTextRow {
+            font-weight: bold;
+            background-color: #cae4f3 !important;
+        }
+
+        .boldTextRowAcc {
+            font-weight: bold;
+            background-color: #005495 !important;
+            color: #fff !important;
+        }
+
+        .boldTextRowLast td {
+            font-weight: bold;
+            background-color: #7cbcfa !important;
+            border-bottom: 2px double #005495 !important;
+            color: #fff !important;
+        }
+
+        .boldTextRowWIthoutID td {
+            font-weight: bold;
+            background-color: #7cbcfa !important;
+            color: #fff !important;
+        }
+
+        .boldTextRowWithout td {
+            font-weight: bold;
+            background-color: #ffd800 !important;
+            /*border-bottom:2px double #005495 !important;*/
+        }
+
+        .row_header {
+            margin-top: 0px !important;
+            margin-bottom: 0px !important;
+        }
+
+        .textBucle {
+            text-align: left;
+            white-space: pre-wrap !important;
+            text-wrap: normal !important;
+            border-right: 1px solid #808080 !important;
+        }
+
+        tr.header {
+            background-color: #005495;
+            color: #fff;
+        }
+
+        thead tr td.xl65 {
+            background-color: #005495;
+            color: #fff;
+            border: 1px lightgrey solid;
+        }
+
+        tbody tr.odd td {
+            border-left: 0.5px #f2f1f1 solid;
+            border-right: 0.5px #f2f1f1 solid;
+        }
+
+        tbody tr.even td {
+            border-left: 0.5px #f2f1f1 solid;
+            border-right: 0.5px #f2f1f1solid;
+        }
+</style>
+
+<div class="table_dsp">
+    <table class="table stripe option-list data-step">
+        <thead>
+            <tr height="17" style="height:12.75pt" class="header">
+                <td height="17" class="xl65" width="103" style="height:12.75pt;width:77pt">SID</td>
+                <td class="xl65" width="75" style="width:56pt">Part</td>
+                <td class="xl65" width="222" style="width:167pt">Process</td>
+                <td class="xl65" width="40" style="width:30pt">Lot</td>
+                <td class="xl65" width="47" style="width:35pt">Shift</td>
+                <td class="xl65" width="187" style="width:140pt">Employee</td>
+                <td class="xl65" width="89" style="width:67pt">Date</td>
+                <td class="xl65" width="89" style="width:67pt">Time</td>
+                <td class="xl65" width="40" style="width:30pt">Size</td>
+                <td class="xl65" width="40" style="width:30pt">Test</td>
+                <td class="xl65" width="103" style="width:77pt">Model</td>
+                <td class="xl65" width="68" style="width:51pt">COP No</td>
+                <td class="xl65" width="68" style="width:51pt">Filename</td>
+                <td class="xl65" width="96" style="width:72pt">Receive Date<span style="display:none">E</span></td>
+                <td class="xl65" width="96" style="width:72pt">Receive Time</td>
+                <td class="xl65" width="89" style="width:67pt">Insert Test</td>
+                <td class="xl65" width="96" style="width:72pt">Release Test<span style="display:none">T</span></td>
+                <td class="xl65" width="138" style="width:104pt">Cable clamp PLP1.5<span style="display:none">_5</span></td>
+                <td class="xl65" width="166" style="width:125pt">Buckle Tensile (Cable)<span style="display:none">E_</span></td>
+                <td class="xl65" width="166" style="width:125pt">Buckle Tensile (Steel)<span style="display:none">L_</span></td>
+                <td class="xl65" width="180" style="width:135pt">Buckle Tensile (Webbing)<span style="display:none">G_</span></td>
+                <td class="xl65" width="138" style="width:104pt">Buckle mini center<span style="display:none">R</span></td>
+                <td class="xl65" width="110" style="width:83pt">Spring housing<span style="display:none">G</span></td>
+                <td class="xl65" width="110" style="width:83pt">Tongue stopper<span style="display:none">ER</span></td>
+                <td class="xl65" width="201" style="width:151pt">Spindle assy (Safety plate)<span style="display:none">TE_</span></td>
+                <td class="xl65" width="194" style="width:146pt">Spindle assy (Thread head)<span style="display:none">AD_</span></td>
+                <td class="xl65" width="187" style="width:140pt">Spindle assy (Lock plate)<span style="display:none">E_</span></td>
+                <td class="xl65" width="159" style="width:119pt">Spindle assy (Pinion)<span style="display:none">_</span></td>
+                <td class="xl65" width="103" style="width:77pt">Anchor Sewing<span style="display:none">NG</span></td>
+                <td class="xl65" width="138" style="width:104pt">Cable clamp PLP1.3<span style="display:none">_3</span></td>
+                <td class="xl65" width="152" style="width:114pt">Tube crimping PLP1.5<span style="display:none">5</span></td>
+                <td class="xl65" width="215" style="width:161pt">Retractor Tensile (25% / 450)<span style="display:none">0_</span></td>
+                <td class="xl65" width="82" style="width:62pt">Pin Sewing</td>
+                <td class="xl65" width="180" style="width:135pt">Retractor Tensile (Full)<span style="display:none">L_</span></td>
+                <td class="xl65" width="103" style="width:77pt">Bearing plate<span style="display:none">E</span></td>
+                <td class="xl65" width="152" style="width:114pt">Tube crimping PLP1.3<span style="display:none">3</span></td>
+                <td class="xl65" width="166" style="width:125pt">PLP assy (Performance)<span style="display:none">CE_</span></td>
+                <td class="xl65" width="152" style="width:114pt">Spindle assy (T-bar)<span style="display:none">R_</span></td>
+                <td class="xl65" width="201" style="width:151pt">Spindle assy (Spindel Ring)<span style="display:none">G_</span></td>
+                <td class="xl65" width="152" style="width:114pt">Rivet push off force<span style="display:none">CE</span></td>
+                <td class="xl65" width="180" style="width:135pt">Spindle ( Steel Insert )<span style="display:none">_</span></td>
+                <td class="xl65" width="159" style="width:119pt">Separation thead head<span style="display:none">AD</span></td>
+                <td class="xl65" width="187" style="width:140pt">Tongue stopper separation<span style="display:none">TION</span></td>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div class="modal fade" id="lModalGraph" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Graphical Chart</h4>
+            </div>
+            <div class="modal-body">
+                <div id="chartContainer" style="height: 400px; width: 500px;background:none;" ></div>
+                <br />
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary button pull-right lSuccesscloseBtn btn-primary" data-dismiss="modal" style="margin:2px;">Close</button>&nbsp; &nbsp;
+                        <button type="button" class="btn btn-primary button pull-right lExportXls btn-success" data-dismiss="modal" style="margin:2px;">Export To Excel</button>&nbsp; &nbsp;
+                        <button type="button" id="lCopy" name="lCopy" class="btn btn-primary button pull-right lCopy btn-warning" data-dismiss="modal" style="margin:2px;">Copy</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+
+<form id="frmMain" name="frmMain" class="frmMain" method="post">
+    @Html.AntiForgeryToken()
+    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+    <input type="hidden" name="frmFileCode" id="frmFileCode" value=""/>
+</form>
+<script>
+    var tbVar;
+
+    $('.to-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.from-date').datepicker({
+        dateFormat: 'yy-M-dd',
+        buttonImage: "/Content/images/calendar.png"
+    });
+    $('.edit-from-date-picker').click(function () {
+        $('.from-date').datepicker("setDate", $('.from-date').val());
+        $('.from-date').datepicker('show');
+    });
+    $('.edit-to-date-picker').click(function () {
+        $('.to-date').datepicker("setDate", $('.to-date').val());
+        $('.to-date').datepicker('show');
+    });
+</script>
+<script>
+    function setDefDate() {
+        var date = new Date();
+        var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+        var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+        $('.from-date').val($.datepicker.formatDate("yy-M-dd", firstDay));
+        $('.to-date').val($.datepicker.formatDate("yy-M-dd", lastDay));
+
+        tbVar = $('.data-step').DataTable({
+            "destroy": true,
+            "paging": true,
+            "ordering": true,
+            "info": true,
+            "stripe": true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+            "language": {
+                "lengthMenu": "Display _MENU_ items per page",
+                "zeroRecords": "No items view",
+                "info": "Showing _START_-_END_ of _TOTAL_ items",
+                "infoEmpty": "No Items to view",
+                "infoFiltered": "(filtered from _MAX_ total items)"
+            },
+
+        });
+    }
+    setDefDate();
+</script>
+<script>
+    //var headerRows = [];
+    //var ADATA = null;
+    //var ACCDATA = null;
+    //var COPNODATA = null;
+    //var COPQTYDATA = null;
+    //var COPQTYEXDATA = null;
+    //var allAcc = 0;
+    //var row_index_summary = 0;
+    //var COPQTY_SUMMARY1 = null;
+    //var COPQTY_SUMMARY2 = null;
+    //var COPQTY_SUGGESTION1 = null;
+    //var COPQTY_SUGGESTION2 = null;
+    //var MODEL_REM1 = null;
+    //var MODEL_REM2 = null;
+    //var xModel = "";
+    //var xLine = "";
+    //var xPos = "";
+    //var xDate = "";
+    //var xAcctt = "";
+    //var COP1_QTY = 0;
+    //var COP2_QTY = 0;
+
+
+    function showLogE(str,name) {
+        //console.log("Show--Log-----" + name);
+        console.log(str);
+        //console.log("Show--Log-----END-" + name);
+    }
+    function showLog(str) {
+        //console.log("Show--Log-----BEGIN");
+        console.log(str);
+        //console.log("Show--Log-----END");
+    }
+    function digits(text) {
+        return this.each(function () {
+            text(text().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+        })
+    }
+    function replace(StrVar) {
+        StrVar = StrVar.replace(".", "_")
+        return StrVar.replace(" ","_");
+    }
+    function refreshData() {
+        var fromDate = $('.from-date').val();
+        var toDate = $('.to-date').val();
+        var partno = $('.cpartno').val();
+        var lotno = $('.clotno').val();
+        var filecode = $('.cfileno').val();
+        //string date_from, string date_to, string partno, string lotno, string filecode
+        var urlText = "@Url.Action("getSPCList", "COPR16_TS_TOOLS")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {
+            "__RequestVerificationToken": $('input[name="__RequestVerificationToken"').val(),
+            "date_from": fromDate,
+            "date_to": toDate,
+            "partno": partno,
+            "lotno": lotno,
+            "filecode": filecode
+        };
+        console.log(jdata);
+        //console.log(".---.");
+        autoCloseCompleted = false;
+
+
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                if (typeof (tbVar) != "undefined" && tbVar != null) {
+
+                    tbVar.rows().clear();
+                }
+                var dataTb= [];
+                $.each(result.Data, function (i, k) {
+                    var dataRow = [];
+                    var colId = 0;
+                    $.each(k, function (ki, kk) {
+                        if (ki == "FileID") {
+                            //console.log("ki:",ki," kk:",kk);
+                        } else if (ki == "FILENAME") {
+                            if (k["FileID"] != null) {
+                                //console.log("[" + k["FileID"] + "]");
+                                var hidenValue = "<input type='hidden' id='FILECODE' name='FILECODE' class='FILECODE' value='" + kk +"'/>";
+                                dataRow.push(kk + hidenValue + "&nbsp;<input type='image' class='gBtn' src='/Content/images/g.jpg' value='Graph' width='30px' style='border=2px solid darkgrek;'/>");
+                            } else {
+                                dataRow.push(kk);
+                            }
+                        }
+                        else {
+                            dataRow.push(kk);
+                        }
+
+                        colId++;
+                    });
+                    dataTb.push(dataRow);
+                });
+                console.log(dataTb);
+
+                tbVar = $('.data-step').DataTable({
+                    "data": dataTb,
+                    "destroy": true,
+                    "paging": true,
+                    "ordering": true,
+                    "info": true,
+                    "stripe": true,
+                    "fixedHeader": true,
+                    "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+                    "language": {
+                        "lengthMenu": "Display _MENU_ items per page",
+                        "zeroRecords": "No items view",
+                        "info": "Showing _START_-_END_ of _TOTAL_ items",
+                        "infoEmpty": "No Items to view",
+                        "infoFiltered": "(filtered from _MAX_ total items)"
+                    },
+
+                });
+                row_index_summary = 0;
+                closeConpleting();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                //$('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalBodyError').html(jqXHR.responseText);
+                $('#lModalError').modal("show");
+                closeConpleting();
+            }
+        });
+
+    }
+    $('.refreshBtn').click(function () {
+        refreshData();
+    });
+    $('.exportBtn').click(function () {
+        exportToExcel();
+    });
+    function exportToExcel() {
+        var style_sheet = $('#style_local').html();
+        var htmls = "";
+                var uri = 'data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8;base64,';
+                var template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><style>{stylesheet}</style></head><body><table>{table}</table></body></html>';
+                var base64 = function(s) {
+                    return window.btoa(unescape(encodeURIComponent(s)))
+                };
+
+                var format = function(s, c) {
+                    return s.replace(/{(\w+)}/g, function(m, p) {
+                        return c[p];
+                    })
+                };
+        //console.log(style_sheet);
+        $('.dataTables_filter').remove();
+        htmls = $('.dataTables_wrapper').html().replace(/Create\ COP\(/g, '');
+        htmls = htmls.replace(/\)\'/g, '');
+        htmls = htmls.replace(/\[+ (?:(?!\d+ \d+ obj)[\s\S])*?[\s\S]*?\]/g, '');
+
+        //console.log(htmls);
+           var ctx = {
+                    worksheet: "COPR16_REPORT_" + $('#FMODELS').val(),
+                    stylesheet: style_sheet,
+                    table: htmls
+
+                }
+                var link = document.createElement("a");
+                link.download = "COPR16_REPORT_" +  $('#FMODELS').val() + ".xls";
+                link.href = uri + base64(format(template, ctx));
+                link.click();
+    }
+    $("body").on("click", ".gBtn", function (ev) {
+        $("#lModalGraph").modal("show");
+        var p = $(this).parent();
+        var filecode = $(p).find("#FILECODE").val();
+        $("#frmFileCode").val(filecode);
+        var urlText = "@Url.Action("getTSChartDataList", "COPR16_TS_TOOLS")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {
+            "__RequestVerificationToken": $('input[name="__RequestVerificationToken"').val(),
+            "filecode": filecode
+        };
+        console.log(jdata);
+        //console.log(".---.");
+        autoCloseCompleted = false;
+
+
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                var valMaxX = 0;
+                var valMaxy = 0;
+                var dataTb = [];
+                $("#lModalLabelSuccess").html("Graphical Chart : " + filecode);
+                $.each(result.Data, function (i, k) {
+
+                    var colId = 0;
+                    if (k["MAXY"] == k["YDec"]) {
+                        var maxData = k["YDec"];
+                        var dChart = {
+                            y: k["YDec"],
+                            x: k["XDec"], indexLabel: " " + maxData, indexLabelLineColor: "Black", indexLabelLineThickness: 1
+                        }
+                        dataTb.push(dChart);
+                    } else {
+                        var dChart = {
+                            y: k["YDec"],
+                            x: k["XDec"]
+                        }
+                        dataTb.push(dChart);
+                    }
+                    if (valMaxX < k["XDec"]) {
+                        valMaxX = k["XDec"];
+                    }
+                    if (valMaxy < k["YDec"]) {
+                        valMaxy = k["YDec"];
+                    }
+
+                });
+                //console.log(dataTb);
+                //console.log(result);
+                var axisXoffset = 20;
+                var axisXinterval = 20;
+                if (valMaxX > 10 && valMaxX <= 15) {
+                    axisXoffset = 20;
+                } else if (valMaxX < 10) {
+                    axisXoffset = 15;
+                } else if (valMaxX < 5) {
+                    axisXoffset = 10;
+                } else if (valMaxX < 1) {
+                    axisXoffset = 1;
+                } else if (valMaxX > 20 && valMaxX < 25) {
+                    axisXoffset = 5;
+                    axisXinterval = 10;
+                }
+                var axisYoffset = 15;
+                var axisYinterval = 10;
+                if (valMaxy < 1 && valMaxy >= 0.5 ) {
+                    axisYoffset = 1;
+                    axisYinterval = 0.5
+                } else if (valMaxy < 0.5 ) {
+                    axisYoffset = 0.5;
+                    axisYinterval = 0.25
+                }
+                var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                    theme: "light2",
+                    title: {
+                        text: ""
+                    },
+                    data: [{
+                        type: "line",
+                        indexLabelFontSize: 16,
+                        dataPoints: dataTb
+                    }],
+                    axisX: {
+                        minimum: 0,
+                        maximum: valMaxX + axisXoffset,
+                        interval: axisXinterval,
+                        title: "mm"
+                    },
+                    axisY: {
+                        minimum: 0,
+                        maximum: valMaxy + axisYoffset,
+                        interval: axisYinterval,
+                        title: "kN"
+                    }
+                });
+                chart.render();
+                closeConpleting();
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                //$('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalBodyError').html(jqXHR.responseText);
+                $('#lModalError').modal("show");
+                closeConpleting();
+            }
+        });
+
+    });
+
+    document.getElementById("lCopy").addEventListener("click", function () {
+        html2canvas(document.querySelector("#chartContainer")).then(canvas => canvas.toBlob(blob => navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])));
+    });
+    //lExportXls
+    $("body").on("click", ".lExportXls", function (ev) {
+        enableConpleting();
+        var urlText = "@Url.Action("getTSChartDataExcel", "COPR16_TS_TOOLS")";
+        var options = { "backdrop": "static", keyboard: true };
+        var p = $(this).parent();
+        var varfilecode = $("#frmFileCode").val();
+        var verifyObect = $('input[name="__RequestVerificationToken"');
+        var jdata = { filecode: varfilecode }
+        var obj1 = "<input type='hidden' name='frmFileCode' id='frmFileCode' value='' />";
+        var filecodeObject = "<input type='hidden' name='filecode' id='filecode' value='" + varfilecode + "' />";
+        $(".frmMain").html('');
+        $(".frmMain").append(filecodeObject);
+        $(".frmMain").append(obj1);
+        $(".frmMain").append(verifyObect);
+        $(".frmMain").attr("action","@Url.Action("getTSChartDataExcel", "COPR16_TS_TOOLS")");
+        $(".frmMain").submit();
+        closeConpleting();
+        /*
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(jqXHR);
+                //$('#lModalBodyError').html("error:" + errorThrown);
+                $('#lModalBodyError').html(jqXHR.responseText);
+                $('#lModalError').modal("show");
+                closeConpleting();
+            }
+        });
+        */
+    });
+
+    //cpartno
+    $("body").on("keypress", ".cpartno", function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            refreshData();
+        }
+    });
+    //clotno
+    $("body").on("keypress", ".clotno", function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            refreshData();
+        }
+    });
+    //cfileno
+    $("body").on("keypress", ".cfileno", function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            refreshData();
+        }
+    });
+</script>
