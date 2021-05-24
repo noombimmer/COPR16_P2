@@ -19,6 +19,9 @@
 	html{
 		overflow: auto !important;
 	}
+        .cop-label-td-part-type {
+            width: 1% !important;
+        }
         .modal-title {
             color: white;
         }
@@ -905,6 +908,7 @@
                 });
                 $(temp).addClass("select-menu");
             });
+
             $('.body-area').hover(function (i) {
 
                 $(".select-menu").each(function (idx) {
@@ -918,6 +922,7 @@
                 "paging": true,
                 "ordering": true,
                 "info": true,
+                "FixedHeader": true,
                 "stripe": true,
                 "language": {
                     "lengthMenu": "Display _MENU_ records per page",

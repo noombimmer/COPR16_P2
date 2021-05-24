@@ -1402,6 +1402,8 @@
 <script>
 
     var bklNo = 0;
+    var bklLot1 = "", bklLot2 = "";
+
     $("body").on("click", '.close-select-Btn', function (env) {
         $('#SELECT-SB-DLG').modal('hide');
          $('#SELECT-BKL-DLG').modal('hide');
@@ -1469,6 +1471,14 @@
         var MODEL_NO = $('.MODEL_ID').val();
         var options = { "backdrop": "static", keyboard: true };
 
+        if (bklNo == 1) {
+            bklLot1 = LOTNO;
+        }
+        if (bklNo == 2) {
+            bklLot2 = LOTNO;
+            LOTNO = bklLot1 + ", " + bklLot2;
+        }
+
         if (bklNo == 1 && (sbLabel.getbkl1(LOTNO, PNO) || sbLabel.getbkl1(LOTNO, (res.length > 1 ? res[0] : PNO))) && LOTNO == $('.COPBKLLOTA').val()) {
             $('#SELECT-BKL-DLG').modal('hide');
             $('#lModalLabelError').html("Select Buckle ");
@@ -1487,12 +1497,12 @@
         }
         else {
             if (bklNo == 1) {
-                sbLabel.setBKL1(LOTNO, (res.length > 1 ? res[0] : PNO));
-                bklLabel.setBKL1(LOTNO, (res.length > 1 ? res[0] : PNO));
+                sbLabel.setBKL1(bklLot1, (res.length > 1 ? res[0] : PNO));
+                bklLabel.setBKL1(bklLot1, (res.length > 1 ? res[0] : PNO));
             }
             if (bklNo == 2) {
-                sbLabel.setBKL2(LOTNO, (res.length > 1 ? res[1] : PNO));
-                bklLabel.setBKL2(LOTNO, (res.length > 1 ? res[1] : PNO));
+                sbLabel.setBKL2(bklLot2, (res.length > 1 ? res[1] : PNO));
+                bklLabel.setBKL2(bklLot2, (res.length > 1 ? res[1] : PNO));
             }
             $('.COPMODELA').html(MODEL_NO);
             $('.COPMODELB').html(MODEL_NO);
@@ -1503,8 +1513,8 @@
             $('.COPBKLLOTB').html(LOTNO);
             $('#text-hBKL-PNO').val(PNO);
             //getBklLots
-            //$('#text-hBKL-LOTNO').val(LOTNO);
-            $('#text-hBKL-LOTNO').val(sbLabel.getBklLots());
+            $('#text-hBKL-LOTNO').val(LOTNO);
+            //$('#text-hBKL-LOTNO').val(sbLabel.getBklLots());
         }
     });
 

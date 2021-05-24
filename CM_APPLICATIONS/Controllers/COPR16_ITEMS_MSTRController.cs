@@ -676,6 +676,7 @@ namespace CM_APPLICATIONS.Controllers
             rowData.Data = rowsReturn;
             return Json(rowData, JsonRequestBehavior.AllowGet);
         }
+        [AsyncTimeout(600000)]
         public async Task<JsonResult> GetVolTrackingByModel(VolumeMatrixParams parms)
         {
             var rowData = new JsonResult();
@@ -684,10 +685,13 @@ namespace CM_APPLICATIONS.Controllers
             
             using (SqlConnection con = new SqlConnection(ConfigurationManager.AppSettings["DatabaseServer"].ToString()))
             {
+               
+
                 await con.OpenAsync();
 
                 using (SqlCommand cmd = con.CreateCommand())
                 {
+                    cmd.CommandTimeout = 60000;
                     cmd.CommandText = "exec COPR16_GET_PART_VOLUM_TRACKING_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID";
                     cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
                     cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
@@ -703,6 +707,7 @@ namespace CM_APPLICATIONS.Controllers
                 }
                 using (SqlCommand cmd = con.CreateCommand())
                 {
+                    cmd.CommandTimeout = 60000;
                     cmd.CommandText = "exec COPR16_GET_SUM_VOLUM_TRACKING_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID";
                     cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
                     cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
@@ -718,6 +723,7 @@ namespace CM_APPLICATIONS.Controllers
                 }
                 using (SqlCommand cmd = con.CreateCommand())
                 {
+                    cmd.CommandTimeout = 60000;
                     cmd.CommandText = "exec COPR16_GET_ACC_VOLUM_TRACKING_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID";
                     cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
                     cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
@@ -733,6 +739,7 @@ namespace CM_APPLICATIONS.Controllers
                 }
                 using (SqlCommand cmd = con.CreateCommand())
                 {
+                    cmd.CommandTimeout = 60000;
                     cmd.CommandText = "exec COPR16_GET_CONDITION_TRIGGER_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID,@COP_TYPE";
                     cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
                     cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
@@ -749,6 +756,7 @@ namespace CM_APPLICATIONS.Controllers
                 }
                 using (SqlCommand cmd = con.CreateCommand())
                 {
+                    cmd.CommandTimeout = 60000;
                     cmd.CommandText = "exec COPR16_GET_CONDITION_TRIGGER_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID,@COP_TYPE";
                     cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
                     cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
@@ -764,6 +772,7 @@ namespace CM_APPLICATIONS.Controllers
                 }
                 using (SqlCommand cmd = con.CreateCommand())
                 {
+                    cmd.CommandTimeout = 60000;
                     cmd.CommandText = "exec COPR16_GET_COPNO_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID,@COP_TYPE";
                     cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
                     cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
@@ -779,6 +788,7 @@ namespace CM_APPLICATIONS.Controllers
                 }
                 using (SqlCommand cmd = con.CreateCommand())
                 {
+                    cmd.CommandTimeout = 60000;
                     cmd.CommandText = "exec COPR16_GET_COPNO_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID,@COP_TYPE";
                     cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
                     cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
@@ -794,6 +804,7 @@ namespace CM_APPLICATIONS.Controllers
                 }
                 using (SqlCommand cmd = con.CreateCommand())
                 {
+                    cmd.CommandTimeout = 60000;
                     cmd.CommandText = "exec COPR16_GET_COPLOT_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID,@COP_TYPE";
                     cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
                     cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
@@ -809,6 +820,7 @@ namespace CM_APPLICATIONS.Controllers
                 }
                 using (SqlCommand cmd = con.CreateCommand())
                 {
+                    cmd.CommandTimeout = 60000;
                     cmd.CommandText = "exec COPR16_GET_COPLOT_BY_MODEL @FROM_DT,@TO_DT,@MODEL_ID,@COP_TYPE";
                     cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
                     cmd.Parameters.Add(new SqlParameter("@TO_DT", parms.TO_DATE));
@@ -824,6 +836,7 @@ namespace CM_APPLICATIONS.Controllers
                 }
                 using (SqlCommand cmd = con.CreateCommand())
                 {
+                    cmd.CommandTimeout = 60000;
                     cmd.CommandText = "exec COPR16_GET_LAST_VOL_BY_MODEL @FROM_DT,@MODEL_ID";
                     cmd.Parameters.Add(new SqlParameter("@FROM_DT", parms.FROM_DATE));
                     cmd.Parameters.Add(new SqlParameter("@MODEL_ID", parms.MODEL_ID == null ? "" : parms.MODEL_ID));

@@ -1465,6 +1465,8 @@
 </script><!-- /Script For Select Seat Belt -->
 <script>
     var bklNo = 0;
+    var bklLot1 = "", bklLot2 = "";
+
     $("body").on("click", '.close-select-Btn', function (env) {
         $('#SELECT-SB-DLG').modal('hide');
         $('#SELECT-BKL-DLG').modal('hide');
@@ -1532,7 +1534,25 @@
         var LOTNO = $('.CONFIRM-BKL-LOTNO').val();
         var MODEL_NO = $('.MODEL_ID').val();
         var options = { "backdrop": "static", keyboard: true };
+        var resLot = LOTNO.split(",", 2);
+        var multiLot = false;
+        if (bklNo == 2) {
+            bklLot2 = LOTNO;
+            multiLot = true;
+        }
+        if (bklNo == 1) {
+            bklLot1 = LOTNO;
+        }
 
+        if ((resLot.length > 1 && bklLot2.length > 0)) {
+            multiLot = true;
+        }
+        if (multiLot) {
+            LOTNO = bklLot1 + ", " + bklLot2;
+        } else {
+            bklLot1 = LOTNO;
+        }
+        console.log("LOTNO: ", LOTNO);
         if (bklNo == 1 && (sbLabel.getbkl1(LOTNO, PNO) || sbLabel.getbkl1(LOTNO, (res.length > 1 ? res[0] : PNO))) && LOTNO == $('.COPBKLLOTA').val()) {
             $('#SELECT-BKL-DLG').modal('hide');
             $('#lModalLabelError').html("Select Buckle ");
@@ -1541,22 +1561,21 @@
             $('#lModalError').modal('show');
             $('#SAVEALL_DLG').modal('hide');
 
-        } else if (bklNo == 2 && (sbLabel.getbkl2(LOTNO, PNO) || sbLabel.getbkl2(LOTNO, (res.length > 1 ? res[1] : PNO)))) {
+        }else if(bklNo == 2 && (sbLabel.getbkl2(LOTNO, PNO) || sbLabel.getbkl2(LOTNO, (res.length > 1 ? res[1] : PNO)))) {
             $('#SELECT-BKL-DLG').modal('hide');
             $('#lModalLabelError').html("Select Buckle ");
             $('#lModalBodyError').html("Cannot duplicate buckle/lotno (2) partno  : " + PNO);
             $('#lModalError').modal(options);
             $('#lModalError').modal('show');
             $('#SAVEALL_DLG').modal('hide');
-        }
-        else {
+        }else {
             if (bklNo == 1) {
-                sbLabel.setBKL1(LOTNO, (res.length > 1 ? res[0] : PNO));
-                bklLabel.setBKL1(LOTNO, (res.length > 1 ? res[0] : PNO));
+                sbLabel.setBKL1(bklLot1, (res.length > 1 ? res[0] : PNO));
+                bklLabel.setBKL1(bklLot1, (res.length > 1 ? res[0] : PNO));
             }
             if (bklNo == 2) {
-                sbLabel.setBKL2(LOTNO, (res.length > 1 ? res[1] : PNO));
-                bklLabel.setBKL2(LOTNO, (res.length > 1 ? res[1] : PNO));
+                sbLabel.setBKL2(bklLot2, (res.length > 1 ? res[1] : PNO));
+                bklLabel.setBKL2(bklLot2, (res.length > 1 ? res[1] : PNO));
             }
             $('.COPMODELA').html(MODEL_NO);
             $('.COPMODELB').html(MODEL_NO);
@@ -1567,8 +1586,8 @@
             $('.COPBKLLOTB').html(LOTNO);
             $('#text-hBKL-PNO').val(PNO);
             //getBklLots
-            //$('#text-hBKL-LOTNO').val(LOTNO);
-            $('#text-hBKL-LOTNO').val(sbLabel.getBklLots());
+            $('#text-hBKL-LOTNO').val(LOTNO);
+            //$('#text-hBKL-LOTNO').val(sbLabel.getBklLots());
         }
     });
 
@@ -1678,14 +1697,12 @@
         })
         return false;
     }
-
     function clearValue() {
         $('#text-hSB-PNO').val("");
         $('#text-hSB-LOTNO').val("");
         $('#text-hBKL-PNO').val("");
         $('#text-hBKL-LOTNO').val("");
     }
-
     $('.createBtn').click(function () {
         var strLotDate = $("#cOPR16_COPRUNNING_ADATE").val();
         if (strLotDate == "") {
@@ -1706,7 +1723,6 @@
     $('#cOPR16_COPRUNNING_WRK_ID').change(function() {
         getWrkFlowProc();
     });
-
     $('.YesSavedAllBtn').click(function () {
         var COPR_ID = $('#cOPR16_COPRUNNING_COPR_ID').val();
         var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
@@ -2004,6 +2020,7 @@
     $(".NotoSave").click(function () {
         $("#SAVEALL_FOR_PRINT_DLG").modal("hide");
     });
+
     function setDisable() {
         $(".createBtn").attr("style", "display:none;");
         $(".LOTLIST").attr("style", "display:none;");
@@ -2012,8 +2029,9 @@
         $(".closed-btn").val("Close");
     }
 
-    $(".closed-btn").click(function(){
+    $(".closed-btn").click(function () {
         var urlLink = "/COPR16_COPRUNNING?Length=" + Math.random();
          window.location.href = urlLink;
     });
+
 </script><!-- /Script For Save to database visa json -->

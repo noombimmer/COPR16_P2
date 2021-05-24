@@ -1,1 +1,1857 @@
-﻿
+﻿@*@model CM_APPLICATIONS.COPR16_COPRUNNING*@
+@model CM_APPLICATIONS.Models.CopRunningModel
+
+@{
+    ViewBag.Title = "COP R16 RUNNING";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<link href="~/Content/js-cop-label.css" rel="stylesheet" />
+<script src="~/Scripts/canvas2pdf/lib/pdfkit.js"></script>
+<script src="~/Scripts/canvas2pdf/lib/blob-stream.js"></script>
+<script src="~/Scripts/canvas2pdf/canvas2pdf.js"></script>
+<script src="~/Scripts/cop-label/js-cop-label.js"></script>
+<script src="~/Scripts/html2canvas.js"></script>
+
+
+<h2>COP R16 NON-EC RUNNING</h2>
+<style>
+    .PN-TEXT {
+        /*font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;*/
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 18px !important;
+        text-align: left;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    .cop-label-copno.COPNO-TEXT-SB {
+        font-size: 1.8rem;
+    }
+
+    .FG-TYPE {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 38px;
+    }
+
+    .COP-TITLE {
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-size: 20px;
+    }
+
+    .label-sticker {
+        /*width: 100.0mm !important;*/
+        height: 51.5mm !important;
+        max-height: 60.5mm !important;
+        /*max-width: 100.0mm !important;*/
+        overflow: hidden;
+        /*background-color: lightgray;*/
+        /*border: 1px solid lightgray;*/
+        display: inline-block;
+    }
+</style>
+<style>
+    .dataTables_wrapper {
+        float: left !important;
+        width: 99% !important;
+        margin-left: 0px !important;
+    }
+
+    table.dataTable thead tr {
+        background-color: #005495;
+        color: #fff;
+    }
+
+    table.dataTable {
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+
+    .PROC_ID {
+        display: none !important;
+    }
+</style>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <h4>EDIT</h4>
+    <hr />
+    <table with="100%">
+        <tr>
+            <th class="col-md-2" style="vertical-align: top !important;width: 60% !important;">
+                <div class="form-horizontal col-md-12">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
+
+                    @Html.Hidden("hidded_COPNO", Model.COPNO)
+                    @Html.Hidden("hidded_statusCode", Model.statusCode)
+                    @Html.Hidden("hidded_stDate", Model.stDate)
+                    @Html.Hidden("hidded_enDate", Model.enDate)
+
+                    @Html.Hidden("text-hSB-PNO", Model.cOPR16_COPRUNNING_DT_SB.PNO)
+                    @Html.Hidden("text-hBKL-PNO", Model.cOPR16_COPRUNNING_DT_BKL.PNO)
+                    @if (Model.cOPR16_COPRUNNING_DT_BKL2 != null)
+                    {
+                        @Html.Hidden("text-hBKL-PNO2", Model.cOPR16_COPRUNNING_DT_BKL2.PNO)
+                    }
+
+                    @Html.Hidden("text-hSB-LOTNO", Model.cOPR16_COPRUNNING_DT_SB.LOTNO)
+                    @Html.Hidden("text-hBKL-LOTNO", Model.cOPR16_COPRUNNING_DT_BKL.LOTNO)
+                    @if (Model.cOPR16_COPRUNNING_DT_BKL2 != null)
+                    {
+                        @Html.Hidden("text-hBKL-LOTNO2", Model.cOPR16_COPRUNNING_DT_BKL2.LOTNO)
+                    }
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.COPR_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING.COPR_ID, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.COPR_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.WRK_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.DropDownListFor(model => model.cOPR16_COPRUNNING.WRK_ID, Model.WRK_LIST, null, new { @class = "form-control WRK_ID", @readonly = "true", @disabled = "disabled" })
+                            @*@Html.EditorFor(model => model.cOPR16_COPRUNNING.WRK_ID, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.WRK_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group PROC_ID">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.PROC_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.Hidden("hPROC_ID", Model.cOPR16_COPRUNNING.PROC_ID);
+                            @*@Html.EditorFor(model => model.cOPR16_COPRUNNING.PROC_ID, new { @class = "form-control PROC_ID", @rows = "6" })*@
+                            @*@Html.EditorFor(model => model.cOPR16_COPRUNNING.PROC_ID, new { htmlAttributes = new { @class = "form-control PROC_ID", @readonly = "true" } })*@
+                            @Html.DropDownListFor(model => model.cOPR16_COPRUNNING.PROC_ID, Model.PROC_LIST, null, new { @class = "form-control PROC_ID_VALUE", @readonly = "true", @disabled = "disabled" })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.PROC_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.MODEL_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.Hidden("hMODEL_ID", Model.cOPR16_COPRUNNING.MODEL_ID)
+                            @*@Html.EditorFor(model => model.cOPR16_COPRUNNING.MODEL_ID, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.DropDownListFor(model => model.cOPR16_COPRUNNING.MODEL_ID, Model.MODEL_LIST, null, new { @class = "form-control MODEL_ID" })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.MODEL_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.LINE_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.Hidden("hLINE_ID", Model.cOPR16_COPRUNNING.LINE_ID)
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING.LINE_ID, new { htmlAttributes = new { @class = "form-control list_LINE_ID" } })
+                            @*@Html.DropDownListFor(model => model.cOPR16_COPRUNNING.LINE_ID, Model.LINE_LIST, null, new { @class = "form-control list_LINE_ID" })*@
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.LINE_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.POSITION_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.Hidden("hPOSITION_ID", Model.cOPR16_COPRUNNING.POSITION_ID, new { @class = "hPOSITION_ID" })
+                            @Html.DropDownListFor(model => model.cOPR16_COPRUNNING.POSITION_ID, Model.POSITION_LIST, null, new { @class = "form-control POSID list_POSITION_ID" })
+                            @*@Html.EditorFor(model => model.cOPR16_COPRUNNING.POSITION_ID, new { htmlAttributes = new { @class = "form-control list_POSITION_ID" } })*@
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.POSITION_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.DESC, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.TextAreaFor(model => model.cOPR16_COPRUNNING.DESC, new { @class = "form-control", @rows = "6" })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.DESC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.COP_STATUS, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING.COP_STATUS, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.COP_STATUS, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.ADATE, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING.ADATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.ADATE, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.CRE_BY, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING.CRE_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.CRE_BY, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.MOD_DATE, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING.MOD_DATE, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.MOD_DATE, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.cOPR16_COPRUNNING.MOD_BY, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(model => model.cOPR16_COPRUNNING.MOD_BY, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING.MOD_BY, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-8 col-md-8">
+                            @if (Model.cOPR16_COPRUNNING.COP_STATUS.Contains("NEW"))
+                            {
+                                <input type="button" value="Save" class="btn btn-primary button createBtn" />
+                            }
+                            @*<input type="button" value="Generate Job" class="btn btn-warning button genJobBtn" />*@
+                            <input type="reset" value="Close" class="btn btn-secondary closeFormBtn" />
+                            <input type="reset" value="Cancel this COPNO" class="btn btn-danger cancelBtn" />
+                        </div>
+                    </div>
+
+                </div>
+            </th>
+            <th class="col-md-4" style="vertical-align:top">
+                <div class="label-sticker machine-sticker-a">
+                    <table width="100%" border="0">
+                        <tr>
+                            <th width="100px" class="COP-TITLE"> COP No. : </th>
+                            <th colspan="2" style="padding-right:15px;text-align:left;" class="COP-TITLE">
+                                <lable class="COPNOA" /><u>A</u>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="COP-TITLE"> Model: <lable class="COPMODELA" /></th>
+
+                            <th width="110px" rowspan="3" style="text-align:right;padding-right: 10px !important;">
+                                <div class="col-md-2 qr-code-dsp-a" style="text-align:right;"></div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="COP-TITLE"><lable class="COPPOSA" /></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="FG-TYPE"><b>SB</b></th>
+                        </tr>
+                        <tr>
+                            <th class="PN-TEXT">SB:   <lable class="COPSBPNOA" /></th>
+                            <th>&nbsp;</th>
+                            <th class="PN-TEXT">Lot.: <lable class="COPSBLOTA" /></th>
+                        </tr>
+                        <tr>
+                            <th class="PN-TEXT">BKL: <lable class="COPBKLPNOA" style="max-width: 80px; word-wrap: break-word" /></th>
+                            <th>&nbsp;</th>
+                            <th class="PN-TEXT" style="vertical-align: top;">Lot.: <lable class="COPBKLLOTA" /></th>
+                        </tr>
+                    </table>
+
+                </div>
+                <div>
+                    <input type="button" value="Select Seat Belt" class="btn btn-primary button sbBtn" />
+                    <input type="button" value="Print Seat Belt Sticker" class="btn btn-primary button sb-print-Btn" />
+                </div>
+                <hr>
+                <div class="label-sticker machine-sticker-b">
+                    <table width="100%" border="0">
+                        <tr>
+                            <th width="100px" class="COP-TITLE"> COP No. : </th>
+                            <th colspan="2" style="padding-right:15px;text-align:right;" class="COP-TITLE">
+                                <lable class="COPNOB" /><u>B</u>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="COP-TITLE"> Model: <lable class="COPMODELB" /></th>
+
+                            <th width="110px" rowspan="3" style="text-align:right;padding-right: 10px !important;">
+                                <div class="col-md-2 qr-code-dsp-b" style="text-align:right;"></div>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="COP-TITLE"><lable class="COPPOSB" /></th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="FG-TYPE"><b>BKL</b></th>
+                        </tr>
+                        <tr>
+                            <th class="PN-TEXT">SB: <lable class="COPSBPNOB" /></th>
+                            <th>&nbsp;</th>
+                            <th class="PN-TEXT">Lot.: <lable class="COPSBLOTB" /></th>
+                        </tr>
+                        <tr>
+                            <th class="PN-TEXT">BKL: <lable class="COPBKLPNOB" /></th>
+                            <th>&nbsp;</th>
+                            <th class="PN-TEXT">Lot.: <lable class="COPBKLLOTB" /></th>
+                        </tr>
+                    </table>
+
+
+                </div>
+                <div>
+                    <input type="button" value="Select Buckle" class="btn btn-primary button bklBtn" />
+
+                    <input type="button" value="Print Buckle Sticker" class="btn btn-primary button bkl-print-Btn" />
+                </div>
+            </th>
+        </tr>
+    </table>
+
+}
+<div id="previewImage" class="form-horizontal col-md-12">
+
+</div>
+<div id="previewImageEX" class="form-horizontal col-md-12">
+    <style>
+        .dataTables_wrapper {
+            float: left !important;
+            width: 100% !important;
+            margin-left: 0px !important;
+        }
+
+        table.dataTable thead tr {
+            background-color: #005495;
+            color: #fff;
+        }
+
+        table.dataTable {
+            margin-left: 0px !important;
+            width: 100% !important;
+        }
+        /*
+        div.dataTables_length {
+            display: none !important;
+        }
+
+        div.dataTables_filter {
+            display: none !important;
+        }
+
+        div.dataTables_paginate {
+            display: none !important;
+        }
+        */
+        .modal-header {
+            background-color: #005495 !important;
+            color: #ffffff !important;
+        }
+
+        td.command {
+            flex-flow: nowrap;
+            flex-wrap: nowrap;
+            white-space: nowrap !important;
+        }
+
+        th.command {
+            flex-flow: nowrap;
+            flex-wrap: nowrap;
+            white-space: nowrap !important;
+        }
+
+        td.seqno {
+            text-align: center !important;
+        }
+
+        .workflow-step th {
+            text-align: center !important;
+        }
+
+        .workflow-step input {
+            background-color: lightgrey !important;
+            text-align: right !important;
+            width: 100px !important;
+            padding-right: 10px;
+        }
+    </style>
+
+    <table class="table stripe option-list workflow-step">
+        <thead>
+            <tr>
+                <th class="username">
+                    @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.SEQ_NO)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.WRKD_ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.FGTYPE_ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.MACHINE_ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.MACHINETYPE_ID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.RTDT_NAME)
+                </th>
+                <th class="centerStr">
+                    @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.VALUE)
+                </th>
+                <th class="username">
+                    @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.RTDT_REF_ID)
+                </th>
+                <th class="username">
+                    @Html.DisplayNameFor(model => model.cOPR16_COPRUNNING_RT.STATUS_ID)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int rowIndex = 0;
+                string stepStr = "";
+                bool print = false;
+            }
+            @foreach (var item in Model.cOPR16_COPRUNNING_RT_List)
+            {
+
+                if (stepStr != item.WRKD_ID)
+                {
+                    stepStr = item.WRKD_ID;
+                    rowIndex++;
+                    print = true;
+                }
+                else
+                {
+                    print = false;
+                }
+                <tr>
+                    <td class="username seqno">
+                        @if (print)
+                        {
+                            @Html.Label(" " + (rowIndex) + " ")
+                        }
+
+                    </td>
+                    <td>
+                        @if (print)
+                        {
+                            @Html.DisplayFor(modelItem => item.WRKD_ID)
+                        }
+
+                    </td>
+                    <td>
+                        @if (print)
+                        {
+                            @Html.DisplayFor(modelItem => item.FGTYPE_ID)
+                        }
+
+                    </td>
+                    <td>
+                        @if (print)
+                        {
+                            @Html.DisplayFor(modelItem => item.MACHINE_ID)
+                        }
+
+                    </td>
+                    <td>
+                        @if (print)
+                        {
+                            @Html.DisplayFor(modelItem => item.MACHINETYPE_ID)
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RTDT_NAME)
+                    </td>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.VALUE)*@
+                        @{
+                            if (item.RTDT_NAME == "G-LOCK-TEST")
+                            {
+                                @Html.DisplayFor(modelItem => Model.rST_HEADER.RST_FILENAME)
+                            }
+                            else
+                            {
+                                @Html.EditorFor(modelItem => item.VALUE, new { htmlAttributes = new { @readonly = "true" } })
+                            }
+                        }
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RTDT_REF_ID)
+                    </td>
+                    <td>
+                        @if (print)
+                        {
+                            @Html.DisplayFor(modelItem => item.STATUS_ID)
+                        }
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="form-horizontal col-md-12">
+    <input type="button" value="Back to List" class="btn btn-secondary backFormBtn" />
+    @*@Html.ActionLink("Back to List", "Index", "COPR16_COPRUNNING", new { @class = "btn btn-primary button" })*@
+</div>
+
+<div class="modal fade" id="DELETING_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title danger" id="ModalTitle">PLEASE CONFIRM TO CANCEL COP NO</h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Are you confirm to cancel COPR16 No : <b>@Model.COPNO </b> ?</H4>
+
+                <center>and please type this "@Model.COPNO" in the box : @Html.Editor("cfrmCOPR16NO", new { htmlAttributes = new { @class = "form-control" } }) </center>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-danger button YesDeletingBtn">YES</a>
+                <a class="btn btn-secondary button NoDeletingBtn" data-dismiss="modal">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- /.modal Confirm Save-->
+<div class="modal fade" id="SAVEALL_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">PLEASE CONFIRM </h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <H4>Please confirm to save COPR16 No : <b>@Model.COPNO </b> ?</H4>
+
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button YesSavedAllBtn">YES</a>
+                <a class="btn btn-secondary button NoSaveAllBtn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- /.modal Confirm Save-->
+
+<div class="modal fade" id="lModalSuccess" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelSuccess">Success</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodySuccess"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lSuccesscloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Successful-->
+
+<div class="modal fade" id="lModalError" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="loading">
+                <div class="spinner"></div>
+            </div>
+            <div class="modal-header">
+                <h4 class="header modal-title" id="lModalLabelError">Error</h4>
+            </div>
+            <div class="modal-body">
+                <h4 id="lModalBodyError"></h4>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="button" class="w3-button w3-indigo pull-right lerrcloseBtn" data-dismiss="modal">Close</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal Error -->
+
+<div class="modal fade" id="SB_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:800px !important ">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">SELECT SEAT BELT</h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <table width="100%">
+                    <tr>
+                        <th class="col-md-8">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.FG_NO, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.cOPR16_ITEMS_MSTR.FG_NO, new { htmlAttributes = new { @class = "form-control FG_NO SB-FG-NO" } })
+                                        @Html.ValidationMessageFor(model => model.cOPR16_ITEMS_MSTR.FG_NO, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <input type="hidden" id="hSelectRowid" value="" />
+                                <input type="hidden" id="hOrdered" value="" />
+                                <input type="hidden" id="hMain" value="" />
+                            </div>
+                        </th>
+                        <th class="col-md-4" style="vertical-align:top;">
+                            <div class="form-horizontal HINTS_DIV">
+                                <div class="form-group">
+                                    <div class="col-md-12 hints" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:12px">
+                                        <a class="btn btn-primary button search-sb-btn">SEARCH</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            <div>
+                                <table class="table stripe table-sb">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.Label("PART NO")
+                                            </th>
+                                            <th>
+                                                @Html.Label("DESCRIPTION")
+                                            </th>
+                                            <th>
+                                                @Html.Label("GROUP")
+                                            </th>
+                                            <th>
+                                                @Html.Label("TYPE")
+                                            </th>
+                                            <th>
+                                                @Html.Label("ACTION")
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </th>
+                    </tr>
+
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                @*<a class="btn btn-primary button insertbtn">ADD ITEM</a>
+                    <a class="btn btn-primary button updatebtn">UPDATE ITEM</a>*@
+                <a class="btn btn-secondary button sbclosebtn">CLOSE</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal SB_DLG -->
+
+<div class="modal fade" id="BKL_DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width:800px !important ">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle">SELECT BUNKLE</h4>
+            </div>
+            <div class="modal-body" id="OPTIONS_BODY">
+                <table width="100%">
+                    <tr>
+                        <th class="col-md-8">
+                            <div class="form-horizontal">
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.cOPR16_ITEMS_MSTR.FG_NO, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.cOPR16_ITEMS_MSTR.FG_NO, new { htmlAttributes = new { @class = "form-control BKL_FG_NO" } })
+                                        @Html.ValidationMessageFor(model => model.cOPR16_ITEMS_MSTR.FG_NO, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <input type="hidden" id="hSelectRowid" value="" />
+                                <input type="hidden" id="hOrdered" value="" />
+                                <input type="hidden" id="hMain" value="" />
+                            </div>
+                        </th>
+                        <th class="col-md-4" style="vertical-align:top;">
+                            <div class="form-horizontal HINTS_DIV">
+                                <div class="form-group">
+                                    <div class="col-md-12 hints" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size:12px">
+                                        <a class="btn btn-primary button search-bkl-btn">SEARCH</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th colspan="2">
+                            <div>
+                                <table class="table stripe table-bkl">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                @Html.Label("PART")
+                                            </th>
+                                            <th>
+                                                @Html.Label("DESCRIPTION")
+                                            </th>
+                                            <th>
+                                                @Html.Label("GROUP")
+                                            </th>
+                                            <th>
+                                                @Html.Label("TYPE")
+                                            </th>
+                                            <th>
+                                                @Html.Label("ACTION")
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </th>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="modal-footer">
+                @*<a class="btn btn-primary button insertbtn">ADD ITEM</a>
+                    <a class="btn btn-primary button updatebtn">UPDATE ITEM</a>*@
+                <a class="btn btn-secondary button sbclosebtn">CLOSE</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal BKL_DLG -->
+
+<div class="modal fade" id="SELECT-SB-DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle" style="text-align: left">SELECT ITEM </h4>
+            </div>
+            <div class="modal-body col-md-12" id="SELECT_BODY">
+                <h4 style="text-align: left;">
+                    Please fill-in LOT number
+                </h4>
+                <div class="form-group align-items: left;text-align: left;white-space: nowrap;flex-flow: nowrap;flex-wrap: nowrap;width: 500px !important;">
+                    @Html.LabelFor(model => model.cOPR16_COPRUNNING_DT.PNO, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.cOPR16_COPRUNNING_DT.PNO, new { htmlAttributes = new { @class = "form-control SB-PNO", @readonly = "true" } })
+                        @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING_DT.PNO, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group align-items: left;text-align: left;white-space: nowrap;flex-flow: nowrap;flex-wrap: nowrap;width: 500px !important;">
+                    @Html.LabelFor(model => model.cOPR16_COPRUNNING_DT.LOTNO, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.cOPR16_COPRUNNING_DT.LOTNO, new { htmlAttributes = new { @class = "form-control SB-LOTNO" } })
+                        @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING_DT.LOTNO, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button confirm-select-Btn">YES</a>
+                <a class="btn btn-secondary button close-select-Btn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal CONFIRM SELECT SEAT BELT -->
+
+<div class="modal fade" id="SELECT-BKL-DLG" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="ModalTitle" style="text-align: left">SELECT ITEM </h4>
+            </div>
+            <div class="modal-body col-md-12" id="SELECT_BODY">
+                <h4 style="text-align: left;">
+                    Please fill-in LOT number
+                </h4>
+                <div class="form-group align-items: left;text-align: left;white-space: nowrap;flex-flow: nowrap;flex-wrap: nowrap;width: 500px !important;">
+                    @Html.LabelFor(model => model.cOPR16_COPRUNNING_DT.PNO, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.cOPR16_COPRUNNING_DT.PNO, new { htmlAttributes = new { @class = "form-control CONFIRM-BKL-PNO", @readonly = "true" } })
+                        @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING_DT.PNO, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group align-items: left;text-align: left;white-space: nowrap;flex-flow: nowrap;flex-wrap: nowrap;width: 500px !important;">
+                    @Html.LabelFor(model => model.cOPR16_COPRUNNING_DT.LOTNO, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.cOPR16_COPRUNNING_DT.LOTNO, new { htmlAttributes = new { @class = "form-control CONFIRM-BKL-LOTNO" } })
+                        @Html.ValidationMessageFor(model => model.cOPR16_COPRUNNING_DT.LOTNO, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-primary button bkl-confirm-select-Btn">YES</a>
+                <a class="btn btn-secondary button close-select-Btn">NO</a>
+            </div>
+
+        </div>
+    </div>
+</div><!-- / Modal CONFIRM SELECT BUNKLE -->
+
+<script>
+    var tbVar = $('.workflow-step').DataTable({
+        "orderable": false,
+        "paging": false,
+        "ordering": false,
+        "info": true,
+        "stripe": true,
+        "searching": false,
+        "search": false,
+        "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "No records available",
+            "info": "Showing _START_-_END_ of _TOTAL_ rows",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        }
+    });
+
+</script><!-- / Script initia table-->
+
+<script>
+    $("#cOPR16_COPRUNNING_MOD_BY").val("@CM_APPLICATIONS.Models.AppPropModel.username");
+    $("#cOPR16_COPRUNNING_MOD_DATE").val("@System.DateTime.Now");
+    //$("#cOPR16_COPRUNNING_COP_STATUS").val("NEW");
+
+    var tbVarSB = $('.table-sb').DataTable({
+        "paging": true,
+        "ordering": true,
+        "info": true,
+        "stripe": true,
+        "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "No records available",
+            "info": "Showing _START_-_END_ of _TOTAL_ rows",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        }
+    });
+    var tbVarBKL = $('.table-bkl').DataTable({
+        "paging": true,
+        "ordering": true,
+        "info": true,
+        "stripe": true,
+        "language": {
+            "lengthMenu": "Display _MENU_ records per page",
+            "zeroRecords": "No records available",
+            "info": "Showing _START_-_END_ of _TOTAL_ rows",
+            "infoEmpty": "No records available",
+            "infoFiltered": "(filtered from _MAX_ total records)"
+        }
+    });
+</script><!-- /Script For First Display -->
+
+<script>
+    var COPRUNING_NO = "";
+
+    $('.PROC_ID_VALUE').change(function () {
+        updateProc();
+    });
+    $('#cOPR16_COPRUNNING_MODEL_ID').change(function () {
+        updateModel();
+    });
+    $('#cOPR16_COPRUNNING_POSITION_ID').change(function () {
+        updatePosition2();
+    });
+
+    function updateInfo(rst) {
+        $('.qr-code-dsp-a').html("");
+        $('.qr-code-dsp-b').html("");
+        var COP_FULL_DIGIT = rst[0]["COPRUN"] + "-02-00";
+        COPRUNING_NO = rst[0]["COPRUN"];
+        var COP_FULL_DIGIT_A = COP_FULL_DIGIT + "A";
+        var COP_FULL_DIGIT_B = COP_FULL_DIGIT + "B";
+        $('#cOPR16_COPRUNNING_COPR_ID').val(COP_FULL_DIGIT);
+        $('.qr-code-dsp-a').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_A });
+        $('.qr-code-dsp-b').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_B });
+        $('.COPNOA').html(COP_FULL_DIGIT + "<u>A</u>");
+        $('.COPNOB').html(COP_FULL_DIGIT + "<u>B</u>");
+        updateProc();
+    }
+    function updateEditInfo(copruning, proc_id) {
+        $('.qr-code-dsp-a').html("");
+        $('.qr-code-dsp-b').html("");
+        var COP_FULL_DIGIT = copruning;
+        COPRUNING_NO = copruning;
+        var COP_FULL_DIGIT_A = COP_FULL_DIGIT + "A";
+        var COP_FULL_DIGIT_B = COP_FULL_DIGIT + "B";
+        //$('#cOPR16_COPRUNNING_COPR_ID').val(COP_FULL_DIGIT);
+        $('.qr-code-dsp-a').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_A });
+        $('.qr-code-dsp-b').qrcode({ width: 110, height: 110, text: COP_FULL_DIGIT_B });
+        $('.COPNOA').html(COP_FULL_DIGIT + "<u>A</u>");
+        $('.COPNOB').html(COP_FULL_DIGIT + "<u>B</u>");
+        sbLabel.createLabel('.machine-sticker-a');
+        $('.machine-sticker-a').attr('style', 'display:none;');
+        bklLabel.createLabel('.machine-sticker-b');
+        $('.machine-sticker-b').attr('style', 'display:none;');
+
+        updateProc();
+    }
+    function updatePosition2() {
+        var varText = $('#cOPR16_COPRUNNING_POSITION_ID').val();
+        var urlText = "@Url.Action("getPositionName","COPR16_COPRUNNING")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = { posID: varText }
+        var positionString = "";
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            data: jdata,
+            success: function (result) {
+                /*
+                positionString = result.Data.POS_DESC;
+                $('.COPPOSB').html(positionString);
+                $('.COPPOSA').html(positionString);
+                */
+                positionString = $('.list_POSITION_ID option:selected').text();
+                $('.COPPOSB').html("");
+                $('.COPPOSA').html("");
+                $('.COPPOSB').html(positionString);
+                $('.COPPOSA').html(positionString);
+                sbLabel.setPosttion(positionString.substring(0, 2), positionString.substring(2, positionString.length - 1).replace("(", "").replace(")", ""));
+                bklLabel.setPosttion(positionString.substring(0, 2), positionString.substring(2, positionString.length - 1).replace("(", "").replace(")", ""));
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                //alert("error:" + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#ModalError').modal('show');
+            }
+        });
+
+    }
+    function updatePosition() {
+        //var varText = $('#cOPR16_COPRUNNING_POSITION_ID').val();
+        var selObj = document.getElementById("cOPR16_COPRUNNING_POSITION_ID");
+		var SelectPos = ("@Model.cOPR16_COPRUNNING.POSITION_ID").substr(0,2);
+		$('#cOPR16_COPRUNNING_POSITION_ID').val(SelectPos);
+        var varCaption = selObj.options[selObj.selectedIndex].text;
+        //$('.COPPOSB').html(varCaption);
+        //$('.COPPOSA').html(varCaption);
+        console.log(varCaption);
+        sbLabel.setPosttion(varCaption.substring(0, 2), varCaption.substring(2, varCaption.length - 1).replace("(", "").replace(")", ""));
+        bklLabel.setPosttion(varCaption.substring(0, 2), varCaption.substring(2, varCaption.length - 1).replace("(", "").replace(")", ""));
+
+    }
+    /*
+    function updateModel() {
+        var varText = $('#cOPR16_COPRUNNING_MODEL_ID').val();
+        $('.COPMODELA').html(varText);
+        $('.COPMODELB').html(varText);
+    }
+    */
+    $('.list_LINE_ID').change(function () {
+        sbLabel.setLineText($('.list_LINE_ID').val());
+        bklLabel.setLineText($('.list_LINE_ID').val());
+    });
+    function updateModel() {
+        var varText = $('#cOPR16_COPRUNNING_MODEL_ID').val();
+        var modelString = varText;
+        if (typeof (sbLabel) != 'undefined') {
+            sbLabel.setModelText(modelString);
+            bklLabel.setModelText(modelString);
+        }
+
+        /*
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                console.log(result.Data);
+                //modelString = result.Data.MODEL_DESC;
+                modelString = varText;
+                $('.COPMODELA').html(modelString);
+                $('.COPMODELB').html(modelString);
+                updateLineList(varText);
+                updatePosList(varText);
+                sbLabel.setModelText(modelString);
+                bklLabel.setModelText(modelString);
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert("error:" + errorThrown);
+            }
+        });
+        */
+    }
+    function updateLineList() {
+        if (typeof (sbLabel) != 'undefined') {
+            sbLabel.setLineText($('.list_LINE_ID').val());
+            bklLabel.setLineText($('.list_LINE_ID').val());
+        }
+    }
+    function updatePosList() {
+        if (typeof (sbLabel) != 'undefined') {
+            var positionString = $('.list_POSITION_ID option:selected').text();
+            sbLabel.setPosttion(positionString.substring(0, 2), positionString.substring(2, positionString.length - 1).replace("(", "").replace(")", ""));
+            bklLabel.setPosttion(positionString.substring(0, 2), positionString.substring(2, positionString.length - 1).replace("(", "").replace(")", ""));
+        }
+    }
+
+    function updateProc() {
+        var COP_FULL_DIGIT = COPRUNING_NO;
+        if (typeof (sbLabel) != 'undefined') {
+            sbLabel.setCopno(COP_FULL_DIGIT);
+            bklLabel.setCopno(COP_FULL_DIGIT);
+        }
+    }
+
+
+    $('.search-sb-btn').click(function () {
+        var fg_no = $('.FG_NO').val();
+
+
+        var urlText = "@Url.Action("getPartList", "COPR16_COPRUNNING")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {
+            "__RequestVerificationToken": $('input[name="__RequestVerificationToken"').val(),
+            "fg_no": fg_no
+        }
+        console.log(jdata);
+        //console.log(".---.");
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                //alert(result);
+                //updateInfo(result);
+
+                tbVarSB.clear().draw();
+                var selectBtn = "<a class='btn btn-primary button sb_select_btn'>SELECT</a>";
+                var arrayData = new Array();
+
+                $.each(result.Data, function (i, item) {
+                    var row = tbVarSB.row.add([
+                        result.Data[i].PART,
+                        result.Data[i].DESCRIPTION.substring(0,35),
+                        result.Data[i].PART_TYPE,
+                        result.Data[i].PRODUCT_LINE,
+                        ""]).draw(false).node();
+                    var hPNO = $("<input type='hidden' value='" + result.Data[i].PART + "' id='hSB-PNO' class='hSB-PNO'/>");
+                    $(row).find('td').eq(4).addClass('command');
+                    $(row).find('td').eq(4).append(selectBtn);
+                    $(row).find('td').eq(4).append(hPNO);
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                //alert("error:" + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#ModalError').modal('show');
+            }
+        });
+        return false;
+    });
+    $('.search-bkl-btn').click(function () {
+        var fg_no = $('.BKL_FG_NO').val();
+
+        var urlText = "@Url.Action("getPartList", "COPR16_COPRUNNING")";
+        var options = { "backdrop": "static", keyboard: true };
+        var jdata = {
+            "__RequestVerificationToken": $('input[name="__RequestVerificationToken"').val(),
+            "fg_no": fg_no
+        }
+        console.log(jdata);
+        //console.log(".---.");
+        var varMultipleBLK = false;
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                console.log(result);
+                //alert(result);
+                //updateInfo(result);
+
+                tbVarBKL.clear().draw();
+
+                $.each(result.Data, function (i, item) {
+                    /*
+                    if (result.Data[i].fgtype_id == null || result.Data[i].fgtype_id == '') {
+                        varMultipleBLK = false;
+                    }else {
+                        varMultipleBLK = true;
+                    }
+                    */
+                    varMultipleBLK = true;
+                    if (varMultipleBLK) {
+                        var selectBtn = "<a class='btn btn-primary button bkl_select_btn'>SELECT 1st BLK </a>";
+                        var selectBtn2 = "<a class='btn btn-primary button bkl_select_btn2' style='margin-top:5px'>SELECT 2nd BLK </a>";
+                        var blkArr = result.Data[i].PART.split(',');
+
+                        var row = tbVarBKL.row.add([
+                            result.Data[i].PART,
+                            result.Data[i].DESCRIPTION.substring(0, 35),
+                            result.Data[i].PART_TYPE,
+                            result.Data[i].PRODUCT_LINE,
+                            ""]).draw(false).node();
+                        var hPNO = $("<input type='hidden' value='" + result.Data[i].PART + "' id='hBKL-PNO' class='hBKL-PNO'/>");
+
+                        $(row).find('td').eq(4).addClass('command');
+                        $(row).find('td').eq(4).append(selectBtn);
+                        if(varMultipleBLK) {
+                                    $(row).find('td').eq(4).append("<BR>");
+                                    $(row).find('td').eq(4).append(selectBtn2);
+                                    $(row).find('td').eq(4).attr("style", "text-align:left  !important;");
+                        }
+                        $(row).find('td').eq(4).attr("style", "text-align:left  !important;");
+                        $(row).find('td').eq(4).append(hPNO);
+                        /*
+                        if (blkArr.length > 0) {
+                            console.log(blkArr);
+
+                            $.each(blkArr, function (index, keyString) {
+                                console.log("index: ",index);
+                                console.log("keyString: ",keyString);
+
+                                var row = tbVarBKL.row.add([
+                                    keyString,
+                                    result.Data[i].DESCRIPTION.substring(0, 35),
+                                    result.Data[i].PART_TYPE,
+                                    result.Data[i].PRODUCT_LINE,
+                                    ""]).draw(false).node();
+                                var hPNO = $("<input type='hidden' value='" + keyString + "' id='hBKL-PNO' class='hBKL-PNO'/>");
+
+                                $(row).find('td').eq(4).addClass('command');
+                                $(row).find('td').eq(4).append(selectBtn);
+                                if(varMultipleBLK) {
+                                    $(row).find('td').eq(4).append("<BR>");
+                                    $(row).find('td').eq(4).append(selectBtn2);
+                                    $(row).find('td').eq(4).attr("style", "text-align:left  !important;");
+                                }
+                                $(row).find('td').eq(4).append(hPNO);
+
+                            });
+                        }
+                        */
+                    }
+                    /*
+                    else {
+                        var selectBtn = "<a class='btn btn-primary button bkl_select_btn'>SELECT BLK </a>";
+
+                        var row = tbVarBKL.row.add([
+                            (varMultipleBLK == false) ? result.Data[i].PART : result.Data[i].PART + ', ' + result.Data[i].PART,
+                            result.Data[i].DESCRIPTION.substring(0, 35),
+                            result.Data[i].PART_TYPE,
+                            result.Data[i].PRODUCT_LINE,
+                            ""]).draw(false).node();
+                        var hPNO = $("<input type='hidden' value='" + result.Data[i].PART + "' id='hBKL-PNO' class='hBKL-PNO'/>");
+
+                        $(row).find('td').eq(4).addClass('command');
+                        $(row).find('td').eq(4).append(selectBtn);
+                        $(row).find('td').eq(4).attr("style", "text-align:left  !important;");
+                        $(row).find('td').eq(4).append(hPNO);
+                    }
+                    */
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                //alert("error:" + errorThrown);
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#ModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#ModalError').modal('show');
+            }
+        });
+        return false;
+    });
+</script>
+<script>
+    $("a.sbclosebtn").click(function () {
+        $('#SB_DLG').modal('hide');
+        $('#BKL_DLG').modal('hide');
+    });
+    $("input.sbBtn").click(function () {
+        /*
+        var SBPNO = $('#text-hSB-PNO').val();
+        var SBLOTNO = $('#text-hSB-LOTNO').val();
+        $('#cOPR16_COPRUNNING_DT_PNO').val(SBPNO);
+        $('#cOPR16_COPRUNNING_DT_LOTNO').val(SBLOTNO);
+        $('#SELECT-SB-DLG').modal('show');
+        */
+        /*
+        var MODEL_NO = $('#cOPR16_COPRUNNING_MODEL_ID').val();
+        var LINE_NO = $('.list_LINE_ID').val();
+        $('.SB-MODEL-NO').val(MODEL_NO);
+        $('.SB-MODEL-NO').attr('DISABLED', 'DISABLED');
+        $('.SB-LINE-NO').val(LINE_NO);
+        $('.SB-LINE-NO').attr('DISABLED', 'DISABLED');
+        */
+        var SBPNO = $('#text-hSB-PNO').val();
+        var SBLOTNO = $('#text-hSB-LOTNO').val();
+        $('#cOPR16_ITEMS_MSTR_FG_NO').val(SBPNO);
+        $('#cOPR16_COPRUNNING_DT_LOTNO').val(SBLOTNO);
+
+        if (tbVarSB != undefined && tbVarSB != null) {
+            tbVarSB.clear().draw();
+        }
+        $('#SB_DLG').modal('show');
+    });
+    $("input.bklBtn").click(function () {
+        var MODEL_NO = $('#cOPR16_COPRUNNING_MODEL_ID').val();
+        var LINE_NO = $('.list_LINE_ID').val();
+        var SB_PARTNO = $('.SB-PNO').val();
+        var BKL_PARTNO = $('#text-hBKL-PNO').val();
+        $(".CONFIRM-BKL-PNO").val(BKL_PARTNO);
+        console.log(BKL_PARTNO);
+        $('.BKL_FG_NO').val('');
+        $('.BKL_MODEL_NO').val(MODEL_NO);
+        $('.BKL_MODEL_NO').attr('DISABLED', 'DISABLED');
+        $('.BKL_LINE_NO').val(LINE_NO);
+        $('.BKL_LINE_NO').attr('DISABLED', 'DISABLED');
+        if (tbVarBKL != undefined && tbVarBKL != null) {
+            tbVarBKL.clear().draw();
+        }
+        $('#BKL_DLG').modal('show');
+    });
+</script>
+<script>
+
+    console.log("\n *STARTING* \n");
+
+    var elementA = $(".machine-sticker-a");
+    var elementB = $(".machine-sticker-b");
+    var getCanvas;
+    $(".sb-print-Btn").on('click', function () {
+        //$(".machine-sticker-a").css("padding-left", "20px");
+        var elementA = sbLabel.getLabel();//$(".machine-sticker-a");
+        var exCanvas = null;
+        html2canvas(elementA, {
+            onrendered: function (canvas) {
+                $("#previewImage").html("");
+                getCanvas = canvas;
+                exCanvas = $(canvas);
+                console.log(exCanvas);
+
+                console.log(getCanvas);
+                var strUrl = canvas.toDataURL("image/png");
+                //var strUrl = seCanvas.toDataURL("image/png");
+                var img = "<img id='img01' class='img01' src='" + strUrl + "'  />";
+                $("#previewImage").append(img);
+                PrintDiv("previewImage");
+                $(".machine-sticker-a").css("padding-left", "0px");
+                $("#previewImage").hide();
+
+
+            }
+        });
+
+
+    });
+    $(".bkl-print-Btn").on('click', function () {
+        //$(".machine-sticker-b").css("padding-left", "20px");
+        var elementB = bklLabel.getLabel();//$(".machine-sticker-a");
+        html2canvas(elementB, {
+            onrendered: function (canvas) {
+                $("#previewImage").html("");
+                getCanvas = canvas;
+                var strUrl = canvas.toDataURL("image/png");
+                var img = "<img id='img01' class='img01' src='" + strUrl + "' />";
+                $("#previewImage").append(img);
+
+                PrintDiv("previewImage");
+                $(".machine-sticker-b").css("padding-left", "0px");
+                $("#previewImage").hide();
+            }
+        });
+    });
+</script><!-- /Script For Select Seat Belt -->
+<script>
+    var options = { "backdrop": "static", keyboard: true };
+    $("body").on("click", '.close-select-Btn', function (env) {
+        $('#SELECT-SB-DLG').modal('hide');
+        $('#SELECT-BKL-DLG').modal('hide');
+    });
+
+
+    $('.confirm-select-Btn').click(function () {
+        var SBPNO = $('.SB-PNO').val();
+        var SBLOTNO = $('.SB-LOTNO').val();
+        if (typeof (sbLabel) != 'undefined') {
+            sbLabel.setSB(SBLOTNO, SBPNO);
+            bklLabel.setSB(SBLOTNO, SBPNO);
+        }
+        $('#text-hSB-PNO').val(SBPNO);
+        $('#text-hSB-LOTNO').val(SBLOTNO);
+        $('#SELECT-SB-DLG').modal('hide');
+    });
+    var bklNo = 0;
+    $('.bkl-confirm-select-Btn').click(function () {
+
+        var PNO = $('.CONFIRM-BKL-PNO').val();
+        var res = PNO.split(",", 2);
+        var LOTNO = $('.CONFIRM-BKL-LOTNO').val();
+        var LOTNO = $('.CONFIRM-BKL-LOTNO').val();
+        var oldLOT = sbLabel.getBklLots();
+        var LOT1, LOT2;
+        console.log("oldLOT:", oldLOT);
+        var res2 = oldLOT.split(",", 2);
+        if (bklNo == 1) {
+            if (res2.length > 1) {
+                LOT1 = LOTNO;
+                LOT2 = res2[1];
+                oldLOT = LOT1 + ', ' + LOT2;
+            } else {
+                LOT1 = LOTNO;
+                oldLOT = LOT1;
+            }
+
+        } else {
+            if (res2.length > 1) {
+                LOT1 = res2[0];
+                LOT2 = LOTNO;
+                oldLOT = LOT1 + ', ' + LOT2;
+            } else {
+                LOT1 = LOTNO;
+                oldLOT = LOT1;
+            }
+        }
+        var MODEL_NO = $('.MODEL_ID').val();
+        var options = { "backdrop": "static", keyboard: true };
+
+        if (bklNo == 1 && (sbLabel.getbkl1(LOTNO, PNO) || sbLabel.getbkl1(LOTNO, (res.length > 1 ? res[0] : PNO))) && LOTNO == $('.COPBKLLOTA').val()) {
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('#lModalLabelError').html("Select Buckle ");
+            $('#lModalBodyError').html("Cannot duplicate buckle/lotno (1) partno  : " + PNO);
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            $('#SAVEALL_DLG').modal('hide');
+
+        } else if (bklNo == 2 && (sbLabel.getbkl2(LOTNO, PNO) || sbLabel.getbkl2(LOTNO, (res.length > 1 ? res[1] : PNO)))) {
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('#lModalLabelError').html("Select Buckle ");
+            $('#lModalBodyError').html("Cannot duplicate buckle/lotno (2) partno  : " + PNO);
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            $('#SAVEALL_DLG').modal('hide');
+        }
+        else {
+            if (bklNo == 1) {
+                sbLabel.setBKL1(LOT1, (res.length > 1 ? res[0] : PNO));
+                bklLabel.setBKL1(LOT1, (res.length > 1 ? res[0] : PNO));
+            }
+            if (bklNo == 2) {
+                sbLabel.setBKL2(LOT2, (res.length > 1 ? res[1] : PNO));
+                bklLabel.setBKL2(LOT2, (res.length > 1 ? res[1] : PNO));
+            }
+            $('.COPMODELA').html(MODEL_NO);
+            $('.COPMODELB').html(MODEL_NO);
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('.COPBKLPNOA').html(PNO);
+            $('.COPBKLLOTA').html(LOTNO);
+            $('.COPBKLPNOB').html(PNO);
+            $('.COPBKLLOTB').html(LOTNO);
+            $('#text-hBKL-PNO').val(PNO);
+            $('#text-hBKL-LOTNO').val(oldLOT);
+        }
+    });
+    function UpdateBkl_Old() {
+        var PNO = $('#text-hBKL-PNO').val();
+        var LOTNO = $('#text-hBKL-LOTNO').val();
+        var PNO2 = $('#text-hBKL-PNO2').val();
+        var LOTNO2 = $('#text-hBKL-LOTNO2').val();
+
+        if (typeof (sbLabel) != 'undefined') {
+            sbLabel.setBKL1(LOTNO, PNO);
+            bklLabel.setBKL1(LOTNO, PNO);
+            sbLabel.setBKL2(LOTNO2, PNO2);
+            bklLabel.setBKL2(LOTNO2, PNO2);
+        }
+
+    }
+    function UpdateBkl() {
+        var PNO = $('#text-hBKL-PNO').val();
+        var LOTNO = $('#text-hBKL-LOTNO').val();
+        var res = PNO.split(",", 2);
+        var resLot = LOTNO.split(",", 2);
+        var LOT1, LOT2;
+        if (resLot.length > 1) {
+            LOT1 = resLot[0];
+            LOT2 = resLot[1];
+        } else {
+            LOT1 = LOTNO
+        }
+
+        console.log("LOTNO:", LOTNO);
+        if (bklNo == 1 && (sbLabel.getbkl1(LOTNO, PNO) || sbLabel.getbkl1(LOTNO, (res.length > 1 ? res[0] : PNO)))) {
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('#lModalLabelError').html("Select Buckle ");
+            $('#lModalBodyError').html("Cannot duplicate buckle partno  : " + PNO);
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            $('#SAVEALL_DLG').modal('hide');
+        } else if (bklNo == 2 && (sbLabel.getbkl2(LOTNO, PNO) || sbLabel.getbkl2(LOTNO, (res.length > 1 ? res[1] : PNO)))) {
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('#lModalLabelError').html("Select Buckle ");
+            $('#lModalBodyError').html("Cannot duplicate buckle partno  : " + PNO);
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            $('#SAVEALL_DLG').modal('hide');
+        } else {
+            if (bklNo == 1) {
+                sbLabel.setBKL1(LOT1, (res.length > 1 ? res[0] : PNO));
+                bklLabel.setBKL1(LOT1, (res.length > 1 ? res[0] : PNO));
+            }
+            if (bklNo == 2) {
+                sbLabel.setBKL2(LOT2, (res.length > 1 ? res[1] : PNO));
+                bklLabel.setBKL2(LOT2, (res.length > 1 ? res[1] : PNO));
+            } else {
+                sbLabel.setBKL1((resLot.length > 1 ? resLot[0] : LOTNO), (res.length > 1 ? res[0] : PNO));
+                bklLabel.setBKL1((resLot.length > 1 ? resLot[0] : LOTNO), (res.length > 1 ? res[0] : PNO));
+                if (res.length > 1) {
+                    sbLabel.setBKL2((resLot.length > 1 ? resLot[1] : LOTNO), (res.length > 1 ? res[1] : PNO));
+                    bklLabel.setBKL2((resLot.length > 1 ? resLot[1] : LOTNO), (res.length > 1 ? res[1] : PNO));
+                }
+            }
+            $('#SELECT-BKL-DLG').modal('hide');
+            $('.COPBKLPNOA').html(PNO);
+            $('.COPBKLLOTA').html(LOTNO);
+            $('.COPBKLPNOB').html(PNO);
+            $('.COPBKLLOTB').html(LOTNO);
+            $('#text-hBKL-PNO').val(PNO);
+            //$('#text-hBKL-LOTNO').val(LOTNO);
+            $('#text-hBKL-LOTNO').val(LOTNO);
+        }
+    }
+    function UpdateSb() {
+        var SBPNO = $('#text-hSB-PNO').val();
+        var SBLOTNO = $('#text-hSB-LOTNO').val();
+        if (typeof (sbLabel) != 'undefined') {
+            sbLabel.setSB(SBLOTNO, SBPNO);
+            bklLabel.setSB(SBLOTNO, SBPNO);
+        }
+    }
+
+
+
+</script><!-- /Script For Select Bunkle -->
+<script>
+    $("body").on("click", "a.sb_select_btn", function (ev) {
+        var p = $(this).parent();
+        var fg_id = $(p).find(".hSB-PNO").val();
+        $('#SELECT-SB-DLG').modal('show');
+        $('#SB_DLG').modal('hide');
+        $('.SB-PNO').val(fg_id);
+        $('.SB-LOTNO').focus();
+    });
+    var bklNo = 0;
+    $("body").on("click", "a.bkl_select_btn", function (ev) {
+        bklNo = 1;
+        //$('.CONFIRM-BKL-LOTNO').val('');
+        var p = $(this).parent();
+        var fg_id = $(p).find(".hBKL-PNO").val();
+        var oldBkl = $('.CONFIRM-BKL-LOTNO').val();
+        console.log("oldBkl:",oldBkl);
+        var BKL_PARTNO = $('#text-hBKL-PNO').val();
+        oldBkl = BKL_PARTNO;
+        //$(".CONFIRM-BKL-PNO").val(BKL_PARTNO);
+        //console.log("BKL_PARTNO:",BKL_PARTNO);
+
+        var lValue = oldBkl.split(",");
+        var bkl1 = '';
+        if (lValue.length > 1) {
+            bkl1 = fg_id + ', ' + lValue[1];
+        } else {
+            bkl1 = fg_id;
+        }
+        $('#SELECT-BKL-DLG').modal('show');
+        $('#BKL_DLG').modal('hide');
+        $('.CONFIRM-BKL-PNO').val(bkl1);
+        $('.CONFIRM-BKL-LOTNO').focus();
+    });
+
+    $("body").on("click", "a.bkl_select_btn2", function (ev) {
+        bklNo = 2;
+        //$('.CONFIRM-BKL-LOTNO').val('');
+        var p = $(this).parent();
+        var fg_id = $(p).find(".hBKL-PNO").val();
+        var value1 = $('.CONFIRM-BKL-PNO').val();
+        var lValue = value1.split(",");
+        if (lValue.length > 1) {
+            value1 = lValue[0];
+        }
+        $('#SELECT-BKL-DLG').modal('show');
+        $('#BKL_DLG').modal('hide');
+        $('.CONFIRM-BKL-PNO').val(value1 + ", " + fg_id);
+        $('.CONFIRM-BKL-LOTNO').focus();
+    });
+    var fiestTime = true;
+    $('.createBtn').click(function () {
+        $('#SAVEALL_DLG').modal("show");
+    });
+    $('.NoSaveAllBtn').click(function () {
+        $('#SAVEALL_DLG').modal('hide');
+    });
+    $('.YesSavedAllBtn').click(function () {
+        var COPR_ID = $('#cOPR16_COPRUNNING_COPR_ID').val();
+        var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+        var PROC_ID = $('.hPROC_ID_VALUE').val();
+        var PROC_ID2 = $('.PROC_ID_VALUE').val();
+        var MODEL_ID = $('#cOPR16_COPRUNNING_MODEL_ID').val();
+        var POSITION_ID = $('#cOPR16_COPRUNNING_POSITION_ID option:selected').text();
+        var DESC = $('#cOPR16_COPRUNNING_DESC').val();
+        var COP_STATUS = $('#cOPR16_COPRUNNING_COP_STATUS').val();
+        var LINE_ID = $('#cOPR16_COPRUNNING_LINE_ID').val();
+
+        //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+        //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+        //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+        //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+
+        var opdt = {};
+        var dtdt = [];
+        //$("body").on("click", "input.#hOPTVAL_VAL", function (ev) { });
+        //console.log("BF OK in function");
+
+        //console.log("AF OK in function");
+        //        console.log(dtdt);
+        var jdata = {
+            "__RequestVerificationToken": $('input[name="__RequestVerificationToken"').val(),
+            "COPR_ID": COPR_ID,
+            "WRK_ID": WRK_ID,
+            "PROC_ID": PROC_ID2,
+            "MODEL_ID": MODEL_ID,
+            "POSITION_ID": POSITION_ID,
+            "DESC": DESC,
+            "COP_STATUS": COP_STATUS,
+            "LINE_ID": LINE_ID,
+            "username": $("#UID").val(),
+            //"jsonString": $('form').serialize()
+            "jsonString": [{}]
+        };
+
+        opdt = {
+            "COPR_ID": COPR_ID,
+            "FGTYPE_ID": "SEATBELT",
+            "PNO": $('#text-hSB-PNO').val(),
+            "LOTNO": $('#text-hSB-LOTNO').val(),
+            "DESC": ""
+        };
+        jdata["jsonString"][0] = opdt;
+        opdt = {
+            "COPR_ID": COPR_ID,
+            "FGTYPE_ID": "BUNKLE",
+            "PNO": $('#text-hBKL-PNO').val(),
+            "LOTNO": $('#text-hBKL-LOTNO').val(),
+            "DESC": ""
+        };
+        jdata["jsonString"][1] = opdt;
+        if ($('#text-hBKL-PNO2').val() != null) {
+            opdt = {
+                "COPR_ID": COPR_ID,
+                "FGTYPE_ID": "BUNKLE2",
+                "PNO": $('#text-hBKL-PNO2').val(),
+                "LOTNO": $('#text-hBKL-LOTNO2').val(),
+                "DESC": ""
+            };
+            jdata["jsonString"][2] = opdt;
+        }
+
+
+        console.log(jdata);
+        var urlText = "@Url.Action("SaveJsonNONEC","COPR16_COPRUNNING")";
+        var options = { "backdrop": "static", keyboard: true };
+        console.log("jdata:",jdata);
+        console.log("form:", $("form"));
+
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                $('#lModalLabelSuccess').html("Edit COP Running Number");
+                $('#lModalBodySuccess').html("Edit COP Running Number Successed");
+                $('#lModalSuccess').modal(options);
+                $('#lModalSuccess').modal('show');
+
+                $('#SAVEALL_DLG').modal('hide');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalLabelError').html("Create New COP RUNNING NUMBER");
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#lModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#lModalError').modal(options);
+                $('#lModalError').modal('show');
+        }
+        });
+
+        return false;
+
+    });
+    $(".lSuccesscloseBtn").click(function () {
+        window.location.href = "@Url.Action("IndexNONEC","COPR16_COPRUNNING")";
+        $("#lModalSuccess").modal("hide");
+    });
+
+    $('.genJobBtn').click(function () {
+        alert("OK");
+        var COPR_ID = $('#cOPR16_COPRUNNING_COPR_ID').val();
+        var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+        var PROC_ID = $('.hPROC_ID').val();
+        var MODEL_ID = $('#cOPR16_COPRUNNING_MODEL_ID').val();
+        var POSITION_ID = $('#cOPR16_COPRUNNING_POSITION_ID').val();
+        var DESC = $('#cOPR16_COPRUNNING_DESC').val();
+        var COP_STATUS = $('#cOPR16_COPRUNNING_COP_STATUS').val();
+
+        //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+        //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+        //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+        //var WRK_ID = $('#cOPR16_COPRUNNING_WRK_ID').val();
+
+        var opdt = {};
+        var dtdt = [];
+        //$("body").on("click", "input.#hOPTVAL_VAL", function (ev) { });
+        //console.log("BF OK in function");
+
+        //console.log("AF OK in function");
+//        console.log(dtdt);
+        var jdata = {
+            "__RequestVerificationToken" : $('input[name="__RequestVerificationToken"').val(),
+            "COPR_ID": COPR_ID,
+            "WRK_ID": WRK_ID,
+            "PROC_ID": PROC_ID,
+            "MODEL_ID": MODEL_ID,
+            "POSITION_ID": POSITION_ID,
+            "DESC": DESC,
+            "COP_STATUS": COP_STATUS,
+            "username": $("#UID").val(),
+            //"jsonString": $('form').serialize()
+            "jsonString": [{}]
+        };
+
+        opdt = {
+                "COPR_ID": COPR_ID,
+                "FGTYPE_ID": "SEATBELT",
+                "PNO": $('#text-hSB-PNO').val(),
+                "LOTNO": $('#text-hSB-LOTNO').val(),
+                "DESC": ""
+        };
+        jdata["jsonString"][0] = opdt;
+        opdt = {
+                "COPR_ID": COPR_ID,
+                "FGTYPE_ID": "BUNKLE",
+                "PNO": $('#text-hBKL-PNO').val(),
+                "LOTNO": $('#text-hBKL-LOTNO').val(),
+                "DESC": ""
+        };
+        jdata["jsonString"][1] = opdt;
+
+        console.log(jdata);
+        var urlText = "@Url.Action("GenerateJob","COPR16_COPRUNNING")";
+        var options = { "backdrop": "static", keyboard: true };
+        console.log();
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            //data: $('form').serialize(),   //your form name.it takes all the values of model
+            //dataType: 'json',
+            data: jdata,
+            success: function (result) {
+                $('#lModalLabelSuccess').html("Edit COP Running Number");
+                $('#lModalBodySuccess').html("Edit COP Running Number Successed");
+                $('#lModalSuccess').modal(options);
+                $('#lModalSuccess').modal('show');
+                //window.location.href = "@Url.Action("IndexNONEC","COPR16_OPTIONVAL_MSTR")";;
+                $('#SAVEALL_DLG').modal('hide');
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalLabelError').html("Edit COP Running Number");
+                $('#lModalBodyError').html("Cannot save data : " + errorThrown );
+                $('#lModalError').modal(options);
+                $('#lModalError').modal('show');
+                $('#SAVEALL_DLG').modal('hide');
+            }
+        })
+        return false;
+    });
+
+    $('.closeFormBtn').click(function () {
+
+        var FROM_DATE = "<input type='hidden' name='FROM_DATE' id='FROM_DATE' value='" + $('#hidded_stDate').val() + "' \>"
+        var TO_DATE = "<input type='hidden' name='TO_DATE' id='TO_DATE' value='" + $('#hidded_enDate').val() + "' \>"
+        var statusCode = "<input type='hidden' name='statusCode' id='statusCode' value='" + $('#hidded_statusCode').val() + "' \>"
+        var COPNO = "<input type='hidden' name='COPNO' id='COPNO' value='" + $('#hidded_COPNO').val() + "' \>"
+
+
+        $('form').append(TO_DATE);
+        $('form').append(FROM_DATE);
+        $('form').append(statusCode);
+        $('form').append(COPNO);
+
+        $('form').attr('action', '@Url.Action("FilterIndexNONEC","COPR16_COPRUNNING")');
+        $('form').submit();
+    });
+    $('.backFormBtn').click(function () {
+
+        var FROM_DATE = "<input type='hidden' name='FROM_DATE' id='FROM_DATE' value='" + $('#hidded_stDate').val() + "' \>"
+        var TO_DATE = "<input type='hidden' name='TO_DATE' id='TO_DATE' value='" + $('#hidded_enDate').val() + "' \>"
+        var statusCode = "<input type='hidden' name='statusCode' id='statusCode' value='" + $('#hidded_statusCode').val() + "' \>"
+        var COPNO = "<input type='hidden' name='COPNO' id='COPNO' value='" + $('#hidded_COPNO').val() + "' \>"
+
+
+        $('form').append(TO_DATE);
+        $('form').append(FROM_DATE);
+        $('form').append(statusCode);
+        $('form').append(COPNO);
+
+        $('form').attr('action', '@Url.Action("FilterIndexNONEC", "COPR16_COPRUNNING")');
+        $('form').submit();
+    });
+    $('.cancelBtn').click(function () {
+        $("#DELETING_DLG").modal("show");
+    });
+    $('.YesDeletingBtn').click(function () {
+        var varTextCOPNO = $("#cfrmCOPR16NO").val();
+        if (varTextCOPNO != "@Model.COPNO") {
+            $('#lModalLabelError').html("Deleting COPNO Error!!!");
+
+            $('#lModalBodyError').html("Please enter the COPNO in the text box");
+            $('#lModalError').modal(options);
+            $('#lModalError').modal('show');
+            return;
+        }
+        var COPR_ID = $('#cOPR16_COPRUNNING_COPR_ID').val();
+
+        var jdata = {
+            "__RequestVerificationToken": $('input[name="__RequestVerificationToken"').val(),
+            "COPNO": COPR_ID
+        };
+
+        opdt = {
+            "COPR_ID": COPR_ID,
+            "FGTYPE_ID": "SEATBELT",
+            "PNO": $('#text-hSB-PNO').val(),
+            "LOTNO": $('#text-hSB-LOTNO').val(),
+            "DESC": ""
+        };
+        var urlText = "@Url.Action("DeletingCOPNO", "COPR16_COPRUNNING")";
+        var options = { "backdrop": "static", keyboard: true };
+        console.log("jdata:",jdata);
+        console.log("form:", $("form"));
+
+        $.ajax({
+            type: "POST",
+            url: urlText,     //your action
+            data: jdata,
+            success: function (result) {
+                var noErr = result.Data;
+                if (noErr == "0") {
+                    $('#lModalLabelSuccess').html("Edit COP Running Number");
+                    $('#lModalBodySuccess').html("Deleting COP NO Number <b> @Model.COPNO </b>Successed");
+                    $('#lModalSuccess').modal(options);
+                    $('#lModalSuccess').modal('show');
+
+                    $("#DELETING_DLG").modal("hide");
+                } else {
+                    $('#lModalLabelError').html("DELETE COP RUNNING NUMBER <b> @Model.COPNO </b> ERROR!!!  ");
+
+                    $('#lModalBodyError').html(noErr);
+                    $('#lModalError').modal(options);
+                    $('#lModalError').modal('show');
+                    $("#DELETING_DLG").modal("hide");
+               }
+
+
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                $('#lModalLabelError').html("DELETE COP RUNNING NUMBER <b> @Model.COPNO </b> ERROR!!!  ");
+                var obj = $(jqXHR.responseText);
+                var title = obj.filter('title')[0];
+                var details = obj.filter('span')[0];
+                console.log(title);
+                $('#lModalBodyError').html(title.innerHTML + '<br>' + details.innerHTML);
+                $('#lModalError').modal(options);
+                $('#lModalError').modal('show');
+                $("#DELETING_DLG").modal("hide");
+        }
+        });
+        //$("#DELETING_DLG").modal("hide");
+    });
+    function updateProcSELECTED() {
+        $('.qr-code-dsp-a').html("");
+        $('.qr-code-dsp-b').html("");
+        var varText = $('#hPROC_ID').val();
+        //$('.PROC_ID').val(varText);
+        $('.PROC_ID > option').each(function () {
+            var short_text = $(this).val().substring(0, 2);
+            var short_val = $(this).val();
+            if (short_text == varText) {
+                $('.PROC_ID').val(short_val);
+            }
+        });
+        //alert(varText);
+    }
+    function setFirstDisplay() {
+        if (fiestTime) {
+            var lineText = $('#hLINE_ID').val();
+            console.log("DDD: " + lineText);
+            $('.list_LINE_ID option[value="' + lineText + '"]').attr('selected', 'selected');
+            console.log('.list_LINE_ID option[value=' + lineText + ']');
+            console.log($('.list_LINE_ID option[value="' + lineText + '"]'));
+        }
+
+    }
+
+    var bklNo = 0;
+    var sbLabel = $('.machine-sticker-a').COPR16newLabel({
+        nameObjectLabel: "SB",
+        copnoText: "11111111-11-00",
+        modelText: "",
+        lineText: "",
+        posSymbo: "",
+        posText: "",
+        sbLotText: "",
+        sbPartText: "",
+        bkl1LotText: "",
+        bkl2LotText: "",
+        bkl1PartText: "",
+        bkl2PartText: "",
+
+    });
+    var bklLabel = $('.machine-sticker-a').COPR16newLabel({
+        nameObjectLabel: "BKL",
+        copnoText: "11111111-11-00",
+        modelText: "",
+        lineText: "",
+        posSymbo: "",
+        posText: "",
+        sbLotText: "",
+        sbPartText: "",
+        bkl1LotText: "",
+        bkl2LotText: "",
+        bkl1PartText: "",
+        bkl2PartText: "",
+
+    });
+
+    updateEditInfo($('#cOPR16_COPRUNNING_COPR_ID').val(), $('.hPROC_ID').val());
+    updatePosition();
+    UpdateBkl();
+    UpdateSb();
+    updateProcSELECTED();
+    updateProc();
+    setFirstDisplay();
+    updateModel();
+    updateLineList();
+
+</script><!-- /Script For Save to database visa json -->

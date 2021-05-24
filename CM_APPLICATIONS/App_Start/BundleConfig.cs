@@ -65,6 +65,7 @@ namespace CM_APPLICATIONS
                       "~/Scripts/canvasjs.min.js"));
             bundles.Add(new ScriptBundle("~/bundles/fixHeader").Include(
                       "~/Scripts/dataTables.fixedHeader.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/responsive").Include(
                       "~/Scripts/dataTables.responsive.min.js"));
 

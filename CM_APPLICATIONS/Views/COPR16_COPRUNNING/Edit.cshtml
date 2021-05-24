@@ -1201,6 +1201,8 @@
     });
 </script><!-- /Script For Select Seat Belt -->
 <script>
+    var bklPN1 = "", bklPN2 = "";
+    var bklLot01 = "", bklLot02 = "";
     var options = { "backdrop": "static", keyboard: true };
     $("body").on("click", '.close-select-Btn', function (env) {
         $('#SELECT-SB-DLG').modal('hide');
@@ -1218,22 +1220,51 @@
     $("body").on("click", "a.bkl_select_btn", function (ev) {
         var p = $(this).parent();
         var fg_id = $(p).find(".hBKL-PNO").val();
+        var value1 = $('#text-hBKL-PNO').val();
+        var res = value1.split(",", 2);
+
+        console.log("fg_id: ", fg_id);
+        console.log("value1: ", value1);
+
+        if (res.length > 1) {
+            bklPN1 = fg_id;
+            bklPN2 = res[1];
+        } else {
+            bklPN1 = fg_id;
+            //bklPN2 = value1;
+        }
         bklNo = 1;
+        $('.CONFIRM-BKL-LOTNO').val('');
         $('#SELECT-BKL-DLG').modal('show');
         $('#BKL_DLG').modal('hide');
-        $('.CONFIRM-BKL-PNO').val(fg_id);
+        if (res.length > 1) {
+            $('.CONFIRM-BKL-PNO').val(bklPN1 + ", " + bklPN2);
+        } else $('.CONFIRM-BKL-PNO').val(bklPN1);
         $('.CONFIRM-BKL-LOTNO').focus();
     });
     $("body").on("click", "a.bkl_select_btn2", function (ev) {
         var p = $(this).parent();
         var fg_id = $(p).find(".hBKL-PNO").val();
-        var value1 = $('.CONFIRM-BKL-PNO').val();
+        //var value1 = $('.CONFIRM-BKL-PNO').val();
+        //text-hBKL-PNO
+        var value1 = $('#text-hBKL-PNO').val();
+        var res = value1.split(",", 2);
+        if (res.length > 1) {
+            bklPN1 = res[0];
+            bklPN2 = fg_id;
+        } else {
+            bklPN1 = value1;
+            bklPN2 = fg_id;
+        }
+        console.log("bklPN1: ", bklPN1);
+        console.log("bklPN2: ", bklPN2);
         bklNo = 2;
         $('#SELECT-BKL-DLG').modal('show');
         $('#BKL_DLG').modal('hide');
-        $('.CONFIRM-BKL-PNO').val(value1 + ", " + fg_id);
+        $('.CONFIRM-BKL-PNO').val(bklPN1 + ", " + bklPN2);
         $('.CONFIRM-BKL-LOTNO').focus();
     });
+
     $('.confirm-select-Btn').click(function () {
         var SBPNO = $('.SB-PNO').val();
         var SBLOTNO = $('.SB-LOTNO').val();
@@ -1252,7 +1283,42 @@
 
         var PNO = $('.CONFIRM-BKL-PNO').val();
         var LOTNO = $('.CONFIRM-BKL-LOTNO').val();
+        var oldLot = $('#text-hBKL-LOTNO').val();
+        console.log("LOTNO: ", LOTNO);
+        console.log("oldLot: ", oldLot);
         var res = PNO.split(",", 2);
+        var resLot = oldLot.split(",", 2);
+        var multiLot = false;
+
+        if (resLot.length > 1) {
+            multiLot = true;
+        }
+
+        if (multiLot) {
+            if (bklNo == 2) {
+                bklLot1 = resLot[0];
+                bklLot2 = LOTNO;
+                LOTNO = bklLot1 + ", " + bklLot2;
+            }
+            if (bklNo == 1) {
+                bklLot2 = resLot[1];
+                bklLot1 = LOTNO;
+                LOTNO = bklLot1 + ", " + bklLot2;
+            }
+
+        } else {
+            if (bklNo == 2) {
+                bklLot2 = LOTNO;
+                bklLot1 = oldLot;
+                LOTNO = bklLot1 + ", " + bklLot2;
+            }
+            if (bklNo == 1) {
+                bklLot1 = LOTNO;
+            }
+        }
+
+        console.log("LOTNO-2: ", LOTNO);
+
         if (bklNo == 1 && (sbLabel.getbkl1(LOTNO, PNO) || sbLabel.getbkl1(LOTNO, (res.length > 1 ? res[0] : PNO))) && sbLabel.getBklLot1 == LOTNO) {
 
             $('#SELECT-BKL-DLG').modal('hide');
@@ -1270,12 +1336,22 @@
             $('#SAVEALL_DLG').modal('hide');
         } else {
             if (bklNo == 1) {
-                sbLabel.setBKL1(LOTNO, (res.length > 1 ? res[0] : PNO));
-                bklLabel.setBKL1(LOTNO, (res.length > 1 ? res[0] : PNO));
+                if (multiLot) {
+                    sbLabel.setBKL1(bklLot1, (res.length > 1 ? res[0] : PNO));
+                    bklLabel.setBKL1(bklLot1, (res.length > 1 ? res[0] : PNO));
+                } else {
+                    sbLabel.setBKL1(bklLot1, (res.length > 1 ? res[0] : PNO));
+                    bklLabel.setBKL1(bklLot1, (res.length > 1 ? res[0] : PNO));
+                }
             }
             if (bklNo == 2) {
-                sbLabel.setBKL2(LOTNO, (res.length > 1 ? res[1] : PNO));
-                bklLabel.setBKL2(LOTNO, (res.length > 1 ? res[1] : PNO));
+                if (multiLot) {
+                    sbLabel.setBKL2(bklLot2, (res.length > 1 ? res[1] : PNO));
+                    bklLabel.setBKL2(bklLot2, (res.length > 1 ? res[1] : PNO));
+                } else {
+                    sbLabel.setBKL2(bklLot2, (res.length > 1 ? res[1] : PNO));
+                    bklLabel.setBKL2(bklLot2, (res.length > 1 ? res[1] : PNO));
+                }
             }
             $('#SELECT-BKL-DLG').modal('hide');
             $('.COPBKLPNOA').html(PNO);
@@ -1283,8 +1359,8 @@
             $('.COPBKLPNOB').html(PNO);
             $('.COPBKLLOTB').html(LOTNO);
             $('#text-hBKL-PNO').val(PNO);
-            //$('#text-hBKL-LOTNO').val(LOTNO);
-            $('#text-hBKL-LOTNO').val(sbLabel.getBklLots());
+            $('#text-hBKL-LOTNO').val(LOTNO);
+            //$('#text-hBKL-LOTNO').val(sbLabel.getBklLots());
         }
 
     });
@@ -1293,6 +1369,8 @@
         var LOTNO = $('#text-hBKL-LOTNO').val();
         var res = PNO.split(",", 2);
         var resLot = LOTNO.split(",", 2);
+
+        console.log("LOTNO: ", LOTNO);
 
         if (bklNo == 1 && (sbLabel.getbkl1(LOTNO, PNO) || sbLabel.getbkl1(LOTNO, (res.length > 1 ? res[0] : PNO)))) {
             $('#SELECT-BKL-DLG').modal('hide');
@@ -1330,8 +1408,8 @@
             $('.COPBKLPNOB').html(PNO);
             $('.COPBKLLOTB').html(LOTNO);
             $('#text-hBKL-PNO').val(PNO);
-            //$('#text-hBKL-LOTNO').val(LOTNO);
-            $('#text-hBKL-LOTNO').val(sbLabel.getBklLots());
+            $('#text-hBKL-LOTNO').val(LOTNO);
+            //$('#text-hBKL-LOTNO').val(sbLabel.getBklLots());
         }
     }
     function UpdateSb() {
@@ -1737,6 +1815,7 @@
 
     });
     updateEditInfo($('#cOPR16_COPRUNNING_COPR_ID').val(), $('.hPROC_ID').val());
+
     updatePosition();
     updateModel();
     UpdateBkl();

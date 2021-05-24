@@ -28,7 +28,7 @@
         width: 100% !important;
     }
 </style>
-@using (Html.BeginForm("FilterIndex", "COPR16_COPRUNNING"))
+@using (Html.BeginForm("FilterIndexNONEC", "COPR16_COPRUNNING"))
 {
     @Html.AntiForgeryToken()
     @Html.Hidden("UID", CM_APPLICATIONS.Models.AppPropModel.username)
@@ -162,7 +162,7 @@
                         if (item.COP_STATUS == "NEW")
                         {
 
-                            @Html.ActionLink("Dispatch", "Dispatch", "COPR16_COPRUNNING", new { id = item.COPR_ID }, new { @class = "btn btn-primary button" });
+                            @Html.ActionLink("Dispatch", "DispatchNONEC", "COPR16_COPRUNNING", new { id = item.COPR_ID }, new { @class = "btn btn-primary button" });
                         }
                         @*else
                             {
@@ -249,7 +249,7 @@
         var cop_no = $(this).parent().find('#hCOPNO').eq(0).val();
         //alert(cop_no);
         $('#SELECTED_COPNO').val(cop_no);
-        $('form').attr('action','@Url.Action("Edit","COPR16_COPRUNNING")');
+        $('form').attr('action','@Url.Action("EditNONEC","COPR16_COPRUNNING")');
         $('form').submit();
     });
     //$('.btnCOPNO').click(function () {

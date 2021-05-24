@@ -280,4 +280,11 @@ namespace CM_APPLICATIONS.Models
         public string mode { set; get; }
         public string pdf { set; get; }
     }
+    public class ApiResponse
+    {
+        public string ContentEncoding { get; set; }
+        public string ContentType { get; set; }
+        public List<Object> Data { get; set; }
+
+    }
 }
